@@ -3,7 +3,7 @@ import React from 'react'
 const RegisterWorkPlace = () => {
   return (
     <>
-      <h1>사업장등록페이지</h1>
+      <p>--------------------------------- 사업장등록페이지</p>
     </>
   )
 }

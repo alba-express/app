@@ -3,7 +3,7 @@ import React from 'react'
 const DeleteWorkPlace = () => {
   return (
     <>
-      <h1>사업장삭제페이지</h1>
+      <p>--------------------------------- 사업장삭제페이지</p>
     </>
   )
 }
