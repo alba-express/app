@@ -1,12 +1,13 @@
-import React from 'react'
-import Main from './main/Main'
+import React from 'react';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './config/route-config';
 
-const App = () => {
+function App() {
   return (
     <>
-      <Main />
+      <RouterProvider router={router} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
