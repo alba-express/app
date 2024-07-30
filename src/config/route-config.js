@@ -27,6 +27,7 @@ import NoticePage from "../components/workplace/inner/pages/NoticePage";
 import ScheduleAddPage from "../components/workplace/inner/pages/ScheduleAddPage";
 import NoticeRegistPage from "../components/workplace/inner/pages/NoticeRegistPage";
 import CommuteManage from "../components/workplace/inner/pages/CommuteManage";
+import CommuteRecord from "../components/workplace/inner/pages/CommuteRecord";
 
 const loginRouter = [
     {

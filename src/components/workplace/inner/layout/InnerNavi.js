@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const InnerNavi = () => {
     return (
@@ -10,7 +11,14 @@ const InnerNavi = () => {
                 display: "inline-block",
             }}
         >
-            <p>네비게이숀스</p>
+            <ul>
+                <li><Link to="/detail">HOME!!</Link></li>
+                <li><Link to="slave-manage">직원관리</Link></li>
+                <li><Link to="wage-manage">급여관리</Link></li>
+                <li><Link to="schedule-manage">일정관리</Link></li>
+                <li><Link to="notice">공지사항</Link></li>
+                <li><Link to="commute-manage">출퇴근관리</Link></li>
+            </ul>
         </div>
     );
 };

@@ -5,7 +5,7 @@ import InnerContent from "./InnerContent";
 
 const ContentSection = () => {
     return (
-        <div style={{ background: "skyblue", width: "100%", height: "80%" }}>
+        <div style={{ background: "skyblue", width: "100%", height: "80%", display: "flex" }}>
             <InnerNavi />
             <InnerContent />
         </div>
