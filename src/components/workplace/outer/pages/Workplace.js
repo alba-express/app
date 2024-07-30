@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 const WorkPlace = () => {
     return (
         <>
-            <MainHeader />
+            <MainHeader isHome={false}/>
             <Outlet />
         </>
     );

@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 const LoginPage = () => {
     return (
         <>
-        <MainHeader />
+        <MainHeader isHome={false}/>
             <Outlet />
         </>
     );
