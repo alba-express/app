@@ -1,11 +1,12 @@
 import React from "react";
-import MainHeader from "../layout/MainHeader";
+import MainHeader from "../../app-layout/MainHeader";
+import { Outlet } from "react-router-dom";
 
 const LoginPage = () => {
     return (
         <>
         <MainHeader />
-            <p>로그인 페이지</p>
+            <Outlet />
         </>
     );
 };

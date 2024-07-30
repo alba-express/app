@@ -1,5 +1,5 @@
 import React from "react";
-import MainHeader from "../layout/MainHeader";
+import MainHeader from "../app-layout/MainHeader";
 import { Link, useRouteError } from "react-router-dom";
 
 const ErrorPage = () => {
