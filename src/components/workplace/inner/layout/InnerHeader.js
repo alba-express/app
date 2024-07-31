@@ -1,9 +1,14 @@
 import React from "react";
+import styles from './InnerHeader.module.scss';
 
 const InnerHeader = () => {
     return (
-        <div style={{"background-color": "orange", "width": "100%", "height": "20%"}}>
-            <p>이너헤더</p>
+        <div className={styles['headerButton-box']} >
+            <div className={styles['headerNotice']} > 
+              <img src={`${process.env.PUBLIC_URL}/images/master_notice.png`} alt="Example" /> 사장님 말씀 : 도비는 자유가 없어 
+            </div>
+            <button className={styles['headerButton']} > 사업장변경 </button>
+            <button className={styles['headerButton']} > 로그아웃 </button>
         </div>
     );
 };

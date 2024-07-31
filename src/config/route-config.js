@@ -13,8 +13,6 @@ import Workplace from "../components/workplace/outer/pages/Workplace";
 import WorkplaceModifyPage from "../components/workplace/outer/pages/WorkplaceModifyPage";
 import WorkplaceRegistPage from "../components/workplace/outer/pages/WorkplaceRegistPage";
 import FullScreenGrayBackground from "../components/workplace/inner/layout/FullScreenGrayBackground";
-import DetailBase from "../components/workplace/inner/layout/DetailBase";
-import MainHeader from "../components/app-layout/MainHeader";
 import InnerMainPage from "../components/workplace/inner/pages/InnerMainPage";
 import SlaveRegistPage from "../components/workplace/inner/pages/SlaveRegistPage";
 import SlaveInfoPage from "../components/workplace/inner/pages/SlaveInfoPage";

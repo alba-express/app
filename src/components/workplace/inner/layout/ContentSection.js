@@ -6,7 +6,7 @@ import InnerHeader from "./InnerHeader";
 
 const ContentSection = () => {
     return (
-        <div style={{ background: "skyblue", width: "78%", height: "80%" }}>
+        <div>
             <InnerHeader />
             <InnerContent />
         </div>
