@@ -1,3 +1,44 @@
-p {
-  font-size: 100px;
+.slaveRegistPage {
+  padding: 30px;
+  // border: 1px solid red;
+  //------------
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .slaveRegistPageHeader-box {
+    width: 40rem;
+    height: 4rem;
+    // background: rgba(0, 139, 134, 0.8);
+    background: rgba(0, 0, 0, 0.5);
+    //-----------------------------------
+    font-size: 25px;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+    letter-spacing: 5px;
+    //--------------------------
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .slaveRegistPageForm-box {
+    padding: 40px;
+    width: 40rem;
+    //----------------------
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    //----------------------
+    border: 1px solid red;
+
+    .slaveRegistPageInput-box {
+      display: flex;
+      font-size: 20px;
+    }
+    
+
+  }
 }
