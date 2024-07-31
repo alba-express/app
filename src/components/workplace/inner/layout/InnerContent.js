@@ -1,16 +1,10 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import styles from './InnerContent.module.scss';
 
 const InnerContent = () => {
     return (
-        <div
-            style={{
-                border: "3px solid yellowgreen",
-                width: "78%",
-                height: "100%",
-                display: "inline-block"
-            }}
-        >
+        <div className={styles['content-box']} >
             <Outlet />
         </div>
     );
