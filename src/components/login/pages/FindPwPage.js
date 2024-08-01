@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const FindPwPage = () => {
     const [email, setEmail] = useState("");
     const [verificationCode, setVerificationCode] = useState("");
-    const [isEmailSent, setIsEmailSent] = useState(false);
-    const [error, setError] = useState("");
+    const [isEmailVerified, setIsEmailVerified] = useState(false);
+    const [isVerificationSent, setIsVerificationSent] = useState(false);
+    const [timer, setTimer] = useState(0);
+    const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
-
     const navigate = useNavigate();
 
     const handleEmailChange = (event) => {
@@ -18,27 +19,26 @@ const FindPwPage = () => {
         setVerificationCode(event.target.value);
     };
 
-    const handleSendCode = async () => {
+    const handleEmailCheck = async () => {
         try {
-            const response = await fetch(`http://localhost:8877/api/auth/send-verification-code`, {
+            const response = await fetch(`http://localhost:8877/api/auth/check-email-exists?email=${email}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email }),
             });
 
-            if (response.ok) {
-                setIsEmailSent(true);
-                setSuccessMessage("Verification code sent to your email.");
-                setError("");
-            } else {
-                const data = await response.json();
-                setError(data.message || "Failed to send verification code.");
-                setSuccessMessage("");
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message);
             }
+
+            setIsVerificationSent(true);
+            setSuccessMessage("인증코드가 이메일로 전송되었습니다.");
+            setErrorMessage("");
+            setTimer(300); // 5분 타이머 설정
         } catch (error) {
-            setError("Failed to send verification code.");
+            setErrorMessage(error.message);
             setSuccessMessage("");
         }
     };
@@ -53,21 +53,30 @@ const FindPwPage = () => {
                 body: JSON.stringify({ email, code: verificationCode }),
             });
 
-            if (response.ok) {
-                const result = await response.json();
-                if (result) {
-                    navigate("/login/modify-pw", { state: { email } });
-                } else {
-                    setError("Invalid verification code.");
-                }
+            const result = await response.json();
+            if (result) {
+                setIsEmailVerified(true);
+                setSuccessMessage("이메일 인증이 완료되었습니다.");
+                setErrorMessage("");
+                setTimer(0); // 인증 완료 시 타이머 종료
+                navigate("/login/modify-pw", { state: { email } });
             } else {
-                const data = await response.json();
-                setError(data.message || "Failed to verify code.");
+                throw new Error("잘못된 인증코드입니다.");
             }
         } catch (error) {
-            setError("Failed to verify code.");
+            setErrorMessage(error.message);
+            setSuccessMessage("");
         }
     };
+
+    useEffect(() => {
+        if (timer > 0) {
+            const intervalId = setInterval(() => {
+                setTimer((prevTimer) => prevTimer - 1);
+            }, 1000);
+            return () => clearInterval(intervalId);
+        }
+    }, [timer]);
 
     return (
         <div>
@@ -78,27 +87,34 @@ const FindPwPage = () => {
                     type="email"
                     value={email}
                     onChange={handleEmailChange}
-                    disabled={isEmailSent}
+                    disabled={isEmailVerified}
                     required
                 />
-                <button type="button" onClick={handleSendCode} disabled={isEmailSent}>
-                    {isEmailSent ? "인증코드 전송 완료" : "인증코드 전송"}
+                <button type="button" onClick={handleEmailCheck} disabled={isVerificationSent}>
+                    {isVerificationSent ? "인증코드 전송 완료" : "이메일 확인"}
                 </button>
-                {error && <p style={{ color: "red" }}>{error}</p>}
+                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                 {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
             </div>
-            {isEmailSent && (
+            {isVerificationSent && (
                 <div>
                     <label>인증코드:</label>
                     <input
                         type="text"
                         value={verificationCode}
                         onChange={handleVerificationCodeChange}
+                        disabled={isEmailVerified}
                         required
                     />
-                    <button type="button" onClick={handleVerifyCode}>
+                    <button type="button" onClick={handleVerifyCode} disabled={isEmailVerified}>
                         인증코드 확인
                     </button>
+                    {timer > 0 && <p>{`남은 시간: ${Math.floor(timer / 60)}분 ${timer % 60}초`}</p>}
+                    {timer === 0 && isVerificationSent && !isEmailVerified && (
+                        <button type="button" onClick={handleEmailCheck}>
+                            인증코드 재전송
+                        </button>
+                    )}
                 </div>
             )}
         </div>
