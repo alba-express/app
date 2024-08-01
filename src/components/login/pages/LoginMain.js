@@ -11,20 +11,12 @@ const LoginMain = () => {
 
     const navigate = useNavigate();
 
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
+    const handleChange = (setter) => (event) => {
+        setter(event.target.value);
     };
 
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
-
-    const handleRememberMeChange = (event) => {
-        setRememberMe(event.target.checked);
-    };
-
-    const handleAutoLoginChange = (event) => {
-        setAutoLogin(event.target.checked);
+    const handleCheckboxChange = (setter) => (event) => {
+        setter(event.target.checked);
     };
 
     const handleSubmit = async (event) => {
@@ -42,6 +34,7 @@ const LoginMain = () => {
 
             if (response.ok) {
                 console.log('Login successful');
+                navigate('/workplace'); // 로그인 성공 시 /workplace로 이동
             } else {
                 const data = await response.json();
                 setError(data.message);
@@ -55,6 +48,10 @@ const LoginMain = () => {
         navigate('/login/sign-up');
     };
 
+    const handleFindPassword = () => {
+        navigate('/login/find-pw');
+    };
+
     return (
         <div className={styles.loginContainer}>
             <h1>로그인</h1>
@@ -65,7 +62,7 @@ const LoginMain = () => {
                         type="email"
                         id="email"
                         value={email}
-                        onChange={handleEmailChange}
+                        onChange={handleChange(setEmail)}
                         required
                     />
                 </div>
@@ -75,7 +72,7 @@ const LoginMain = () => {
                         type="password"
                         id="password"
                         value={password}
-                        onChange={handlePasswordChange}
+                        onChange={handleChange(setPassword)}
                         required
                     />
                 </div>
@@ -84,7 +81,7 @@ const LoginMain = () => {
                         <input
                             type="checkbox"
                             checked={rememberMe}
-                            onChange={handleRememberMeChange}
+                            onChange={handleCheckboxChange(setRememberMe)}
                         />
                         아이디 저장
                     </label>
@@ -92,7 +89,7 @@ const LoginMain = () => {
                         <input
                             type="checkbox"
                             checked={autoLogin}
-                            onChange={handleAutoLoginChange}
+                            onChange={handleCheckboxChange(setAutoLogin)}
                         />
                         자동 로그인
                     </label>
@@ -102,7 +99,7 @@ const LoginMain = () => {
             </form>
             <div>
                 <button onClick={handleSignUp}>회원가입</button>
-                <button>비밀번호찾기</button>
+                <button onClick={handleFindPassword}>비밀번호찾기</button>
             </div>
         </div>
     );
