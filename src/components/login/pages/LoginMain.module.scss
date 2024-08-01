@@ -1,80 +1,74 @@
-.container {
+.loginContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
   background-color: #f0f0f0;
-}
-
-h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  margin: 0 auto;
 }
 
-.form div {
-  margin-bottom: 15px;
-}
-
-.form label {
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-.input {
+h1 {
+  background-color: #f28b82;
   width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  border-radius: 10px 10px 0 0;
+}
+
+.inputContainer {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.inputContainer label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.inputContainer input {
+  width: calc(100% - 20px);
   padding: 10px;
-  font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  background-color: #ccffcc;
 }
 
 .checkboxContainer {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   margin-bottom: 20px;
 }
 
-.button {
+.submitButton {
   width: 100%;
   padding: 10px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #aecbfa;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.linkContainer {
+.error {
+  color: red;
+  margin-top: 10px;
+}
+
+.additionalLinks {
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin-top: 20px;
-  text-align: center;
 }
 
-.link {
-  background-color: transparent;
+.linkButton {
+  background-color: #d7aefb;
   border: none;
-  color: #007bff;
+  padding: 10px;
+  border-radius: 5px;
   cursor: pointer;
-  text-decoration: underline;
-}
-
-.error {
-  color: red;
-  margin-bottom: 10px;
-  text-align: center;
 }
