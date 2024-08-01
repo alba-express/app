@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
     const [email, setEmail] = useState("");
@@ -13,6 +14,7 @@ const SignUpPage = () => {
     const [successMessage, setSuccessMessage] = useState("");
     const [passwordValid, setPasswordValid] = useState(true);
     const [passwordMatch, setPasswordMatch] = useState(true);
+    const navigate = useNavigate();
 
     const validatePassword = (password) => {
         return password.length >= 8 && /[!@#$%^&*(),.?":{}|<>]/g.test(password);
@@ -97,7 +99,8 @@ const SignUpPage = () => {
 
             const data = await response.json();
             console.log("회원가입 성공:", data);
-            // 회원가입 성공 시 처리 로직
+            // 회원가입 성공 시 로그인 페이지로 이동
+            navigate("/login");
         } catch (error) {
             console.error("회원가입 오류:", error);
             setErrorMessage(error.message);
