@@ -40,32 +40,13 @@ const NoticePage = () => {
 
             <div className={styles.noticeList}>
                 <ul className={styles.noticeList}>
-                    <li>
-                        <h2 className={styles.title}>글제목1</h2>
-                        <span className={styles.date}>2024.7.30.</span>
-                    </li>
-                    {/*<li>*/}
-                    {/*    <h2 className={styles.title}>글제목2</h2>*/}
-                    {/*    <span className={styles.date}>2024.7.30.</span>*/}
-                    {/*</li>*/}
-                    {/*<li>*/}
-                    {/*    <h2 className={styles.title}>글제목3</h2>*/}
-                    {/*    <span className={styles.date}>2024.7.30.</span>*/}
-                    {/*</li>*/}
-
-                    <ul>
-                        {notices.map(notice => (
-                            <li key={notice.id} onClick={() => openModal(notice)} className="notice">
-                                <h2>{notice.title}</h2>
-                                <p>{notice.content}</p>
-                                <span>{notice.date}</span>
-                            </li>
-                        ))}
-                    </ul>
-
+                    {notices.map(notice => (
+                        <li key={notice.id} onClick={() => openModal(notice)} className="notice">
+                            <h2 >{notice.title}</h2>
+                            <span>{notice.date}</span>
+                        </li>
+                    ))}
                 </ul>
-
-
             </div>
             <div className={styles.actions}>
                 <button type="button" onClick={writeHandler}>작성</button>

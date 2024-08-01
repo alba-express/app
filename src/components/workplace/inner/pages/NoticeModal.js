@@ -8,10 +8,13 @@ const NoticeModal = ({title, content, date, isOpen, onClose}) => {
     return (
         <div className={styles.modalOverlay}>
             <div className={styles.modal}>
-                <h2>{title}</h2>
-                <p>{content}</p>
-                <span>{date}</span>
-                <button onClick={onClose}>닫기</button>
+                <h2 className={styles.title}>{title}</h2>
+                <span className={styles.date}>{date}</span>
+                <p className={styles.content}>{content}</p>
+                {/*<div className={styles.buttonContainer}>*/}
+                {/*    <button>수정</button>*/}
+                    <button onClick={onClose}>닫기</button>
+                {/*</div>*/}
             </div>
         </div>
     );
