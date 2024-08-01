@@ -1,28 +1,39 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import styles from './ModifyPwPage.module.scss';
+import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from 'react-router-dom';
+import { debounce } from 'lodash';
 
 const ModifyPwPage = () => {
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordValid, setPasswordValid] = useState(true);
     const [passwordMatch, setPasswordMatch] = useState(true);
-    const location = useLocation();
+    const [errorMessage, setErrorMessage] = useState('');
+
     const navigate = useNavigate();
-    const email = location.state?.email;
 
     const validatePassword = (password) => {
-        return password.length >= 8 && /[!@#$%^&*(),.?":{}|<>]/g.test(password);
+        const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
+        return passwordRegex.test(password);
     };
+
+    const debouncedValidate = useCallback(
+        debounce((password, confirmPassword) => {
+            setPasswordValid(validatePassword(password));
+            setPasswordMatch(password === confirmPassword);
+        }, 300),
+        []
+    );
+
+    useEffect(() => {
+        debouncedValidate(password, confirmPassword);
+    }, [password, confirmPassword, debouncedValidate]);
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
-        setPasswordValid(validatePassword(event.target.value));
     };
 
     const handleConfirmPasswordChange = (event) => {
         setConfirmPassword(event.target.value);
-        setPasswordMatch(event.target.value === password);
     };
 
     const handleSubmit = async (event) => {
@@ -32,24 +43,28 @@ const ModifyPwPage = () => {
             return;
         }
 
+        const userData = {
+            password,
+        };
+
         try {
             const response = await fetch("http://localhost:8877/api/auth/reset-password", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify(userData),
             });
 
-            if (response.ok) {
-                alert("비밀번호 수정이 완료되었습니다.");
-                navigate("/login");
-            } else {
-                const data = await response.json();
-                alert(data.message || "Failed to reset password.");
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message);
             }
+
+            alert('비밀번호 수정이 완료되었습니다.');
+            navigate('/login');
         } catch (error) {
-            alert("Failed to reset password.");
+            setErrorMessage(error.message);
         }
     };
 
@@ -68,7 +83,7 @@ const ModifyPwPage = () => {
                     {!passwordValid && <p style={{ color: "red" }}>비밀번호는 8자 이상이며 특수문자를 포함해야 합니다.</p>}
                 </div>
                 <div>
-                    <label>새 비밀번호 확인:</label>
+                    <label>비밀번호 확인:</label>
                     <input
                         type="password"
                         value={confirmPassword}
@@ -77,7 +92,8 @@ const ModifyPwPage = () => {
                     />
                     {!passwordMatch && <p style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</p>}
                 </div>
-                <button type="submit" disabled={!passwordValid || !passwordMatch}>확인</button>
+                <button type="submit" disabled={!passwordValid || !passwordMatch}>비밀번호 변경</button>
+                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
             </form>
         </div>
     );
