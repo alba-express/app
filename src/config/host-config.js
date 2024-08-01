@@ -19,5 +19,5 @@ const API_BASE_URL = backendHostName;
 const DETAIL = '/detail';
 // const AUTH = '/auth';
 
-export const EVENT_URL = API_BASE_URL + DETAIL;
+export const DETAIL_URL = API_BASE_URL + DETAIL;
 // export const AUTH_URL = API_BASE_URL + AUTH;
