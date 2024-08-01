@@ -6,8 +6,8 @@ const NoticeModal = ({title, content, date, isOpen, onClose}) => {
     if (!isOpen) return null;
 
     return (
-        <div>
-            <div>
+        <div className={styles.modalOverlay}>
+            <div className={styles.modal}>
                 <h2>{title}</h2>
                 <p>{content}</p>
                 <span>{date}</span>

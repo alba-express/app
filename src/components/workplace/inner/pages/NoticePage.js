@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import styles from "./NoticePage.module.scss"
 import {useNavigate} from "react-router-dom";
 import NoticeModal from "./NoticeModal";
+import modalStyles from "./NoticeModal.module.scss"
 
 const NoticePage = () => {
 
