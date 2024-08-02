@@ -29,6 +29,10 @@
           align-items: center;
           //----------------------
           border: 1px solid rgba(0, 139, 134, 0.8);
+          //-----------------------------------------
+          user-select: none;
+          cursor: none;
+          outline: none;
         }
         .slaveRegistPageInputSchedule-input {
           width: 10rem;

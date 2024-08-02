@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import styles from './SlaveRegistPage.module.scss'
 import { Link } from "react-router-dom";
-import SlaveRegisterModal from "./SlaveRegisterModal";
+import SlaveRegisterVariableDayModal from "./slave/SlaveRegisterVariableDayModal";
+import SlaveRegisterFixedDayModal from "./slave/SlaveRegisterFixedDayModal";
 
 const SlaveRegistPage = () => {
 
-    const fixedDayHandler = e => {}
-
     // const selectSchedule = 
+
+    // 근무시간선택 --> 고정시간을 선택한 경우 상태값 관리
+    const [fixedDay, setFixedDay] = useState('');
+
+    // 고정시간 클릭이벤트 
+    const fixedDayHandler = e => {
+        setVariableDay(false);
+        setFixedDay(!fixedDay);
+    }
+
+    //-------------------------------------------------
 
     // 근무시간선택 --> 변동시간을 선택한 경우 상태값 관리
     const [variableDay, setVariableDay] = useState('');
@@ -15,19 +25,15 @@ const SlaveRegistPage = () => {
     // 변동시간 클릭이벤트
     const variableDayHandler = e => {
 
-
         // 변동시간 스타일 변경
         // const cn = 'card ' + styleName;
 
         // 변동시간 선택 모달창 생성
-        setVariableDay(true);
+        setFixedDay(false);
+        setVariableDay(!variableDay);
         
     }
 
-    const closeSlaveRegisterModalHandler = e => {
-        console.log('닫기닫기');
-        setVariableDay(false);
-    }
     return (
         <>
             <div className={styles['slaveRegistPage']}>
@@ -102,14 +108,15 @@ const SlaveRegistPage = () => {
                             <div className={`${styles['slaveRegistPageSchedule-box']} ${styles.slaveRegistDown}`}>
                                 <div className={styles['slaveRegistPageInput-title']}>근무시간선택</div>
                                 <div className={styles['slaveRegistPageInputScheduleTitle-box']} >
-                                    <div className={styles['slaveRegistPageInputSchedule-title']}>고정시간</div>
+                                    <div onClick={fixedDayHandler} className={styles['slaveRegistPageInputSchedule-title']}>고정시간</div>
                                     <input onClick={fixedDayHandler} type="checkbox" style={{ display: 'none' }}/>
                                     <div onClick={variableDayHandler} className={styles['slaveRegistPageInputSchedule-title']}>변동시간</div>
                                     <input type="checkbox" style={{ display: 'none' }}/>
                                 </div>
 
 
-                                {variableDay && <SlaveRegisterModal onCloseSlaveRegisterModal={closeSlaveRegisterModalHandler} />}
+                                {fixedDay && <SlaveRegisterFixedDayModal />}
+                                {variableDay && <SlaveRegisterVariableDayModal />}
                             </div>
 
 
