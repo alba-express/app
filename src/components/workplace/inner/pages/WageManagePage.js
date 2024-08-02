@@ -1,11 +1,14 @@
 import React from "react";
-
+import SalaryHeader from "../layout/SalaryHeader";
 const WageManagePage = () => {
+
+    
     return (
         <>
-            <p>급여관리페이지기본창</p>
+            <SalaryHeader />
         </>
     );
 };
 
 export default WageManagePage;
+
