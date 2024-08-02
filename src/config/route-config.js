@@ -23,7 +23,7 @@ import WageAboutPage from "../components/workplace/inner/pages/WageAboutPage";
 import ScheduleManagePage from "../components/workplace/inner/pages/ScheduleManagePage";
 import NoticePage from "../components/workplace/inner/pages/NoticePage";
 import ScheduleAddPage from "../components/workplace/inner/pages/ScheduleAddPage";
-import NoticeRegistPage from "../components/workplace/inner/pages/NoticeRegistPage";
+import NoticeRegisterPage from "../components/workplace/inner/pages/NoticeRegisterPage";
 import CommuteManage from "../components/workplace/inner/pages/CommuteManage";
 import CommuteRecord from "../components/workplace/inner/pages/CommuteRecord";
 
@@ -110,8 +110,8 @@ const detailRouter = [
         element: <NoticePage />,
     },
     {   // 공지사항 등록화면 // 수정은 따로 만들지 아니면 같이갈지는 하는분이
-        path: "notice-regist",
-        element: <NoticeRegistPage />,
+        path: "notice-register",
+        element: <NoticeRegisterPage />,
     },
     {   // 출퇴근 관리 페이지
         path: "commute-manage",

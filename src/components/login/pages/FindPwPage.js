@@ -1,11 +1,124 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FindPwPage = () => {
-  return (
-    <>
-        <p>비밀번호 찾기 페이지 구성</p>
-    </>
-  )
-}
+    const [email, setEmail] = useState("");
+    const [verificationCode, setVerificationCode] = useState("");
+    const [isEmailVerified, setIsEmailVerified] = useState(false);
+    const [isVerificationSent, setIsVerificationSent] = useState(false);
+    const [timer, setTimer] = useState(0);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
+    const navigate = useNavigate();
 
-export default FindPwPage
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+    };
+
+    const handleVerificationCodeChange = (event) => {
+        setVerificationCode(event.target.value);
+    };
+
+    const handleEmailCheck = async () => {
+        try {
+            const response = await fetch(`http://localhost:8877/api/auth/check-email-exists?email=${email}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message);
+            }
+
+            setIsVerificationSent(true);
+            setSuccessMessage("인증코드가 이메일로 전송되었습니다.");
+            setErrorMessage("");
+            setTimer(300); // 5분 타이머 설정
+        } catch (error) {
+            setErrorMessage(error.message);
+            setSuccessMessage("");
+        }
+    };
+
+    const handleVerifyCode = async () => {
+        try {
+            const response = await fetch("http://localhost:8877/api/auth/verify-code", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, code: verificationCode }),
+            });
+
+            const result = await response.json();
+            if (result) {
+                setIsEmailVerified(true);
+                setSuccessMessage("이메일 인증이 완료되었습니다.");
+                setErrorMessage("");
+                setTimer(0); // 인증 완료 시 타이머 종료
+                navigate("/login/modify-pw", { state: { email } });
+            } else {
+                throw new Error("잘못된 인증코드입니다.");
+            }
+        } catch (error) {
+            setErrorMessage(error.message);
+            setSuccessMessage("");
+        }
+    };
+
+    useEffect(() => {
+        if (timer > 0) {
+            const intervalId = setInterval(() => {
+                setTimer((prevTimer) => prevTimer - 1);
+            }, 1000);
+            return () => clearInterval(intervalId);
+        }
+    }, [timer]);
+
+    return (
+        <div>
+            <h1>비밀번호 찾기</h1>
+            <div>
+                <label>이메일:</label>
+                <input
+                    type="email"
+                    value={email}
+                    onChange={handleEmailChange}
+                    disabled={isEmailVerified}
+                    required
+                />
+                <button type="button" onClick={handleEmailCheck} disabled={isVerificationSent}>
+                    {isVerificationSent ? "인증코드 전송 완료" : "이메일 확인"}
+                </button>
+                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+                {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+            </div>
+            {isVerificationSent && (
+                <div>
+                    <label>인증코드:</label>
+                    <input
+                        type="text"
+                        value={verificationCode}
+                        onChange={handleVerificationCodeChange}
+                        disabled={isEmailVerified}
+                        required
+                    />
+                    <button type="button" onClick={handleVerifyCode} disabled={isEmailVerified}>
+                        인증코드 확인
+                    </button>
+                    {timer > 0 && <p>{`남은 시간: ${Math.floor(timer / 60)}분 ${timer % 60}초`}</p>}
+                    {timer === 0 && isVerificationSent && !isEmailVerified && (
+                        <button type="button" onClick={handleEmailCheck}>
+                            인증코드 재전송
+                        </button>
+                    )}
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default FindPwPage;

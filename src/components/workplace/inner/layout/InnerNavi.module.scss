@@ -1,3 +1,7 @@
+.link-text {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
 .logo-box {
   width: 19rem;
   height: 10.5rem;
@@ -14,11 +18,6 @@
   display: flex;
   justify-content: center;
   align-items: end;
-
-  .link-text {
-    text-decoration: none;
-    color: rgb(255, 255, 255);
-  }
 }
 .logo-box:hover {
   cursor: pointer;
@@ -46,6 +45,7 @@
   font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: 5px;
+  color: rgba(43, 42, 42, 0.8);
   //------------------------------
   display: flex;
   align-items: center;
@@ -59,11 +59,6 @@
     height: 3rem;
     margin: 0 30px 0 40px;
     margin-right: 20px;
-  }
-
-  .link-text {
-    text-decoration: none;
-    color: rgba(43, 42, 42, 0.8);
   }
 }
 .leftMenu-box:hover {
