@@ -1,58 +1,24 @@
 import React, { useEffect, useState } from "react";
 import styles from "./SalaryHeader.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { wageActions } from "../../../../store/wage-slice";
 
 const SalaryHeader = () => {
-    const date = new Date();
-    const [month, setMonth] = useState(date.getMonth() + 1);
-    const [year, setYear] = useState(date.getFullYear());
-    const [salaryAmount, setSalaryAmount] = useState(0);
-    
-    useEffect(() => {
-        // 비동기 작업을 처리할 함수 정의
-        const fetchData = async () => {
-          const payload = {
-            workplaceId: "1",
-            ym: `${year}-${month < 10 ? "0" + month : month}`,
-          };
-    
-          try {
-            const res = await fetch(`http://localhost:8877/wage/workplace`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(payload),
-            });
-    
-            if (!res.ok) {
-              throw new Error('Network response was not ok');
-            }
-    
-            const json = await res.json();
-            setSalaryAmount(json);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
-        };
-        fetchData();
-      }, [month, year]);
+
+    const month = useSelector((state) => state.wage.month);
+    const year = useSelector((state) => state.wage.year);
+    const salaryAmount = useSelector((state) => state.wage.salaryAmount);
+
+    const dispatch = useDispatch();
+
+
 
     const handlePreviousMonth = () => {
-        if (month === 1) {
-            setMonth(12);
-            setYear(year - 1);
-        } else {
-            setMonth(month - 1);
-        }
+        dispatch(wageActions.setMonthByType({ type: "prev" }));
     };
 
     const handleNextMonth = () => {
-        if (month === 12) {
-            setMonth(1);
-            setYear(year + 1);
-        } else {
-            setMonth(month + 1);
-        }
+        dispatch(wageActions.setMonthByType({ type: "next" }));
     };
 
     const formatMonth = (month) => {
@@ -76,7 +42,9 @@ const SalaryHeader = () => {
                 </div>
             </div>
             <div className={styles.salaryBox}>
-                <span className={styles.salaryAmount}>{salaryAmount.toLocaleString("ko-KR")}원</span>
+                <span className={styles.salaryAmount}>
+                    {salaryAmount.toLocaleString("ko-KR")}원
+                </span>
             </div>
         </div>
     );
