@@ -37,7 +37,7 @@ const NoticeRegisterPage = () => {
         console.log('payload: ', payload);
 
         (async () => {
-            const response = await fetch(DETAIL_URL + `/notice-register`, {
+            const response = await fetch('http://localhost:8877/detail/notice-register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -58,17 +58,23 @@ const NoticeRegisterPage = () => {
                     <label htmlFor="title">제목</label>
                     <input id="title" type="text" name="title"/>
                 </p>
-                <p className={styles.hidden}>
-                    <label htmlFor="date" >작성일</label>
-                    <span id="date" name="date" value={currentDate}></span>
-                </p>
                 <p>
                     <label htmlFor="content">내용</label>
                     <textarea id="content" name="content" rows="5"/>
                 </p>
+
+                {/*<p>*/}
+                {/*    <label htmlFor="workplace">작성자</label>*/}
+                {/*    <input id="workplace" name="workplace"/>*/}
+                {/*</p>*/}
+                {/*<p>*/}
+                {/*    <label htmlFor="date">작성일</label>*/}
+                {/*    <span id="date" name="date" value={currentDate}></span>*/}
+                {/*</p>*/}
+
             </div>
             <div className={styles.actions}>
-                <button type="button" onClick={cancelHandler} > 취소 </button>
+                <button type="button" onClick={cancelHandler}> 취소</button>
                 {/*<button>{method === 'post' ? '등록' : '수정'}</button>*/}
                 <button>등록</button>
             </div>

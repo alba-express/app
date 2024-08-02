@@ -7,8 +7,11 @@ const NoticePage = () => {
 
     const notices = [
         {id: 1, title: "근태 출퇴근 버튼 미노출 현상", content: "6월 11일(화) 오전 8시부터 9시 40분까지 네이버웍스 근태 상품을 이용하는 일부 고객사 대상으로 출퇴근 버튼이 비활성화되고 ‘근무 시작 예정입니다.’ 문구만 노출되는 현상이 있었습니다.", date: "2024-07-27"},
-        {id: 2, title: "공지사항 2", content: "공지사항 2 내용입니다.", date: "2024-07-26"},
+        {id: 2, title: "결제 오류 ", content: "<상세 내용>\n- 오류 현상: 애플 앱스토어 결제 오류 현상", date: "2024-07-26"},
         {id: 3, title: "공지사항 3", content: "공지사항 3 내용입니다.", date: "2024-07-25"},
+        {id: 3, title: "공지사항 4", content: "공지사항 4 내용입니다.", date: "2024-08-25"},
+        {id: 3, title: "공지사항 5", content: "공지사항 5 내용입니다.", date: "2024-08-25"},
+        // {id: 3, title: "공지사항 6", content: "공지사항 6 내용입니다.", date: "2024-08-25"},
     ];
 
     const [isModalOpen, setIsModalOpen] = useState(true);
@@ -34,7 +37,7 @@ const NoticePage = () => {
     return (
         <>
             <div className={styles.noticeBoard}>
-                <h1>공지사항</h1>
+                <h1 className={styles.notice}>공지사항</h1>
             </div>
 
             <div className={styles.noticeList}>
