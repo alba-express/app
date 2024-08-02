@@ -37,7 +37,7 @@ const NoticeRegisterPage = () => {
         console.log('payload: ', payload);
 
         (async () => {
-            const response = await fetch(DETAIL_URL + `/notice-register`, {
+            const response = await fetch('http://localhost:8877/detail/notice-register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

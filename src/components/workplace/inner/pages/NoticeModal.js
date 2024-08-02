@@ -12,9 +12,9 @@ const NoticeModal = ({title, content, date, isOpen, onClose}) => {
                 <span className={styles.date}>{date}</span>
                 <p className={styles.content}>{content}</p>
                 <div className={styles.buttonContainer}>
-                    <button>수정</button>
-                    <button>삭제</button>
-                    <button onClick={onClose}>닫기</button>
+                    <button className={styles.button}>수정</button>
+                    <button className={styles.button}>삭제</button>
+                    <button className={styles.button} onClick={onClose}>닫기</button>
                 </div>
             </div>
         </div>
