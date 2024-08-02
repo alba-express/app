@@ -6,6 +6,7 @@ const initialState = {
     month: date.getMonth() + 1,
     year: date.getFullYear(),
     salaryAmount: 0,
+    logList: [],
 }
 
 const wageSlice = createSlice({
@@ -30,7 +31,9 @@ const wageSlice = createSlice({
             }
         }, setSalaryByMonth(state, action) {
             state.salaryAmount = action.payload.amount;
-        }
+        }, setSalaryLogList(state, action) {
+            state.logList = [...action.payload.dtoList];
+        },
     }
 })
 export const wageActions = wageSlice.actions;

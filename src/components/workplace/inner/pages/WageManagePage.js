@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import SalaryHeader from "../layout/SalaryHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { wageActions } from "../../../../store/wage-slice";
+import SalaryBody from "../layout/SalaryBody";
 const WageManagePage = () => {
 
     const month = useSelector((state) => state.wage.month);
@@ -33,7 +34,9 @@ const WageManagePage = () => {
                 }
 
                 const json = await res.json();
+                console.log(json);
                 dispatch(wageActions.setSalaryByMonth({amount: json.salaryAmount}));
+                dispatch(wageActions.setSalaryLogList({dtoList: json.logList}))
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -44,6 +47,7 @@ const WageManagePage = () => {
     return (
         <>
             <SalaryHeader />
+            <SalaryBody />
         </>
     );
 };
