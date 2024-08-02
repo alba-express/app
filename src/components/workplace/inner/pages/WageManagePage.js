@@ -33,7 +33,7 @@ const WageManagePage = () => {
                 }
 
                 const json = await res.json();
-                dispatch(wageActions.setSalaryByMonth({amount: json}));
+                dispatch(wageActions.setSalaryByMonth({amount: json.salaryAmount}));
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
