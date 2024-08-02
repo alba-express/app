@@ -1,8 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from './SlaveRegistPage.module.scss'
 import { Link } from "react-router-dom";
+import SlaveRegisterVariableDayModal from "./slave/SlaveRegisterVariableDayModal";
+import SlaveRegisterFixedDayModal from "./slave/SlaveRegisterFixedDayModal";
 
 const SlaveRegistPage = () => {
+
+    // const selectSchedule = 
+
+    // 근무시간선택 --> 고정시간을 선택한 경우 상태값 관리
+    const [fixedDay, setFixedDay] = useState('');
+
+    // 고정시간 클릭이벤트 
+    const fixedDayHandler = e => {
+        setVariableDay(false);
+        setFixedDay(!fixedDay);
+    }
+
+    //-------------------------------------------------
+
+    // 근무시간선택 --> 변동시간을 선택한 경우 상태값 관리
+    const [variableDay, setVariableDay] = useState('');
+
+    // 변동시간 클릭이벤트
+    const variableDayHandler = e => {
+
+        // 변동시간 스타일 변경
+        // const cn = 'card ' + styleName;
+
+        // 변동시간 선택 모달창 생성
+        setFixedDay(false);
+        setVariableDay(!variableDay);
+        
+    }
+
     return (
         <>
             <div className={styles['slaveRegistPage']}>
@@ -73,90 +104,24 @@ const SlaveRegistPage = () => {
                         <div className={styles['slaveRegistPageForm-middle']}></div>
 
                         <div className={styles['slaveRegistPageForm-right']}>
-                            <div className={styles['slaveRegistPageInput-box']}>
-                                <div className={styles['slaveRegistPageInput-title']}>근무요일시간</div>
+
+                            <div className={`${styles['slaveRegistPageSchedule-box']} ${styles.slaveRegistDown}`}>
+                                <div className={styles['slaveRegistPageInput-title']}>근무시간선택</div>
+                                <div className={styles['slaveRegistPageInputScheduleTitle-box']} >
+                                    <div onClick={fixedDayHandler} className={styles['slaveRegistPageInputSchedule-title']}>고정시간</div>
+                                    <input onClick={fixedDayHandler} type="checkbox" style={{ display: 'none' }}/>
+                                    <div onClick={variableDayHandler} className={styles['slaveRegistPageInputSchedule-title']}>변동시간</div>
+                                    <input type="checkbox" style={{ display: 'none' }}/>
+                                </div>
+
+
+                                {fixedDay && <SlaveRegisterFixedDayModal />}
+                                {variableDay && <SlaveRegisterVariableDayModal />}
                             </div>
+
+
                             
-                            <div className={styles['slaveRegistPageInputSchedule-box']} >
-
-                                <div className={styles['slaveRegistPageInputSchedule-content']} >
-                                    <div className={styles['slaveRegistPageInputSchedule-title']}>월</div>
-                                    <input type="checkbox" style={{ display: 'none' }}/>
-
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>부터</div>
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>까지</div>
-                                </div>
-
-                                <div className={styles['slaveRegistPageInputSchedule-content']} >
-                                    <div className={styles['slaveRegistPageInputSchedule-title']}>화</div>
-                                    <input type="checkbox" style={{ display: 'none' }}/>
-
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>부터</div>
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>까지</div>
-                                </div>
-
-                                <div className={styles['slaveRegistPageInputSchedule-content']} >
-                                    <div className={styles['slaveRegistPageInputSchedule-title']}>수</div>
-                                    <input type="checkbox" style={{ display: 'none' }}/>
-
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>부터</div>
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>까지</div>
-                                </div>
-
-                                <div className={styles['slaveRegistPageInputSchedule-content']} >
-                                    <div className={styles['slaveRegistPageInputSchedule-title']}>목</div>
-                                    <input type="checkbox" style={{ display: 'none' }}/>
-
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>부터</div>
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>까지</div>
-                                </div>
-
-                                <div className={styles['slaveRegistPageInputSchedule-content']} >
-                                    <div className={styles['slaveRegistPageInputSchedule-title']}>금</div>
-                                    <input type="checkbox" style={{ display: 'none' }}/>
-
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>부터</div>
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>까지</div>
-                                </div>
-
-                                <div className={styles['slaveRegistPageInputSchedule-content']} >
-                                    <div className={styles['slaveRegistPageInputSchedule-title']}>토</div>
-                                    <input type="checkbox" style={{ display: 'none' }}/>
-
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>부터</div>
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>까지</div>
-                                </div>
-
-                                <div className={styles['slaveRegistPageInputSchedule-content']} >
-                                    <div className={styles['slaveRegistPageInputSchedule-title']}>일</div>
-                                    <input type="checkbox" style={{ display: 'none' }}/>
-
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>부터</div>
-                                    <input type="time" className={styles['slaveRegistPageInputSchedule-input']}/>
-                                    <div>까지</div>
-                                </div>
-
-
-
-
-
-
-
-
-                            </div>
+                            
                         </div>
                     </div>
 
