@@ -21,7 +21,7 @@ const NoticeRegisterPage = () => {
         navigate("/detail/notice");
     };
 
-    const submitHandler = e => {
+    const submitHandler = async (e) => {
         e.preventDefault();
         console.log('form 제출');
 
@@ -31,21 +31,31 @@ const NoticeRegisterPage = () => {
         const payload = {
             title: formData.get('title'),
             content: formData.get('content'),
-            date: currentDate
+            date: currentDate,
+            workplaceId: formData.get('workplaceId'),
         };
 
         console.log('payload: ', payload);
 
-        (async () => {
-            const response = await fetch('http://localhost:8877/detail/notice-register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-            navigate("/detail/notice");
-        }) ();
+        const token = localStorage.getItem('token');
+
+        const response = await fetch('http://localhost:8877/detail/notice-register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(payload)
+        });
+
+        // if (!response.ok) {
+        //     throw new Error('네트워크 응답이 올바르지 않습니다.');
+        // }
+        const data = await response.json();
+        console.log('응답 데이터: ', data);
+
+        navigate("/detail/notice");
+
     };
 
     return (
@@ -63,14 +73,20 @@ const NoticeRegisterPage = () => {
                     <textarea id="content" name="content" rows="5"/>
                 </p>
 
-                {/*<p>*/}
-                {/*    <label htmlFor="workplace">작성자</label>*/}
-                {/*    <input id="workplace" name="workplace"/>*/}
-                {/*</p>*/}
-                {/*<p>*/}
-                {/*    <label htmlFor="date">작성일</label>*/}
-                {/*    <span id="date" name="date" value={currentDate}></span>*/}
-                {/*</p>*/}
+                <div className={styles.info}>
+                    <p className={styles.hidden}>
+                        <label htmlFor="workplaceId">사업장id</label>
+                        <span>사업장명</span>
+                        {/*<span>{workplaceName}</span>*/}
+                        <input type="hidden" id="workplaceId" name="workplaceId" value="사업장id"/>
+                        {/*<input type="hidden" id="workplace" name="workplace" value={workplaceName}/>*/}
+                    </p>
+                    <p className={styles.hidden}>
+                        <label htmlFor="date">작성일</label>
+                        <span>{currentDate}</span>
+                        <input type="hidden" id="date" name="date" value={currentDate}/>
+                    </p>
+                </div>
 
             </div>
             <div className={styles.actions}>
