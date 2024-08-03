@@ -56,7 +56,7 @@ const LoginMain = () => {
         <div className={styles.loginContainer}>
             <h1>로그인</h1>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className={styles.inputContainer}>
                     <label htmlFor="email">아이디</label>
                     <input
                         type="email"
@@ -66,7 +66,7 @@ const LoginMain = () => {
                         required
                     />
                 </div>
-                <div>
+                <div className={styles.inputContainer}>
                     <label htmlFor="password">비밀번호</label>
                     <input
                         type="password"
@@ -76,7 +76,7 @@ const LoginMain = () => {
                         required
                     />
                 </div>
-                <div>
+                <div className={styles.checkboxContainer}>
                     <label>
                         <input
                             type="checkbox"
@@ -94,12 +94,12 @@ const LoginMain = () => {
                         자동 로그인
                     </label>
                 </div>
-                <button type="submit">로그인</button>
+                <button type="submit" className={styles.submitButton}>로그인</button>
                 {error && <p className={styles.error}>{error}</p>}
             </form>
-            <div>
-                <button onClick={handleSignUp}>회원가입</button>
-                <button onClick={handleFindPassword}>비밀번호찾기</button>
+            <div className={styles.additionalLinks}>
+                <button onClick={handleSignUp} className={styles.linkButton}>회원가입</button>
+                <button onClick={handleFindPassword} className={styles.linkButton}>비밀번호찾기</button>
             </div>
         </div>
     );
