@@ -8,67 +8,67 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 300px;
   margin: 0 auto;
-}
 
-h1 {
-  background-color: #f28b82;
-  width: 100%;
-  text-align: center;
-  padding: 10px 0;
-  margin-bottom: 20px;
-  border-radius: 10px 10px 0 0;
-}
+  h1 {
+    background-color: #f28b82;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-radius: 10px 10px 0 0;
+  }
 
-.inputContainer {
-  margin-bottom: 15px;
-  width: 100%;
-}
+  .inputContainer {
+    margin-bottom: 15px;
+    width: 100%;
 
-.inputContainer label {
-  display: block;
-  margin-bottom: 5px;
-}
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
 
-.inputContainer input {
-  width: calc(100% - 20px);
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #ccffcc;
-}
+    input {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #ccffcc;
+    }
+  }
 
-.checkboxContainer {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 20px;
-}
+  .checkboxContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  }
 
-.submitButton {
-  width: 100%;
-  padding: 10px;
-  background-color: #aecbfa;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+  .submitButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #aecbfa;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
-.error {
-  color: red;
-  margin-top: 10px;
-}
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
 
-.additionalLinks {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 20px;
-}
+  .additionalLinks {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+  }
 
-.linkButton {
-  background-color: #d7aefb;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
+  .linkButton {
+    background-color: #d7aefb;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 }
