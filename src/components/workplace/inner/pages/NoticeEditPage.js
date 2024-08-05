@@ -61,7 +61,7 @@ const NoticeEditPage = () => {
     return (
         <Form method='PATCH' onSubmit={submitHandler} noValidate>
             <div className={styles.notice}>
-                <h1>공지사항 등록</h1>
+                <h1>공지사항 수정</h1>
             </div>
             <div className={styles.write}>
                 <p>
