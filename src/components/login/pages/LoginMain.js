@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginMain.module.scss';
-import { saveUserToken, getUserToken } from '../../../utils/auth';
+import { saveUserToken, getUserToken, removeUserToken } from '../../../utils/auth';
 
 const LoginMain = () => {
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState(localStorage.getItem('savedEmail') || '');
     const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
+    const [rememberMe, setRememberMe] = useState(localStorage.getItem('savedEmail') !== null);
     const [autoLogin, setAutoLogin] = useState(false);
     const [error, setError] = useState('');
 
@@ -36,17 +36,23 @@ const LoginMain = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password, rememberMe, autoLogin }),
                 credentials: 'include'
             });
 
             if (response.ok) {
-                const data = await response.json();
-                console.log('Login successful');
+                const { token } = await response.json();
                 if (autoLogin) {
-                    saveUserToken(data.token); // 토큰 저장
+                    saveUserToken(token);
+                } else {
+                    sessionStorage.setItem('jwt', token);
                 }
-                navigate('/workplace'); // 로그인 성공 시 /workplace로 이동
+                if (rememberMe) {
+                    localStorage.setItem('savedEmail', email);
+                } else {
+                    localStorage.removeItem('savedEmail');
+                }
+                navigate('/workplace');
             } else {
                 const data = await response.json();
                 setError(data.message);
@@ -68,7 +74,7 @@ const LoginMain = () => {
         <div className={styles.loginContainer}>
             <h1>로그인</h1>
             <form onSubmit={handleSubmit}>
-                <div className={styles.inputContainer}>
+                <div>
                     <label htmlFor="email">아이디</label>
                     <input
                         type="email"
@@ -78,7 +84,7 @@ const LoginMain = () => {
                         required
                     />
                 </div>
-                <div className={styles.inputContainer}>
+                <div>
                     <label htmlFor="password">비밀번호</label>
                     <input
                         type="password"
@@ -88,7 +94,7 @@ const LoginMain = () => {
                         required
                     />
                 </div>
-                <div className={styles.checkboxContainer}>
+                <div>
                     <label>
                         <input
                             type="checkbox"
@@ -106,12 +112,12 @@ const LoginMain = () => {
                         자동 로그인
                     </label>
                 </div>
-                <button type="submit" className={styles.submitButton}>로그인</button>
+                <button type="submit">로그인</button>
                 {error && <p className={styles.error}>{error}</p>}
             </form>
-            <div className={styles.additionalLinks}>
-                <button onClick={handleSignUp} className={styles.linkButton}>회원가입</button>
-                <button onClick={handleFindPassword} className={styles.linkButton}>비밀번호찾기</button>
+            <div>
+                <button onClick={handleSignUp}>회원가입</button>
+                <button onClick={handleFindPassword}>비밀번호찾기</button>
             </div>
         </div>
     );
