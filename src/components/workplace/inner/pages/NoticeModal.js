@@ -4,7 +4,7 @@ import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {noticeActions} from "../../../../store/notice-slice";
 
-const NoticeModal = ({title, content, date, isOpen, onClose}) => {
+const NoticeModal = ({id, title, content, date, isOpen, onClose}) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
