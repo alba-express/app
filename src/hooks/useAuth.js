@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
-import { getUserId } from '../utils/auth';
+import { getUserId, parseJwt } from '../utils/auth';
 
 const useAuth = () => {
     const [userId, setUserId] = useState(null);
 
     useEffect(() => {
-        const id = getUserId();
-        setUserId(id);
+        const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
+        if (token) {
+            const parsedToken = parseJwt(token);
+            if (parsedToken && parsedToken.sub) {
+                setUserId(parsedToken.sub);
+            }
+        }
     }, []);
 
     return userId;
