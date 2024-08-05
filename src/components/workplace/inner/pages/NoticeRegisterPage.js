@@ -53,7 +53,7 @@ const NoticeRegisterPage = () => {
         if (response.ok) {
             const data = await response.json();
             console.log('응답 데이터: ', data);
-            dispatch(noticeActions.addNotice(newNotice));
+            dispatch(noticeActions.addNotice(data));
 
             navigate("/detail/notice");
         }
