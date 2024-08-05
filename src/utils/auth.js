@@ -1,24 +1,16 @@
-// 이메일 저장
-export const saveUserEmail = (email) => {
-    localStorage.setItem('userEmail', email);
-};
-
-// 이메일 가져오기
-export const getUserEmail = () => {
-    return localStorage.getItem('userEmail');
-};
-
-// 이메일 삭제
-export const removeUserEmail = () => {
-    localStorage.removeItem('userEmail');
-};
-
 // jwt 유틸리티 함수
 export const parseJwt = (token) => {
     try {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = atob(base64);
+        const jsonPayload = decodeURIComponent(
+            atob(base64)
+                .split('')
+                .map((c) => {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                })
+                .join('')
+        );
         return JSON.parse(jsonPayload);
     } catch (error) {
         return null;
@@ -27,20 +19,19 @@ export const parseJwt = (token) => {
 
 // jwt 토큰에서 유저 ID를 추출
 export const getUserId = () => {
-    const token = getUserToken();
+    const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
     if (!token) return null;
     const parsedToken = parseJwt(token);
-    return parsedToken ? parsedToken.id : null;
+    return parsedToken ? parsedToken.sub : null;
 };
 
-// jwt 토큰 저장 (localStorage)
-export const saveUserToken = (token) => {
-    localStorage.setItem('jwt', token);
-};
-
-// jwt 토큰 저장 (sessionStorage)
-export const saveUserTokenSession = (token) => {
-    sessionStorage.setItem('jwt', token);
+// jwt 토큰 저장
+export const saveUserToken = (token, rememberMe) => {
+    if (rememberMe) {
+        localStorage.setItem('jwt', token);
+    } else {
+        sessionStorage.setItem('jwt', token);
+    }
 };
 
 // jwt 토큰 삭제
@@ -49,7 +40,17 @@ export const removeUserToken = () => {
     sessionStorage.removeItem('jwt');
 };
 
-// jwt 토큰 가져오기
-export const getUserToken = () => {
-    return localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
+// 유저 ID 저장
+export const saveUserId = (id) => {
+    localStorage.setItem('userId', id);
+};
+
+// 유저 ID 가져오기
+export const getUserIdFromStorage = () => {
+    return localStorage.getItem('userId');
+};
+
+// 유저 ID 삭제
+export const removeUserId = () => {
+    localStorage.removeItem('userId');
 };
