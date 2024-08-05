@@ -1,66 +1,48 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { workplaceActions } from "../../../../store/workplace-slice";
-import WorkplaceList from "./WorkplaceList";
-import MainHeader from "../../../app-layout/MainHeader";
-import { Link } from "react-router-dom";
-import styles from './WorkplaceList.module.scss';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const WorkplaceListPage = () => {
-    const dispatch = useDispatch();
-    const workList = useSelector((state) => state.workplace?.workList?.workplaces || []);
+  const [workplaces, setWorkplaces] = useState([]);
 
-    useEffect(() => {
-        const fetchWorkplaces = async () => {
-            try {
-                const res = await fetch(`http://localhost:8877/workplace/list/1`);
-                if (!res.ok) {
-                    throw new Error("Network response was not ok");
-                }
-        
-                const json = await res.json();
-                console.log("Fetched JSON:", json); // JSON 데이터 확인
-                
-                if (json.workplaces) {
-                    dispatch(workplaceActions.setWorkList(json.workplaces)); // 올바른 payload 설정
-                } else {
-                    console.error("Unexpected response structure:", json);
-                }
-            } catch (error) {
-                console.error("Error fetching workplaces:", error);
-            }
-        };
-        
-        fetchWorkplaces();
-    }, [dispatch]);
+  useEffect(() => {
+    // API에서 데이터를 가져오는 함수
+    const fetchWorkplaces = async () => {
+      try {
+        const response = await axios.get('http://localhost:8877/workplace/list/1');
+        setWorkplaces(response.data.workplaces);
+      } catch (error) {
+        console.error('Error fetching workplace data:', error);
+      }
+    };
 
-    return (
-        <>
-            <MainHeader isHome={false} />
-            <Link to="regist">
+    fetchWorkplaces();
+  }, []);
+
+  return (
+    <>
+    <Link to="regist">
                 <button>사업장 등록</button> <br />
-            </Link>
-
-            <div className={styles.WorkplaceListPage}>
-                {workList.length > 0 ? (
-                    workList.map((log) => (
-                        <WorkplaceList
-                            key={log.id}
-                            workplaceName={log.workplaceName}
-                            city={log.workplaceAddressCity}
-                            street={log.workplaceAddressStreet}
-                            detail={log.workplaceAddressDetail}
-                            size={log.workplaceSize}
-                            date={log.workplaceCreatedAt}
-                            masterId={log.masterId}
-                        />
-                    ))
-                ) : (
-                    <p>사업장 목록이 없습니다.</p>
-                )}
-            </div>
-        </>
-    );
+    </Link>
+    <div>
+      <h1>사업장 목록</h1>
+      {workplaces.length === 0 ? (
+        <p>사업장이 없습니다.</p>
+      ) : (
+        <ul>
+          {workplaces.map(workplace => (
+            <li key={workplace.id} style={{ marginBottom: '20px' }}>
+              <h2>{workplace.workplaceName}</h2>
+              <p>{workplace.workplaceAddressCity} {workplace.workplaceAddressStreet} {workplace.workplaceAddressDetail}</p>
+              <p>생성일: {new Date(workplace.workplaceCreatedAt).toLocaleDateString()}</p>
+              <p>규모: {workplace.workplaceSize ? '대형' : '소형'}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+    </>
+  );
 };
 
 export default WorkplaceListPage;
