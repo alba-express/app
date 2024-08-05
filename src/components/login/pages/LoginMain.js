@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveUserToken, saveUserId, getUserIdFromStorage, removeUserToken } from '../../../utils/auth';
-import useAuth from '../../../hooks/useAuth'; // useAuth 훅을 임포트
+import useAuth from '../../../hooks/useAuth';
 import styles from './LoginMain.module.scss';
 
 const LoginMain = () => {
@@ -12,10 +12,9 @@ const LoginMain = () => {
     const [error, setError] = useState('');
 
     const navigate = useNavigate();
-    const userId = useAuth(); // useAuth 훅으로 사용자 ID를 확인
+    const userId = useAuth();
 
     useEffect(() => {
-        // 사용자 ID가 있으면 workplace 페이지로 이동
         if (userId) {
             navigate('/workplace');
         }
