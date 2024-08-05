@@ -1,3 +1,18 @@
+// 이메일 저장
+export const saveUserEmail = (email) => {
+    localStorage.setItem('userEmail', email);
+};
+
+// 이메일 가져오기
+export const getUserEmail = () => {
+    return localStorage.getItem('userEmail');
+};
+
+// 이메일 삭제
+export const removeUserEmail = () => {
+    localStorage.removeItem('userEmail');
+};
+
 // jwt 유틸리티 함수
 export const parseJwt = (token) => {
     try {

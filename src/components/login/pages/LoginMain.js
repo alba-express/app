@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { saveUserEmail, getUserEmail, saveUserToken, saveUserTokenSession } from '../../../utils/auth';
 import styles from './LoginMain.module.scss';
-import { saveUserToken, getUserToken, removeUserToken } from '../../../utils/auth';
 
 const LoginMain = () => {
-    const [email, setEmail] = useState(localStorage.getItem('savedEmail') || '');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(localStorage.getItem('savedEmail') !== null);
+    const [rememberMe, setRememberMe] = useState(false);
     const [autoLogin, setAutoLogin] = useState(false);
     const [error, setError] = useState('');
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = getUserToken();
-        if (token) {
-            navigate('/workplace');
+        const savedEmail = getUserEmail();
+        if (savedEmail) {
+            setEmail(savedEmail);
+            setRememberMe(true);
         }
-    }, [navigate]);
+    }, []);
 
     const handleChange = (setter) => (event) => {
         setter(event.target.value);
@@ -41,18 +42,23 @@ const LoginMain = () => {
             });
 
             if (response.ok) {
-                const { token } = await response.json();
+                const data = await response.json();
+                const token = data.token;
+
                 if (autoLogin) {
                     saveUserToken(token);
                 } else {
-                    sessionStorage.setItem('jwt', token);
+                    saveUserTokenSession(token);
                 }
+
                 if (rememberMe) {
-                    localStorage.setItem('savedEmail', email);
+                    saveUserEmail(email);
                 } else {
-                    localStorage.removeItem('savedEmail');
+                    localStorage.removeItem('userEmail');
                 }
-                navigate('/workplace');
+
+                console.log('Login successful');
+                navigate('/workplace'); // 로그인 성공 시 /workplace로 이동
             } else {
                 const data = await response.json();
                 setError(data.message);
@@ -74,7 +80,7 @@ const LoginMain = () => {
         <div className={styles.loginContainer}>
             <h1>로그인</h1>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className={styles.inputContainer}>
                     <label htmlFor="email">아이디</label>
                     <input
                         type="email"
@@ -84,7 +90,7 @@ const LoginMain = () => {
                         required
                     />
                 </div>
-                <div>
+                <div className={styles.inputContainer}>
                     <label htmlFor="password">비밀번호</label>
                     <input
                         type="password"
@@ -94,7 +100,7 @@ const LoginMain = () => {
                         required
                     />
                 </div>
-                <div>
+                <div className={styles.checkboxContainer}>
                     <label>
                         <input
                             type="checkbox"
@@ -115,9 +121,9 @@ const LoginMain = () => {
                 <button type="submit">로그인</button>
                 {error && <p className={styles.error}>{error}</p>}
             </form>
-            <div>
-                <button onClick={handleSignUp}>회원가입</button>
-                <button onClick={handleFindPassword}>비밀번호찾기</button>
+            <div className={styles.additionalLinks}>
+                <button className={styles.linkButton} onClick={handleSignUp}>회원가입</button>
+                <button className={styles.linkButton} onClick={handleFindPassword}>비밀번호찾기</button>
             </div>
         </div>
     );
