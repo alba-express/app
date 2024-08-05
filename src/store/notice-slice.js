@@ -9,6 +9,13 @@ const noticeSlice = createSlice({
     name: 'notice',
     initialState,
     reducers: {
+        setNotices(state, action) {
+            state.noticeList = action.payload;
+        },
+        addNotice(state, action) {
+            state.noticeList.push(action.payload);
+            state.count += 1;
+        }
 
     }
 });

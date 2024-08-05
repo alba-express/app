@@ -2,12 +2,15 @@ import React, {useEffect, useState} from "react";
 import styles from "./NoticeRegistPage.module.scss"
 import {Form, useNavigate} from "react-router-dom";
 import {DETAIL_URL} from "../../../../config/host-config";
+import {useDispatch} from "react-redux";
+import {noticeActions} from "../../../../store/notice-slice";
 
 const NoticeRegisterPage = () => {
 
     const [currentDate, setCurrentDate] = useState("");
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const today = new Date();
@@ -32,34 +35,34 @@ const NoticeRegisterPage = () => {
             title: formData.get('title'),
             content: formData.get('content'),
             date: currentDate,
-            workplaceId: formData.get('workplaceId'),
         };
 
         console.log('payload: ', payload);
 
-        const token = localStorage.getItem('token');
+        // const token = localStorage.getItem('token');
 
         const response = await fetch('http://localhost:8877/detail/notice-register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                // 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(payload)
         });
 
-        // if (!response.ok) {
-        //     throw new Error('네트워크 응답이 올바르지 않습니다.');
-        // }
-        const data = await response.json();
-        console.log('응답 데이터: ', data);
+        if (response.ok) {
+            const data = await response.json();
+            console.log('응답 데이터: ', data);
+            dispatch(noticeActions.addNotice(newNotice));
 
-        navigate("/detail/notice");
+            navigate("/detail/notice");
+        }
+            throw new Error('네트워크 응답이 올바르지 않습니다.');
 
     };
 
     return (
-        <Form method='POST' onSubmit={submitHandler}>
+        <Form method='POST' onSubmit={submitHandler} noValidate>
             <div className={styles.notice}>
                 <h1>공지사항 등록</h1>
             </div>
@@ -74,13 +77,13 @@ const NoticeRegisterPage = () => {
                 </p>
 
                 <div className={styles.info}>
-                    <p className={styles.hidden}>
-                        <label htmlFor="workplaceId">사업장id</label>
-                        <span>사업장명</span>
-                        {/*<span>{workplaceName}</span>*/}
-                        <input type="hidden" id="workplaceId" name="workplaceId" value="사업장id"/>
-                        {/*<input type="hidden" id="workplace" name="workplace" value={workplaceName}/>*/}
-                    </p>
+                    {/*<p className={styles.hidden}>*/}
+                    {/*    <label htmlFor="workplaceId">{workplaceId}</label>*/}
+                    {/*    <span>사업장명</span>*/}
+                    {/*    /!*<span>{workplaceName}</span>*!/*/}
+                    {/*    <input type="hidden" id="workplaceId" name="workplaceId" value={workplaceId}/>*/}
+                    {/*    /!*<input type="hidden" id="workplace" name="workplace" value={workplaceName}/>*!/*/}
+                    {/*</p>*/}
                     <p className={styles.hidden}>
                         <label htmlFor="date">작성일</label>
                         <span>{currentDate}</span>
