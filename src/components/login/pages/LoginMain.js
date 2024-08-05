@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginMain.module.scss';
+import { saveUserToken, getUserToken } from '../../../utils/auth';
 
 const LoginMain = () => {
     const [email, setEmail] = useState('');
@@ -10,6 +11,13 @@ const LoginMain = () => {
     const [error, setError] = useState('');
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = getUserToken();
+        if (token) {
+            navigate('/workplace');
+        }
+    }, [navigate]);
 
     const handleChange = (setter) => (event) => {
         setter(event.target.value);
@@ -28,12 +36,16 @@ const LoginMain = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password, rememberMe, autoLogin }),
+                body: JSON.stringify({ email, password }),
                 credentials: 'include'
             });
 
             if (response.ok) {
+                const data = await response.json();
                 console.log('Login successful');
+                if (autoLogin) {
+                    saveUserToken(data.token); // 토큰 저장
+                }
                 navigate('/workplace'); // 로그인 성공 시 /workplace로 이동
             } else {
                 const data = await response.json();
