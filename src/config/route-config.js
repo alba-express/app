@@ -26,6 +26,7 @@ import ScheduleAddPage from "../components/workplace/inner/pages/ScheduleAddPage
 import NoticeRegisterPage from "../components/workplace/inner/pages/NoticeRegisterPage";
 import CommuteManage from "../components/workplace/inner/pages/CommuteManage";
 import CommuteRecord from "../components/workplace/inner/pages/CommuteRecord";
+import NoticeEditPage from "../components/workplace/inner/pages/NoticeEditPage";
 
 const loginRouter = [
     {
@@ -109,9 +110,13 @@ const detailRouter = [
         path: "notice",
         element: <NoticePage />,
     },
-    {   // 공지사항 등록화면 // 수정은 따로 만들지 아니면 같이갈지는 하는분이
+    {   // 공지사항 등록화면
         path: "notice-register",
         element: <NoticeRegisterPage />,
+    },
+    {   // 공지사항 수정화면
+        path: "notice-edit",
+        element: <NoticeEditPage />,
     },
     {   // 출퇴근 관리 페이지
         path: "commute-manage",
