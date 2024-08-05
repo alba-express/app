@@ -66,13 +66,13 @@ const NoticeEditPage = () => {
             <div className={styles.write}>
                 <p>
                     <label htmlFor="title">제목</label>
-                    <input id="title" type="text" name="title"
-                    value={title} onChange={(e) => setTitle(e.target.value)}/>
+                    <input id="title" type="text" name="title" value={title}
+                           onChange={(e) => setTitle(e.target.value)}/>
                 </p>
                 <p>
                     <label htmlFor="content">내용</label>
-                    <textarea id="content" name="content" rows="5"
-                    value={content} onChange={(e) => setContent(e.target.value)}/>
+                    <textarea id="content" name="content" rows="5" value={content}
+                              onChange={(e) => setContent(e.target.value)}/>
                 </p>
 
                 <div className={styles.info}>
