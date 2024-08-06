@@ -7,6 +7,12 @@ const initialState = {
     year: date.getFullYear(),
     salaryAmount: 0,
     logList: [],
+    slaveData: {
+        slaveId: "",
+        slaveName: "",
+        totalSalary: 0,
+        dtoList: [],
+    },
 }
 
 const wageSlice = createSlice({
@@ -33,6 +39,8 @@ const wageSlice = createSlice({
             state.salaryAmount = action.payload.amount;
         }, setSalaryLogList(state, action) {
             state.logList = [...action.payload.dtoList];
+        }, setSlaveData(state, action) {
+            state.slaveData = action.payload.slaveData;
         },
     }
 })

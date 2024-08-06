@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./SalaryList.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const SalaryList = ({
     name,
@@ -8,9 +9,15 @@ const SalaryList = ({
     wageType,
     totalSalary,
     insurance,
+    slaveId,
 }) => {
+    const navigate = useNavigate()
+    const detailHandler = e => {
+        navigate(`../wage-about`, { state: { slaveId } });
+    }
+
     return (
-        <div className={styles.container}>
+        <div className={styles.container} onClick={detailHandler}>
             <div className={styles.info}>
                 <div className={styles.header}>
                     <span className={styles.name}>{name}</span>
