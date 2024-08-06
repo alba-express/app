@@ -1,7 +1,7 @@
 import React from "react";
 import styles from './InnerHeader.module.scss';
 import { Link, useNavigate } from "react-router-dom";
-import { removeUserToken, getUserIdFromStorage } from '../../../../utils/auth';
+import { removeUserToken } from '../../../../utils/auth';
 
 const InnerHeader = () => {
     const navigate = useNavigate();
@@ -11,32 +11,8 @@ const InnerHeader = () => {
         navigate('/login');
     };
 
-    const handleRetire = async () => {
-        const email = getUserIdFromStorage();
-        if (!email) {
-            alert("로그인 정보가 없습니다.");
-            return;
-        }
-
-        try {
-            const response = await fetch('http://localhost:8877/api/auth/retire', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email })
-            });
-
-            if (response.ok) {
-                alert("회원 탈퇴가 완료되었습니다.");
-                handleLogout();
-            } else {
-                const data = await response.json();
-                alert(data.message);
-            }
-        } catch (error) {
-            alert('회원 탈퇴 중 오류가 발생했습니다.');
-        }
+    const handleRetire = () => {
+        navigate('/login/retire');
     };
 
     return (
