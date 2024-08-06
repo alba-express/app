@@ -8,49 +8,37 @@ import useAuth from "../../../../hooks/useAuth";
 
 const NoticePage = () => {
 
-    // const [notices, setNotices] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedNotice, setSelectedNotice] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [workplaceId, setWorkplaceId] = useState("123");
 
     const dispatch = useDispatch();
-    const notices = useSelector((state) => state.notice.noticeList || []);
+    const notices = useSelector((state) => state.notice.noticeList);
 
     const navigate = useNavigate();
     const userId = useAuth();
 
-    console.log('userId: ', userId);
-
     useEffect(() => {
         const fetchNotices = async () => {
-            const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
-            if (!token) {
-                setError("No token found");
-                setLoading(false);
-                return;
-            }
 
             try {
-                const response = await fetch(`http://localhost:8877/detail/notice`, {
-                    headers: {'Authorization': 'Bearer ' + token}
-                });
+                const response = await fetch(`http://localhost:8877/detail/notice?workplaceId=${workplaceId}&page=${currentPage}`);
                 if (!response.ok) {
                     throw new Error('네트워크 응답이 올바르지 않습니다.');
                 }
                 const data = await response.json();
+                console.log("data:", data);
                 dispatch(noticeActions.setNotices(data.noticeList));
                 console.log("Fetched data:", data.noticeList);
-                setLoading(false);
             } catch (error) {
                 setError(error.message);
-                setLoading(false);
             }
         };
         fetchNotices();
-    }, [dispatch]);
+    }, [dispatch, currentPage, workplaceId]);
 
     const writeHandler = e => {
         navigate("/detail/notice-register");
@@ -66,7 +54,6 @@ const NoticePage = () => {
         setSelectedNotice(null);
     };
 
-    if (loading) return <div>Loading...</div>;  // 로딩 중일 때 표시할 내용
     if (error) return <div>Error: {error}</div>;  // 오류 발생 시 표시할 내용
 
     return (
