@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styles from "./NoticeRegistPage.module.scss"
 import {Form, useNavigate} from "react-router-dom";
-import {DETAIL_URL} from "../../../../config/host-config";
 import {useDispatch} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
 
@@ -39,13 +38,13 @@ const NoticeRegisterPage = () => {
 
         console.log('payload: ', payload);
 
-        // const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token');
 
         const response = await fetch('http://localhost:8877/detail/notice-register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // 'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(payload)
         });

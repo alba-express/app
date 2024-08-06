@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { saveUserToken, saveUserId, getUserIdFromStorage, removeUserToken } from '../../../utils/auth';
+import useAuth from '../../../hooks/useAuth';
 import styles from './LoginMain.module.scss';
-import { saveUserToken, getUserToken } from '../../../utils/auth';
 
 const LoginMain = () => {
     const [email, setEmail] = useState('');
@@ -11,13 +12,21 @@ const LoginMain = () => {
     const [error, setError] = useState('');
 
     const navigate = useNavigate();
+    const userId = useAuth();
 
     useEffect(() => {
-        const token = getUserToken();
-        if (token) {
+        if (userId) {
             navigate('/workplace');
         }
-    }, [navigate]);
+    }, [userId, navigate]);
+
+    useEffect(() => {
+        const storedEmail = getUserIdFromStorage();
+        if (storedEmail) {
+            setEmail(storedEmail);
+            setRememberMe(true);
+        }
+    }, []);
 
     const handleChange = (setter) => (event) => {
         setter(event.target.value);
@@ -36,15 +45,15 @@ const LoginMain = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
-                credentials: 'include'
+                body: JSON.stringify({ email, password })
             });
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Login successful');
-                if (autoLogin) {
-                    saveUserToken(data.token); // 토큰 저장
+                const token = data.token; // 서버가 반환하는 토큰을 가져옴
+                saveUserToken(token, autoLogin); // autoLogin이 true면 로컬스토리지에 저장, false면 세션스토리지에 저장
+                if (rememberMe) {
+                    saveUserId(email); // 아이디 저장
                 }
                 navigate('/workplace'); // 로그인 성공 시 /workplace로 이동
             } else {
@@ -68,7 +77,7 @@ const LoginMain = () => {
         <div className={styles.loginContainer}>
             <h1>로그인</h1>
             <form onSubmit={handleSubmit}>
-                <div className={styles.inputContainer}>
+                <div>
                     <label htmlFor="email">아이디</label>
                     <input
                         type="email"
@@ -78,7 +87,7 @@ const LoginMain = () => {
                         required
                     />
                 </div>
-                <div className={styles.inputContainer}>
+                <div>
                     <label htmlFor="password">비밀번호</label>
                     <input
                         type="password"
@@ -88,7 +97,7 @@ const LoginMain = () => {
                         required
                     />
                 </div>
-                <div className={styles.checkboxContainer}>
+                <div>
                     <label>
                         <input
                             type="checkbox"
@@ -106,12 +115,12 @@ const LoginMain = () => {
                         자동 로그인
                     </label>
                 </div>
-                <button type="submit" className={styles.submitButton}>로그인</button>
+                <button type="submit">로그인</button>
                 {error && <p className={styles.error}>{error}</p>}
             </form>
-            <div className={styles.additionalLinks}>
-                <button onClick={handleSignUp} className={styles.linkButton}>회원가입</button>
-                <button onClick={handleFindPassword} className={styles.linkButton}>비밀번호찾기</button>
+            <div>
+                <button onClick={handleSignUp}>회원가입</button>
+                <button onClick={handleFindPassword}>비밀번호찾기</button>
             </div>
         </div>
     );
