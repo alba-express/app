@@ -36,7 +36,7 @@ const CommuteManage = () => {
             return;
         }
 
-        const workplaceId = 1;
+        const workplaceId = 1; // 현재 workplaceId는 하드코딩되어 있습니다.
         try {
             const response = await fetch(`http://localhost:8877/schedule/verify-phone-number?phoneNumber=${inputValue}&workplaceId=${workplaceId}`);
             const data = await response.text(); // 문자열로 응답을 처리합니다.
@@ -54,12 +54,13 @@ const CommuteManage = () => {
 
     return (
         <>
-            <div>출퇴근관리
+            <div>출퇴근 관리
                 <div>금일 근무자
                     {employees.length > 0 ? (
                         employees.map(employee => (
                             <div key={employee.id}>
-                                {employee.slaveName} ({employee.slavePosition})
+                                {employee.slaveName} ({employee.slavePosition}) 
+                                ({employee.scheduleStart} ~ {employee.scheduleEnd})
                             </div>
                         ))
                     ) : (
