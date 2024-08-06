@@ -16,7 +16,9 @@
         margin-bottom: 23px;
         margin-top: -20px;
         // border: 1px solid red;
-        .slaveRegistPageInputSchedule-title {
+        //----------------------
+
+        .slaveRegistPageInputScheduleTitle {
           width: 2.5rem;
           height: 2.5rem;
           background: rgba(0, 139, 134, 0.8);
@@ -30,10 +32,26 @@
           //----------------------
           border: 1px solid rgba(0, 139, 134, 0.8);
           //-----------------------------------------
-          user-select: none;
-          cursor: none;
-          outline: none;
+          cursor: pointer;
         }
+
+        .selectedDaySchedule {
+          width: 2.5rem;
+          height: 2.5rem;
+          background: rgba(65, 63, 63, 0.7);
+          //------------------------------------
+          color: rgb(255, 255, 255);
+          font-weight: 600;
+          //--------------------------
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          //----------------------
+          border: 1px solid rgba(0, 139, 134, 0.8);
+          //-----------------------------------------
+          cursor: pointer;
+        }
+
         .slaveRegistPageInputSchedule-input {
           width: 10rem;
           height: 2.2rem;
