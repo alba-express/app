@@ -11,14 +11,11 @@ const CommuteManage = () => {
         // 근무자 목록을 가져오는 함수
         const fetchEmployees = async () => {
             try {
-                const response = await fetch('http://localhost:8877/schedule/employees');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                const response = await fetch("http://localhost:8877/schedule/employees");
                 const data = await response.json(); // JSON으로 응답을 처리합니다.
-                setEmployees(data);
+                setEmployees(data); // 근무자 목록 상태 업데이트
             } catch (error) {
-                console.error('서버와의 통신 중 오류가 발생했습니다.', error);
+                console.error("Failed to fetch employees:", error);
                 setValidationMessage("서버와의 통신 중 오류가 발생했습니다.");
             }
         };
@@ -26,11 +23,19 @@ const CommuteManage = () => {
         fetchEmployees(); // 컴포넌트가 마운트될 때 호출
     }, []);
 
+    // 입력 값이 변경될 때 호출되는 핸들러
     const handleInputChange = (event) => {
         setInputValue(event.target.value); // 입력 값을 상태에 저장
     };
 
+    // 버튼 클릭 시 호출되는 핸들러
     const handleCheck = async () => {
+        if (!inputValue.trim()) {
+            // 입력 값이 비어 있는 경우, 검증을 수행하지 않고 경고 메시지를 설정합니다.
+            setValidationMessage("전화번호를 입력해 주세요.");
+            return;
+        }
+
         const workplaceId = 1;
         try {
             const response = await fetch(`http://localhost:8877/schedule/verify-phone-number?phoneNumber=${inputValue}&workplaceId=${workplaceId}`);
@@ -54,7 +59,7 @@ const CommuteManage = () => {
                     {employees.length > 0 ? (
                         employees.map(employee => (
                             <div key={employee.id}>
-                                {employee.slaveName} - {employee.slavePosition}
+                                {employee.slaveName} ({employee.slavePosition})
                             </div>
                         ))
                     ) : (
