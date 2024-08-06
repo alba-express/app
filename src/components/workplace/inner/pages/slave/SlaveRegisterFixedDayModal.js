@@ -4,31 +4,59 @@ import styles from './SlaveRegisterFixedDayModal.module.scss';
 const SlaveRegisterFixedDayModal = () => {
 
   // 근무시간선택 --> 고정시간을 선택한 경우 요일 & 시간을 배열(객체{label, 요일선택여부, 시작시간, 종료시간})로 담기
-  const fixedDays = 
+  const initialFixedDays = 
                     [
-                      { label: 'monday', value: '월', select: false, startSchedule: '', endSchedule: ''},
-                      { label: 'tuesday', value: '화', select: false, startSchedule: '', endSchedule: ''},
-                      { label: 'wednesday', value: '수', select: false, startSchedule: '', endSchedule: ''},
-                      { label: 'thursday',  value: '목', select: false, startSchedule: '', endSchedule: ''},
-                      { label: 'friday', value: '금', select: false, startSchedule: '', endSchedule: ''},
-                      { label: 'saturday', value: '토', select: false, startSchedule: '', endSchedule: ''},
-                      { label: 'sunday', value: '일', select: false, startSchedule: '', endSchedule: ''},
+                      { label: 'monday', value: '월', select: false},
+                      { label: 'tuesday', value: '화', select: false},
+                      { label: 'wednesday', value: '수', select: false},
+                      { label: 'thursday',  value: '목', select: false},
+                      { label: 'friday', value: '금', select: false},
+                      { label: 'saturday', value: '토', select: false},
+                      { label: 'sunday', value: '일', select: false},
                     ];
 
-  // 고정시간 배열 상태값으로 관리
-  const [selectDay, setSelectDay] = useState(fixedDays);
 
+  // 고정시간 요일 배열 상태값으로 관리
+  const [fixedDays , setFixedDays] = useState(initialFixedDays);
+
+  // 요일을 선택여부에 따라 select 값 변경하기
   const selectDayHandler = e => {
 
-    // 요일을 선택여부에 따라 select 값 변경하기
-    setSelectDay((prev) => prev.map((prevDay) => prevDay.value === e.target.value ? {...prevDay, select: !prevDay.select} : {...prevDay}));
-    
+    const selectDays = fixedDays.map((day) => day.value === e.target.value ? {...day, select: !day.select} : {...day});
+
+    setFixedDays(selectDays);
   };
 
+  //-------------------------------------------------
+
+  // 고정시간 시간 상태값으로 관리
+  const [fixedTimes, setFixedTimes] = useState({startSchedule: '', endSchedule: ''});
+
+  // 시작시간을 입력하면 startSchedule 값 변경하기
+  const startTimeHandler = e => {
+    // console.log('시작시간 input 태그 값', e.target.value);
+    
+    const inputStartTime = {...fixedTimes, startSchedule: e.target.value};
+
+    setFixedTimes(inputStartTime);
+  }
+
+  // 종료시간을 입력하면 endSchedule 값 변경하기
+  const endTimeHandler = e => {
+    // console.log('종료시간 input 태그 값', e.target.value);
+
+    const inputEndTime = {...fixedTimes, endSchedule: e.target.value};
+
+    setFixedTimes(inputEndTime);
+  }
+
+  // 선택한 요일 & 입력한 시작/종료시간 상태값이 업데이트될 때 마다 실시간으로 확인하기
   useEffect(() => {
-    // console.log(selectDay);
-    console.log('선택한요일', selectDay);
-  }, [selectDay]);
+
+    console.log('선택한요일', fixedDays);
+    console.log('선택한시간', fixedTimes);
+
+  }, [fixedDays, fixedTimes]);
 
   //-------------------------------------------------
 
@@ -41,7 +69,7 @@ const SlaveRegisterFixedDayModal = () => {
         <div className={styles['slaveRegistPageInputSchedule-box']} >
           <div className={styles['slaveRegistPageInputSchedule-content']} >
 
-              {selectDay.map((day) => (
+              {fixedDays.map((day) => (
                 <label 
                       key={day.index} 
                       htmlFor={day.label} 
@@ -59,10 +87,14 @@ const SlaveRegisterFixedDayModal = () => {
         <div className={styles['slaveRegistPageInputSchedule-box']} >시간선택</div>
 
         <div className={styles['slaveRegistPageScheduleInput-box']} >
-            <input type="time" className={styles['slaveRegistPageInputSchedule-input']} value={fixedDays.startSchedule}/>
-            <div>부터</div>
-            <input type="time" className={styles['slaveRegistPageInputSchedule-input']} value={fixedDays.endSchedule}/>
-            <div>까지</div>
+            <label>
+              <input type="time" className={styles['slaveRegistPageInputSchedule-input']} onChange={startTimeHandler}/>
+              부터
+            </label>
+            <label>
+              <input type="time" className={styles['slaveRegistPageInputSchedule-input']} onChange={endTimeHandler}/>
+              까지
+            </label>
         </div>
       </div>
       
