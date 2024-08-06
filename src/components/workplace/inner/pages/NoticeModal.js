@@ -3,11 +3,13 @@ import styles from "./NoticeModal.module.scss"
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {noticeActions} from "../../../../store/notice-slice";
+import useAuth from "../../../../hooks/useAuth";
 
 const NoticeModal = ({id, title, content, date, isOpen, onClose}) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const userId = useAuth();
 
     if (!isOpen) return null;
 
@@ -18,8 +20,9 @@ const NoticeModal = ({id, title, content, date, isOpen, onClose}) => {
     };
 
     const deleteHandler = e => {
-
-    }
+        dispatch(noticeActions.deleteNotice(id));
+        navigate("/detail/notice");
+    };
 
     return (
         <div className={styles.modalOverlay}>
@@ -28,8 +31,8 @@ const NoticeModal = ({id, title, content, date, isOpen, onClose}) => {
                 <span className={styles.date}>{date}</span>
                 <p className={styles.content}>{content}</p>
                 <div className={styles.buttonContainer}>
-                    <button className={styles.button} onClick={editHandler}>수정</button>
-                    <button className={styles.button} onClick={deleteHandler}>삭제</button>
+                    { userId && <button className={styles.button} onClick={editHandler}>수정</button>}
+                    { userId && <button className={styles.button} onClick={deleteHandler}>삭제</button>}
                     <button className={styles.button} onClick={onClose}>닫기</button>
                 </div>
             </div>

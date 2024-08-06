@@ -34,17 +34,18 @@ const NoticeRegisterPage = () => {
             title: formData.get('title'),
             content: formData.get('content'),
             date: currentDate,
+            workplaceId: "123"
         };
 
         console.log('payload: ', payload);
 
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
 
         const response = await fetch('http://localhost:8877/detail/notice-register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify(payload)
         });
@@ -52,7 +53,7 @@ const NoticeRegisterPage = () => {
         if (response.ok) {
             const data = await response.json();
             console.log('응답 데이터: ', data);
-            dispatch(noticeActions.addNotice(data));
+            dispatch(noticeActions.addNotice(data.noticeList));
 
             navigate("/detail/notice");
         }

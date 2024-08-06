@@ -25,6 +25,11 @@ const noticeSlice = createSlice({
             if (index !== -1) {
                 state.noticeList[index] = action.payload;
             }
+        },
+        deleteNotice(state, action) {
+            const noticeId = action.payload;
+            state.noticeList = state.noticeList.filter(notice => notice.id !== noticeId);
+            state.count -= 1;
         }
 
     }
