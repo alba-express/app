@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import NoticeModal from "./NoticeModal";
 import {useDispatch, useSelector} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
+import useAuth from "../../../../hooks/useAuth";
 
 const NoticePage = () => {
 
@@ -13,21 +14,35 @@ const NoticePage = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(true);
     const [selectedNotice, setSelectedNotice] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const dispatch = useDispatch();
-    const notices = useSelector((state) => state.notice.noticeList);
+    const notices = useSelector((state) => state.notice.noticeList || []);
 
     const navigate = useNavigate();
+    const userId = useAuth();
+
+    console.log('userId: ', userId);
 
     useEffect(() => {
         const fetchNotices = async () => {
+            const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
+            if (!token) {
+                setError("No token found");
+                setLoading(false);
+                return;
+            }
+
             try {
-                const response = await fetch('http://localhost:8877/detail/notice');
-                if(!response.ok) {
+                const response = await fetch(`http://localhost:8877/detail/notice`, {
+                    headers: {'Authorization': 'Bearer ' + token}
+                });
+                if (!response.ok) {
                     throw new Error('네트워크 응답이 올바르지 않습니다.');
                 }
                 const data = await response.json();
-                dispatch(noticeActions.setNotices(data));
+                dispatch(noticeActions.setNotices(data.noticeList));
+                console.log("Fetched data:", data.noticeList);
                 setLoading(false);
             } catch (error) {
                 setError(error.message);
@@ -61,17 +76,17 @@ const NoticePage = () => {
             </div>
 
             <div className={styles.noticeList}>
-                <ul className={styles.noticeList}>
+                <ul>
                     {notices.map(notice => (
                         <li key={notice.id} onClick={() => openModal(notice)} className="notice">
-                            <h2 >{notice.title}</h2>
+                            <h2>{notice.title}</h2>
                             <span>{notice.date}</span>
                         </li>
                     ))}
                 </ul>
             </div>
             <div className={styles.actions}>
-                <button type="button" onClick={writeHandler}>작성</button>
+                {userId && <button type="button" onClick={writeHandler}>작성</button>}
             </div>
 
             {selectedNotice && (
