@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { removeUserToken } from '../../../utils/auth';
-import ConfirmRetireModal from './ConfirmRetireModal'; // 모달 컴포넌트 import
+import ConfirmRetireModal from './ConfirmRetireModal';
 
 const RetirePage = () => {
     const [password, setPassword] = useState('');
@@ -13,9 +13,33 @@ const RetirePage = () => {
         setPassword(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        setIsModalOpen(true);
+
+        const email = localStorage.getItem('userId') || sessionStorage.getItem('userId');
+        if (!email) {
+            setError('No email found in storage');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:8877/api/auth/verify-password', { // 비밀번호 검증 엔드포인트 호출
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (response.ok) {
+                setIsModalOpen(true);
+            } else {
+                const data = await response.json();
+                setError(data.message || '비밀번호가 일치하지 않습니다.');
+            }
+        } catch (error) {
+            setError('Failed to verify password');
+        }
     };
 
     const handleCloseModal = () => {
