@@ -27,6 +27,7 @@ import NoticeRegisterPage from "../components/workplace/inner/pages/NoticeRegist
 import CommuteManage from "../components/workplace/inner/pages/CommuteManage";
 import CommuteRecord from "../components/workplace/inner/pages/CommuteRecord";
 import NoticeEditPage from "../components/workplace/inner/pages/NoticeEditPage";
+import RetirePage from "../components/login/pages/RetirePage";
 
 const loginRouter = [
     {
@@ -48,6 +49,11 @@ const loginRouter = [
         // 비밀번호 수정 페이지
         path: "modify-pw",
         element: <ModifyPwPage />,
+    },
+    {
+        // 회원탈퇴 페이지
+        path: "retire",
+        element: <RetirePage />,
     },
 ];
 
