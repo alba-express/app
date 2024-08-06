@@ -12,7 +12,7 @@ const WageAboutPage = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const fetchData = async () => {x
+        const fetchData = async () => {
             const payload = {
                 workplaceId: "1",
                 ym: `${year}-${month < 10 ? "0" + month : month}`,
