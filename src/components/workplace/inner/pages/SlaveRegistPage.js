@@ -9,26 +9,26 @@ const SlaveRegistPage = () => {
     // input태그에 입력한 값을 상태값으로 한번에 관리하기
     const [slaveRegistInput, setSlaveRegistInput] = useState({
         // 직원 이름
-        name: '',
+        slaveName: '',
         // 직원 전화번호
-        phoneNumber: '',
+        slavePhoneNumber: '',
         // 직원 생년월일
-        birthday: '',
+        slaveBirthday: '',
         // 직원 직책
-        position: '',
+        slavePosition: '',
 
         // 급여방식 시급(true, 1) or 월급(false, 2)
-        wageType: '',
+        slaveWageType: '',
         // 시급일 경우 시간당 금액, 월급일경우 월 급여 금액
-        wageAmount: '',
+        slaveWageMount: '',
 
         // 4대보험 적용여부
-        wageInsurance: '',
+        slaveWageInsurance: '',
 
         // 근무시간타입 고정 or 변동
-        scheduleType: '',
+        slaveScheduleType: '',
         // 근무시간정보
-        scheduleInfo: [],
+        slaveScheduleList: [],
 
         // // 고정일경우 요일
         // scheduleDay: '',
@@ -158,22 +158,22 @@ const SlaveRegistPage = () => {
 
     // 이름 입력한 경우 input태그 상태창 변경하기
     const nameHandler = e => {
-        setSlaveRegistInput({...slaveRegistInput, name: e.target.value});
+        setSlaveRegistInput({...slaveRegistInput, slaveName: e.target.value});
     };
 
     // 전화번호 입력한 경우 input태그 상태창 변경하기
     const phoneNumberHandler = e => {
-        setSlaveRegistInput({...slaveRegistInput, phoneNumber: e.target.value});
+        setSlaveRegistInput({...slaveRegistInput, slavePhoneNumber: e.target.value});
     };
 
     // 생년월일 입력한 경우 input태그 상태창 변경하기
     const birthdayHandler = e => {
-        setSlaveRegistInput({...slaveRegistInput, birthday: e.target.value});
+        setSlaveRegistInput({...slaveRegistInput, slaveBirthday: e.target.value});
     };
 
     // 직책 입력한 경우 input태그 상태창 변경하기
     const positionHandler = e => {
-        setSlaveRegistInput({...slaveRegistInput, position: e.target.value});
+        setSlaveRegistInput({...slaveRegistInput, slavePosition: e.target.value});
     };
 
     // 시급 선택한 경우 input태그 상태창 변경하기
@@ -184,7 +184,7 @@ const SlaveRegistPage = () => {
 
         // 시급 선택 --> input태그 급여정보, 급여금액 변경하기
         if (selectWageType === true) {
-            setSlaveRegistInput({...slaveRegistInput, wageType: true, wageAmount: e.target.value});
+            setSlaveRegistInput({...slaveRegistInput, slaveWageType: true, slaveWageMount: e.target.value});
         } else { // 기타 미입력, 시급이 아닌경우 기존 input태그 상태창 상태유지
             setSlaveRegistInput({...slaveRegistInput});
         }
@@ -198,7 +198,7 @@ const SlaveRegistPage = () => {
 
         // 월급 선택 --> input태그 급여정보, 급여금액 변경하기
         if (selectWageType === false) {
-            setSlaveRegistInput({...slaveRegistInput, wageType: false, wageAmount: e.target.value});
+            setSlaveRegistInput({...slaveRegistInput, slaveWageType: false, slaveWageMount: e.target.value});
         } else { // 기타 미입력, 시급이 아닌경우 기존 input태그 상태창 상태유지
             setSlaveRegistInput({...slaveRegistInput});
         } 
@@ -211,11 +211,11 @@ const SlaveRegistPage = () => {
 
         // 적용이 true && 미적용이 false 인 경우
         if (insuranceApply && !insuranceNotApply) {
-            setSlaveRegistInput((prev) => ({...prev, wageInsurance: true})); // 4대보험 적용
+            setSlaveRegistInput((prev) => ({...prev, slaveWageInsurance: true})); // 4대보험 적용
 
             // 적용이 false && 미적용이 true 인 경우
         } else if (!insuranceApply && insuranceNotApply) {
-            setSlaveRegistInput((prev) => ({...prev, wageInsurance: false})); // 4대보험 미적용
+            setSlaveRegistInput((prev) => ({...prev, slaveWageInsurance: false})); // 4대보험 미적용
 
             // 기타 4대보험 미선택한 경우
         } else {
@@ -247,9 +247,9 @@ const SlaveRegistPage = () => {
         // console.log('근무타입', selectScheduleType);
 
         if (selectScheduleType === true) { // 근무타입 - 고정시간은 true, 1
-            setSlaveRegistInput((prev) => ({...prev, scheduleType: selectScheduleType, scheduleInfo: updatedFixedDay}));
+            setSlaveRegistInput((prev) => ({...prev, slaveScheduleType: selectScheduleType, slaveScheduleList: updatedFixedDay}));
         } else if (selectScheduleType === false) { // 근무타입 - 변동시간은 false, 0
-            setSlaveRegistInput((prev) => ({...prev, scheduleType: selectScheduleType, scheduleInfo: updatedVariableDay}));
+            setSlaveRegistInput((prev) => ({...prev, slaveScheduleType: selectScheduleType, slaveScheduleList: updatedVariableDay}));
         } else { // 근무방식 미선택
             setSlaveRegistInput((prev) => ({...prev}));
         }
@@ -257,6 +257,102 @@ const SlaveRegistPage = () => {
     }, [selectScheduleType, updatedFixedDay, updatedVariableDay]);
 
     //-------------------------------------------------
+
+    // 세션 스토리지에서 사업장 번호를 가져오기
+    const getWorkPlace = () => {
+
+        // 세션 스토리지에 사업장번호가 없기때문에 더미데이터 추가
+        let dummyWorkPlace = {workPlaceNumber: 1};
+
+        sessionStorage.setItem("item", JSON.stringify(dummyWorkPlace));
+
+
+        // 세션스토리지에서 키를 통해 value 꺼내기
+        const workPlaceBySession = sessionStorage.getItem('item');
+
+        // JSON 형태의 value 를 변수로 꺼내기
+        const workPlace = JSON.parse(workPlaceBySession);
+
+        // 사업장이 있으면 꺼내오고 없으면 null
+        return workPlace ? workPlace.workPlaceNumber : null;
+    }
+
+    // 
+    useEffect(() => {
+        const workPlaceNumber = getWorkPlace();
+
+        if (workPlaceNumber) {
+            setSlaveRegistInput(prev => ({...prev, workPlaceNumber}));
+        }
+
+    }, []);
+
+    //-------------------------------------------------
+
+    const sendSlaveInputHandler = async (e) => {
+
+        for (const [key, value] of Object.entries(slaveRegistInput)) {
+
+            try {
+                const response = await fetch(`http://localhost:8877/detail/registSlave`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(slaveRegistInput)
+                });
+
+                if (!response.ok) {
+                    throw new Error ('서버로 전송되지 않았습니다.');
+                }
+
+                const result = await response.json();
+                console.log('Success:', result);
+                
+            } catch (error) {
+                console.error('Error', error);
+            };
+
+
+        //     if (value === '' || (Array.isArray(value) && value.length === 0)) {
+        //         total += key + ', '
+        //         return;
+        //     } else { 
+        //         try {
+        //             const response = await fetch(`http://localhost:8877/api/auth/regist-slave`, {
+        //                 method: 'POST',
+        //                 header: {
+        //                     'Content-Type': 'application/json'
+        //                 },
+        //                 body: JSON.stringify(slaveRegistInput)
+        //             });
+
+        //             if (!response.ok) {
+        //                 throw new Error ('서버로 전송되지 않았습니다.');
+        //             }
+
+        //             const result = await response.json();
+        //             console.log('Success:', result);
+                    
+        //         } catch (error) {
+        //             console.error('Error', error);
+        //         };
+
+        //     }
+        // }
+
+        // alert(`${total} 를 입력해야 합니다.`);
+        
+    }
+}
+
+
+    // slaveRegistInput 에 빈칸이 있는경우 & 없는경우 서버로 보내기
+    // const sendSlaveInput = async () => {
+    //     for (const input of slaveInputList) {
+    //         console.log('노예입력', input);
+    //     }
+    // }
     
     return (
         <>
@@ -377,7 +473,7 @@ const SlaveRegistPage = () => {
                             <Link to="/detail/slave-manage" className={styles['link-text']} > 
                             <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
-                            <button className={styles['slaveRegistPage-button']} > 등록 </button>
+                            <button className={styles['slaveRegistPage-button']} onClick={sendSlaveInputHandler} > 등록 </button>
                         </div>
                     </div>
                 </form>
