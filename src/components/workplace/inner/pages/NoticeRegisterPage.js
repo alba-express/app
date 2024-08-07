@@ -31,6 +31,7 @@ const NoticeRegisterPage = () => {
         console.log('form: ', formData.get('title'));
 
         const payload = {
+            id: formData.get('id'),
             title: formData.get('title'),
             content: formData.get('content'),
             date: currentDate,
@@ -39,13 +40,10 @@ const NoticeRegisterPage = () => {
 
         console.log('payload: ', payload);
 
-        // const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
-
         const response = await fetch('http://localhost:8877/detail/notice-register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // 'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify(payload)
         });
@@ -53,7 +51,11 @@ const NoticeRegisterPage = () => {
         if (response.ok) {
             const data = await response.json();
             console.log('응답 데이터: ', data);
-            dispatch(noticeActions.addNotice(data.noticeList));
+            if (data) {
+                dispatch(noticeActions.addNotice(data));
+            } else {
+                throw new Error('응답 데이터에서 noticeList를 찾을 수 없습니다.');
+            }
 
             navigate("/detail/notice");
         }
@@ -69,26 +71,20 @@ const NoticeRegisterPage = () => {
             <div className={styles.write}>
                 <p>
                     <label htmlFor="title">제목</label>
-                    <input id="title" type="text" name="title"/>
+                    <input id="title" type="text" name="title" required/>
                 </p>
                 <p>
                     <label htmlFor="content">내용</label>
-                    <textarea id="content" name="content" rows="5"/>
+                    <textarea id="content" name="content" rows="5" required/>
                 </p>
 
                 <div className={styles.info}>
+
                     {/*<p className={styles.hidden}>*/}
-                    {/*    <label htmlFor="workplaceId">{workplaceId}</label>*/}
-                    {/*    <span>사업장명</span>*/}
-                    {/*    /!*<span>{workplaceName}</span>*!/*/}
-                    {/*    <input type="hidden" id="workplaceId" name="workplaceId" value={workplaceId}/>*/}
-                    {/*    /!*<input type="hidden" id="workplace" name="workplace" value={workplaceName}/>*!/*/}
+                    {/*    <label htmlFor="date">작성일</label>*/}
+                    {/*    <span>{currentDate}</span>*/}
+                    {/*    <input type="hidden" id="date" name="date" value={currentDate}/>*/}
                     {/*</p>*/}
-                    <p className={styles.hidden}>
-                        <label htmlFor="date">작성일</label>
-                        <span>{currentDate}</span>
-                        <input type="hidden" id="date" name="date" value={currentDate}/>
-                    </p>
                 </div>
 
             </div>

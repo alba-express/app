@@ -6,6 +6,7 @@ import {noticeActions} from "../../../../store/notice-slice";
 import useAuth from "../../../../hooks/useAuth";
 
 const NoticeModal = ({id, title, content, date, isOpen, onClose}) => {
+    console.log('NoticeModal props:', { id, title, content, date, isOpen });
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -19,9 +20,25 @@ const NoticeModal = ({id, title, content, date, isOpen, onClose}) => {
 
     };
 
-    const deleteHandler = e => {
-        dispatch(noticeActions.deleteNotice(id));
-        navigate("/detail/notice");
+    const deleteHandler = async e => {
+        e.preventDefault();
+        console.log('Deleting notice with id:', id);
+        try {
+            const response = await fetch(`http://localhost:8877/detail/notice/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            if(response.ok) {
+                dispatch(noticeActions.deleteNotice(id));
+                navigate("/detail/notice");
+            } else {
+                throw new Error('삭제 요청에 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('삭제 오류:', error);
+        }
     };
 
     return (

@@ -15,16 +15,17 @@ const NoticePage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [workplaceId, setWorkplaceId] = useState("123");
+    const [isLoading, setIsLoading] = useState(true);
 
     const dispatch = useDispatch();
-    const notices = useSelector((state) => state.notice.noticeList);
+    const notices = useSelector((state) => state.notice.noticeList || []);
 
     const navigate = useNavigate();
     const userId = useAuth();
 
     useEffect(() => {
         const fetchNotices = async () => {
-
+            setIsLoading(true);
             try {
                 const response = await fetch(`http://localhost:8877/detail/notice?workplaceId=${workplaceId}&page=${currentPage}`);
                 if (!response.ok) {
@@ -38,6 +39,7 @@ const NoticePage = () => {
             } catch (error) {
                 setError(error.message);
             }
+            setIsLoading(false);
         };
         fetchNotices();
     }, [dispatch, currentPage, workplaceId]);
@@ -57,6 +59,7 @@ const NoticePage = () => {
     };
 
     if (error) return <div>Error: {error}</div>;  // 오류 발생 시 표시할 내용
+    if (isLoading) return <div>로딩 중...</div>;  // 로딩 상태 표시
 
     const handlePageChange = (newPage) => {
         if(newPage >= 1 && newPage <= totalPages) {
@@ -71,34 +74,41 @@ const NoticePage = () => {
             </div>
 
             <div className={styles.noticeList}>
-                <ul>
-                    {notices.map(notice => (
-                        <li key={notice.id} onClick={() => openModal(notice)} className="notice">
-                            <h2>{notice.title}</h2>
-                            <span>{notice.date}</span>
-                        </li>
-                    ))}
-                </ul>
+                { isLoading ?
+                    <div>로딩 중...</div>
+                    :
+                    (<ul>
+                        {notices.length > 0 ? (
+                            notices.map(notice => (
+                                <li key={notice.id} onClick={() => openModal(notice)} className="notice">
+                                    <h2>{notice.title}</h2>
+                                    <span>{notice.date}</span>
+                                </li>
+                            ))
+                        ) : (
+                            <li>등록된 공지사항이 없습니다.</li>
+                        )}
+                    </ul>)}
             </div>
 
             <div className={styles.pagination}>
-                <button
+                {currentPage !== 1 && <button
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
                 >
                     이전
-                </button>
-                <span>페이지 {currentPage} / {totalPages}</span>
-                <button
+                </button>}
+                <span className={styles.page}> {currentPage} / {totalPages}</span>
+                { currentPage !== totalPages && <button
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
                 >
                     다음
-                </button>
+                </button>}
             </div>
 
             <div className={styles.actions}>
-                {userId && <button type="button" onClick={writeHandler}>작성</button>}
+                {userId && <button type="button" onClick={writeHandler} >작성</button>}
             </div>
 
             {selectedNotice && (

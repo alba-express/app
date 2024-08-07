@@ -20,7 +20,7 @@
 
     li {
       width: 80%;
-      height: 120px;
+      height: 110px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -49,8 +49,10 @@
 }
 
 .actions {
+  width: 80%;
+  margin: 0 auto;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   margin-top: 20px;
 
   button {
@@ -62,6 +64,7 @@
     color: white;
     font-size: 16px;
     cursor: pointer;
+    align-self: flex-end;
 
     &:hover {
       background-color: rgba(0, 139, 134, 0.8);
@@ -79,4 +82,33 @@
 
 .hidden {
   display: none;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  height: 40px;
+
+
+  .page {
+    font-size: 20px;
+    margin: 0 20px;
+    align-self: center;
+  }
+
+  button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(0, 139, 134, 0.8);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0, 139, 134, 0.8);
+    }
+  }
 }

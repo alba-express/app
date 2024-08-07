@@ -14,8 +14,14 @@ const noticeSlice = createSlice({
             state.noticeList = action.payload;
         },
         addNotice(state, action) {
-            state.noticeList.push(action.payload);
-            state.count += 1;
+            const newNotice = action.payload;
+            console.log('newNotice: ', newNotice);
+            if (newNotice) {
+                state.noticeList.push(newNotice);
+                state.count += 1;
+            } else {
+                console.error('Invalid notice object:', action.payload);
+            }
         },
         setCurrentNotice(state, action) {
             state.currentNotice = action.payload;
