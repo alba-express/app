@@ -39,13 +39,13 @@ const NoticeRegisterPage = () => {
 
         console.log('payload: ', payload);
 
-        const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
+        // const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
 
         const response = await fetch('http://localhost:8877/detail/notice-register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
+                // 'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify(payload)
         });

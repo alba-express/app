@@ -13,6 +13,7 @@ const NoticePage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedNotice, setSelectedNotice] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [workplaceId, setWorkplaceId] = useState("123");
 
     const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const NoticePage = () => {
                 console.log("data:", data);
                 dispatch(noticeActions.setNotices(data.noticeList));
                 console.log("Fetched data:", data.noticeList);
+                setTotalPages(data.totalPages);
             } catch (error) {
                 setError(error.message);
             }
@@ -56,6 +58,12 @@ const NoticePage = () => {
 
     if (error) return <div>Error: {error}</div>;  // 오류 발생 시 표시할 내용
 
+    const handlePageChange = (newPage) => {
+        if(newPage >= 1 && newPage <= totalPages) {
+            setCurrentPage(newPage);
+        }
+    };
+
     return (
         <>
             <div className={styles.noticeBoard}>
@@ -72,6 +80,23 @@ const NoticePage = () => {
                     ))}
                 </ul>
             </div>
+
+            <div className={styles.pagination}>
+                <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    이전
+                </button>
+                <span>페이지 {currentPage} / {totalPages}</span>
+                <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    다음
+                </button>
+            </div>
+
             <div className={styles.actions}>
                 {userId && <button type="button" onClick={writeHandler}>작성</button>}
             </div>
