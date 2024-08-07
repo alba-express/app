@@ -1,49 +1,24 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate } from 'react-router-dom';
-import { debounce } from 'lodash';
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ModifyPwPage = () => {
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [passwordValid, setPasswordValid] = useState(true);
-    const [passwordMatch, setPasswordMatch] = useState(true);
-    const [errorMessage, setErrorMessage] = useState('');
-
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
+    const location = useLocation();
     const navigate = useNavigate();
-
-    const validatePassword = (password) => {
-        const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
-        return passwordRegex.test(password);
-    };
-
-    const debouncedValidate = useCallback(
-        debounce((password, confirmPassword) => {
-            setPasswordValid(validatePassword(password));
-            setPasswordMatch(password === confirmPassword);
-        }, 300),
-        []
-    );
-
-    useEffect(() => {
-        debouncedValidate(password, confirmPassword);
-    }, [password, confirmPassword, debouncedValidate]);
-
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
-
-    const handleConfirmPasswordChange = (event) => {
-        setConfirmPassword(event.target.value);
-    };
+    const email = location.state?.email;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        if (!passwordValid || !passwordMatch) {
+        if (password !== confirmPassword) {
+            setErrorMessage("비밀번호가 일치하지 않습니다.");
             return;
         }
 
         const userData = {
+            email,
             password,
         };
 
@@ -61,9 +36,13 @@ const ModifyPwPage = () => {
                 throw new Error(errorData.message);
             }
 
-            alert('비밀번호 수정이 완료되었습니다.');
-            navigate('/login');
+            const data = await response.json();
+            console.log("비밀번호 변경 성공:", data);
+            setSuccessMessage("비밀번호가 성공적으로 변경되었습니다.");
+            setErrorMessage("");
+            navigate("/login");
         } catch (error) {
+            console.error("비밀번호 변경 오류:", error);
             setErrorMessage(error.message);
         }
     };
@@ -77,23 +56,25 @@ const ModifyPwPage = () => {
                     <input
                         type="password"
                         value={password}
-                        onChange={handlePasswordChange}
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                     />
-                    {!passwordValid && <p style={{ color: "red" }}>비밀번호는 8자 이상이며 특수문자를 포함해야 합니다.</p>}
                 </div>
                 <div>
                     <label>비밀번호 확인:</label>
                     <input
                         type="password"
                         value={confirmPassword}
-                        onChange={handleConfirmPasswordChange}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                     />
-                    {!passwordMatch && <p style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</p>}
+                    {password !== confirmPassword && (
+                        <p style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</p>
+                    )}
                 </div>
-                <button type="submit" disabled={!passwordValid || !passwordMatch}>비밀번호 변경</button>
                 {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+                {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+                <button type="submit" disabled={!email}>비밀번호 변경</button>
             </form>
         </div>
     );

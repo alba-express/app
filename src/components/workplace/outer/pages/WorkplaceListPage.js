@@ -1,8 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import MainHeader from "../../../app-layout/MainHeader";
+import { removeUserToken } from "../../../../utils/auth";
 
 const WorkplaceListPage = () => {
+//   재한님 코드 추가
+  const navigate = useNavigate();
+
+    const handleLogout = () => {
+        // JWT 토큰 삭제
+        removeUserToken();
+        // 로그인 페이지로 리다이렉트
+        navigate("/login");
+//       끝
+  
   const [workplaces, setWorkplaces] = useState([]);
 
   useEffect(() => {
@@ -60,6 +72,9 @@ const WorkplaceListPage = () => {
         </ul>
       )}
     </div>
+    <button onClick={handleLogout}>
+                로그아웃
+    </button>
     </>
   );
 };

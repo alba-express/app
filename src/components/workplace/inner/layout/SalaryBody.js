@@ -17,6 +17,7 @@ const SalaryBody = () => {
         {logList.map((log) => (
             <SalaryList
             key={log.slaveId}
+            slaveId={log.slaveId}
             name={log.slaveName}
             role={log.slavePosition}
             wageType={log.wageType}
