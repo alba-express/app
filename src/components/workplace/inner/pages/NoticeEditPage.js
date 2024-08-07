@@ -3,7 +3,6 @@ import styles from "./NoticeRegistPage.module.scss";
 import {Form, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
-import NoticeModal from "./NoticeModal";
 
 const NoticeEditPage = () => {
 
@@ -14,6 +13,15 @@ const NoticeEditPage = () => {
     const [currentDate, setCurrentDate] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        console.log('currentNotice: ', currentNotice);
+
+        if (currentNotice) {
+            setTitle(currentNotice.title);
+            setContent(currentNotice.content);
+        }
+    }, [currentNotice]);
 
     useEffect(() => {
         const today = new Date();
@@ -40,7 +48,7 @@ const NoticeEditPage = () => {
 
         console.log('payload: ', payload);
 
-        const response = await fetch('http://localhost:8877/detail/notice/${currentNotice.id}', {
+        const response = await fetch(`http://localhost:8877/detail/notice/${currentNotice.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -48,14 +56,15 @@ const NoticeEditPage = () => {
             body: JSON.stringify(payload)
         });
 
-        if(response.ok) {
+
+        if (response.ok) {
             const updateNotice = await response.json();
+            console.log('updateNotice: ', updateNotice);
             dispatch(noticeActions.updateNotice(updateNotice));
             navigate("/detail/notice");
         } else {
             console.error('수정 실패');
         }
-
     };
 
     return (
@@ -74,15 +83,6 @@ const NoticeEditPage = () => {
                     <textarea id="content" name="content" rows="5" value={content}
                               onChange={(e) => setContent(e.target.value)}/>
                 </p>
-
-                <div className={styles.info}>
-
-                    <p className={styles.hidden}>
-                        <label htmlFor="date">작성일</label>
-                        <span>{currentDate}</span>
-                        <input type="hidden" id="date" name="date" value={currentDate}/>
-                    </p>
-                </div>
 
             </div>
             <div className={styles.actions}>
