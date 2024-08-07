@@ -12,7 +12,7 @@ const SlaveRegistPage = () => {
         name: '',
         // 직원 전화번호
         phoneNumber: '',
-        // 직원 생일
+        // 직원 생년월일
         birthday: '',
         // 직원 직책
         position: '',
@@ -25,72 +25,65 @@ const SlaveRegistPage = () => {
         // 4대보험 적용여부
         wageInsurance: '',
 
-        // 근무시간정보 고정 or 변동
+        // 근무시간타입 고정 or 변동
         scheduleType: '',
-        // 고정일경우 요일
-        scheduleDay: '',
-        // 근무 시작시간
-        scheduleStart: '',
-        // 근무 종료시간
-        scheduleEnd: ''
+        // 근무시간정보
+        scheduleInfo: [],
+
+        // // 고정일경우 요일
+        // scheduleDay: '',
+        // // 근무 시작시간
+        // scheduleStart: '',
+        // // 근무 종료시간
+        // scheduleEnd: ''
     });
 
     //-------------------------------------------------
 
     // 급여방식선택 --> 시급 or 월급 상태값 관리
-    const [wageType, setWageType] = useState('');
+    const [selectWageType, setSelectWageType] = useState('');
 
     // 급여방식선택에 따른 버튼 스타일 변경
     const getWageTypeClassName = (type) => {
-        if (wageType === '') {
+        if (selectWageType === '') {
             return styles.slaveRegistPageInputWageType;
         } else if (type === 'hourly') {
-            return wageType ? styles.wageType : styles.slaveRegistPageInputWageType;
+            return selectWageType ? styles.wageType : styles.slaveRegistPageInputWageType;
 
         } else if (type === 'monthly') {
-            return wageType ? styles.slaveRegistPageInputWageType : styles.wageType;
+            return selectWageType ? styles.slaveRegistPageInputWageType : styles.wageType;
         }
     };
 
     // 시급 클릭이벤트
     const hourlyWageHandler = e => {
-        // 급여방식 - 시급은 true, 1
-        setWageType(true);
-    }
+
+        // 이미 시급버튼이 클릭된 상태일 경우
+        if (selectWageType === true) { 
+            setSelectWageType('');
+        } else {
+            // 급여방식 - 시급은 true, 1
+            setSelectWageType(true);
+        }
+    };
 
     // 월급 클릭이벤트
     const monthlyWageHandler = e => {
-        // 급여방식 - 월급은 false, 2
-        setWageType(false);
-    }
+
+        // 이미 월급버튼이 클릭된 상태일 경우
+        if (selectWageType === false) {
+            setSelectWageType('');
+        } else {
+            // 급여방식 - 월급은 false, 2
+            setSelectWageType(false);
+        }
+    };
 
     //-------------------------------------------------
 
-    // 4대보험 적용여부선택 --> 적용 or 미적용 상태값 관리
-    const [wageInsurance, setWageInsurance] = useState('');
-
-    // 4대보험 적용 or 미적용 체크박스 상태값 관리
+    // 4대보험 적용여부선택 --> 적용 or 미적용 체크박스 상태값 관리
     const [insuranceApply, setInsuranceApply] = useState('');
     const [insuranceNotApply, setInsuranceNotApply] = useState('');
-
-    // 적용 & 미적용 체크박스 상태값이 업데이트될 때 마다 4대보험 적용여부 업데이트하기
-    useEffect (() => {
-        // console.log('4대보험적용상태', insuranceApply);
-        // console.log('4대보험미적용상태', insuranceNotApply);
-
-        // 적용이 true && 미적용이 false 인 경우
-        if (insuranceApply && !insuranceNotApply) {
-            setWageInsurance(true); // 4대보험 적용
-
-            // 적용이 false && 미적용이 true 인 경우
-        } else if (!insuranceApply && insuranceNotApply) {
-            setWageInsurance(false); // 4대보험 미적용
-
-            // 기타 4대보험 미선택
-        } else {
-            setWageInsurance('');
-        }
-    }, [insuranceApply, insuranceNotApply]);
 
     // 4대보험 적용클릭이벤트
     const appliedHandler = e => {
@@ -103,7 +96,7 @@ const SlaveRegistPage = () => {
             setInsuranceApply(true);
             setInsuranceNotApply(false);
         }
-    }
+    };
 
     // 4대보험 미적용클릭이벤트
     const notAppliedHandler = e => {
@@ -116,127 +109,237 @@ const SlaveRegistPage = () => {
             setInsuranceNotApply(true);
             setInsuranceApply(false);
         }
-    }
+    };
 
     //-------------------------------------------------
 
     // 근무방식선택 --> 고정시간 or 변동시간 상태값 관리
-    const [scheduleType, setScheduleType] = useState('');
-
-    // 근무시간선택 --> 고정시간을 선택한 경우 고정시간 선택 모달창 생성 상태값 관리
-    const [fixedDay, setFixedDay] = useState('');
-    // 근무시간선택 --> 변동시간을 선택한 경우 변동시간 선택 모달창 생성 상태값 관리
-    const [variableDay, setVariableDay] = useState('');
+    const [selectScheduleType, setSelectScheduleType] = useState('');
 
     // 근무방식선택에 따른 버튼 스타일 변경
     const getScheduleTypeClassName = (type) => {
-        if (scheduleType === '') {
+        if (selectScheduleType === '') {
             return styles.slaveRegistPageInputScheduleType;
         } else if (type === 'fixed') {
-            return scheduleType ? styles.scheduleType : styles.slaveRegistPageInputScheduleType;
+            return selectScheduleType ? styles.scheduleType : styles.slaveRegistPageInputScheduleType;
 
         } else if (type === 'variable') {
-            return scheduleType ? styles.slaveRegistPageInputScheduleType : styles.scheduleType;
+            return !selectScheduleType ? styles.scheduleType : styles.slaveRegistPageInputScheduleType;
         }
     };
 
     // 고정시간 클릭이벤트 
     const fixedDayHandler = e => {
 
-        // 근무방식 - 고정은 true, 1
-        setScheduleType(true);
+        if (selectScheduleType === true) {
+            setSelectScheduleType('');
 
-        // 고정시간 선택 모달창 생성
-        setVariableDay(false);
-        setFixedDay(!fixedDay);
-    }
+        } else {
+            // 근무방식 - 고정은 true, 1
+            setSelectScheduleType(true);
+        }
+    };
 
     //-------------------------------------------------
 
     // 변동시간 클릭이벤트
     const variableDayHandler = e => {
 
-        // 근무방식 - 변동은 false, 0
-        setScheduleType(false);
+        if (selectScheduleType === false) {
+            setSelectScheduleType('');
 
-        // 변동시간 선택 모달창 생성
-        setFixedDay(false);
-        setVariableDay(!variableDay);
-    }
+        } else {
+            // 근무방식 - 변동은 false, 0
+            setSelectScheduleType(false);
+        }
+    };
 
     //-------------------------------------------------
 
+    // 이름 입력한 경우 input태그 상태창 변경하기
+    const nameHandler = e => {
+        setSlaveRegistInput({...slaveRegistInput, name: e.target.value});
+    };
+
+    // 전화번호 입력한 경우 input태그 상태창 변경하기
+    const phoneNumberHandler = e => {
+        setSlaveRegistInput({...slaveRegistInput, phoneNumber: e.target.value});
+    };
+
+    // 생년월일 입력한 경우 input태그 상태창 변경하기
+    const birthdayHandler = e => {
+        setSlaveRegistInput({...slaveRegistInput, birthday: e.target.value});
+    };
+
+    // 직책 입력한 경우 input태그 상태창 변경하기
+    const positionHandler = e => {
+        setSlaveRegistInput({...slaveRegistInput, position: e.target.value});
+    };
+
+    // 시급 선택한 경우 input태그 상태창 변경하기
+    const wageAmountHourlyHandler = e => {
+
+        // console.log('시급: true, 월급: false', wageType);
+        // console.log('입력금액', e.target.value);
+
+        // 시급 선택 --> input태그 급여정보, 급여금액 변경하기
+        if (selectWageType === true) {
+            setSlaveRegistInput({...slaveRegistInput, wageType: true, wageAmount: e.target.value});
+        } else { // 기타 미입력, 시급이 아닌경우 기존 input태그 상태창 상태유지
+            setSlaveRegistInput({...slaveRegistInput});
+        }
+    };
+
+    // 월급 선택한 경우 input태그 상태창 변경하기
+    const wageAmountMonthlyHandler = e => {
+
+        // console.log('시급: true, 월급: false', wageType);
+        // console.log('입력금액', e.target.value);
+
+        // 월급 선택 --> input태그 급여정보, 급여금액 변경하기
+        if (selectWageType === false) {
+            setSlaveRegistInput({...slaveRegistInput, wageType: false, wageAmount: e.target.value});
+        } else { // 기타 미입력, 시급이 아닌경우 기존 input태그 상태창 상태유지
+            setSlaveRegistInput({...slaveRegistInput});
+        } 
+    };
+
+    // 4대보험 적용여부 체크박스 상태값이 업데이트될 때 마다 input태그 상태창 변경하기
+    useEffect (() => {
+        // console.log('4대보험적용상태', insuranceApply);
+        // console.log('4대보험미적용상태', insuranceNotApply);
+
+        // 적용이 true && 미적용이 false 인 경우
+        if (insuranceApply && !insuranceNotApply) {
+            setSlaveRegistInput((prev) => ({...prev, wageInsurance: true})); // 4대보험 적용
+
+            // 적용이 false && 미적용이 true 인 경우
+        } else if (!insuranceApply && insuranceNotApply) {
+            setSlaveRegistInput((prev) => ({...prev, wageInsurance: false})); // 4대보험 미적용
+
+            // 기타 4대보험 미선택한 경우
+        } else {
+            setSlaveRegistInput((prev) => ({...prev})); // 4대보험 미선택 상태 유지
+        }
+    }, [insuranceApply, insuranceNotApply]);
+
+    // 함수를 통해 받아온 고정시간 정보 상태관리하기
+    const [updatedFixedDay, setUpdatedFixedDay] = useState([]);
+
+    // 고정시간 모달창으로 함수 내려보내 고정시간 정보 받아오기 & 상태관리하기
+    const onFixedDay = (fixedDay) => {
+
+        setUpdatedFixedDay(fixedDay);
+    };
+
+    // 함수를 통해 받아온 변동시간 정보 상태관리하기
+    const [updatedVariableDay, setUpdatedVariableDay] = useState([]);
+
+    // 변동시간 모달창으로 함수 내려보내 변동시간 정보 받아오기 & 상태관리하기
+    const onVariableDay = (variableDay) => {
+
+        setUpdatedVariableDay(variableDay);
+    };
+
+    // scheduleType 에 따른 고정시간 정보 & 변동시간 정보 업데이트하기
+    useEffect (() => {
+
+        // console.log('근무타입', selectScheduleType);
+
+        if (selectScheduleType === true) { // 근무타입 - 고정시간은 true, 1
+            setSlaveRegistInput((prev) => ({...prev, scheduleType: selectScheduleType, scheduleInfo: updatedFixedDay}));
+        } else if (selectScheduleType === false) { // 근무타입 - 변동시간은 false, 0
+            setSlaveRegistInput((prev) => ({...prev, scheduleType: selectScheduleType, scheduleInfo: updatedVariableDay}));
+        } else { // 근무방식 미선택
+            setSlaveRegistInput((prev) => ({...prev}));
+        }
+
+    }, [selectScheduleType, updatedFixedDay, updatedVariableDay]);
+
+    //-------------------------------------------------
+    
     return (
         <>
-            <div className={styles['slaveRegistPage']}>
+            <div className={styles['slaveRegistPage']} >
 
-                <div className={styles['slaveRegistPageHeader-box']}>
+                <div className={styles['slaveRegistPageHeader-box']} >
                     직원등록
                 </div>
 
-                <form className={styles['slaveRegistPageForm-box']}>
+                <form className={styles['slaveRegistPageForm-box']} >
+                    <div className={styles['slaveRegistPageForm-top']} >
+                        <div className={styles['slaveRegistPageForm-left']} >
 
-                    <div className={styles['slaveRegistPageForm-top']}>
-                        
-                        <div className={styles['slaveRegistPageForm-left']}>
-                            <div className={styles['slaveRegistPageInput-box']}>
-                                <div className={styles['slaveRegistPageInput-title']}>이름</div>
-                                <input className={styles['slaveRegistPageInput-input']} value={slaveRegistInput.name}/>
-                            </div>
-                            <div className={styles['slaveRegistPageInput-box']}>
-                                <div className={styles['slaveRegistPageInput-title']}>전화번호</div>
-                                <input className={styles['slaveRegistPageInput-input']} value={slaveRegistInput.phoneNumber}/>
-                            </div>
-                            <div className={styles['slaveRegistPageInput-box']}>
-                                <div className={styles['slaveRegistPageInput-title']}>생년월일</div>
-                                <input type="date" className={styles['slaveRegistPageInput-input']} value={slaveRegistInput.birthday}/>
-                            </div>
+                            <label htmlFor="slaveName" className={styles['slaveRegistPageInput-box']} >
+                                <div className={styles['slaveRegistPageInput-title']} > 이름 </div>
+                                <input id="slaveName" onChange={nameHandler} className={styles['slaveRegistPageInput-input']} />
+                            </label>
 
-                            <div className={styles['slaveRegistPageInput-box']}>
-                                <div className={styles['slaveRegistPageInput-title']}>직책</div>
-                                <input className={styles['slaveRegistPageInput-input']} value={slaveRegistInput.position}/>
-                            </div>
+                            <label htmlFor="slavePhoneNumber" className={styles['slaveRegistPageInput-box']} >
+                                <div className={styles['slaveRegistPageInput-title']} > 전화번호 </div>
+                                <input id="slavePhoneNumber" onChange={phoneNumberHandler} className={styles['slaveRegistPageInput-input']} />
+                            </label>
 
-                            <div className={`${styles['slaveRegistPageInput-box']} ${styles.slaveRegistDown}`}>
-                                <div className={styles['slaveRegistPageInput-title']}>급여정보</div>
+                            <label htmlFor="slaveBirthday" className={styles['slaveRegistPageInput-box']} >
+                                <div className={styles['slaveRegistPageInput-title']} > 생년월일 </div>
+                                <input id="slaveBirthday" type="date" onChange={birthdayHandler} className={styles['slaveRegistPageInput-input']} />
+                            </label>
+
+                            <label htmlFor="slavePosition" className={styles['slaveRegistPageInput-box']} >
+                                <div className={styles['slaveRegistPageInput-title']} > 직책 </div>
+                                <input id="slavePosition" onChange={positionHandler} className={styles['slaveRegistPageInput-input']} />
+                            </label>
+
+                            <div className={styles['slaveRegistPageInput-box']} >
+                                <div className={styles['slaveRegistPageInput-title']} > 급여정보 </div>
                                 <div className={styles['slaveRegistPageInputWage-box']} >
                                     <div className={styles['slaveRegistPageInputWage-content']} >
-                                        <div className={getWageTypeClassName('hourly')} onClick={hourlyWageHandler}>시급</div>
-                                        <div className={getWageTypeClassName('monthly')} onClick={monthlyWageHandler}>월급</div>
+                                        <label htmlFor="slaveWageTypeHourly" className={getWageTypeClassName('hourly')} >
+                                            시급
+                                            <input id="slaveWageTypeHourly" type="checkbox" style={{ display: 'none' }} onChange={hourlyWageHandler} />
+                                        </label>
 
-                                        <input type="checkbox" style={{ display: 'none' }} value={slaveRegistInput.wageType}/>
+                                        <label htmlFor="slaveWageTypeMonthly" className={getWageTypeClassName('monthly')} >
+                                            월급
+                                            <input id="slaveWageTypeMonthly" type="checkbox" style={{ display: 'none' }} onChange={monthlyWageHandler} />
+                                        </label>
                                     </div>
 
                                     <div className={styles['slaveRegistPageInputWage-content']} >
-                                        {wageType === '' ? null : (wageType ? (
-                                                                                 <>
-                                                                                     <div>시급</div>
-                                                                                     <input className={styles['slaveRegistPageInputWage-input']} value={slaveRegistInput.wageAmount} />
-                                                                                     <div>원</div> 
-                                                                                 </>
-                                                                              ) : (
-                                                                                 <>
-                                                                                     <div>월급</div>
-                                                                                     <input className={styles['slaveRegistPageInputWage-input']} value={slaveRegistInput.wageAmount} />
-                                                                                     <div>원</div> 
-                                                                                 </>
-                                                                              ))}
+                                    {selectWageType === '' ? null : (selectWageType ? (
+                                        <>
+                                           <label htmlFor="hourly">
+                                               시급
+                                               <input id="hourly" className={styles['slaveRegistPageInputWage-input']} onChange={wageAmountHourlyHandler} />
+                                               원
+                                           </label>
+                                        </>
+                                        ) : (
+                                        <>
+                                           <label htmlFor="monthly">
+                                               월급
+                                               <input id="monthly" className={styles['slaveRegistPageInputWage-input']} onChange={wageAmountMonthlyHandler} />
+                                               원
+                                           </label>
+                                        </>
+                                    ))}
                                     </div>
                                 </div>
                             </div>
 
-                            <div className={styles['slaveRegistPageInput-box']}>
-                                <div className={styles['slaveRegistPageInput-title']}>4대보험여부</div>
+                            <div className={styles['slaveRegistPageInput-box']} >
+                                <div className={styles['slaveRegistPageInput-title']} > 4대보험여부 </div>
 
                                 <div className={styles['slaveRegistPageInputTax-box']} >
-                                    <div className={styles['slaveRegistPageInputTax-content']} >
-                                        <div className={styles['slaveRegistPageInputTax-title']}>적용</div>
-                                        <input type="checkbox" checked={insuranceApply} className={styles['slaveRegistPageInputTax-input']} onClick={appliedHandler}/>
-                                    </div>
-                                    <div className={styles['slaveRegistPageInputTax-content']} >
-                                        <div className={styles['slaveRegistPageInputTax-title']}>적용안함</div>
-                                        <input type="checkbox" checked={insuranceNotApply} className={styles['slaveRegistPageInputTax-input']} onClick={notAppliedHandler}/>
-                                    </div>
+                                    <label htmlFor="applied" className={styles['slaveRegistPageInputTax-content']} >
+                                        <div className={styles['slaveRegistPageInputTax-title']} > 적용 </div>
+                                        <input type="checkbox" checked={insuranceApply} className={styles['slaveRegistPageInputTax-input']} onChange={appliedHandler} />
+                                    </label>
+
+                                    <label htmlFor="notApplied" className={styles['slaveRegistPageInputTax-content']} >
+                                        <div className={styles['slaveRegistPageInputTax-title']} > 적용안함 </div>
+                                        <input type="checkbox" checked={insuranceNotApply} className={styles['slaveRegistPageInputTax-input']} onChange={notAppliedHandler} />
+                                    </label>
                                 </div>
                             </div>
 
@@ -246,39 +349,39 @@ const SlaveRegistPage = () => {
 
                         <div className={styles['slaveRegistPageForm-right']}>
 
-                            <div className={`${styles['slaveRegistPageSchedule-box']} ${styles.slaveRegistDown}`}>
-                                <div className={styles['slaveRegistPageInput-title']}>근무시간선택</div>
-                                <div className={styles['slaveRegistPageInputScheduleTitle-box']} >
+                            <div className={styles['slaveRegistPageSchedule-box']} >
+                                <div className={styles['slaveRegistPageInput-title']} > 근무시간선택 </div>
 
-                                    <div onClick={fixedDayHandler} className={getScheduleTypeClassName('fixed')}>고정시간</div>
-                                    <input onClick={fixedDayHandler} type="checkbox" style={{ display: 'none' }}/>
-                                    <div onClick={variableDayHandler} className={getScheduleTypeClassName('variable')}>변동시간</div>
-                                    <input type="checkbox" style={{ display: 'none' }}/>
+                                <div className={styles['slaveRegistPageInputScheduleTitle-box']} >
+                                    <label htmlFor="fixed" className={getScheduleTypeClassName('fixed')} >
+                                        고정시간
+                                        <input id="fixed" onClick={fixedDayHandler} type="checkbox" style={{ display: 'none' }} />
+                                    </label>
+
+                                    <label htmlFor="variable" className={getScheduleTypeClassName('variable')} >
+                                        변동시간
+                                        <input id="variable" onClick={variableDayHandler} type="checkbox" style={{ display: 'none' }} />
+                                    </label>
                                 </div>
 
-
-                                {fixedDay && <SlaveRegisterFixedDayModal />}
-                                {variableDay && <SlaveRegisterVariableDayModal />}
+                                <div className={styles['slaveRegistPageInputScheduleContent-box']} >
+                                    {selectScheduleType === true && <SlaveRegisterFixedDayModal onFixed={onFixedDay} />}
+                                    {selectScheduleType === false && <SlaveRegisterVariableDayModal onVariable={onVariableDay} />}
+                                </div>
                             </div>
-
-
-                            
-                            
                         </div>
                     </div>
 
-                    <div className={styles['slaveRegistPageForm-bottom']}>
-                        <div className={styles['slaveRegistPageButton-box']}>
-                            <Link to="/detail/slave-manage" className={styles['link-text']}> 
+                    <div className={styles['slaveRegistPageForm-bottom']} >
+                        <div className={styles['slaveRegistPageButton-box']} >
+                            <Link to="/detail/slave-manage" className={styles['link-text']} > 
                             <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
-                            <button className={styles['slaveRegistPage-button']}>등록</button>
+                            <button className={styles['slaveRegistPage-button']} > 등록 </button>
                         </div>
                     </div>
-
                 </form>
 
-                
             </div>
         </>
     );
