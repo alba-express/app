@@ -31,7 +31,7 @@ const NoticeRegisterPage = () => {
         console.log('form: ', formData.get('title'));
 
         const payload = {
-            id: formData.get('id'),
+            // id: formData.get('id'),
             title: formData.get('title'),
             content: formData.get('content'),
             date: currentDate,

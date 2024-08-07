@@ -5,8 +5,8 @@ import {useNavigate} from "react-router-dom";
 import {noticeActions} from "../../../../store/notice-slice";
 import useAuth from "../../../../hooks/useAuth";
 
-const NoticeModal = ({id, title, content, date, isOpen, onClose}) => {
-    console.log('NoticeModal props:', { id, title, content, date, isOpen });
+const NoticeModal = ({id, title, content, date, isOpen, onClose, refreshNotices}) => {
+
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -32,6 +32,8 @@ const NoticeModal = ({id, title, content, date, isOpen, onClose}) => {
             });
             if(response.ok) {
                 dispatch(noticeActions.deleteNotice(id));
+                await refreshNotices();
+                onClose();
                 navigate("/detail/notice");
             } else {
                 throw new Error('삭제 요청에 실패했습니다.');

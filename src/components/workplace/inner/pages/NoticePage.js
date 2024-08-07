@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import styles from "./NoticePage.module.scss"
 import {useNavigate} from "react-router-dom";
 import NoticeModal from "./NoticeModal";
@@ -23,26 +23,28 @@ const NoticePage = () => {
     const navigate = useNavigate();
     const userId = useAuth();
 
-    useEffect(() => {
-        const fetchNotices = async () => {
-            setIsLoading(true);
-            try {
-                const response = await fetch(`http://localhost:8877/detail/notice?workplaceId=${workplaceId}&page=${currentPage}`);
-                if (!response.ok) {
-                    throw new Error('네트워크 응답이 올바르지 않습니다.');
-                }
-                const data = await response.json();
-                console.log("data:", data);
-                dispatch(noticeActions.setNotices(data.noticeList));
-                console.log("Fetched data:", data.noticeList);
-                setTotalPages(data.totalPages);
-            } catch (error) {
-                setError(error.message);
+    const fetchNotices = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch(`http://localhost:8877/detail/notice?workplaceId=${workplaceId}&page=${currentPage}`);
+            if (!response.ok) {
+                throw new Error('네트워크 응답이 올바르지 않습니다.');
             }
-            setIsLoading(false);
-        };
-        fetchNotices();
+            const data = await response.json();
+            console.log("data:", data);
+            dispatch(noticeActions.setNotices(data.noticeList));
+            console.log("Fetched data:", data.noticeList);
+            setTotalPages(data.totalPages);
+        } catch (error) {
+            setError(error.message);
+        }
+        setIsLoading(false);
     }, [dispatch, currentPage, workplaceId]);
+
+    useEffect(() => {
+        fetchNotices();
+    }, [fetchNotices]);
+
 
     const writeHandler = e => {
         navigate("/detail/notice-register");
@@ -74,9 +76,7 @@ const NoticePage = () => {
             </div>
 
             <div className={styles.noticeList}>
-                { isLoading ?
-                    <div>로딩 중...</div>
-                    :
+                { !isLoading &&
                     (<ul>
                         {notices.length > 0 ? (
                             notices.map(notice => (
@@ -115,9 +115,11 @@ const NoticePage = () => {
                 <NoticeModal
                     isOpen={isModalOpen}
                     onClose={closeModal}
+                    id={selectedNotice.id}
                     title={selectedNotice.title}
                     content={selectedNotice.content}
                     date={selectedNotice.date}
+                    refreshNotices={fetchNotices}
                 />
             )}
 

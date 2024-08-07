@@ -34,6 +34,7 @@ const noticeSlice = createSlice({
         },
         deleteNotice(state, action) {
             const noticeId = action.payload;
+            console.log('noticeId: ', noticeId);
             state.noticeList = state.noticeList.filter(notice => notice.id !== noticeId);
             state.count -= 1;
         }
