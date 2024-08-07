@@ -56,7 +56,8 @@ const NoticeEditPage = () => {
             body: JSON.stringify(payload)
         });
 
-        if(response.ok) {
+
+        if (response.ok) {
             const updateNotice = await response.json();
             console.log('updateNotice: ', updateNotice);
             dispatch(noticeActions.updateNotice(updateNotice));

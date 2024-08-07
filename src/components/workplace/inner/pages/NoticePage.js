@@ -9,13 +9,12 @@ import useAuth from "../../../../hooks/useAuth";
 const NoticePage = () => {
 
     const [error, setError] = useState(null);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedNotice, setSelectedNotice] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [workplaceId, setWorkplaceId] = useState("123");
     const [isLoading, setIsLoading] = useState(true);
+    const [workplaceId, setWorkplaceId] = useState("123");
 
     const dispatch = useDispatch();
     const notices = useSelector((state) => state.notice.noticeList || []);

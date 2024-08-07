@@ -31,10 +31,8 @@ const NoticeRegisterPage = () => {
         console.log('form: ', formData.get('title'));
 
         const payload = {
-            // id: formData.get('id'),
             title: formData.get('title'),
             content: formData.get('content'),
-            date: currentDate,
             workplaceId: "123"
         };
 
@@ -49,18 +47,13 @@ const NoticeRegisterPage = () => {
         });
 
         if (response.ok) {
-            const data = await response.json();
-            console.log('응답 데이터: ', data);
-            if (data) {
-                dispatch(noticeActions.addNotice(data));
-            } else {
-                throw new Error('응답 데이터에서 noticeList를 찾을 수 없습니다.');
-            }
+            console.log("ok인지 확인");
+            // const data = await response.json();
+            // console.log('응답 데이터: ', data);
+            // dispatch(noticeActions.addNotice(data.noticeList));
 
             navigate("/detail/notice");
         }
-            throw new Error('네트워크 응답이 올바르지 않습니다.');
-
     };
 
     return (
@@ -71,26 +64,25 @@ const NoticeRegisterPage = () => {
             <div className={styles.write}>
                 <p>
                     <label htmlFor="title">제목</label>
-                    <input id="title" type="text" name="title" required/>
+                    <input id="title" type="text" name="title"/>
                 </p>
                 <p>
                     <label htmlFor="content">내용</label>
-                    <textarea id="content" name="content" rows="5" required/>
+                    <textarea id="content" name="content" rows="5"/>
                 </p>
 
                 <div className={styles.info}>
 
-                    {/*<p className={styles.hidden}>*/}
-                    {/*    <label htmlFor="date">작성일</label>*/}
-                    {/*    <span>{currentDate}</span>*/}
-                    {/*    <input type="hidden" id="date" name="date" value={currentDate}/>*/}
-                    {/*</p>*/}
+                    <p className={styles.hidden}>
+                        <label htmlFor="date">작성일</label>
+                        <span>{currentDate}</span>
+                        <input type="hidden" id="date" name="date" value={currentDate}/>
+                    </p>
                 </div>
 
             </div>
             <div className={styles.actions}>
                 <button type="button" onClick={cancelHandler}> 취소</button>
-                {/*<button>{method === 'post' ? '등록' : '수정'}</button>*/}
                 <button>등록</button>
             </div>
         </Form>
