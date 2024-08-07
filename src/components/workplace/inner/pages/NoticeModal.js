@@ -7,22 +7,21 @@ import useAuth from "../../../../hooks/useAuth";
 
 const NoticeModal = ({id, title, content, date, isOpen, onClose, refreshNotices}) => {
 
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const userId = useAuth();
 
     if (!isOpen) return null;
 
-    const editHandler = e => {
-        dispatch(noticeActions.setCurrentNotice({id, title, content, date}));
+    const editHandler = async e => {
+        e.preventDefault();
+        dispatch(noticeActions.setCurrentNotice({id, title, content}));
         navigate("/detail/notice-edit");
-
     };
 
     const deleteHandler = async e => {
         e.preventDefault();
-        console.log('Deleting notice with id:', id);
+        console.log('삭제 공지 id:', id);
         try {
             const response = await fetch(`http://localhost:8877/detail/notice/${id}`, {
                 method: 'DELETE',
@@ -30,7 +29,7 @@ const NoticeModal = ({id, title, content, date, isOpen, onClose, refreshNotices}
                     'Content-Type': 'application/json',
                 }
             });
-            if(response.ok) {
+            if (response.ok) {
                 dispatch(noticeActions.deleteNotice(id));
                 await refreshNotices();
                 onClose();
@@ -50,8 +49,8 @@ const NoticeModal = ({id, title, content, date, isOpen, onClose, refreshNotices}
                 <span className={styles.date}>{date}</span>
                 <p className={styles.content}>{content}</p>
                 <div className={styles.buttonContainer}>
-                    { userId && <button className={styles.button} onClick={editHandler}>수정</button>}
-                    { userId && <button className={styles.button} onClick={deleteHandler}>삭제</button>}
+                    {userId && <button className={styles.button} onClick={editHandler}>수정</button>}
+                    {userId && <button className={styles.button} onClick={deleteHandler}>삭제</button>}
                     <button className={styles.button} onClick={onClose}>닫기</button>
                 </div>
             </div>
