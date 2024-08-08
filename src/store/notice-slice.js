@@ -3,7 +3,9 @@ import {createSlice} from "@reduxjs/toolkit";
 const initialState = {
     noticeList: [],
     currentNotice: null,
-    count: 0
+    count: 0,
+    selectedNotice: null,
+    isModalOpen: false
 };
 
 const noticeSlice = createSlice({
@@ -35,6 +37,16 @@ const noticeSlice = createSlice({
             console.log('noticeId: ', noticeId);
             state.noticeList = state.noticeList.filter(notice => notice.id !== noticeId);
             state.count -= 1;
+        },
+        setSelectedNotice(state, action) {
+            state.seletedNotice = action.payload;
+        },
+        openModal(state) {
+            state.isModalOpen = true;
+        },
+        closeModal(state) {
+            state.isModalOpen = false;
+            state.seletedNotice = null;
         }
 
     }

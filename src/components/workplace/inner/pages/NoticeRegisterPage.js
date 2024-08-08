@@ -47,7 +47,7 @@ const NoticeRegisterPage = () => {
         });
 
         if (response.ok) {
-            console.log("ok인지 확인");
+            // console.log("ok인지 확인");
             // const data = await response.json();
             // console.log('응답 데이터: ', data);
             // dispatch(noticeActions.addNotice(data.noticeList));

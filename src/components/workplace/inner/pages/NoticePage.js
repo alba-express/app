@@ -60,7 +60,7 @@ const NoticePage = () => {
     };
 
     if (error) return <div>Error: {error}</div>;  // 오류 발생 시 표시할 내용
-    if (isLoading) return <div>로딩 중...</div>;  // 로딩 상태 표시
+    // if (isLoading) return <div>로딩 중...</div>;  // 로딩 상태 표시
 
     const handlePageChange = (newPage) => {
         if(newPage >= 1 && newPage <= totalPages) {
@@ -70,8 +70,13 @@ const NoticePage = () => {
 
     return (
         <>
+
             <div className={styles.noticeBoard}>
                 <h1 className={styles.notice}>공지사항</h1>
+            </div>
+
+            <div className={styles.actions}>
+                {userId && <button type="button" onClick={writeHandler} >작성</button>}
             </div>
 
             <div className={styles.noticeList}>
@@ -80,7 +85,7 @@ const NoticePage = () => {
                         {notices.length > 0 ? (
                             notices.map(notice => (
                                 <li key={notice.id} onClick={() => openModal(notice)} className="notice">
-                                    <h2>{notice.title}</h2>
+                                    <h3>{notice.title}</h3>
                                     <span>{notice.date}</span>
                                 </li>
                             ))
@@ -106,9 +111,6 @@ const NoticePage = () => {
                 </button>}
             </div>
 
-            <div className={styles.actions}>
-                {userId && <button type="button" onClick={writeHandler} >작성</button>}
-            </div>
 
             {selectedNotice && (
                 <NoticeModal
