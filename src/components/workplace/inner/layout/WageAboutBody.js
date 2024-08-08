@@ -22,6 +22,9 @@ const WageAboutBody = () => {
                 workingTime={dto.workingTime}
                 workDate={dto.scheduleLogDate}
                 salary={dto.salary}
+                slaveName={slaveData.slaveName}
+                slaveId={slaveData.slaveId}
+                bonusAmount={dto.bonusAmount}
                 />
             ))
 
