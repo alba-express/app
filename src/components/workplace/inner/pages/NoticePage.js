@@ -74,13 +74,17 @@ const NoticePage = () => {
                 <h1 className={styles.notice}>공지사항</h1>
             </div>
 
+            <div className={styles.actions}>
+                {userId && <button type="button" onClick={writeHandler} >작성</button>}
+            </div>
+
             <div className={styles.noticeList}>
                 { !isLoading &&
                     (<ul>
                         {notices.length > 0 ? (
                             notices.map(notice => (
                                 <li key={notice.id} onClick={() => openModal(notice)} className="notice">
-                                    <h2>{notice.title}</h2>
+                                    <h3>{notice.title}</h3>
                                     <span>{notice.date}</span>
                                 </li>
                             ))
@@ -106,9 +110,6 @@ const NoticePage = () => {
                 </button>}
             </div>
 
-            <div className={styles.actions}>
-                {userId && <button type="button" onClick={writeHandler} >작성</button>}
-            </div>
 
             {selectedNotice && (
                 <NoticeModal

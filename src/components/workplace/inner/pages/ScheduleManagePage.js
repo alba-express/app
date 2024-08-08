@@ -52,6 +52,7 @@ const ScheduleManagePage = () => {
             </div>
             <div className={styles.schedule}>
                 <button className={styles.addSchedulebutton} onClick={addScheduleHandler}>일정 추가</button>
+
                 <div className={styles.calendar}>
                     <div className={styles.calendarHeader}>
                         <button onClick={handlePrevMonth}> ◀ </button>
