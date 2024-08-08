@@ -3,6 +3,7 @@ import styles from './SlaveRegistPage.module.scss'
 import { Link } from "react-router-dom";
 import SlaveRegisterVariableDayModal from "./slave/SlaveRegisterVariableDayModal";
 import SlaveRegisterFixedDayModal from "./slave/SlaveRegisterFixedDayModal";
+import { format } from "date-fns";
 
 const SlaveRegistPage = () => {
 
@@ -291,7 +292,22 @@ const SlaveRegistPage = () => {
 
     const sendSlaveInputHandler = async (e) => {
 
-        for (const [key, value] of Object.entries(slaveRegistInput)) {
+        // 폼 태그 서버 전송 방지코드
+        // e.preventDefault();
+
+        // 현재시간
+        const currentTime = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
+
+        console.log(currentTime);
+        
+
+        // 새 객체 slaveInputListWithCreatedTime 를 만들어 기존 배열 slaveRegistInput 의 내용을 복사하고,
+        // 직원생성시간을 현재시간으로 추가하기 
+        const slaveInputListWithCreatedTime = {
+            ...slaveRegistInput, slaveCreatedAt: currentTime
+        };
+
+        for (const [key, value] of Object.entries(slaveInputListWithCreatedTime)) {
 
             try {
                 const response = await fetch(`http://localhost:8877/detail/registSlave`, {
@@ -299,7 +315,7 @@ const SlaveRegistPage = () => {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(slaveRegistInput)
+                    body: JSON.stringify(slaveInputListWithCreatedTime)
                 });
 
                 if (!response.ok) {
@@ -362,7 +378,7 @@ const SlaveRegistPage = () => {
                     직원등록
                 </div>
 
-                <form className={styles['slaveRegistPageForm-box']} >
+                <form onSubmit={sendSlaveInputHandler} className={styles['slaveRegistPageForm-box']} >
                     <div className={styles['slaveRegistPageForm-top']} >
                         <div className={styles['slaveRegistPageForm-left']} >
 
@@ -473,7 +489,7 @@ const SlaveRegistPage = () => {
                             <Link to="/detail/slave-manage" className={styles['link-text']} > 
                             <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
-                            <button className={styles['slaveRegistPage-button']} onClick={sendSlaveInputHandler} > 등록 </button>
+                            <button type="submit" className={styles['slaveRegistPage-button']} > 등록 </button>
                         </div>
                     </div>
                 </form>
