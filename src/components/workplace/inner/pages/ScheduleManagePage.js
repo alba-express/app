@@ -60,7 +60,7 @@ const ScheduleManagePage = () => {
                         <button onClick={handleNextMonth}> ▶ </button>
                     </div>
                     <div className={styles.calendarBody}>
-                        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                        {['일', '월', '화', '수', '목', '금', '토'].map(day => (
                             <div key={day} className={styles.day}>{day}</div>
                         ))}
                         {days.map((day, index) => (

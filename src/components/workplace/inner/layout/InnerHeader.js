@@ -2,8 +2,12 @@ import React from "react";
 import styles from './InnerHeader.module.scss';
 import { Link, useNavigate } from "react-router-dom";
 import { removeUserToken } from '../../../../utils/auth';
+import {useSelector} from "react-redux";
 
 const InnerHeader = () => {
+
+    const notices = useSelector(state => state.notice.noticeList);
+
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -15,10 +19,14 @@ const InnerHeader = () => {
         navigate('/login/retire');
     };
 
+    const NoticeModalHandler = () => {
+        navigate()
+    };
+
     return (
         <div className={styles['headerButton-box']} >
-            <div className={styles['headerNotice']} >
-                <img src={`${process.env.PUBLIC_URL}/images/master_notice.png`} alt="Example" /> 사장님 말씀 : 도비는 자유가 없어
+            <div className={styles['headerNotice']} onClick={NoticeModalHandler}>
+                <img src={`${process.env.PUBLIC_URL}/images/master_notice.png`} alt="Example" /> {notices[0].title}
             </div>
             <Link to="/workplace" className={styles['link-text']}>
                 <button className={styles['headerButton']}>사업장변경</button>
