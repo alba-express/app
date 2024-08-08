@@ -52,6 +52,7 @@ const WageAboutPage = () => {
             }
         };
 
+
         fetchData();
     }, [slaveId, month, year, dispatch]);
 
