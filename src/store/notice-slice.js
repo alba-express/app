@@ -14,8 +14,12 @@ const noticeSlice = createSlice({
             state.noticeList = action.payload;
         },
         addNotice(state, action) {
-            state.noticeList.push(action.payload);
-            state.count += 1;
+            const newNotice = action.payload;
+            console.log('newNotice: ', newNotice);
+            if (newNotice) {
+                state.noticeList.push(newNotice);
+                state.count += 1;
+            }
         },
         setCurrentNotice(state, action) {
             state.currentNotice = action.payload;
@@ -28,6 +32,7 @@ const noticeSlice = createSlice({
         },
         deleteNotice(state, action) {
             const noticeId = action.payload;
+            console.log('noticeId: ', noticeId);
             state.noticeList = state.noticeList.filter(notice => notice.id !== noticeId);
             state.count -= 1;
         }

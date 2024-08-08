@@ -33,32 +33,27 @@ const NoticeRegisterPage = () => {
         const payload = {
             title: formData.get('title'),
             content: formData.get('content'),
-            date: currentDate,
             workplaceId: "123"
         };
 
         console.log('payload: ', payload);
 
-        const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
-
         const response = await fetch('http://localhost:8877/detail/notice-register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify(payload)
         });
 
         if (response.ok) {
-            const data = await response.json();
-            console.log('응답 데이터: ', data);
-            dispatch(noticeActions.addNotice(data.noticeList));
+            console.log("ok인지 확인");
+            // const data = await response.json();
+            // console.log('응답 데이터: ', data);
+            // dispatch(noticeActions.addNotice(data.noticeList));
 
             navigate("/detail/notice");
         }
-            throw new Error('네트워크 응답이 올바르지 않습니다.');
-
     };
 
     return (
@@ -77,13 +72,7 @@ const NoticeRegisterPage = () => {
                 </p>
 
                 <div className={styles.info}>
-                    {/*<p className={styles.hidden}>*/}
-                    {/*    <label htmlFor="workplaceId">{workplaceId}</label>*/}
-                    {/*    <span>사업장명</span>*/}
-                    {/*    /!*<span>{workplaceName}</span>*!/*/}
-                    {/*    <input type="hidden" id="workplaceId" name="workplaceId" value={workplaceId}/>*/}
-                    {/*    /!*<input type="hidden" id="workplace" name="workplace" value={workplaceName}/>*!/*/}
-                    {/*</p>*/}
+
                     <p className={styles.hidden}>
                         <label htmlFor="date">작성일</label>
                         <span>{currentDate}</span>
@@ -94,7 +83,6 @@ const NoticeRegisterPage = () => {
             </div>
             <div className={styles.actions}>
                 <button type="button" onClick={cancelHandler}> 취소</button>
-                {/*<button>{method === 'post' ? '등록' : '수정'}</button>*/}
                 <button>등록</button>
             </div>
         </Form>

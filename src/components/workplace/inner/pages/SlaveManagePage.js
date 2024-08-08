@@ -19,8 +19,6 @@ const SlaveManagePage = () => {
     setActive(false);
   }
 
-
-
   return (
       <>
           <div className={styles['content-box']}>
@@ -38,10 +36,10 @@ const SlaveManagePage = () => {
                 </Link>
               </div>
               <div className={styles['slaveManagementTitle-box']}>
-                <div onClick={activeSlaveHandler} className={styles['slaveManagementTitle-list']}> 근무중 아르바이트생 목록 </div>
-                <div onClick={inactiveSlaveHandler} className={styles['slaveManagementTitle-list']}> 퇴사한 아르바이트생 목록 </div>
+                <div onChange={activeSlaveHandler} className={styles['slaveManagementTitle-list']}> 근무중 아르바이트생 목록 </div>
+                <div onChange={inactiveSlaveHandler} className={styles['slaveManagementTitle-list']}> 퇴사한 아르바이트생 목록 </div>
                 <div className={styles['slaveManagementTitle-searchbox']}>
-                  <input className={styles['slaveManagementTitle-search']} value={"이름으로 검색"} />
+                  {/* <input className={styles['slaveManagementTitle-search']} value={"이름으로 검색"} /> */}
                   <FontAwesomeIcon icon={faSearch} className={styles['slaveManagementList-question']} />
                 </div>
               </div>
