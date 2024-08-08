@@ -60,7 +60,7 @@ const NoticePage = () => {
     };
 
     if (error) return <div>Error: {error}</div>;  // 오류 발생 시 표시할 내용
-    if (isLoading) return <div>로딩 중...</div>;  // 로딩 상태 표시
+    // if (isLoading) return <div>로딩 중...</div>;  // 로딩 상태 표시
 
     const handlePageChange = (newPage) => {
         if(newPage >= 1 && newPage <= totalPages) {

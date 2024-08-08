@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from "react";
 import styles from "./ScheduleManagePage.module.scss";
+import {useNavigate} from "react-router-dom";
 
 const ScheduleManagePage = () => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const [days, setDays] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         createCalendar(currentDate);
@@ -38,17 +41,22 @@ const ScheduleManagePage = () => {
     const monthName = currentDate.toLocaleString('default', {month: 'long'});
     const year = currentDate.getFullYear();
 
+    const addScheduleHandler = e => {
+        navigate("/detail/schedule-add");
+    };
+
     return (
         <>
             <div className={styles.scheduleTitle}>
                 <h1>일정관리</h1>
             </div>
             <div className={styles.schedule}>
+                <button className={styles.addSchedulebutton} onClick={addScheduleHandler}>일정 추가</button>
                 <div className={styles.calendar}>
                     <div className={styles.calendarHeader}>
-                        <button onClick={handlePrevMonth}>◀</button>
+                        <button onClick={handlePrevMonth}> ◀ </button>
                         <h2>{monthName} {year}</h2>
-                        <button onClick={handleNextMonth}>▶</button>
+                        <button onClick={handleNextMonth}> ▶ </button>
                     </div>
                     <div className={styles.calendarBody}>
                         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
@@ -61,6 +69,7 @@ const ScheduleManagePage = () => {
                         ))}
                     </div>
                 </div>
+
 
                 <div className={styles.todaySchedule}>
                     <h2>오늘의 근무자</h2>
