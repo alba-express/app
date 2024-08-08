@@ -6,8 +6,40 @@ const ScheduleManagePage = () => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const [days, setDays] = useState([]);
+    const [scheduleData, setScheduleData] = useState([]);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchSchedule = async () => {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth() + 1;
+            const day = today.getDate();
+            const dayOfWeek = today.getDay();
+
+            const payload = {
+                workplaceId: "1",
+                date: today.toISOString().split('T')[0],
+                dayOfWeek: dayOfWeek
+            };
+
+            console.log('payload: ', payload);
+
+            try {
+                const response = await fetch(`http://localhost:8877/detail/schedule-manage`);
+                if (!response.ok) {
+                    throw new Error('네트워크 응답이 올바르지 않습니다.');
+                }
+                const data = await response.json();
+                console.log(data);
+                setScheduleData(data);
+            } catch (error) {
+                console.error('Error: ', error);
+            }
+        };
+        fetchSchedule();
+    }, []);
 
     useEffect(() => {
         createCalendar(currentDate);
@@ -55,9 +87,9 @@ const ScheduleManagePage = () => {
 
                 <div className={styles.calendar}>
                     <div className={styles.calendarHeader}>
-                        <button onClick={handlePrevMonth}> ◀ </button>
+                        <button onClick={handlePrevMonth}> ◀</button>
                         <h2>{monthName} {year}</h2>
-                        <button onClick={handleNextMonth}> ▶ </button>
+                        <button onClick={handleNextMonth}> ▶</button>
                     </div>
                     <div className={styles.calendarBody}>
                         {['일', '월', '화', '수', '목', '금', '토'].map(day => (
@@ -75,7 +107,19 @@ const ScheduleManagePage = () => {
                 <div className={styles.todaySchedule}>
                     <h2>오늘의 근무자</h2>
                     <p>총 5명</p>
-
+                    <p>총 {scheduleData.length}명</p>
+                    <div className={styles.scheduleList}>
+                        {scheduleData.map(schedule => (
+                            <div key={schedule.slaveId} className={styles.scheduleItem}>
+                                <p>이름: {schedule.slaveName}</p>
+                                <p>직위: {schedule.slavePosition}</p>
+                                <p>일정 ID: {schedule.scheduleId}</p>
+                                <p>일: {schedule.scheduleDay}</p>
+                                <p>시작 시간: {schedule.scheduleStart}</p>
+                                <p>끝 시간: {schedule.scheduleEnd}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </>

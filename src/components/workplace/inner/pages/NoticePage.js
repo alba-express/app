@@ -70,6 +70,7 @@ const NoticePage = () => {
 
     return (
         <>
+
             <div className={styles.noticeBoard}>
                 <h1 className={styles.notice}>공지사항</h1>
             </div>
