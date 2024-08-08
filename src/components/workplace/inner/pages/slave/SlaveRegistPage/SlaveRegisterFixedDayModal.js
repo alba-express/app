@@ -10,7 +10,7 @@ const SlaveRegisterFixedDayModal = ({ onFixed }) => {
                             { scheduleDay: 1, value: '월', select: false, startSchedule: '', endSchedule: '' },
                             { scheduleDay: 2, value: '화', select: false, startSchedule: '', endSchedule: '' },
                             { scheduleDay: 3, value: '수', select: false, startSchedule: '', endSchedule: '' },
-                            { scheduleDay: 4,  value: '목', select: false, startSchedule: '', endSchedule: '' },
+                            { scheduleDay: 4, value: '목', select: false, startSchedule: '', endSchedule: '' },
                             { scheduleDay: 5, value: '금', select: false, startSchedule: '', endSchedule: '' },
                             { scheduleDay: 6, value: '토', select: false, startSchedule: '', endSchedule: '' },
                             { scheduleDay: 7, value: '일', select: false, startSchedule: '', endSchedule: '' },
@@ -50,7 +50,7 @@ const SlaveRegisterFixedDayModal = ({ onFixed }) => {
     // SlaveRegistPage 에서 내려보낸 onFixed 에 updatedFixedDays 전달하기
     onFixed(updatedFixedDays);
 
-  }, [fixedDays]);
+  }, [fixedDays, onFixed]);
 
   //-------------------------------------------------
 
