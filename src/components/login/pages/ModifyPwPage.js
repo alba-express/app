@@ -50,8 +50,8 @@ const ModifyPwPage = () => {
 
     return (
         <div className={styles.fullPageContainer}>
-            <div className={styles.loginContainer}>
-                <h1 className={styles.loginTitle}>비밀번호 변경</h1>
+            <div className={styles.signUpContainer}>
+                <h1 className={styles.signUpTitle}>비밀번호 변경</h1>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.inputContainer}>
                         <label className={styles.inputLabel}>새 비밀번호:</label>

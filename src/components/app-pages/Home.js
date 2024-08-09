@@ -7,6 +7,7 @@ const Home = () => {
         <>
             <MainHeader isHome={true}/> 
             <p>설명충 페이지</p>
+
         </>
     );
 };
