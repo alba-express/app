@@ -17,6 +17,10 @@ const MainHeader = ({ isHome }) => {
         navigate('/login');
     };
 
+    const handleRetire = () => {
+        navigate('/login/retire');
+    };
+
     // 현재 페이지가 로그인 페이지인지 확인
     const isLoginPage = location.pathname === '/login';
 
@@ -32,14 +36,19 @@ const MainHeader = ({ isHome }) => {
                                 className={styles.homeImage}
                             />
                         </button>
-                        {/* 로그인 페이지에서만 링크를 숨김 */}
-                        {!isLoginPage && (
-                            userId ? (
-                                <button className={styles.logoutLink} onClick={handleLogout}>LOGOUT</button>
-                            ) : (
-                                <Link to="/login" className={styles.homeLoginLink}>LOGIN</Link>
-                            )
-                        )}
+                        {/* 링크들을 우측에 정렬 */}
+                        <div className={styles.linkContainer}>
+                            {!isLoginPage && (
+                                userId ? (
+                                    <>
+                                        <button className={styles.retireLink} onClick={handleRetire}>회원 탈퇴</button>
+                                        <button className={styles.logoutLink} onClick={handleLogout}>LOGOUT</button>
+                                    </>
+                                ) : (
+                                    <Link to="/login" className={styles.homeLoginLink}>LOGIN</Link>
+                                )
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
