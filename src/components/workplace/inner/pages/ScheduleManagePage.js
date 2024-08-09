@@ -17,6 +17,7 @@ const ScheduleManagePage = () => {
             const month = today.getMonth() + 1;
             const day = today.getDate();
             const dayOfWeek = today.getDay();
+            const date = today.toISOString().split('T')[0]; // 'yyyy-mm-dd' 형식의 날짜
 
             const payload = {
                 workplaceId: "1",
@@ -26,8 +27,11 @@ const ScheduleManagePage = () => {
 
             console.log('payload: ', payload);
 
+            const workplaceId = "1";
+
             try {
-                const response = await fetch(`http://localhost:8877/detail/schedule-manage`);
+                const response = await fetch(
+                    `http://localhost:8877/detail/schedule-manage?workplaceId=${workplaceId}&date=${date}&dayOfWeek=${dayOfWeek}`);
                 if (!response.ok) {
                     throw new Error('네트워크 응답이 올바르지 않습니다.');
                 }
@@ -106,17 +110,17 @@ const ScheduleManagePage = () => {
 
                 <div className={styles.todaySchedule}>
                     <h2>오늘의 근무자</h2>
-                    <p>총 5명</p>
                     <p>총 {scheduleData.length}명</p>
                     <div className={styles.scheduleList}>
                         {scheduleData.map(schedule => (
                             <div key={schedule.slaveId} className={styles.scheduleItem}>
-                                <p>이름: {schedule.slaveName}</p>
-                                <p>직위: {schedule.slavePosition}</p>
-                                <p>일정 ID: {schedule.scheduleId}</p>
-                                <p>일: {schedule.scheduleDay}</p>
-                                <p>시작 시간: {schedule.scheduleStart}</p>
-                                <p>끝 시간: {schedule.scheduleEnd}</p>
+                                <div className={styles.scheduleItemName}>
+                                    {schedule.slaveName} ({schedule.slavePosition})
+                                </div>
+                                <div className={styles.scheduleItemTime}>
+                                    {/*{schedule.scheduleDay}*/}
+                                    {schedule.scheduleStart} ~ {schedule.scheduleEnd}
+                                </div>
                             </div>
                         ))}
                     </div>
