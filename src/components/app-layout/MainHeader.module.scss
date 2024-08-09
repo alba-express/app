@@ -1,0 +1,49 @@
+.homeHeader {
+  width: 100%;
+  background-color: white;
+  overflow: hidden; /* 스크롤이 생기지 않도록 설정 */
+  position: fixed; /* 헤더를 항상 화면 상단에 고정 */
+  top: 0; /* 화면 상단에 위치 */
+  left: 0;
+  z-index: 1000; /* 헤더가 다른 콘텐츠 위에 표시되도록 z-index 설정 */
+}
+
+.homeHeaderLine {
+  width: 100%;
+  height: 80px; /* 헤더 라인의 높이 */
+  background-color: #2a9d8f; /* 헤더 라인 컬러 */
+}
+
+.homeHeaderContent {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* 아이콘을 좌측 정렬 */
+  padding: 0 20px;
+  position: relative;
+}
+
+.homeButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.homeImage {
+  width: 80px; /* 아이콘 사이즈를 80px로 조정 */
+  height: 80px; /* 아이콘 사이즈를 80px로 조정 */
+}
+
+.homeLoginLink {
+  position: absolute;
+  right: 20px;
+  text-decoration: none;
+  color: #2a9d8f; /* 로그인 링크 컬러 */
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* 추가적으로 페이지 전체에 헤더 높이만큼의 패딩을 적용하여 콘텐츠가 헤더에 가리지 않도록 합니다 */
+body {
+  padding-top: 80px; /* 헤더 높이만큼 패딩을 추가 */
+}
