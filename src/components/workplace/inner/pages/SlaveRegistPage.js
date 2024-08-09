@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from './SlaveRegistPage.module.scss'
 import { Link } from "react-router-dom";
-import SlaveRegisterVariableDayModal from "./slave/SlaveRegisterVariableDayModal";
-import SlaveRegisterFixedDayModal from "./slave/SlaveRegisterFixedDayModal";
+import SlaveRegisterVariableDayModal from "./slave/SlaveRegistPage/SlaveRegisterVariableDayModal";
+import SlaveRegisterFixedDayModal from "./slave/SlaveRegistPage/SlaveRegisterFixedDayModal";
+import SlaveRegisterWageModal from "./slave/SlaveRegistPage/SlaveRegisterWageList";
 
 const SlaveRegistPage = () => {
 
@@ -16,100 +17,14 @@ const SlaveRegistPage = () => {
         slaveBirthday: '',
         // 직원 직책
         slavePosition: '',
-
-        // 급여방식 시급(true, 1) or 월급(false, 2)
-        slaveWageType: '',
-        // 시급일 경우 시간당 금액, 월급일경우 월 급여 금액
-        slaveWageMount: '',
-
-        // 4대보험 적용여부
-        slaveWageInsurance: '',
+        // 직원 급여리스트 (급여방식(시급 (true, 1), 월급 (false, 0)), 급여금액, 4대보험여부)
+        slaveWageList: [],
 
         // 근무시간타입 고정 or 변동
         slaveScheduleType: '',
         // 근무시간정보
         slaveScheduleList: [],
-
-        // // 고정일경우 요일
-        // scheduleDay: '',
-        // // 근무 시작시간
-        // scheduleStart: '',
-        // // 근무 종료시간
-        // scheduleEnd: ''
     });
-
-    //-------------------------------------------------
-
-    // 급여방식선택 --> 시급 or 월급 상태값 관리
-    const [selectWageType, setSelectWageType] = useState('');
-
-    // 급여방식선택에 따른 버튼 스타일 변경
-    const getWageTypeClassName = (type) => {
-        if (selectWageType === '') {
-            return styles.slaveRegistPageInputWageType;
-        } else if (type === 'hourly') {
-            return selectWageType ? styles.wageType : styles.slaveRegistPageInputWageType;
-
-        } else if (type === 'monthly') {
-            return selectWageType ? styles.slaveRegistPageInputWageType : styles.wageType;
-        }
-    };
-
-    // 시급 클릭이벤트
-    const hourlyWageHandler = e => {
-
-        // 이미 시급버튼이 클릭된 상태일 경우
-        if (selectWageType === true) { 
-            setSelectWageType('');
-        } else {
-            // 급여방식 - 시급은 true, 1
-            setSelectWageType(true);
-        }
-    };
-
-    // 월급 클릭이벤트
-    const monthlyWageHandler = e => {
-
-        // 이미 월급버튼이 클릭된 상태일 경우
-        if (selectWageType === false) {
-            setSelectWageType('');
-        } else {
-            // 급여방식 - 월급은 false, 2
-            setSelectWageType(false);
-        }
-    };
-
-    //-------------------------------------------------
-
-    // 4대보험 적용여부선택 --> 적용 or 미적용 체크박스 상태값 관리
-    const [insuranceApply, setInsuranceApply] = useState('');
-    const [insuranceNotApply, setInsuranceNotApply] = useState('');
-
-    // 4대보험 적용클릭이벤트
-    const appliedHandler = e => {
-
-        // 이미 체크된 경우
-        if (insuranceApply) {
-            setInsuranceApply(!insuranceApply);
-        } else {
-            // 체크되지 않았을 경우
-            setInsuranceApply(true);
-            setInsuranceNotApply(false);
-        }
-    };
-
-    // 4대보험 미적용클릭이벤트
-    const notAppliedHandler = e => {
-
-        // 이미 체크된 경우
-        if (insuranceNotApply) {
-            setInsuranceNotApply(!insuranceNotApply);
-        } else {
-            // 체크되지 않았을 경우
-            setInsuranceNotApply(true);
-            setInsuranceApply(false);
-        }
-    };
 
     //-------------------------------------------------
 
@@ -118,6 +33,8 @@ const SlaveRegistPage = () => {
 
     // 근무방식선택에 따른 버튼 스타일 변경
     const getScheduleTypeClassName = (type) => {
+
+
         if (selectScheduleType === '') {
             return styles.slaveRegistPageInputScheduleType;
         } else if (type === 'fixed') {
@@ -158,79 +75,41 @@ const SlaveRegistPage = () => {
 
     // 이름 입력한 경우 input태그 상태창 변경하기
     const nameHandler = e => {
-        setSlaveRegistInput({...slaveRegistInput, slaveName: e.target.value});
+        setSlaveRegistInput(prev => ({...slaveRegistInput, slaveName: e.target.value}));
     };
 
     // 전화번호 입력한 경우 input태그 상태창 변경하기
     const phoneNumberHandler = e => {
-        setSlaveRegistInput({...slaveRegistInput, slavePhoneNumber: e.target.value});
+        setSlaveRegistInput(prev => ({...slaveRegistInput, slavePhoneNumber: e.target.value}));
     };
 
     // 생년월일 입력한 경우 input태그 상태창 변경하기
     const birthdayHandler = e => {
-        setSlaveRegistInput({...slaveRegistInput, slaveBirthday: e.target.value});
+        setSlaveRegistInput(prev => ({...slaveRegistInput, slaveBirthday: e.target.value}));
     };
 
     // 직책 입력한 경우 input태그 상태창 변경하기
     const positionHandler = e => {
-        setSlaveRegistInput({...slaveRegistInput, slavePosition: e.target.value});
+        setSlaveRegistInput(prev => ({...slaveRegistInput, slavePosition: e.target.value}));
     };
 
-    // 시급 선택한 경우 input태그 상태창 변경하기
-    const wageAmountHourlyHandler = e => {
+    //-------------------------------------------------
 
-        // console.log('시급: true, 월급: false', wageType);
-        // console.log('입력금액', e.target.value);
+    // 급여정보 모달창으로 함수 내려보내 급여타입 & 급여금액 & 4대보험 적용여부 정보 받아오기 & 상태관리하기
+    const onWageList = useCallback((updatedWageList) => {
 
-        // 시급 선택 --> input태그 급여정보, 급여금액 변경하기
-        if (selectWageType === true) {
-            setSlaveRegistInput({...slaveRegistInput, slaveWageType: true, slaveWageMount: e.target.value});
-        } else { // 기타 미입력, 시급이 아닌경우 기존 input태그 상태창 상태유지
-            setSlaveRegistInput({...slaveRegistInput});
-        }
-    };
+        setSlaveRegistInput(prev => ({ ...prev, slaveWageList: updatedWageList }));
+    }, []);
 
-    // 월급 선택한 경우 input태그 상태창 변경하기
-    const wageAmountMonthlyHandler = e => {
-
-        // console.log('시급: true, 월급: false', wageType);
-        // console.log('입력금액', e.target.value);
-
-        // 월급 선택 --> input태그 급여정보, 급여금액 변경하기
-        if (selectWageType === false) {
-            setSlaveRegistInput({...slaveRegistInput, slaveWageType: false, slaveWageMount: e.target.value});
-        } else { // 기타 미입력, 시급이 아닌경우 기존 input태그 상태창 상태유지
-            setSlaveRegistInput({...slaveRegistInput});
-        } 
-    };
-
-    // 4대보험 적용여부 체크박스 상태값이 업데이트될 때 마다 input태그 상태창 변경하기
-    useEffect (() => {
-        // console.log('4대보험적용상태', insuranceApply);
-        // console.log('4대보험미적용상태', insuranceNotApply);
-
-        // 적용이 true && 미적용이 false 인 경우
-        if (insuranceApply && !insuranceNotApply) {
-            setSlaveRegistInput((prev) => ({...prev, slaveWageInsurance: true})); // 4대보험 적용
-
-            // 적용이 false && 미적용이 true 인 경우
-        } else if (!insuranceApply && insuranceNotApply) {
-            setSlaveRegistInput((prev) => ({...prev, slaveWageInsurance: false})); // 4대보험 미적용
-
-            // 기타 4대보험 미선택한 경우
-        } else {
-            setSlaveRegistInput((prev) => ({...prev})); // 4대보험 미선택 상태 유지
-        }
-    }, [insuranceApply, insuranceNotApply]);
+    //-------------------------------------------------
 
     // 함수를 통해 받아온 고정시간 정보 상태관리하기
     const [updatedFixedDay, setUpdatedFixedDay] = useState([]);
 
     // 고정시간 모달창으로 함수 내려보내 고정시간 정보 받아오기 & 상태관리하기
-    const onFixedDay = (fixedDay) => {
-
+    const onFixedDay = useCallback((fixedDay) => {
         setUpdatedFixedDay(fixedDay);
-    };
+    }, []);
 
     // 함수를 통해 받아온 변동시간 정보 상태관리하기
     const [updatedVariableDay, setUpdatedVariableDay] = useState([]);
@@ -289,9 +168,32 @@ const SlaveRegistPage = () => {
 
     //-------------------------------------------------
 
+    // 입력값 검증 함수
+    const validateInputs = () => {
+        const { slaveName, slavePhoneNumber, slaveBirthday, slavePosition, slaveWageList, slaveScheduleType, slaveScheduleList } = slaveRegistInput;
+        if (!slaveName || !slavePhoneNumber || !slaveBirthday || !slavePosition || slaveWageList.length === 0 || !slaveScheduleType || slaveScheduleList.length === 0) {
+            return false;
+        }
+        return true;
+    };
+
+    //-------------------------------------------------
+
     const sendSlaveInputHandler = async (e) => {
 
-        for (const [key, value] of Object.entries(slaveRegistInput)) {
+        console.log('slaveRegistInput', slaveRegistInput);
+    
+        e.preventDefault();
+
+        if (!validateInputs()) {
+            alert('모든 필드를 입력하지않으면 직원등록을 할 수 없습니다.');
+            return;
+        }
+
+        const payload = {
+            ...slaveRegistInput,
+            slaveWageList: Object.values(slaveRegistInput.slaveWageList),
+        };
 
             try {
                 const response = await fetch(`http://localhost:8877/detail/registSlave`, {
@@ -299,7 +201,7 @@ const SlaveRegistPage = () => {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(slaveRegistInput)
+                    body: JSON.stringify(payload),
                 });
 
                 if (!response.ok) {
@@ -312,48 +214,7 @@ const SlaveRegistPage = () => {
             } catch (error) {
                 console.error('Error', error);
             };
-
-
-        //     if (value === '' || (Array.isArray(value) && value.length === 0)) {
-        //         total += key + ', '
-        //         return;
-        //     } else { 
-        //         try {
-        //             const response = await fetch(`http://localhost:8877/api/auth/regist-slave`, {
-        //                 method: 'POST',
-        //                 header: {
-        //                     'Content-Type': 'application/json'
-        //                 },
-        //                 body: JSON.stringify(slaveRegistInput)
-        //             });
-
-        //             if (!response.ok) {
-        //                 throw new Error ('서버로 전송되지 않았습니다.');
-        //             }
-
-        //             const result = await response.json();
-        //             console.log('Success:', result);
-                    
-        //         } catch (error) {
-        //             console.error('Error', error);
-        //         };
-
-        //     }
-        // }
-
-        // alert(`${total} 를 입력해야 합니다.`);
-        
-    }
 }
-
-
-    // slaveRegistInput 에 빈칸이 있는경우 & 없는경우 서버로 보내기
-    // const sendSlaveInput = async () => {
-    //     for (const input of slaveInputList) {
-    //         console.log('노예입력', input);
-    //     }
-    // }
-    
     return (
         <>
             <div className={styles['slaveRegistPage']} >
@@ -362,7 +223,7 @@ const SlaveRegistPage = () => {
                     직원등록
                 </div>
 
-                <form className={styles['slaveRegistPageForm-box']} >
+                <form onSubmit={sendSlaveInputHandler} className={styles['slaveRegistPageForm-box']} >
                     <div className={styles['slaveRegistPageForm-top']} >
                         <div className={styles['slaveRegistPageForm-left']} >
 
@@ -386,58 +247,8 @@ const SlaveRegistPage = () => {
                                 <input id="slavePosition" onChange={positionHandler} className={styles['slaveRegistPageInput-input']} />
                             </label>
 
-                            <div className={styles['slaveRegistPageInput-box']} >
-                                <div className={styles['slaveRegistPageInput-title']} > 급여정보 </div>
-                                <div className={styles['slaveRegistPageInputWage-box']} >
-                                    <div className={styles['slaveRegistPageInputWage-content']} >
-                                        <label htmlFor="slaveWageTypeHourly" className={getWageTypeClassName('hourly')} >
-                                            시급
-                                            <input id="slaveWageTypeHourly" type="checkbox" style={{ display: 'none' }} onChange={hourlyWageHandler} />
-                                        </label>
-
-                                        <label htmlFor="slaveWageTypeMonthly" className={getWageTypeClassName('monthly')} >
-                                            월급
-                                            <input id="slaveWageTypeMonthly" type="checkbox" style={{ display: 'none' }} onChange={monthlyWageHandler} />
-                                        </label>
-                                    </div>
-
-                                    <div className={styles['slaveRegistPageInputWage-content']} >
-                                    {selectWageType === '' ? null : (selectWageType ? (
-                                        <>
-                                           <label htmlFor="hourly">
-                                               시급
-                                               <input id="hourly" className={styles['slaveRegistPageInputWage-input']} onChange={wageAmountHourlyHandler} />
-                                               원
-                                           </label>
-                                        </>
-                                        ) : (
-                                        <>
-                                           <label htmlFor="monthly">
-                                               월급
-                                               <input id="monthly" className={styles['slaveRegistPageInputWage-input']} onChange={wageAmountMonthlyHandler} />
-                                               원
-                                           </label>
-                                        </>
-                                    ))}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className={styles['slaveRegistPageInput-box']} >
-                                <div className={styles['slaveRegistPageInput-title']} > 4대보험여부 </div>
-
-                                <div className={styles['slaveRegistPageInputTax-box']} >
-                                    <label htmlFor="applied" className={styles['slaveRegistPageInputTax-content']} >
-                                        <div className={styles['slaveRegistPageInputTax-title']} > 적용 </div>
-                                        <input type="checkbox" checked={insuranceApply} className={styles['slaveRegistPageInputTax-input']} onChange={appliedHandler} />
-                                    </label>
-
-                                    <label htmlFor="notApplied" className={styles['slaveRegistPageInputTax-content']} >
-                                        <div className={styles['slaveRegistPageInputTax-title']} > 적용안함 </div>
-                                        <input type="checkbox" checked={insuranceNotApply} className={styles['slaveRegistPageInputTax-input']} onChange={notAppliedHandler} />
-                                    </label>
-                                </div>
-                            </div>
+                            {/* 급여 리스트 */}
+                            <SlaveRegisterWageModal onWages={onWageList} />
 
                         </div>
 
@@ -473,7 +284,7 @@ const SlaveRegistPage = () => {
                             <Link to="/detail/slave-manage" className={styles['link-text']} > 
                             <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
-                            <button className={styles['slaveRegistPage-button']} onClick={sendSlaveInputHandler} > 등록 </button>
+                            <button type="submit" className={styles['slaveRegistPage-button']} > 등록 </button>
                         </div>
                     </div>
                 </form>

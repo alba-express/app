@@ -6,7 +6,8 @@ const Home = () => {
     return (
         <>
             <MainHeader isHome={true}/> 
-            <p>설명충 페이지</p>
+            <p >설명충 페이지</p>
+
         </>
     );
 };

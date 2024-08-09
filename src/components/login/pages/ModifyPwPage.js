@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import styles from './commonStyles.module.scss';
 
 const ModifyPwPage = () => {
     const [password, setPassword] = useState("");
@@ -48,34 +49,38 @@ const ModifyPwPage = () => {
     };
 
     return (
-        <div>
-            <h1>비밀번호 변경</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>새 비밀번호:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>비밀번호 확인:</label>
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                    />
-                    {password !== confirmPassword && (
-                        <p style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</p>
-                    )}
-                </div>
-                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-                {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-                <button type="submit" disabled={!email}>비밀번호 변경</button>
-            </form>
+        <div className={styles.fullPageContainer}>
+            <div className={styles.signUpContainer}>
+                <h1 className={styles.signUpTitle}>비밀번호 변경</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className={styles.inputContainer}>
+                        <label className={styles.inputLabel}>새 비밀번호:</label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                            className={styles.inputField}
+                        />
+                    </div>
+                    <div className={styles.inputContainer}>
+                        <label className={styles.inputLabel}>비밀번호 확인:</label>
+                        <input
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                            className={styles.inputField}
+                        />
+                        {password !== confirmPassword && (
+                            <p style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</p>
+                        )}
+                    </div>
+                    {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+                    {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+                    <button type="submit" disabled={!email} className={styles.submitButton}>비밀번호 변경</button>
+                </form>
+            </div>
         </div>
     );
 };
