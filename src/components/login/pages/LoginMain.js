@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { saveUserToken, saveUserId, getUserIdFromStorage, getUserId } from '../../../utils/auth';
+import { saveUserToken, saveUserId, getUserIdFromStorage, getUserId, removeUserId } from '../../../utils/auth'; // removeUserId 추가
 import 'bootstrap/dist/css/bootstrap.min.css'; // 부트스트랩 CSS 임포트
 import styles from './LoginMain.module.scss';
 
@@ -54,6 +54,8 @@ const LoginMain = () => {
 
                 if (rememberMe) {
                     saveUserId(email); // 아이디 저장 체크한 경우에만 이메일 저장
+                } else {
+                    removeUserId(); // 아이디 저장 체크하지 않은 경우 저장된 아이디 삭제
                 }
 
                 navigate('/workplace'); // 로그인 성공 시 /workplace로 이동
