@@ -19,7 +19,7 @@
 }
 
 .loginTitle {
-  background-color: rgba(0, 139, 134, 0.8);
+  background-color: rgb(42, 157, 143);
   width: 100%;
   text-align: center;
   padding: 10px 0;
@@ -52,12 +52,22 @@
   justify-content: space-between;
   width: 100%;
   margin-bottom: 20px;
+
+  .form-check-input {
+    background-color: transparent;
+    border-color: #ccc;
+  }
+
+  .form-check-input:checked {
+    background-color: #2a9d8f;
+    border-color: #2a9d8f;
+  }
 }
 
 .submitButton {
   width: 100%;
   padding: 10px;
-  background-color: rgba(0, 139, 134, 0.8);
+  background-color: rgb(42, 157, 143);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -82,7 +92,7 @@
 }
 
 .linkButton {
-  background-color: rgba(0, 139, 134, 0.8);
+  background-color: rgb(42, 157, 143);
   border: none;
   padding: 10px;
   border-radius: 5px;
