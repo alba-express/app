@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import styles from './WorkplaceModifyPage.module.scss'
+import { useSelector } from "react-redux";
 
 const WorkplaceModifyPage = () => {
   const [businessNo, setBusinessNo] = useState('');
@@ -13,16 +15,18 @@ const WorkplaceModifyPage = () => {
   const [postalCode, setPostalCode] = useState('');
 
   const navigate = useNavigate();
-  const { id } = useParams(); // 업장 ID param
+  // const { id } = useParams(); // 업장 ID param
+
+  const workplaceIdByStore = useSelector((state) => state.workplace.workplaceId);
 
   useEffect(() => {
-    console.log(id);
+    // console.log(id);
     
     const fetchWorkplace = async (id) => {
-        console.log('async:', id);
+        // console.log('async:', id);
         
         try {
-            const response = await axios.get(`http://localhost:8877/workplace/${id}`);
+            const response = await axios.get(`http://localhost:8877/workplace/${workplaceIdByStore}`);
             const workplace = response.data;
 
             if (workplace) {
@@ -44,8 +48,8 @@ const WorkplaceModifyPage = () => {
         }
     };
 
-    fetchWorkplace(id);
-  }, [id]);
+    fetchWorkplace(workplaceIdByStore);
+  }, [workplaceIdByStore]);
 
   const changeHandler = (setter) => (event) => {
     setter(event.target.value);
@@ -60,6 +64,7 @@ const WorkplaceModifyPage = () => {
 
     try {
         const updatedWorkplace = {
+            workplaceIdByStore,
             businessNo,
             workplaceName,
             workplaceAddressCity,
@@ -70,7 +75,7 @@ const WorkplaceModifyPage = () => {
             postalCode
         };
 
-        await axios.put(`http://localhost:8877/workplace/modify/${id}`, updatedWorkplace);
+        await axios.put(`http://localhost:8877/workplace/modify/${workplaceIdByStore}`, updatedWorkplace);
         navigate('/workplace');
     } catch (error) {
         console.error('Error updating workplace:', error);
@@ -96,7 +101,7 @@ const WorkplaceModifyPage = () => {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <h1>사업장 수정</h1>
       <form onSubmit={submitHandler}>
         <div>
@@ -119,15 +124,17 @@ const WorkplaceModifyPage = () => {
             required
           />
         </div>
-        <div>
-          <label htmlFor="sample6_address">주소: </label>
-          <input
-            type="text"
-            id="sample6_address"
-            placeholder="주소"
-            value={workplaceAddressStreet}
-            readOnly
-          />
+        <div className={styles.addressGroup}>
+          <div>
+            <label htmlFor="sample6_address">주소: </label>
+            <input
+              type="text"
+              id="sample6_address"
+              placeholder="주소"
+              value={workplaceAddressStreet}
+              readOnly
+            />
+          </div>
           <input
             type="button"
             onClick={openAddressSearch}
@@ -145,7 +152,7 @@ const WorkplaceModifyPage = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.pwd}>
           <label htmlFor="workplacePassword">간편비밀번호: </label>
           <input
             type="text"
@@ -166,12 +173,12 @@ const WorkplaceModifyPage = () => {
             <option value={true}>5인 이상</option>
           </select>
         </div>
-        <div>
+        <div className={styles.buttonGroup}>
           <button type="button" onClick={cancelHandler}>취소</button>
           <button type="submit">수정</button>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

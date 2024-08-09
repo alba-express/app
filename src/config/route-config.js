@@ -65,7 +65,7 @@ const workplaceRouter = [
     },
     {
         // 업장정보수정 페이지
-        path: "modify/:id",
+        path: "modify",
         element: <WorkplaceModifyPage />,
     },
     {

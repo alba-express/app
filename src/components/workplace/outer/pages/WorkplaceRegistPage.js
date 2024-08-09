@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import styles from './WorkplaceRegistPage.module.scss';
+import useAuth from '../../../../hooks/useAuth';
+
 
 const WorkplaceRegistPage = () => {
     const [businessNo, setBusinessNo] = useState('');
@@ -11,12 +14,14 @@ const WorkplaceRegistPage = () => {
     const [workplaceSize, setWorkplaceSize] = useState(false);
     const [postalCode, setPostalCode] = useState(''); // 우편번호 상태 추가
 
+    const userId = useAuth();
+
     const changeHandler = (setter) => (event) => {
         setter(event.target.value);
     };
 
     const cancelHandler = () => {
-        window.location.href = '/workplace'; // 예시로 사용한 이동
+        window.location.href = '/workplace'; 
     };
 
     const submitHandler = async (event) => {
@@ -32,7 +37,7 @@ const WorkplaceRegistPage = () => {
                 workplacePassword,
                 workplaceSize,
                 postalCode, // 우편번호 추가
-                masterId: "1" // 예시로 사용한 masterId
+                masterId: userId // 예시로 사용한 masterId
             };
 
             await axios.post('http://localhost:8877/workplace/register', newWorkplace);
@@ -80,11 +85,13 @@ const WorkplaceRegistPage = () => {
     };
 
     return (
-        <>
-            <form onSubmit={submitHandler}>
-                <h1>사업장 등록</h1>
-                <div>
-                    <label htmlFor="businessNo">사업자 등록번호: </label>
+        <div className={styles.container}>
+            <form onSubmit={submitHandler} className={styles.form}>
+                <div className={styles.formHeader}>
+                    <h1>사업장 등록</h1>
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="businessNo">사업자 등록번호:</label>
                     <input
                         type="text"
                         id="businessNo"
@@ -93,8 +100,8 @@ const WorkplaceRegistPage = () => {
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="workplaceName">상호명: </label>
+                <div className={styles.formGroup}>
+                    <label htmlFor="workplaceName">상호명:</label>
                     <input
                         type="text"
                         id="workplaceName"
@@ -103,48 +110,22 @@ const WorkplaceRegistPage = () => {
                         required
                     />
                 </div>
-                {/* <div>
-                    <label htmlFor="sample6_postcode">우편번호: </label>
-                    <input
-                        type="text"
-                        id="sample6_postcode"
-                        placeholder="우편번호"
-                        value={postalCode} // 우편번호 상태 값 - 그냥 보여주기식(있어빌리티)
-                        readOnly
-                    />
-                    <input
-                        type="button"
-                        onClick={openAddressSearch}
-                        value="우편번호 찾기"
-                    />
-                </div> */}
-                {/* <div>
-                    <label htmlFor="sample6_address">주소: </label>
-                    <input
+                <div className={styles.addressSection}>
+                    <label className={styles.addressLabel} htmlFor="sample6_address">주소:</label>
+                    <input 
                         type="text"
                         id="sample6_address"
                         placeholder="주소"
-                        value={`${workplaceAddressStreet}`} // 시도와 도로명 주소 합쳐서 리스트로 보여주기
+                        value={workplaceAddressStreet}
                         readOnly
+                        className={styles.addressInput}
                     />
-                </div> */}
-                <div>
-                    <label htmlFor="sample6_address">주소: </label>
-                    <input 
-                       type="text"
-                       id="sample6_address"
-                       placeholder="주소"
-                       value={`${workplaceAddressStreet}`}
-                       readOnly
-                    />
-                    <input
-                       type="button"
-                       onClick={openAddressSearch}
-                       value="주소 찾기"
-          />
-        </div>
-                <div>
-                    <label htmlFor="sample6_detailAddress">상세주소: </label>
+                    <button type="button" className={styles.searchButton} onClick={openAddressSearch}>
+                        주소 찾기
+                    </button>
+                </div>
+                <div className={styles.formGroup}>
+                    <label htmlFor="sample6_detailAddress">상세주소:</label>
                     <input
                         type="text"
                         id="sample6_detailAddress"
@@ -154,33 +135,39 @@ const WorkplaceRegistPage = () => {
                         required
                     />
                 </div>
-                <div>
-                    <label htmlFor="workplacePassword">간편비밀번호: </label>
-                    <input
-                        type="text"
-                        id="workplacePassword"
-                        value={workplacePassword}
-                        onChange={changeHandler(setWorkplacePassword)}
-                        required
-                    />
+                <div className={styles.sizeSection}>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="workplacePassword">간편비밀번호:</label>
+                        <input
+                            type="text"
+                            id="workplacePassword"
+                            value={workplacePassword}
+                            onChange={changeHandler(setWorkplacePassword)}
+                            required
+                        />
+                    </div>
+                    <div className={styles.sizeDropdown}>
+                        <label className={styles.sizeLabel} htmlFor="workplaceSize">사업장 규모:</label>
+                        <select
+                            id="workplaceSize"
+                            value={workplaceSize}
+                            onChange={e => setWorkplaceSize(e.target.value === 'true')}
+                        >
+                            <option value={false}>5인 미만</option>
+                            <option value={true}>5인 이상</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="workplaceSize">사업장 규모: </label>
-                    <select
-                        id="workplaceSize"
-                        value={workplaceSize}
-                        onChange={e => setWorkplaceSize(e.target.value === 'true')}
-                    >
-                        <option value={false}>5인 미만</option>
-                        <option value={true}>5인 이상</option>
-                    </select>
-                </div>
-                <div>
-                    <button type="button" onClick={cancelHandler}>취소</button>
-                    <button type="submit">등록</button>
+                <div className={styles.buttonContainer}>
+                    <button type="button" className={styles.cancelButton} onClick={cancelHandler}>
+                        취소
+                    </button>
+                    <button type="submit" className={styles.submitButton}>
+                        등록
+                    </button>
                 </div>
             </form>
-        </>
+        </div>
     );
 };
 

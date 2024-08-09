@@ -6,11 +6,16 @@ const workplaceSlice = createSlice({
         workList: {
             workplaces: [{}], // 초기값 설정
         },
+        workplaceId: "",
+
     },
     reducers: {
         setWorkList(state, action) {
             state.workList.workplaces = action.payload; // 배열을 직접 설정
         },
+        setWorkplaceId(state, action) {
+            state.workplaceId = action.payload.workplaceId;
+        }
     },
 });
 
