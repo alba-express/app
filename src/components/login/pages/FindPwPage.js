@@ -81,8 +81,8 @@ const FindPwPage = () => {
 
     return (
         <div className={styles.fullPageContainer}>
-            <div className={styles.loginContainer}>
-                <h1 className={styles.loginTitle}>비밀번호 찾기</h1>
+            <div className={styles.signUpContainer}>
+                <h1 className={styles.signUpTitle}>비밀번호 찾기</h1>
                 <div className={styles.inputContainer}>
                     <label className={styles.inputLabel}>이메일:</label>
                     <div className={styles.inputWithButton}>
