@@ -17,7 +17,7 @@
 .homeHeaderContent {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* 아이콘을 좌측 정렬 */
+  justify-content: space-between; /* 아이콘을 좌측 정렬하고 버튼들을 우측 정렬 */
   padding: 0 20px;
   position: relative;
 }
@@ -34,9 +34,12 @@
   height: 80px; /* 아이콘 사이즈를 80px로 조정 */
 }
 
-.homeLoginLink, .logoutLink {
-  position: absolute;
-  right: 20px;
+.linkContainer {
+  display: flex;
+  gap: 10px; /* 링크 간 간격 설정 */
+}
+
+.homeLoginLink, .logoutLink, .retireLink {
   text-decoration: none;
   color: #fff; /* 로그인 링크 및 로그아웃 링크 컬러 */
   font-weight: bold;
@@ -45,7 +48,6 @@
   background: none;
   border: none;
   padding: 0;
-  margin-right: 10px;
 }
 
 .headerPlaceholder {
