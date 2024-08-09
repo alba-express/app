@@ -43,7 +43,6 @@
   font-size: 16px;
 }
 
-/* 추가적으로 페이지 전체에 헤더 높이만큼의 패딩을 적용하여 콘텐츠가 헤더에 가리지 않도록 합니다 */
-body {
-  padding-top: 80px; /* 헤더 높이만큼 패딩을 추가 */
+.headerPlaceholder {
+  height: 80px; /* 헤더 높이만큼의 공간을 추가 */
 }

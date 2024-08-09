@@ -134,7 +134,7 @@ const SignUpPage = () => {
                                 className={styles.inputField}
                             />
                             <button type="button" onClick={handleEmailCheck} disabled={isVerificationSent} className={styles.smallButton}>
-                                {isVerificationSent ? "인증코드 전송 완료" : "이메일 중복 확인"}
+                                {isVerificationSent ? "인증코드 전송 완료" : "중복 확인"}
                             </button>
                         </div>
                     </div>

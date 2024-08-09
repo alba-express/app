@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { saveUserToken, saveUserId } from '../../../utils/auth';
+import { saveUserToken, saveUserId, getUserIdFromStorage, getUserId } from '../../../utils/auth';
 import styles from './LoginMain.module.scss';
 
 const LoginMain = () => {
@@ -11,6 +11,19 @@ const LoginMain = () => {
     const [error, setError] = useState('');
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const storedUserId = getUserIdFromStorage();
+        if (storedUserId) {
+            setEmail(storedUserId);
+            setRememberMe(true);
+        }
+
+        const userId = getUserId();
+        if (userId) {
+            navigate('/workplace'); // 이미 로그인된 상태라면 /workplace로 이동
+        }
+    }, [navigate]);
 
     const handleChange = (setter) => (event) => {
         setter(event.target.value);
@@ -36,9 +49,12 @@ const LoginMain = () => {
             if (response.ok) {
                 const data = await response.json();
                 const token = data.token; // 서버가 반환하는 토큰을 가져옴
-                console.log('Received token:', token); // 디버깅 로그 추가
                 saveUserToken(token, autoLogin); // autoLogin이 true면 로컬스토리지에 저장, false면 세션스토리지에 저장
-                saveUserId(email); // 이메일 저장
+
+                if (rememberMe) {
+                    saveUserId(email); // 아이디 저장 체크한 경우에만 이메일 저장
+                }
+
                 navigate('/workplace'); // 로그인 성공 시 /workplace로 이동
             } else {
                 const data = await response.json();
