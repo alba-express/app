@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./commonStyles.module.scss"; // commonStyles.module.scss 파일을 import합니다.
 
 const FindPwPage = () => {
     const [email, setEmail] = useState("");
@@ -79,44 +80,66 @@ const FindPwPage = () => {
     }, [timer]);
 
     return (
-        <div>
-            <h1>비밀번호 찾기</h1>
-            <div>
-                <label>이메일:</label>
-                <input
-                    type="email"
-                    value={email}
-                    onChange={handleEmailChange}
-                    disabled={isEmailVerified}
-                    required
-                />
-                <button type="button" onClick={handleEmailCheck} disabled={isVerificationSent}>
-                    {isVerificationSent ? "인증코드 전송 완료" : "이메일 확인"}
-                </button>
-                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-                {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-            </div>
-            {isVerificationSent && (
-                <div>
-                    <label>인증코드:</label>
-                    <input
-                        type="text"
-                        value={verificationCode}
-                        onChange={handleVerificationCodeChange}
-                        disabled={isEmailVerified}
-                        required
-                    />
-                    <button type="button" onClick={handleVerifyCode} disabled={isEmailVerified}>
-                        인증코드 확인
-                    </button>
-                    {timer > 0 && <p>{`남은 시간: ${Math.floor(timer / 60)}분 ${timer % 60}초`}</p>}
-                    {timer === 0 && isVerificationSent && !isEmailVerified && (
-                        <button type="button" onClick={handleEmailCheck}>
-                            인증코드 재전송
+        <div className={styles.fullPageContainer}>
+            <div className={styles.loginContainer}>
+                <h1 className={styles.loginTitle}>비밀번호 찾기</h1>
+                <div className={styles.inputContainer}>
+                    <label className={styles.inputLabel}>이메일:</label>
+                    <div className={styles.inputWithButton}>
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={handleEmailChange}
+                            disabled={isEmailVerified}
+                            required
+                            className={styles.inputField}
+                        />
+                        <button
+                            type="button"
+                            onClick={handleEmailCheck}
+                            disabled={isVerificationSent}
+                            className={styles.smallButton}
+                        >
+                            {isVerificationSent ? "인증코드 전송 완료" : "이메일 확인"}
                         </button>
-                    )}
+                    </div>
+                    {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+                    {successMessage && <p className={styles.success}>{successMessage}</p>}
                 </div>
-            )}
+                {isVerificationSent && (
+                    <div className={styles.inputContainer}>
+                        <label className={styles.inputLabel}>인증코드:</label>
+                        <div className={styles.inputWithButton}>
+                            <input
+                                type="text"
+                                value={verificationCode}
+                                onChange={handleVerificationCodeChange}
+                                disabled={isEmailVerified}
+                                required
+                                className={styles.inputField}
+                            />
+                            <button
+                                type="button"
+                                onClick={handleVerifyCode}
+                                disabled={isEmailVerified}
+                                className={styles.smallButton}
+                            >
+                                인증코드 확인
+                            </button>
+                        </div>
+                        {timer > 0 && <p className={styles.timer}>{`남은 시간: ${Math.floor(timer / 60)}분 ${timer % 60}초`}</p>}
+                        {timer === 0 && isVerificationSent && !isEmailVerified && (
+                            <button
+                                type="button"
+                                onClick={handleEmailCheck}
+                                className={styles.smallButton}
+                            >
+                                인증코드 재전송
+                            </button>
+                        )}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

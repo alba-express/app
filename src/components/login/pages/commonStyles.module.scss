@@ -5,7 +5,7 @@
   align-items: center;
 }
 
-.loginContainer {
+.signUpContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,10 +13,10 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 33.33%; /* 가로 길이를 화면의 1/3로 설정 */
+  width: 400px;
 }
 
-.loginTitle {
+.signUpTitle {
   background-color: rgba(0, 139, 134, 0.8);
   width: 100%;
   text-align: center;
@@ -36,19 +36,33 @@
   margin-bottom: 5px;
 }
 
+.inputWithButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .inputField {
-  width: calc(100% - 20px);
+  width: 100%; /* 이메일 입력 필드의 너비를 다른 필드와 동일하게 설정 */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #fff; /* 인풋 창 배경색 제거 */
 }
 
-.checkboxContainer {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 20px;
+.smallButton {
+  padding: 10px 15px;
+  background-color: rgba(0, 139, 134, 0.8);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: 10px; /* 버튼과 입력 필드 사이에 약간의 간격 추가 */
+}
+
+.smallButton:hover {
+  background: rgba(65, 63, 63, 0.7);
 }
 
 .submitButton {
@@ -71,25 +85,7 @@
   margin-top: 10px;
 }
 
-.additionalLinks {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 20px;
-}
-
-.linkButton {
-  background-color: rgba(0, 139, 134, 0.8);
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  color: rgb(255, 255, 255);
-  font-weight: 600;
-  width: calc(50% - 10px); /* 버튼 너비를 50%로 설정하고 간격 추가 */
+.success {
+  color: green;
   margin-top: 10px;
-}
-
-.linkButton:hover {
-  background: rgba(65, 63, 63, 0.7);
 }
