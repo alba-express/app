@@ -25,6 +25,7 @@ const MainHeader = ({ isHome }) => {
                     </div>
                 </div>
             </div>
+            <div className={styles.headerPlaceholder} /> {/* 헤더 높이만큼의 공간을 추가 */}
         </>
     );
 };
