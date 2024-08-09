@@ -101,7 +101,7 @@ const ScheduleManagePage = () => {
     const dateClickHandler = (day) => {
         if (day !== null) {
             const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-            const formattedDate = date.toISOString().split('T')[0];
+            const formattedDate = date.toLocaleDateString('en-CA');
             setSelectedDate(formattedDate);
         }
         console.log('클릭 날짜 : ', day);
@@ -126,7 +126,10 @@ const ScheduleManagePage = () => {
                             <div key={day} className={styles.day}>{day}</div>
                         ))}
                         {days.map((day, index) => (
-                            <div key={index} className={styles.day} onClick={() => dateClickHandler(day)}>
+                            <div
+                                key={index}
+                                className={`${styles.day} ${day === new Date(selectedDate).getDate() ? styles.daySelected : ''}`}
+                                onClick={() => dateClickHandler(day)}>
                                 {day}
                             </div>
                         ))}
