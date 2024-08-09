@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { removeUserToken } from '../../../utils/auth';
 import ConfirmRetireModal from './ConfirmRetireModal';
+import styles from '../pages/commonStyles.module.scss';
 
 const RetirePage = () => {
     const [password, setPassword] = useState('');
@@ -76,28 +77,31 @@ const RetirePage = () => {
     };
 
     return (
-        <div>
-            <h1>회원 탈퇴</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="password">비밀번호</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        required
+        <div className={styles.fullPageContainer}>
+            <div className={styles.signUpContainer}>
+                <h1 className={styles.signUpTitle}>회원 탈퇴</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className={styles.inputContainer}>
+                        <label htmlFor="password" className={styles.inputLabel}>비밀번호</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                            required
+                            className={styles.inputField}
+                        />
+                    </div>
+                    {error && <p className={styles.error}>{error}</p>}
+                    <button type="submit" className={styles.submitButton}>회원 탈퇴</button>
+                </form>
+                {isModalOpen && (
+                    <ConfirmRetireModal
+                        onClose={handleCloseModal}
+                        onConfirm={handleConfirmRetire}
                     />
-                </div>
-                {error && <p>{error}</p>}
-                <button type="submit">회원 탈퇴</button>
-            </form>
-            {isModalOpen && (
-                <ConfirmRetireModal
-                    onClose={handleCloseModal}
-                    onConfirm={handleConfirmRetire}
-                />
-            )}
+                )}
+            </div>
         </div>
     );
 };
