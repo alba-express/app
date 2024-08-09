@@ -8,26 +8,36 @@ const ScheduleManagePage = () => {
     const [days, setDays] = useState([]);
     const [scheduleData, setScheduleData] = useState([]);
 
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [fetching, setFetching] = useState(false);
+
+
     const navigate = useNavigate();
+
+    // 페이지 로드 시 오늘 날짜의 스케줄을 가져옵니다.
+    useEffect(() => {
+        const today = new Date();
+        const todayFormatted = today.toISOString().split('T')[0];
+        setSelectedDate(todayFormatted); // 기본값으로 오늘 날짜 설정
+    }, []);
 
     useEffect(() => {
         const fetchSchedule = async () => {
-            const today = new Date();
-            const year = today.getFullYear();
-            const month = today.getMonth() + 1;
-            const day = today.getDate();
-            const dayOfWeek = today.getDay();
-            const date = today.toISOString().split('T')[0]; // 'yyyy-mm-dd' 형식의 날짜
+            if (!selectedDate) return;
+
+            setFetching(true);
+
+            const date = selectedDate;
+            const dayOfWeek = new Date(date).getDay();
+            const workplaceId = "1";
 
             const payload = {
                 workplaceId: "1",
-                date: today.toISOString().split('T')[0],
+                date: selectedDate,
                 dayOfWeek: dayOfWeek
             };
 
             console.log('payload: ', payload);
-
-            const workplaceId = "1";
 
             try {
                 const response = await fetch(
@@ -43,7 +53,7 @@ const ScheduleManagePage = () => {
             }
         };
         fetchSchedule();
-    }, []);
+    }, [selectedDate]);
 
     useEffect(() => {
         createCalendar(currentDate);
@@ -81,6 +91,22 @@ const ScheduleManagePage = () => {
         navigate("/detail/schedule-add");
     };
 
+    // 시간 포맷팅 함수
+    const formatTime = (time) => {
+        if (!time) return '';
+        const [hours, minutes] = time.split(':');
+        return `${hours}:${minutes}`;
+    };
+
+    const dateClickHandler = (day) => {
+        if (day !== null) {
+            const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+            const formattedDate = date.toISOString().split('T')[0];
+            setSelectedDate(formattedDate);
+        }
+        console.log('클릭 날짜 : ', day);
+    };
+
     return (
         <>
             <div className={styles.scheduleTitle}>
@@ -100,13 +126,12 @@ const ScheduleManagePage = () => {
                             <div key={day} className={styles.day}>{day}</div>
                         ))}
                         {days.map((day, index) => (
-                            <div key={index} className={styles.day}>
+                            <div key={index} className={styles.day} onClick={() => dateClickHandler(day)}>
                                 {day}
                             </div>
                         ))}
                     </div>
                 </div>
-
 
                 <div className={styles.todaySchedule}>
                     <h2>오늘의 근무자</h2>
@@ -118,8 +143,7 @@ const ScheduleManagePage = () => {
                                     {schedule.slaveName} ({schedule.slavePosition})
                                 </div>
                                 <div className={styles.scheduleItemTime}>
-                                    {/*{schedule.scheduleDay}*/}
-                                    {schedule.scheduleStart} ~ {schedule.scheduleEnd}
+                                    {formatTime(schedule.scheduleStart)} ~ {formatTime(schedule.scheduleEnd)}
                                 </div>
                             </div>
                         ))}
