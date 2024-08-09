@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./commonStyles.module.scss";
 
 const SignUpPage = () => {
     const [email, setEmail] = useState("");
@@ -117,82 +118,92 @@ const SignUpPage = () => {
     }, [timer]);
 
     return (
-        <div>
-            <h1>회원가입</h1>
-            <form onSubmit={handleRegister}>
-                <div>
-                    <label>이메일:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        disabled={isEmailVerified}
-                        required
-                    />
-                    <button type="button" onClick={handleEmailCheck} disabled={isVerificationSent}>
-                        {isVerificationSent ? "인증코드 전송 완료" : "이메일 중복 확인"}
-                    </button>
-                    {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-                    {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-                </div>
-                {isVerificationSent && (
-                    <div>
-                        <label>인증코드:</label>
+        <div className={styles.fullPageContainer}>
+            <div className={styles.signUpContainer}>
+                <h1 className={styles.signUpTitle}>회원가입</h1>
+                <form onSubmit={handleRegister}>
+                    <div className={styles.inputContainer}>
+                        <label className={styles.inputLabel}>이메일:</label>
+                        <div className={styles.inputWithButton}>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                disabled={isEmailVerified}
+                                required
+                                className={styles.inputField}
+                            />
+                            <button type="button" onClick={handleEmailCheck} disabled={isVerificationSent} className={styles.smallButton}>
+                                {isVerificationSent ? "인증코드 전송 완료" : "이메일 중복 확인"}
+                            </button>
+                        </div>
+                    </div>
+                    {isVerificationSent && (
+                        <div className={styles.inputContainer}>
+                            <label className={styles.inputLabel}>인증코드:</label>
+                            <div className={styles.inputWithButton}>
+                                <input
+                                    type="text"
+                                    value={verificationCode}
+                                    onChange={(e) => setVerificationCode(e.target.value)}
+                                    disabled={isEmailVerified}
+                                    required
+                                    className={styles.inputField}
+                                />
+                                <button type="button" onClick={handleVerifyCode} disabled={isEmailVerified} className={styles.smallButton}>
+                                    인증코드 확인
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                    {timer > 0 && (
+                        <p className={styles.success}>
+                            남은 시간: {Math.floor(timer / 60)}분 {timer % 60}초
+                        </p>
+                    )}
+                    <div className={styles.inputContainer}>
+                        <label className={styles.inputLabel}>비밀번호:</label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                                setPasswordValid(validatePassword(e.target.value));
+                            }}
+                            required
+                            className={styles.inputField}
+                        />
+                        {!passwordValid && <p className={styles.error}>비밀번호는 8자 이상이며 특수문자를 포함해야 합니다.</p>}
+                    </div>
+                    <div className={styles.inputContainer}>
+                        <label className={styles.inputLabel}>비밀번호 확인:</label>
+                        <input
+                            type="password"
+                            value={confirmPassword}
+                            onChange={(e) => {
+                                setConfirmPassword(e.target.value);
+                                setPasswordMatch(e.target.value === password);
+                            }}
+                            required
+                            className={styles.inputField}
+                        />
+                        {!passwordMatch && <p className={styles.error}>비밀번호가 일치하지 않습니다.</p>}
+                    </div>
+                    <div className={styles.inputContainer}>
+                        <label className={styles.inputLabel}>이름:</label>
                         <input
                             type="text"
-                            value={verificationCode}
-                            onChange={(e) => setVerificationCode(e.target.value)}
-                            disabled={isEmailVerified}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             required
+                            className={styles.inputField}
                         />
-                        <button type="button" onClick={handleVerifyCode} disabled={isEmailVerified}>
-                            인증코드 확인
-                        </button>
-                        {timer > 0 && <p>{`남은 시간: ${Math.floor(timer / 60)}분 ${timer % 60}초`}</p>}
-                        {timer === 0 && isVerificationSent && !isEmailVerified && (
-                            <button type="button" onClick={handleEmailCheck}>
-                                인증코드 재전송
-                            </button>
-                        )}
                     </div>
-                )}
-                <div>
-                    <label>비밀번호:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                            setPasswordValid(validatePassword(e.target.value));
-                        }}
-                        required
-                    />
-                    {!passwordValid && <p style={{ color: "red" }}>비밀번호는 8자 이상이며 특수문자를 포함해야 합니다.</p>}
-                </div>
-                <div>
-                    <label>비밀번호 확인:</label>
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => {
-                            setConfirmPassword(e.target.value);
-                            setPasswordMatch(e.target.value === password);
-                        }}
-                        required
-                    />
-                    {!passwordMatch && <p style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</p>}
-                </div>
-                <div>
-                    <label>이름:</label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                </div>
-                <button type="submit" disabled={!isEmailVerified || !passwordValid || !passwordMatch}>회원가입</button>
-            </form>
+                    <button type="submit" className={styles.submitButton} disabled={!isEmailVerified || !passwordValid || !passwordMatch}>
+                        회원가입
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };
