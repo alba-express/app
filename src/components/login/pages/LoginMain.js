@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { saveUserToken, saveUserId, getUserIdFromStorage, getUserId, removeUserId } from '../../../utils/auth';
+import { saveUserToken, saveUserId, getUserIdFromStorage, getUserId, removeUserId } from '../../../utils/auth'; // removeUserId 추가
+import 'bootstrap/dist/css/bootstrap.min.css'; // 부트스트랩 CSS 임포트
 import styles from './LoginMain.module.scss';
 
 const LoginMain = () => {
@@ -54,7 +55,7 @@ const LoginMain = () => {
                 if (rememberMe) {
                     saveUserId(email); // 아이디 저장 체크한 경우에만 이메일 저장
                 } else {
-                    removeUserId(); // 아이디 저장을 체크하지 않은 경우, 기존 저장된 아이디 삭제
+                    removeUserId(); // 아이디 저장 체크하지 않은 경우 저장된 아이디 삭제
                 }
 
                 navigate('/workplace'); // 로그인 성공 시 /workplace로 이동
@@ -103,22 +104,30 @@ const LoginMain = () => {
                         />
                     </div>
                     <div className={styles.checkboxContainer}>
-                        <label>
+                        <div className="form-check">
                             <input
+                                className="form-check-input"
                                 type="checkbox"
                                 checked={rememberMe}
                                 onChange={handleCheckboxChange(setRememberMe)}
+                                id="rememberMe"
                             />
-                            아이디 저장
-                        </label>
-                        <label>
+                            <label className="form-check-label" htmlFor="rememberMe">
+                                아이디 저장
+                            </label>
+                        </div>
+                        <div className="form-check">
                             <input
+                                className="form-check-input"
                                 type="checkbox"
                                 checked={autoLogin}
                                 onChange={handleCheckboxChange(setAutoLogin)}
+                                id="autoLogin"
                             />
-                            자동 로그인
-                        </label>
+                            <label className="form-check-label" htmlFor="autoLogin">
+                                자동 로그인
+                            </label>
+                        </div>
                     </div>
                     <button type="submit" className={styles.submitButton}>확인</button>
                     {error && <p className={styles.error}>{error}</p>}
