@@ -1,0 +1,99 @@
+// .container {
+//     padding: 20px;
+//     max-width: 800px;
+//     margin: 0 auto;
+//     font-family: Arial, sans-serif;
+//   }
+  
+//   h1 {
+//     text-align: center;
+//     margin-bottom: 20px;
+//   }
+  
+//   form {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 20px;
+//   }
+  
+//   form div {
+//     display: block;
+//     flex-direction: column;
+//     // margin: auto;
+//   }
+  
+//   label {
+//     font-weight: bold;
+//     margin-bottom: 5px;
+//   }
+  
+//   .buttonGroup {
+//     margin: auto;
+//   }
+
+//   input[type="text"], input[type="button"], select {
+//     padding: 10px;
+//     border: 1px solid #ddd;
+//     border-radius: 5px;
+//     font-size: 16px;
+//   }
+  
+//   input[type="button"] {
+//     background-color: #4CAF50;
+//     color: white;
+//     cursor: pointer;
+//     border: none;
+//     font-size: 16px;
+//   }
+  
+//   input[type="button"]:hover {
+//     background-color: #45a049;
+//   }
+  
+//   /* 주소 찾기 버튼과 주소 입력칸을 나란히 배치 */
+//   .addressGroup {
+//     display: ruby;
+//     align-items: center;
+//     gap: 10px;
+//   }
+  
+//   .address-group input[type="text"] {
+//     flex: 1;
+//   }
+  
+//   .button-group {
+//     display: flex;
+//     justify-content: center;
+//     gap: 10px;
+//   }
+  
+//   button[type="submit"] {
+//     background-color: #4CAF50;
+//     color: white;
+//     padding: 10px 20px;
+//     border: none;
+//     cursor: pointer;
+//     font-size: 16px;
+//     border-radius: 5px;
+//     display: inline-block;
+//   }
+  
+//   button[type="submit"]:hover {
+//     background-color: #45a049;
+//   }
+  
+//   button[type="button"] {
+//     background-color: #d9534f;
+//     color: white;
+//     padding: 10px 20px;
+//     border: none;
+//     cursor: pointer;
+//     font-size: 16px;
+//     border-radius: 5px;
+//     display: inline-block;
+//   }
+  
+//   button[type="button"]:hover {
+//     background-color: #c9302c;
+//   }
+  
