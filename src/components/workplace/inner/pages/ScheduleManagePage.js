@@ -45,11 +45,6 @@ const ScheduleManagePage = () => {
         fetchSchedule();
     }, [selectedDate]);
 
-
-
-
-
-
     const addScheduleHandler = e => {
         navigate("/detail/schedule-add");
     };
@@ -60,8 +55,6 @@ const ScheduleManagePage = () => {
         const [hours, minutes] = time.split(':');
         return `${hours}:${minutes}`;
     };
-
-
 
 
     return (
