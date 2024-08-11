@@ -69,14 +69,17 @@ const WorkplaceListPage = () => {
                                     <p>사업장 규모: {workplace.workplaceSize ? '5인 이상' : '5인 미만'}</p>
                                     <div className={styles.wrap}>
                                     <p className={styles.date}>등록일: {new Date(workplace.workplaceCreatedAt).toLocaleDateString()}</p>
-                            
+                                {/* </Link> */}
                                 <div className={styles.buttonGroup}>
                                     <Link to={`modify`}>
                                         <button className={styles.modifyButton}>사업장 수정</button>
                                     </Link>
                                     <button
                                         className={styles.deleteButton}
-                                        onClick={() => deleteHandler(workplace.id, workplace.workplaceName)}
+                                        onClick={(e) => {
+                                            e.preventDefault(); 
+                                            deleteHandler(workplace.id, workplace.workplaceName)
+                                        }}
                                     >
                                         사업장 삭제
                                     </button>
