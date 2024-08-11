@@ -1,11 +1,18 @@
 import React, {useEffect, useState} from "react";
 import styles from "./ScheduleAddPage.module.scss";
 import ScheduleCalendarPage from "./ScheduleCalendarPage";
+import {useNavigate} from "react-router-dom";
 
 const ScheduleAddPage = () => {
 
     const [selectedDate, setSelectedDate] = useState(null);
+    const navigate = useNavigate();
 
+
+
+    const cancelHandler = () => {
+        navigate("/detail/schedule-manage")
+    };
 
     return (
         <>
@@ -59,6 +66,11 @@ const ScheduleAddPage = () => {
                                // value={endTime}
                                // onChange={handleEndTimeChange}
                         />
+                    </div>
+
+                    <div className={styles.button}>
+                        <button onClick={cancelHandler}>취소</button>
+                        <button>추가</button>
                     </div>
 
                 </div>
