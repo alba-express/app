@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "./ScheduleAddPage.module.scss";
 import ScheduleCalendarPage from "./ScheduleCalendarPage";
-import {Form, useNavigate} from "react-router-dom";
+import {Form, Link, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 const ScheduleAddPage = () => {
@@ -40,10 +40,6 @@ const ScheduleAddPage = () => {
         setEndTime(e.target.value);
     };
 
-    const cancelHandler = () => {
-        navigate("/detail/schedule-manage")
-    };
-
     const submitHandler = async (e) => {
         e.preventDefault();
         console.log('일정 추가 버튼 클릭');
@@ -67,7 +63,7 @@ const ScheduleAddPage = () => {
             body: JSON.stringify(payload)
         });
 
-        if(response.ok) {
+        if (response.ok) {
             const data = await response.json();
             console.log('응답 데이터: ', data);
 
@@ -92,8 +88,8 @@ const ScheduleAddPage = () => {
                     <div className={styles.formGroup}>
                         <label htmlFor="employeeSelect">직원 선택:</label>
                         <select id="employeeSelect" name="employee"
-                            value={selectedEmployee}
-                            onChange={handleEmployeeChange}
+                                value={selectedEmployee}
+                                onChange={handleEmployeeChange}
                         >
                             <option value="">직원을 선택하세요</option>
                             {/*{employees.map((employee, index) => (*/}
@@ -104,7 +100,7 @@ const ScheduleAddPage = () => {
 
                     <div className={styles.formGroup}>
                         <label htmlFor="daySelect">추가 날짜:</label>
-                        <div id="daySelect"  name="day">
+                        <div id="daySelect" name="day">
                             {selectedDate ? selectedDate : "날짜를 선택하세요"}
                         </div>
                     </div>
@@ -112,22 +108,24 @@ const ScheduleAddPage = () => {
                     <div className={styles.formGroup}>
                         <label htmlFor="startTime">시작 시간:</label>
                         <input type="time" id="startTime" name="startTime"
-                            value={startTime}
-                            onChange={handleStartTimeChange}
+                               value={startTime}
+                               onChange={handleStartTimeChange}
                         />
                     </div>
 
                     <div className={styles.formGroup}>
                         <label htmlFor="endTime">종료 시간:</label>
                         <input type="time" id="endTime" name="endTime"
-                            value={endTime}
-                            onChange={handleEndTimeChange}
+                               value={endTime}
+                               onChange={handleEndTimeChange}
                         />
                     </div>
 
                     <div className={styles.button}>
-                        <button className={styles.cancelButton} onClick={cancelHandler}>취소</button>
-                        <button className={styles.addButton} >추가</button>
+                        <Link to="/detail/schedule-manage">
+                            <button className={styles.cancelButton}>취소</button>
+                        </Link>
+                        <button className={styles.addButton}>추가</button>
                     </div>
 
                 </div>

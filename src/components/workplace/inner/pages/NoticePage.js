@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import styles from "./NoticePage.module.scss"
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import NoticeModal from "./NoticeModal";
 import {useDispatch, useSelector} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
@@ -46,10 +46,6 @@ const NoticePage = () => {
     }, [fetchNotices]);
 
 
-    const writeHandler = e => {
-        navigate("/detail/notice-register");
-    };
-
     const openModal = (notice) => {
         setSelectedNotice(notice);
         setIsModalOpen(true);
@@ -77,7 +73,9 @@ const NoticePage = () => {
             </div>
 
             <div className={styles.actions}>
-                {userId && <button type="button" onClick={writeHandler} >작성</button>}
+                <Link to="/detail/notice-register">
+                {userId && <button type="button" >작성</button>}
+                </Link>
             </div>
 
             <div className={styles.noticeList}>

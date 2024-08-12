@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styles from "./NoticeRegistPage.module.scss"
-import {Form, useNavigate} from "react-router-dom";
+import {Form, Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
 
@@ -21,9 +21,6 @@ const NoticeRegisterPage = () => {
         setCurrentDate(`${yyyy}-${mm}-${dd}`);
     }, []);
 
-    const cancelHandler = e => {
-        navigate("/detail/notice");
-    };
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -84,7 +81,9 @@ const NoticeRegisterPage = () => {
 
             </div>
             <div className={styles.actions}>
-                <button type="button" onClick={cancelHandler}> 취소</button>
+                <Link to="/detail/notice">
+                    <button type="button"> 취소</button>
+                </Link>
                 <button>등록</button>
             </div>
         </Form>
