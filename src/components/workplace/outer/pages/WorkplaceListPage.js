@@ -42,10 +42,17 @@ const WorkplaceListPage = () => {
             }
         }
     };
+
+    // const setIdHandler = (workplaceId, e) => {
+    //     console.log("bind함수 확인용: ", workplaceId);
+    //     dispatch(workplaceActions.setWorkplaceId({workplaceId}));
+    // }
+
+    // 새로고침 이슈로 로컬스토리지 가져오는 걸로 정정
     const setIdHandler = (workplaceId, e) => {
-        console.log("bind함수 확인용: ", workplaceId);
-        dispatch(workplaceActions.setWorkplaceId({workplaceId}));
-    }
+        console.log("로컬스토리지 사업장 아이디: ", workplaceId);
+        localStorage.setItem('workplaceId', workplaceId);
+    };
 
     return (
         <div className={styles.container}>

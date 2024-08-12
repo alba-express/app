@@ -37,10 +37,13 @@ const WorkplaceRegistPage = () => {
         checkBusinessNoDuplicate(value);
     };
 
+    // 사업장 등록번호 중복체크 함수
     const checkBusinessNoDuplicate = async (businessNo) => {
         console.log(businessNo);
         
         const normalizedBusinessNo = businessNo.replace(/-/g, '');
+        console.log('중복체크를 위한 사업장 등록번호: ', normalizedBusinessNo);
+        
         
         try {
             const response = await axios.get(`http://localhost:8877/workplace/checkBusinessNo/${normalizedBusinessNo}`);
@@ -133,6 +136,7 @@ const WorkplaceRegistPage = () => {
                         id="businessNo"
                         value={businessNo}
                         onChange={businessNoChangeHandler}
+                        minLength={12}
                         maxLength={12}
                         placeholder="10자리 숫자만 입력하세요."
                         required
@@ -182,8 +186,9 @@ const WorkplaceRegistPage = () => {
                             id="workplacePassword"
                             value={workplacePassword}
                             onChange={changeHandler(setWorkplacePassword)}
+                            minLength={4}
                             maxLength={4}
-                            placeholder="4자리 숫자로 입력하세요."
+                            placeholder="4자리 숫자를 입력하세요."
                             required
                         />
                     </div>

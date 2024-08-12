@@ -1,22 +1,19 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import useWorkplaceId from "../../../../hooks/useWorkplaceId";
+import axios from "axios";
 import { useSelector } from "react-redux";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const InnerMainPage = () => {
-    // const workplaceId = useWorkplaceId();
-
-    // 사업장 아이디 가져가서 쓰기
-    const workplaceIdByStore = useSelector((state) => state.workplace.workplaceId);
-    console.log("스토어에서 셀렉터로 꺼내온 아아디:", workplaceIdByStore)
-
     const [workplaceInfo, setWorkplaceInfo] = useState(null);
+    const [loading, setLoading] = useState(true);
+    
+    // const workplaceIdByStore = useSelector((state => state.workplace.workplaceId));
+
+    // 로컬 스토리지에서 workplaceId 가져와 쓰기
+    const workplaceIdByStore = localStorage.getItem('workplaceId'); 
 
     useEffect(() => {
         const fetchWorkplaceInfo = async () => {
-            console.log('async:', workplaceIdByStore);
-            
             try {
                 const response = await axios.get(`http://localhost:8877/workplace/${workplaceIdByStore}`);
                 const workplace = response.data;
@@ -30,16 +27,23 @@ const InnerMainPage = () => {
             } catch (error) {
                 console.error('Error fetching workplace data:', error);
                 alert('업장 정보를 가져오는데 실패했습니다.');
+            } finally {
+                // 데이터 로딩이 완료된 후 로컬 스토리지 삭제 시키기
+                setLoading(false);
             }
         };
 
         if (workplaceIdByStore) {
             fetchWorkplaceInfo();
-        }
+        } 
     }, [workplaceIdByStore]);
 
+    // if (loading) {
+    //     return <div>Loading...</div>;
+    // }
+
     if (!workplaceInfo) {
-        return <div>Loading...</div>;
+        return <div>사업장 정보를 가져오는데 실패했습니다.</div>;
     }
 
     return (

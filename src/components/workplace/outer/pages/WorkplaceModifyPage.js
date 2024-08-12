@@ -16,7 +16,8 @@ const WorkplaceModifyPage = () => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  const workplaceIdByStore = useSelector((state) => state.workplace.workplaceId);
+  // const workplaceIdByStore = useSelector((state) => state.workplace.workplaceId);
+  const workplaceIdByStore = localStorage.getItem('workplaceId');
 
   useEffect(() => {
     const fetchWorkplace = async (id) => {
@@ -145,6 +146,7 @@ const WorkplaceModifyPage = () => {
             value={businessNo}
             onChange={businessNoChangeHandler}
             maxLength={12}
+            minLength={12}
             placeholder="10자리 숫자만 입력하세요."
             required
           />
@@ -194,7 +196,8 @@ const WorkplaceModifyPage = () => {
             id="workplacePassword"
             value={workplacePassword}
             onChange={changeHandler(setWorkplacePassword)}
-            maxLength={4}
+            minLength={4}
+            placeholder="4자리 숫자를 입력하세요."
             required
           />
         </div>

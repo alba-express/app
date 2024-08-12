@@ -1,15 +1,23 @@
-import React from 'react'
-import MainHeader from './MainHeader'
-import { Outlet } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 
 const RootLayout = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // 현재 경로가 /detail 또는 /workplace/modify가 아닐 경우 로컬 스토리지에서 사업장 아이디를 삭제한다.
+    if (!location.pathname.startsWith('/detail') && !location.pathname.startsWith('/workplace/modify')) {
+      localStorage.removeItem('workplaceId');
+    }
+  }, [location]);
+
   return (
     <>
-    <main>
+      <main>
         <Outlet />
-    </main>
+      </main>
     </>
-  )
-}
+  );
+};
 
-export default RootLayout
+export default RootLayout;
