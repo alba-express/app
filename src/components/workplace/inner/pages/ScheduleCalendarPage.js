@@ -42,6 +42,15 @@ const ScheduleCalendarPage = ({ selectedDate, setSelectedDate, dateClick }) => {
         setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
     };
 
+    const dateClickHandler = (day) => {
+        if (day !== null) {
+            const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+            const formattedDate = date.toLocaleDateString('en-CA');
+            setSelectedDate(formattedDate);
+        }
+        console.log('클릭 날짜 : ', day);
+    };
+
     const monthName = currentDate.toLocaleString('default', {month: 'long'});
     const year = currentDate.getFullYear();
 
@@ -61,7 +70,7 @@ const ScheduleCalendarPage = ({ selectedDate, setSelectedDate, dateClick }) => {
                         <div
                             key={index}
                             className={`${styles.day} ${day === new Date(selectedDate).getDate() ? styles.daySelected : ''}`}
-                            onClick={() => dateClick(day)}>
+                            onClick={() => dateClickHandler(day)}>
                             {day}
                         </div>
                     ))}
