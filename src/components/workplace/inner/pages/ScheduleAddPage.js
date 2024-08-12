@@ -7,14 +7,27 @@ import {useSelector} from "react-redux";
 const ScheduleAddPage = () => {
 
     const [selectedDate, setSelectedDate] = useState(null);
+    const [currentDate, setCurrentDate] = useState(new Date());
     const workplaceId = useSelector((state => state.workplace.workplaceId));
 
     const navigate = useNavigate();
 
 
+    const dateClickHandler = (day) => {
+        if (day !== null) {
+            const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+            const formattedDate = date.toLocaleDateString('en-CA');
+            setSelectedDate(formattedDate);
+        }
+        console.log('클릭 날짜 : ', day);
+    };
 
     const cancelHandler = () => {
         navigate("/detail/schedule-manage")
+    };
+
+    const addScheduleHandler = () => {
+        console.log('일정 추가 버튼 클릭');
     };
 
     return (
@@ -24,7 +37,8 @@ const ScheduleAddPage = () => {
             </div>
             <div className={styles.schedule}>
                 <ScheduleCalendarPage selectedDate={selectedDate}
-                                      setSelectedDate={setSelectedDate}/>
+                                      setSelectedDate={setSelectedDate}
+                                      dateClick={dateClickHandler}/>
 
                 <div className={styles.modifySchedule}>
                     <h3>일정 추가</h3>
@@ -43,16 +57,11 @@ const ScheduleAddPage = () => {
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="daySelect">요일 선택:</label>
-                        <select id="daySelect"
-                                // value={selectedDay}
-                                // onChange={handleDayChange}
-                        >
-                            <option value="">요일을 선택하세요</option>
-                            {/*{daysOfWeek.map((day, index) => (*/}
-                            {/*    <option key={index} value={day}>{day}</option>*/}
-                            {/*))}*/}
-                        </select>
+                        <label htmlFor="daySelect">날짜:</label>
+                        <div id="daySelect" className={styles.selectedDate}>
+                            {selectedDate ? selectedDate : "날짜를 선택하세요"}
+                        </div>
+
                     </div>
 
                     <div className={styles.formGroup}>
@@ -73,7 +82,7 @@ const ScheduleAddPage = () => {
 
                     <div className={styles.button}>
                         <button className={styles.cancelButton} onClick={cancelHandler}>취소</button>
-                        <button className={styles.addButton} >추가</button>
+                        <button className={styles.addButton} onClick={addScheduleHandler} >추가</button>
                     </div>
 
                 </div>

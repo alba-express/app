@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "./ScheduleCalendarPage.module.scss";
 
-const ScheduleCalendarPage = ({ selectedDate, setSelectedDate }) => {
+const ScheduleCalendarPage = ({ selectedDate, setSelectedDate, dateClick }) => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const [days, setDays] = useState([]);
@@ -42,15 +42,6 @@ const ScheduleCalendarPage = ({ selectedDate, setSelectedDate }) => {
         setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
     };
 
-    const dateClickHandler = (day) => {
-        if (day !== null) {
-            const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-            const formattedDate = date.toLocaleDateString('en-CA');
-            setSelectedDate(formattedDate);
-        }
-        console.log('클릭 날짜 : ', day);
-    };
-
     const monthName = currentDate.toLocaleString('default', {month: 'long'});
     const year = currentDate.getFullYear();
 
@@ -70,7 +61,7 @@ const ScheduleCalendarPage = ({ selectedDate, setSelectedDate }) => {
                         <div
                             key={index}
                             className={`${styles.day} ${day === new Date(selectedDate).getDate() ? styles.daySelected : ''}`}
-                            onClick={() => dateClickHandler(day)}>
+                            onClick={() => dateClick(day)}>
                             {day}
                         </div>
                     ))}
