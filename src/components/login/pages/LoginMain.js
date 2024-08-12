@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { saveUserToken, saveUserId, getUserIdFromStorage, getUserId, removeUserId } from '../../../utils/auth'; // removeUserId 추가
+import { saveUserToken, saveUserId, getUserIdFromStorage, getUserId } from '../../../utils/auth';
 import 'bootstrap/dist/css/bootstrap.min.css'; // 부트스트랩 CSS 임포트
 import styles from './LoginMain.module.scss';
 
@@ -10,6 +10,7 @@ const LoginMain = () => {
     const [rememberMe, setRememberMe] = useState(false);
     const [autoLogin, setAutoLogin] = useState(false);
     const [error, setError] = useState('');
+    const [showRecoverButton, setShowRecoverButton] = useState(false); // 복구하기 버튼 표시 상태
 
     const navigate = useNavigate();
 
@@ -43,7 +44,7 @@ const LoginMain = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password, rememberMe, autoLogin }),
+                body: JSON.stringify({ email, password }),
                 credentials: 'include'
             });
 
@@ -54,14 +55,17 @@ const LoginMain = () => {
 
                 if (rememberMe) {
                     saveUserId(email); // 아이디 저장 체크한 경우에만 이메일 저장
-                } else {
-                    removeUserId(); // 아이디 저장 체크하지 않은 경우 저장된 아이디 삭제
                 }
 
                 navigate('/workplace'); // 로그인 성공 시 /workplace로 이동
             } else {
                 const data = await response.json();
                 setError(data.message);
+
+                // 탈퇴한 회원인 경우 복구하기 버튼 표시
+                if (data.message === "탈퇴한 회원입니다.") {
+                    setShowRecoverButton(true);
+                }
             }
         } catch (error) {
             setError('Failed to fetch');
@@ -74,6 +78,11 @@ const LoginMain = () => {
 
     const handleFindPassword = () => {
         navigate('/login/find-pw');
+    };
+
+    const handleRecover = () => {
+        // 복구 페이지로 이동
+        navigate('/login/recover', { state: { email } });
     };
 
     return (
@@ -131,6 +140,11 @@ const LoginMain = () => {
                     </div>
                     <button type="submit" className={styles.submitButton}>확인</button>
                     {error && <p className={styles.error}>{error}</p>}
+                    {showRecoverButton && (
+                        <button onClick={handleRecover} className={styles.recoverButton}>
+                            복구하기
+                        </button>
+                    )}
                 </form>
                 <div className={styles.additionalLinks}>
                     <button onClick={handleSignUp} className={styles.linkButton}>회원가입</button>
