@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styles from './SlaveRegistPage.module.scss'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SlaveRegisterVariableDayModal from "./slave/SlaveRegistPage/SlaveRegisterVariableDayModal";
 import SlaveRegisterFixedDayModal from "./slave/SlaveRegistPage/SlaveRegisterFixedDayModal";
 import SlaveRegisterWageModal from "./slave/SlaveRegistPage/SlaveRegisterWageList";
@@ -25,6 +25,10 @@ const SlaveRegistPage = () => {
         // 근무시간정보
         slaveScheduleList: [],
     });
+
+    //-------------------------------------------------
+
+    const navigate = useNavigate();
 
     //-------------------------------------------------
 
@@ -171,7 +175,7 @@ const SlaveRegistPage = () => {
     // 입력값 검증 함수
     const validateInputs = () => {
         const { slaveName, slavePhoneNumber, slaveBirthday, slavePosition, slaveWageList, slaveScheduleType, slaveScheduleList } = slaveRegistInput;
-        if (!slaveName || !slavePhoneNumber || !slaveBirthday || !slavePosition || slaveWageList.length === 0 || !slaveScheduleType || slaveScheduleList.length === 0) {
+        if (!slaveName || !slavePhoneNumber || !slaveBirthday || !slavePosition || slaveWageList.length === 0 || slaveScheduleType === '' || slaveScheduleList.length === 0) {
             return false;
         }
         return true;
@@ -210,11 +214,17 @@ const SlaveRegistPage = () => {
 
                 const result = await response.json();
                 console.log('Success:', result);
+                alert("직원이 등록되었습니다.")
+                navigate("/detail/slave-manage");
+
                 
             } catch (error) {
                 console.error('Error', error);
             };
-}
+    };
+
+    //-------------------------------------------------
+
     return (
         <>
             <div className={styles['slaveRegistPage']} >

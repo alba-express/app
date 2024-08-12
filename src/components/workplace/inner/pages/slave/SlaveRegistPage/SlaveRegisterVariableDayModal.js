@@ -53,7 +53,7 @@ const SlaveRegisterVariableDayModal = ({ onVariable }) => {
   useEffect(() => {
 
     const updatedVariableDays = variableDays.filter(day => day.select);
-    // console.log('최종 변동시간', updatedVariableDays);
+    console.log('최종 변동시간', updatedVariableDays);
 
     // SlaveRegistPage 에서 내려보낸 onVariable 에 updatedVariableDays 전달하기
     onVariable(updatedVariableDays);
@@ -86,7 +86,7 @@ const SlaveRegisterVariableDayModal = ({ onVariable }) => {
             id={`${day.scheduleDay}-startTime`} 
             value={day.startSchedule} 
             className={styles['slaveRegistPageInputSchedule-input']} 
-            onChange={ e => {startTimeHandler(day.label, e.target.value)}}
+            onChange={ e => {startTimeHandler(day.scheduleDay, e.target.value)}}
           />
           부터
         </label>
