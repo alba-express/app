@@ -8,13 +8,11 @@ const ScheduleAddPage = () => {
 
     const [selectedDate, setSelectedDate] = useState(null);
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [selectedEmployee, setSelectedEmployee] = useState("");
+    const [selectedslave, setSelectedslave] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
 
     const workplaceId = useSelector((state => state.workplace.workplaceId));
-
-    // const employees =
 
     const navigate = useNavigate();
 
@@ -28,8 +26,8 @@ const ScheduleAddPage = () => {
         console.log('클릭 날짜 : ', day);
     };
 
-    const handleEmployeeChange = (e) => {
-        setSelectedEmployee(e.target.value);
+    const handleSlaveChange = (e) => {
+        setSelectedslave(e.target.value);
     };
 
     const handleStartTimeChange = (e) => {
@@ -48,7 +46,8 @@ const ScheduleAddPage = () => {
         console.log('form: ', formData.get('startTime'));
 
         const payload = {
-            employee: formData.get('employee'),
+            // slaveId: formData.get('slaveId'),
+            slaveId: '6121557d-9124-4eb9-aee8-a9d258e800b3',
             date: selectedDate,
             startTime: formData.get('startTime'),
             endTime: formData.get('endTime'),
@@ -64,8 +63,8 @@ const ScheduleAddPage = () => {
         });
 
         if (response.ok) {
-            const data = await response.json();
-            console.log('응답 데이터: ', data);
+            // const data = await response.json();
+            // console.log('응답 데이터: ', data);
 
             navigate("/detail/schedule-manage");
         }
@@ -86,12 +85,12 @@ const ScheduleAddPage = () => {
                     <h3>일정 추가</h3>
 
                     <div className={styles.formGroup}>
-                        <label htmlFor="employeeSelect">직원 선택:</label>
-                        <select id="employeeSelect" name="employee"
-                                value={selectedEmployee}
-                                onChange={handleEmployeeChange}
+                        <label htmlFor="slaveSelect">직원 선택:</label>
+                        <select id="slaveSelect" name="slaveId"
+                                value={selectedslave}
+                                onChange={handleSlaveChange}
                         >
-                            <option value="">직원을 선택하세요</option>
+                            <option value="slaveId">직원을 선택하세요</option>
                             {/*{employees.map((employee, index) => (*/}
                             {/*    <option key={index} value={employee}>{employee}</option>*/}
                             {/*))}*/}

@@ -68,7 +68,7 @@ const ScheduleManagePage = () => {
                 </Link>
 
                 <div className={styles.todaySchedule}>
-                    <h2>오늘의 근무자 ({selectedDate})</h2>
+                    <h2>오늘 근무자 ({selectedDate})</h2>
                     <p>총 {scheduleData.length}명</p>
                     {scheduleData.length === 0 ? "오늘 근무자가 없습니다."
                         : <div className={styles.scheduleList}>
@@ -84,6 +84,27 @@ const ScheduleManagePage = () => {
                             ))}
                         </div>}
                 </div>
+
+                <div className={styles.todaySchedule}>
+                    <h2>추가 근무자 ({selectedDate})</h2>
+                    {/*<p>총 {scheduleData.length}명</p>*/}
+                    <p>총 1명</p>
+
+                    {/*{scheduleData.length === 0 ? "오늘 추가 근무자가 없습니다."*/}
+                    {/*    : <div className={styles.scheduleList}>*/}
+                    {/*        {scheduleData.map(schedule => (*/}
+                    {/*            <div key={schedule.slaveId} className={styles.scheduleItem}>*/}
+                    {/*                <div className={styles.scheduleItemName}>*/}
+                    {/*                    {schedule.slaveName} ({schedule.slavePosition})*/}
+                    {/*                </div>*/}
+                    {/*                <div className={styles.scheduleItemTime}>*/}
+                    {/*                    {formatTime(schedule.scheduleStart)} ~ {formatTime(schedule.scheduleEnd)}*/}
+                    {/*                </div>*/}
+                    {/*            </div>*/}
+                    {/*        ))}*/}
+                    {/*    </div>}*/}
+                </div>
+
             </div>
         </>
     );
