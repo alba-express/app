@@ -13,7 +13,7 @@ const SlaveRegisterFixedDayModal = ({ onFixed }) => {
                             { scheduleDay: 4, value: '목', select: false, startSchedule: '', endSchedule: '' },
                             { scheduleDay: 5, value: '금', select: false, startSchedule: '', endSchedule: '' },
                             { scheduleDay: 6, value: '토', select: false, startSchedule: '', endSchedule: '' },
-                            { scheduleDay: 7, value: '일', select: false, startSchedule: '', endSchedule: '' },
+                            { scheduleDay: 0, value: '일', select: false, startSchedule: '', endSchedule: '' },
                           ];
 
   // 고정시간 요일 배열 상태값으로 관리

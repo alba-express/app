@@ -10,10 +10,10 @@ const SlaveRegisterVariableDayModal = ({ onVariable }) => {
                                 { scheduleDay: 1, value: '월', select: false, startSchedule: '', endSchedule: '' },
                                 { scheduleDay: 2, value: '화', select: false, startSchedule: '', endSchedule: '' },
                                 { scheduleDay: 3, value: '수', select: false, startSchedule: '', endSchedule: '' },
-                                { scheduleDay: 4,  value: '목', select: false, startSchedule: '', endSchedule: '' },
+                                { scheduleDay: 4, value: '목', select: false, startSchedule: '', endSchedule: '' },
                                 { scheduleDay: 5, value: '금', select: false, startSchedule: '', endSchedule: '' },
                                 { scheduleDay: 6, value: '토', select: false, startSchedule: '', endSchedule: '' },
-                                { scheduleDay: 7, value: '일', select: false, startSchedule: '', endSchedule: '' },
+                                { scheduleDay: 0, value: '일', select: false, startSchedule: '', endSchedule: '' },
                               ];
 
   // 변동시간 배열 상태값으로 관리
