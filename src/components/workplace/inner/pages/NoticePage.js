@@ -14,13 +14,14 @@ const NoticePage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
-    const [workplaceId, setWorkplaceId] = useState("123");
 
     const dispatch = useDispatch();
     const notices = useSelector((state) => state.notice.noticeList || []);
 
     const navigate = useNavigate();
     const userId = useAuth();
+
+    const workplaceId = useSelector((state => state.workplace.workplaceId));
 
     const fetchNotices = useCallback(async () => {
         setIsLoading(true);

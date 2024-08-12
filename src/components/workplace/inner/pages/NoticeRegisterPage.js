@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
 import styles from "./NoticeRegistPage.module.scss"
 import {Form, useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
 
 const NoticeRegisterPage = () => {
 
     const [currentDate, setCurrentDate] = useState("");
+
+    const workplaceId = useSelector((state => state.workplace.workplaceId));
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -33,7 +35,7 @@ const NoticeRegisterPage = () => {
         const payload = {
             title: formData.get('title'),
             content: formData.get('content'),
-            workplaceId: "123"
+            workplaceId: workplaceId
         };
 
         console.log('payload: ', payload);

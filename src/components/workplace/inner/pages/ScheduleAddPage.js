@@ -2,10 +2,13 @@ import React, {useEffect, useState} from "react";
 import styles from "./ScheduleAddPage.module.scss";
 import ScheduleCalendarPage from "./ScheduleCalendarPage";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const ScheduleAddPage = () => {
 
     const [selectedDate, setSelectedDate] = useState(null);
+    const workplaceId = useSelector((state => state.workplace.workplaceId));
+
     const navigate = useNavigate();
 
 
@@ -24,7 +27,7 @@ const ScheduleAddPage = () => {
                                       setSelectedDate={setSelectedDate}/>
 
                 <div className={styles.modifySchedule}>
-                    <h2>일정 추가</h2>
+                    <h3>일정 추가</h3>
 
                     <div className={styles.formGroup}>
                         <label htmlFor="employeeSelect">직원 선택:</label>
@@ -69,8 +72,8 @@ const ScheduleAddPage = () => {
                     </div>
 
                     <div className={styles.button}>
-                        <button onClick={cancelHandler}>취소</button>
-                        <button>추가</button>
+                        <button className={styles.cancelButton} onClick={cancelHandler}>취소</button>
+                        <button className={styles.addButton} >추가</button>
                     </div>
 
                 </div>

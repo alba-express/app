@@ -2,12 +2,14 @@ import React, {useEffect, useState} from "react";
 import styles from "./ScheduleManagePage.module.scss";
 import {useNavigate} from "react-router-dom";
 import ScheduleCalendarPage from "./ScheduleCalendarPage";
+import {useSelector} from "react-redux";
 
 const ScheduleManagePage = () => {
 
     const [scheduleData, setScheduleData] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [fetching, setFetching] = useState(false);
+    const workplaceId = useSelector((state => state.workplace.workplaceId));
 
     const navigate = useNavigate();
 
@@ -19,10 +21,9 @@ const ScheduleManagePage = () => {
 
             const date = selectedDate;
             const dayOfWeek = new Date(date).getDay();
-            const workplaceId = "1";
 
             const payload = {
-                workplaceId: "1",
+                workplaceId: workplaceId,
                 date: selectedDate,
                 dayOfWeek: dayOfWeek
             };
@@ -36,7 +37,7 @@ const ScheduleManagePage = () => {
                     throw new Error('네트워크 응답이 올바르지 않습니다.');
                 }
                 const data = await response.json();
-                console.log(data);
+                console.log("data: ", data);
                 setScheduleData(data);
             } catch (error) {
                 console.error('Error: ', error);
