@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import styles from './CommuteManage.module.scss'; // CSS 모듈 import
+import styles from './CommuteManage.module.scss';
 import { useNavigate } from "react-router-dom";
 
 const CommuteManage = () => {
