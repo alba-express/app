@@ -1,18 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useSelector } from "react-redux";
-import styles from "./InnerMainPage.module.scss";
 import axios from "axios";
+import styles from "./InnerMainPage.module.scss";
+import { useSelector } from "react-redux";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const InnerMainPage = () => {
-    const workplaceIdByStore = useSelector((state) => state.workplace.workplaceId);
-    console.log("스토어에서 셀렉터로 꺼내온 아아디:", workplaceIdByStore);
-
     const [workplaceInfo, setWorkplaceInfo] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1); // 현재 월 (1~12)
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear()); // 현재 연도
     const [selectedDate, setSelectedDate] = useState(new Date()); // 오늘 날짜로 초기화
+  
+    // const workplaceIdByStore = useSelector((state => state.workplace.workplaceId));
+
+    // 로컬 스토리지에서 workplaceId 가져와 쓰기
+    const workplaceIdByStore = localStorage.getItem('workplaceId'); 
+    
 
     // 날짜 포맷 함수
     const formatDate = (date) => {
@@ -34,19 +39,30 @@ const InnerMainPage = () => {
                 if (workplace) {
                     setWorkplaceInfo(workplace);
                 } else {
-                    console.error('No data found for the given ID');
+                    console.error('업장 아이디를 찾지 못함.');
                     alert('업장 정보를 가져오는데 실패했습니다.');
                 }
             } catch (error) {
-                console.error('Error fetching workplace data:', error);
+                console.error('사업장 정보 페치 오류:', error);
                 alert('업장 정보를 가져오는데 실패했습니다.');
+            } finally {
+                // 데이터 로딩이 완료된 후 로컬 스토리지 삭제 시키기
+                setLoading(false);
             }
         };
 
         if (workplaceIdByStore) {
             fetchWorkplaceInfo();
-        }
+        } 
     }, [workplaceIdByStore]);
+
+    // if (loading) {
+    //     return <div>Loading...</div>;
+    // }
+
+    if (!workplaceInfo) {
+        return <div>사업장 정보를 가져오는데 실패했습니다.</div>;
+    }
 
     const handleNextMonth = () => {
         if (currentMonth === 12) {
