@@ -84,6 +84,7 @@
 .scheduleTable {
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
 }
 
 .scheduleColumn {
@@ -163,6 +164,7 @@
 .datePickerContainer {
   display: flex;
   align-items: center;
+  border-bottom: solid 6px #008B86;
 }
 
 .calendarIcon {
