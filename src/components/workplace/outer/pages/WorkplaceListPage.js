@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const WorkplaceListPage = () => {
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const userId = useAuth();
     const [workplaces, setWorkplaces] = useState([]);
@@ -52,6 +52,7 @@ const WorkplaceListPage = () => {
     const setIdHandler = (workplaceId, e) => {
         console.log("로컬스토리지 사업장 아이디: ", workplaceId);
         localStorage.setItem('workplaceId', workplaceId);
+        navigate('/workplace/pwdverify'); // 간편비밀번호 입력 페이지로 이동
     };
 
     return (
@@ -70,7 +71,7 @@ const WorkplaceListPage = () => {
                     <ul className={styles.list}>
                         {workplaces.map(workplace => (
                             <li key={workplace.id} className={styles.listItem}>
-                                <Link to={`/detail`} className={styles.link} onClick={(e) => {setIdHandler(workplace.id, e)}}>
+                                <Link to={`#`} className={styles.link} onClick={(e) => {setIdHandler(workplace.id, e)}}>
                                     <h2>{workplace.workplaceName}</h2>
                                     <p>주소: {`${workplace.workplaceAddressStreet} ${workplace.workplaceAddressDetail}`}</p>
                                     <p>사업장 규모: {workplace.workplaceSize ? '5인 이상' : '5인 미만'}</p>
