@@ -11,8 +11,25 @@ const ScheduleAddPage = () => {
     const [selectedslave, setSelectedslave] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
+    const [slaves, setSlaves] = useState([]);
 
     const workplaceId = useSelector((state => state.workplace.workplaceId));
+
+    useEffect(() => {
+        const fetchSlave = async () => {
+            const payload = {
+                workplaceId: workplaceId
+            };
+
+            console.log('payload: ', payload);
+
+            const response = await fetch(`http://localhost:8877/detail/schedule-add?workplaceId=${workplaceId}`)
+            const data = await response.json();
+            console.log("data: ", data);
+            setSlaves(data);
+        };
+        fetchSlave();
+    }, []);
 
     const navigate = useNavigate();
 
@@ -90,10 +107,12 @@ const ScheduleAddPage = () => {
                                 value={selectedslave}
                                 onChange={handleSlaveChange}
                         >
-                            <option value="slaveId">직원을 선택하세요</option>
-                            {/*{employees.map((employee, index) => (*/}
-                            {/*    <option key={index} value={employee}>{employee}</option>*/}
-                            {/*))}*/}
+                            <option value="">직원을 선택하세요</option>
+                            {slaves.map(slave => (
+                                <option key={slave.slaveId} value={slave.slaveId}>
+                                    {slave.slaveName} ({slave.slavePosition})
+                                </option>
+                            ))}
                         </select>
                     </div>
 
