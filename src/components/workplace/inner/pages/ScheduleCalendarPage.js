@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "./ScheduleCalendarPage.module.scss";
 
-const ScheduleCalendarPage = ({ selectedDate, setSelectedDate }) => {
+const ScheduleCalendarPage = ({ selectedDate, setSelectedDate, dateClick }) => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const [days, setDays] = useState([]);

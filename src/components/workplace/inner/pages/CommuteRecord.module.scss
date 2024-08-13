@@ -1,0 +1,105 @@
+.contentBox {
+  padding: 20px;
+  margin-top: 20px;
+  // box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); // 약간의 그림자 추가
+}
+
+.title {
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: rgba(43, 42, 42, 0.9);
+  margin-bottom: 20px; /* content-box와의 간격 조정 */
+}
+
+.serverTime {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #333; // 서버 시간 색상
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between; /* 버튼을 양쪽 끝에 배치 */
+  gap: 10px;
+}
+
+.checkButton {
+  width: 48%; /* 버튼의 너비를 48%로 설정하여 양쪽 끝에 균형 있게 배치 */
+  height: 3rem; // 높이 증가
+  background: #2a9d8f; // 배경색 조정
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s; // 배경 변화 효과
+}
+
+.checkButton:disabled {
+  background: #ccc; // 비활성화된 버튼의 배경색
+  cursor: not-allowed; // 비활성화된 버튼의 커서
+}
+
+.checkButton:hover:not(:disabled) {
+  background: #264653; // 호버 시 색상 조정
+}
+
+.validationMessage {
+  margin-top: 10px;
+  color: #e76f51; // 오류 메시지 색상 조정
+  font-weight: 600;
+}
+
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.confirmButton, .cancelButton {
+  width: 48%; /* 버튼의 너비를 48%로 설정하여 양쪽 끝에 균형 있게 배치 */
+  height: 2.5rem;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.confirmButton {
+  background: #2a9d8f; // 확인 버튼 배경색
+}
+
+.cancelButton {
+  background: #d9534f; // 취소 버튼 배경색
+}
+
+.confirmButton:hover {
+  background: #264653; // 확인 버튼 호버 색상
+}
+
+.cancelButton:hover {
+  background: #c9302c; // 취소 버튼 호버 색상
+}
