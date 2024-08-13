@@ -79,9 +79,14 @@ const InnerMainPage = () => {
                 <div className={styles.workplaceInfo}>
                     <h1 className={styles.workplaceName}>사업장명</h1>
                     <div className={styles.monthNavigation}>
-                        <button className={styles.arrowButton} onClick={handlePrevMonth}>&lt;</button>
+                        <img src={`${process.env.PUBLIC_URL}/images/left-arrow.png`}
+                             alt={"좌측화살표"}
+                             className={styles.arrowButton}
+                             onClick={handlePrevMonth}></img>
                         <span className={styles.monthText}>{formattedMonth}</span>
-                        <button className={styles.arrowButton} onClick={handleNextMonth}>&gt;</button>
+                        <img src={`${process.env.PUBLIC_URL}/images/right-arrow.png`}
+                             className={styles.arrowButton}
+                             onClick={handleNextMonth}></img>
                     </div>
                     <div className={styles.monthDetails}>
                         <p className={styles.estimatedWages}>예상 급여 : 8,290,800 원</p>
