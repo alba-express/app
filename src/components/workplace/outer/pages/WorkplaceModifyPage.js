@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from './WorkplaceModifyPage.module.scss';
-import { useSelector } from "react-redux";
 
 const WorkplaceModifyPage = () => {
   const [businessNo, setBusinessNo] = useState('');
@@ -16,13 +15,10 @@ const WorkplaceModifyPage = () => {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  // const workplaceIdByStore = useSelector((state) => state.workplace.workplaceId);
   const workplaceIdByStore = localStorage.getItem('workplaceId');
 
   useEffect(() => {
     const fetchWorkplace = async (id) => {
-      console.log('async: ', id);
-      
       try {
         const response = await axios.get(`http://localhost:8877/workplace/${workplaceIdByStore}`);
         const workplace = response.data;
@@ -36,11 +32,9 @@ const WorkplaceModifyPage = () => {
           setWorkplaceSize(workplace.workplaceSize || false);
           setPostalCode(workplace.postalCode || '');
         } else {
-          console.error('No data found for the given ID');
           alert('업장 정보를 가져오는데 실패했습니다.');
         }
       } catch (error) {
-        console.error('Error fetching workplace data:', error);
         alert('업장 정보를 가져오는데 실패했습니다.');
       }
     };
@@ -76,7 +70,6 @@ const WorkplaceModifyPage = () => {
         setError('');
       }
     } catch (error) {
-      console.error('Error checking business number:', error);
       setError('사업장 등록번호 검토 중 오류가 발생했습니다.');
     }
   };
@@ -86,7 +79,7 @@ const WorkplaceModifyPage = () => {
   };
 
   const cancelHandler = () => {
-    navigate('/workplace');
+    navigate('/workplace', {replace: true});
   };
 
   const submitHandler = async (event) => {
@@ -111,9 +104,10 @@ const WorkplaceModifyPage = () => {
       };
 
       await axios.put(`http://localhost:8877/workplace/modify/${workplaceIdByStore}`, updatedWorkplace);
-      navigate('/workplace');
+
+      // 수정 완료 후 WorkplaceListPage로 이동, 히스토리 스택을 대체하여 중간 페이지 제거함
+      navigate('/workplace', { replace: true });
     } catch (error) {
-      console.error('Error updating workplace:', error);
       alert('업장 정보를 수정하는데 실패했습니다.');
     }
   };
@@ -213,7 +207,7 @@ const WorkplaceModifyPage = () => {
           </select>
         </div>
         <div className={styles.buttonGroup}>
-          <button type="button" onClick={cancelHandler}>취소</button>
+          <button type="submit" onClick={cancelHandler}>취소</button>
           <button type="submit">수정</button>
         </div>
       </form>

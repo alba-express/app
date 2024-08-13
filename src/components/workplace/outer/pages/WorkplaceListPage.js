@@ -31,6 +31,20 @@ const WorkplaceListPage = () => {
         fetchWorkplaces();
     }, [userId]); // userId가 변경될 때마다 실행
 
+    // 특정 업장에 메인페이지로 or 수정 페이지에 따라 액션 부여
+    const handleWorkplaceSelect = (id) => {
+        console.log("로컬스토리지 사업장 아이디: ", id);
+        localStorage.setItem('workplaceId', id);
+        localStorage.setItem('action', 'view');
+        navigate('/workplace/pwdverify');
+      };
+    
+    const handleModifyClick = (id) => {
+        localStorage.setItem('workplaceId', id);
+        localStorage.setItem('action', 'modify');
+        navigate('/workplace/pwdverify');
+      };
+
     const deleteHandler = async (id, name) => {
         const confirmed = window.confirm(`[${name}] 업장을 삭제하시겠습니까 ❓`);
         if (confirmed) {
@@ -49,11 +63,12 @@ const WorkplaceListPage = () => {
     // }
 
     // 새로고침 이슈로 로컬스토리지 가져오는 걸로 정정
-    const setIdHandler = (workplaceId, e) => {
-        console.log("로컬스토리지 사업장 아이디: ", workplaceId);
-        localStorage.setItem('workplaceId', workplaceId);
-        navigate('/workplace/pwdverify'); // 간편비밀번호 입력 페이지로 이동
-    };
+    // const setIdHandler = (workplaceId, e) => {
+    //     console.log("로컬스토리지 사업장 아이디: ", workplaceId);
+    //     localStorage.setItem('workplaceId', workplaceId);
+    //     localStorage.setItem('action', 'modify');   // action을 modify 수정 페이지로 설정
+    //     navigate('/workplace/pwdverify'); // 간편비밀번호 입력 페이지로 이동
+    // };
 
     return (
         <div className={styles.container}>
@@ -71,17 +86,19 @@ const WorkplaceListPage = () => {
                     <ul className={styles.list}>
                         {workplaces.map(workplace => (
                             <li key={workplace.id} className={styles.listItem}>
-                                <Link to={`#`} className={styles.link} onClick={(e) => {setIdHandler(workplace.id, e)}}>
+                                <Link to="#" className={styles.link} onClick={() => handleWorkplaceSelect(workplace.id)}>
                                     <h2>{workplace.workplaceName}</h2>
                                     <p>주소: {`${workplace.workplaceAddressStreet} ${workplace.workplaceAddressDetail}`}</p>
                                     <p>사업장 규모: {workplace.workplaceSize ? '5인 이상' : '5인 미만'}</p>
-                                    <div className={styles.wrap}>
+                                    {/* <div className={styles.wrap}> */}
                                     <p className={styles.date}>등록일: {new Date(workplace.workplaceCreatedAt).toLocaleDateString()}</p>
-                                {/* </Link> */}
+                                </Link>
                                 <div className={styles.buttonGroup}>
-                                    <Link to={`modify`}>
-                                        <button className={styles.modifyButton}>사업장 수정</button>
-                                    </Link>
+                                    <button className={styles.modifyButton}
+                                        onClick={() => handleModifyClick(workplace.id)}>
+                                            사업장 수정
+                                    </button>
+
                                     <button
                                         className={styles.deleteButton}
                                         onClick={(e) => {
@@ -92,8 +109,8 @@ const WorkplaceListPage = () => {
                                         사업장 삭제
                                     </button>
                                 </div>
-                                </div>
-                                </Link>
+                                {/* </div> */}
+                                {/* </Link> */}
                                 
                             </li>
                         ))}

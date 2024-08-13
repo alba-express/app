@@ -3,28 +3,32 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const WorkplacePwdVerify = () => {
-    const [workplacePassword, setWorkplacePassword] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const workplaceIdByStore = localStorage.getItem('workplaceId');
+    const workplaceId = localStorage.getItem('workplaceId');
 
-    const workplacePwdVerifyHandler = (event) => {
-        setWorkplacePassword(event.target.value);
-    };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    console.log('등록된 사업장 간편비밀번호: ', workplacePassword);
-    
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        console.log('사업장 간편비밀번호: ', workplacePassword);
-        
         try {
-            const response = await axios.post(`http://localhost:8877/workplace/verify/${workplacePassword}`, { password: workplacePassword });
+            const response = await axios.post(`http://localhost:8877/workplace/verify/${workplaceId}`, { password });
+            const { valid } = response.data;
 
-            if (response.data.valid) {
-                navigate('/detail'); // 비밀번호가 맞으면 InnerMainPage로 이동
+            if (valid) {
+                // 검증 완료 후 상태를 로컬 스토리지에 저장
+                localStorage.setItem('passwordVerified', 'true');
+                // 이동할 페이지 결정할 액션 불러오기 !
+                const action = localStorage.getItem('action');
+                navigate(action, { replace: true });
+
+                if (action === 'modify') {
+                    navigate('/workplace/modify', { replace: true }); // 수정 페이지로 이동
+                } else {
+                    navigate('/detail', { replace: true }); // 기본 업장 메인페이지로 이동
+                } 
             } else {
-                setError('비밀번호가 올바르지 않습니다.');
+                setError('간편 비밀번호가 일치하지 않습니다.');
             }
         } catch (error) {
             console.error('Error verifying password:', error);
@@ -33,23 +37,23 @@ const WorkplacePwdVerify = () => {
     };
 
     return (
-        <>
-            <h1>해당 사업장의 간편비밀번호를 입력하세요.</h1>
+        <div>
+            <h1>간편 비밀번호 입력</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="password">간편비밀번호</label>
+                    <label htmlFor="password">간편 비밀번호:</label>
                     <input
-                        type="text"
-                        id="workplacePassword"
-                        value={workplacePassword}
-                        onChange={workplacePwdVerifyHandler}
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>
                 {error && <p>{error}</p>}
                 <button type="submit">확인</button>
             </form>
-        </>
+        </div>
     );
 };
 
