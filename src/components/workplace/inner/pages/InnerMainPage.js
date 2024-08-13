@@ -1,22 +1,32 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import useWorkplaceId from "../../../../hooks/useWorkplaceId";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
+import styles from "./InnerMainPage.module.scss";
+import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const InnerMainPage = () => {
-    // const workplaceId = useWorkplaceId();
-
-    // 사업장 아이디 가져가서 쓰기
     const workplaceIdByStore = useSelector((state) => state.workplace.workplaceId);
-    console.log("스토어에서 셀렉터로 꺼내온 아아디:", workplaceIdByStore)
+    console.log("스토어에서 셀렉터로 꺼내온 아아디:", workplaceIdByStore);
 
     const [workplaceInfo, setWorkplaceInfo] = useState(null);
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1); // 현재 월 (1~12)
+    const [currentYear, setCurrentYear] = useState(new Date().getFullYear()); // 현재 연도
+    const [selectedDate, setSelectedDate] = useState(new Date()); // 오늘 날짜로 초기화
+
+    // 날짜 포맷 함수
+    const formatDate = (date) => {
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'long' };
+        return date.toLocaleDateString('ko-KR', options);
+    };
+
+    // DatePicker의 ref 생성
+    const datePickerRef = useRef(null);
 
     useEffect(() => {
         const fetchWorkplaceInfo = async () => {
             console.log('async:', workplaceIdByStore);
-            
+
             try {
                 const response = await axios.get(`http://localhost:8877/workplace/${workplaceIdByStore}`);
                 const workplace = response.data;
@@ -38,21 +48,107 @@ const InnerMainPage = () => {
         }
     }, [workplaceIdByStore]);
 
-    if (!workplaceInfo) {
-        return <div>Loading...</div>;
-    }
+    const handleNextMonth = () => {
+        if (currentMonth === 12) {
+            setCurrentMonth(1);
+            setCurrentYear((prevYear) => prevYear + 1);
+        } else {
+            setCurrentMonth((prevMonth) => prevMonth + 1);
+        }
+    };
+
+    const handlePrevMonth = () => {
+        if (currentMonth === 1) {
+            setCurrentMonth(12);
+            setCurrentYear((prevYear) => prevYear - 1);
+        } else {
+            setCurrentMonth((prevMonth) => prevMonth - 1);
+        }
+    };
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+        // 여기서 날짜가 변경될 때 해당 날짜의 정보를 DB에서 가져오도록 추가할 수 있습니다.
+    };
+
+    const formattedMonth = `${currentYear}년 ${currentMonth}월`;
 
     return (
-        <>
-            <h1>업장관리페이지시작점</h1>
-            <h2>해당 사업장 정보들</h2>
-            <p>업장 ID: {workplaceIdByStore}</p>
-            <p>사업장명: {workplaceInfo.workplaceName}</p>
-            <p>사업자 등록번호: {workplaceInfo.businessNo}</p>
-            <p>주소: {`${workplaceInfo.workplaceAddressStreet} ${workplaceInfo.workplaceAddressDetail}`}</p>
-            <p>간편비밀번호: {workplaceInfo.workplacePassword}</p>
-            <p>사업장 규모: {workplaceInfo.workplaceSize ? '5인 이상' : '5인 미만'}</p>
-        </>
+        <div className={styles.innerMainContainer}>
+            <div className={styles.leftPanel}>
+                <div className={styles.workplaceInfo}>
+                    <h1 className={styles.workplaceName}>사업장명</h1>
+                    <div className={styles.monthNavigation}>
+                        <button className={styles.arrowButton} onClick={handlePrevMonth}>&lt;</button>
+                        <span className={styles.monthText}>{formattedMonth}</span>
+                        <button className={styles.arrowButton} onClick={handleNextMonth}>&gt;</button>
+                    </div>
+                    <div className={styles.monthDetails}>
+                        <p className={styles.estimatedWages}>예상 급여 : 8,290,800 원</p>
+                        <p className={styles.totalEmployees}>총 직원 수 : 6명</p>
+                    </div>
+                </div>
+
+                <div className={styles.employeeSection}>
+                    <p className={styles.employeeTitle}>직원별 월 급여</p>
+                    <div className={styles.employeeWages}>
+                        <div className={styles.employeeWage}>정재한 (매니저) : 2,280,500 원</div>
+                        <div className={styles.employeeWage}>박성진 (직원) : 1,280,500 원</div>
+                        <div className={styles.employeeWage}>이지효 (직원) : 1,780,500 원</div>
+                        <div className={styles.employeeWage}>이수빈 (직원) : 2,080,500 원</div>
+                    </div>
+                </div>
+                <div className={styles.scroll}></div>
+            </div>
+
+            <div className={styles.rightPanel}>
+                <div className={styles.scheduleSection}>
+                    <div className={styles.datePickerContainer}>
+                        <img
+                            src={`${process.env.PUBLIC_URL}/images/calendar-icon.png`}
+                            alt="달력 아이콘"
+                            className={styles.calendarIcon}
+                            onClick={() => datePickerRef.current.setOpen(true)} // 달력 아이콘 클릭 시 DatePicker 열기
+                        />
+                        <DatePicker
+                            ref={datePickerRef}
+                            selected={selectedDate}
+                            onChange={handleDateChange}
+                            dateFormat="yyyy년 MM월 dd일"
+                            customInput={<h2 className={styles.dateText}>{formatDate(selectedDate)}</h2>}
+                        />
+                    </div>
+                    <div className={styles.scheduleTable}>
+                        <div className={styles.scheduleColumn}>
+                            <p className={styles.columnTitle}>출근전 (2)</p>
+                            <p className={styles.scheduleEntry}>정재한 (매니저) 11:00 출근예정</p>
+                            <p className={styles.scheduleEntry}>이지효 (직원) 휴가</p>
+                        </div>
+                        <div className={styles.scheduleColumn}>
+                            <p className={styles.columnTitle}>근무중 (2)</p>
+                            <p className={styles.scheduleEntry}>박성진 (직원) 09:00 출근</p>
+                            <p className={styles.scheduleEntry}>이수빈 (직원) 08:30 출근</p>
+                        </div>
+                        <div className={styles.scheduleColumn}>
+                            <p className={styles.columnTitle}>퇴근 (1)</p>
+                            <p className={styles.scheduleEntry}>강지혜 (직원) 10:00 퇴근</p>
+                        </div>
+                        <div className={styles.scheduleColumn}>
+                            <p className={styles.columnTitle}>기타 (1)</p>
+                            <p className={styles.scheduleEntry}>배윤정 (직원) 병가</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* 우측 하단 이미지 추가 */}
+            <div
+                className={styles.backgroundImage}
+                style={{
+                    backgroundImage: `url(${process.env.PUBLIC_URL}/images/background.png)`,
+                }}
+            ></div>
+        </div>
     );
 };
 
