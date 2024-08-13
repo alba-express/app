@@ -1,61 +1,82 @@
-.link-text {
-  text-decoration: none;
-  color: rgb(255, 255, 255);
-}
-
-.logo-box {
-  width: 19rem;
-  height: 10.5rem;
-  background: rgba(0, 139, 134, 0.8);
-  margin-left: 50px;
-  margin-bottom: 10px;
+.fullScreen {
+  width: 21%;
+  height: 100%;
+  //-----------
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  align-items: end;
+  //------------------------------------------------------
+  // box-shadow: 
+  // -10px 0 5px -5px rgba(110, 110, 110, 0.2), /* 왼쪽 */
+  // 0 15px 5px -5px rgba(0, 0, 0, 0.2),        /* 아래 */
+  // 15px 0 5px -5px rgba(110, 110, 110, 0.2);  /* 오른쪽 */
+  //-------------------------------------------------------
+  // border: 3px solid rgb(208, 255, 0);
 
-  img {
-    width: 18rem; /* 로고의 크기를 적절히 조정 */
-    height: auto;
+  .link-text {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
   }
-}
 
-.logo-box:hover {
-  cursor: pointer;
-}
-
-.profile-box {
-  width: 19rem;
-  height: 8rem;
-  border: 1px solid rgba(148, 179, 151, 0.9);
-  margin-left: 50px;
-  list-style-type: none;
-}
-
-.leftMenu-box {
-  width: 19rem;
-  height: 5rem;
-  background: rgba(183, 228, 202, 0.9);
-  margin-left: 50px;
-  margin-top: 14px;
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: 5px;
-  color: rgba(43, 42, 42, 0.8);
-  display: flex;
-  align-items: center;
-  box-shadow: 2px 2px 3px rgba(110, 110, 110, 0.5);
-  text-decoration: none;
-
-  img {
-    width: 3rem;
-    height: 3rem;
-    margin: 0 30px 0 40px;
-    margin-right: 20px;
+  .logo-box {
+    width: 79%;
+    height: 20.8%;
+    background: rgba(0, 139, 134, 0.8);
+    //-----------------------------------
+    padding-bottom: 5%;
+    //-----------------------------------
+    font-size: 40px;
+    font-weight: 700;
+    //--------------------------
+    display: flex;
+    justify-content: center;
+    align-items: end;
   }
-}
-
-.leftMenu-box:hover {
-  background: rgba(65, 63, 63, 0.3);
-  color: rgba(255, 255, 255, 1);
-  cursor: pointer;
+  .logo-box:hover {
+    cursor: pointer;
+  }
+  
+  .profile-box {
+    width: 79%;
+    height: 17%;
+    border: 1px solid rgba(148, 179, 151, 0.9);
+    //-------------------------------------
+    margin: 3.5% 0;
+    //-------------------
+    list-style-type: none;
+  }
+  
+  .leftMenu-box {
+    width: 79%;
+    height: 10%;
+    // background: rgba(217, 241, 218, 0.9);
+    background: rgba(183, 228, 202, 0.9);
+    //----------------------------------
+    // margin-left: 50px;
+    margin-bottom: 3.5%;
+    //-----------------------------------
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    color: rgba(43, 42, 42, 0.8);
+    //------------------------------
+    display: flex;
+    align-items: center;
+    //--------------------
+    box-shadow: 2px 2px 3px rgba(110, 110, 110, 0.5);
+    //-------------------------------------------------
+    text-decoration: none;
+  
+    img {
+      width: 3rem;
+      height: 3rem;
+      margin: 0 30px 0 40px;
+      margin-right: 20px;
+    }
+  }
+  .leftMenu-box:hover {
+    background: rgba(65, 63, 63, 0.3);
+    color: rgba(255, 255, 255, 1);
+    cursor: pointer;
+  }
 }
