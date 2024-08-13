@@ -50,13 +50,9 @@ const SlaveManagePage = () => {
             <Link to="/detail/slave-regist" className={styles['link-text']}> 
               <button className={styles['headerButton']} > 직원등록 </button>
             </Link>
-            <Link to="/detail/slave-modify" className={styles['link-text']}> 
-              <button className={styles['headerButton']} > 직원수정(임시) </button>
-            </Link>
-            <Link to="/detail/slave-info" className={styles['link-text']}> 
-              <button className={styles['headerButton']} > 직원상세(임시) </button>
-            </Link>
+
           </div>
+          
           <div className={styles['slaveManagementTitle-box']}>
             <div onClick={activeSlaveHandler} className={styles['slaveManagementTitle-list']}> 근무중 아르바이트생 목록 </div>
             <div onClick={inactiveSlaveHandler} className={styles['slaveManagementTitle-list']}> 퇴사한 아르바이트생 목록 </div>

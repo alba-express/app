@@ -3,6 +3,7 @@ import styles from './SlaveManagePageSlaveStatusList.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { slaveActions } from '../../../../../store/slave-slice';
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 const SlaveManagePageActiveSlaveList = () => {
 
@@ -69,7 +70,7 @@ const SlaveManagePageActiveSlaveList = () => {
     <>
       {showWhichSlaveList.slaveList.map((oneSlave) => 
         (
-          <div key={oneSlave.slaveId} className={styles['slaveManagementList-OneSlave']} > 
+          <Link to="/detail/slave-info" key={oneSlave.slaveId} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
             
             <div className={styles['slaveManagementList-OneSlaveName']} >
               {oneSlave.slaveName}
@@ -104,8 +105,7 @@ const SlaveManagePageActiveSlaveList = () => {
             <div className={styles['slaveManagementList-OneSlaveJoin']} >
               {oneSlave.slaveCreatedAt}
             </div>
-
-          </div>
+          </Link>
         )
       )}
     </>
