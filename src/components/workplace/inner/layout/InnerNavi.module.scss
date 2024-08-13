@@ -2,23 +2,23 @@
   text-decoration: none;
   color: rgb(255, 255, 255);
 }
+
 .logo-box {
   width: 19rem;
   height: 10.5rem;
   background: rgba(0, 139, 134, 0.8);
-  //-----------------------------------
   margin-left: 50px;
-  padding-top: 20px;
-  padding-bottom: 20px;
   margin-bottom: 10px;
-  //-----------------------------------
-  font-size: 40px;
-  font-weight: 700;
-  //--------------------------
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: center;
+
+  img {
+    width: 18rem; /* 로고의 크기를 적절히 조정 */
+    height: auto;
+  }
 }
+
 .logo-box:hover {
   cursor: pointer;
 }
@@ -27,31 +27,23 @@
   width: 19rem;
   height: 8rem;
   border: 1px solid rgba(148, 179, 151, 0.9);
-  //-------------------------------------
   margin-left: 50px;
-  //-------------------
   list-style-type: none;
 }
 
 .leftMenu-box {
   width: 19rem;
   height: 5rem;
-  // background: rgba(217, 241, 218, 0.9);
   background: rgba(183, 228, 202, 0.9);
-  //----------------------------------
   margin-left: 50px;
   margin-top: 14px;
-  //-----------------------------------
   font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: 5px;
   color: rgba(43, 42, 42, 0.8);
-  //------------------------------
   display: flex;
   align-items: center;
-  //--------------------
   box-shadow: 2px 2px 3px rgba(110, 110, 110, 0.5);
-  //-------------------------------------------------
   text-decoration: none;
 
   img {
@@ -61,6 +53,7 @@
     margin-right: 20px;
   }
 }
+
 .leftMenu-box:hover {
   background: rgba(65, 63, 63, 0.3);
   color: rgba(255, 255, 255, 1);

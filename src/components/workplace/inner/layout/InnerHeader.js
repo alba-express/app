@@ -18,10 +18,6 @@ const InnerHeader = () => {
         navigate('/login');
     };
 
-    const handleRetire = () => {
-        navigate('/login/retire');
-    };
-
     const NoticeModalHandler = e => {
         if(notices.length > 0) {
             dispatch(noticeActions.setSelectedNotice(notices[0]));
@@ -46,7 +42,6 @@ const InnerHeader = () => {
                 <button className={styles['headerButton']}>사업장변경</button>
             </Link>
             <button className={styles['headerButton']} onClick={handleLogout}>로그아웃</button>
-            <button className={styles['headerButton']} onClick={handleRetire}>회원 탈퇴</button>
         </div>
     );
 };
