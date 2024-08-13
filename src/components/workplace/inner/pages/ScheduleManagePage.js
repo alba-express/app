@@ -50,44 +50,28 @@ const ScheduleManagePage = () => {
     }, [selectedDate]);
 
     useEffect(() => {
-        if (addedSchedule) {
-            console.log('addedSchedule: ', addedSchedule);
-            // Redux 상태에서 가져온 값을 사용하여 데이터를 fetch
-            const {slaveId, startTime, endTime} = addedSchedule;
 
-            const fetchExtraSchedule = async () => {
-                if (!selectedDate) return;
+        const fetchExtraSchedule = async () => {
+            if (!selectedDate) return;
 
-                setFetching(true);
+            setFetching(true);
 
-                const date = selectedDate;
-                const payload = {
-                    slaveId: slaveId,
-                    date: selectedDate,
-                    startTime: startTime,
-                    endTime: endTime
-                };
-
-                console.log('payload: ', payload);
-
-                try {
-                    const response = await fetch(
-                        `http://localhost:8877/detail/extraschedule-manage?slaveId=${slaveId}&date=${date}&startTime=${startTime}&endTime=${endTime}`);
-                    if (!response.ok) {
-
-                        throw new Error('네트워크 응답이 올바르지 않습니다.');
-
-                    }
-                    const data2 = await response.json();
-                    console.log("추가근무 확인: ", data2);
-                    setExtraScheduleData(data2);
-                } catch (error) {
-                    console.error('Error: ', error);
+            try {
+                console.log("extraSchedule getmapping 보내기 확인");
+                const response = await fetch(
+                    `http://localhost:8877/detail/extraschedule-manage?workplaceId=${workplaceId}&date=${selectedDate}`);
+                if (!response.ok) {
+                    throw new Error('네트워크 응답이 올바르지 않습니다.');
                 }
-            };
-            fetchExtraSchedule();
-        }
-    }, [addedSchedule]);
+                const data2 = await response.json();
+                console.log("추가근무 확인: ", data2);
+                setExtraScheduleData(data2);
+            } catch (error) {
+                console.error('Error: ', error);
+            }
+        };
+        fetchExtraSchedule();
+    }, [addedSchedule, selectedDate]);
 
 
     // 시간 포맷팅 함수
@@ -134,13 +118,13 @@ const ScheduleManagePage = () => {
 
                     {extraScheduleData.length === 0 ? "오늘 추가 근무자가 없습니다."
                         : <div className={styles.scheduleList}>
-                            {extraScheduleData.map(extraSchedule => (
-                                <div key={extraSchedule.slaveId} className={styles.scheduleItem}>
+                            {extraScheduleData.map((extraSchedule,index) => (
+                                <div key={extraScheduleData.length - index} className={styles.scheduleItem}>
                                     <div className={styles.scheduleItemName}>
                                         {extraSchedule.slaveName} ({extraSchedule.slavePosition})
                                     </div>
                                     <div className={styles.scheduleItemTime}>
-                                        {formatTime(extraSchedule.scheduleStart)} ~ {formatTime(extraSchedule.scheduleEnd)}
+                                        {formatTime(extraSchedule.startTime)} ~ {formatTime(extraSchedule.endTime)}
                                     </div>
                                 </div>
                             ))}
