@@ -46,8 +46,7 @@ const ScheduleAddPage = () => {
         console.log('form: ', formData.get('startTime'));
 
         const payload = {
-            // slaveId: formData.get('slaveId'),
-            slaveId: '6121557d-9124-4eb9-aee8-a9d258e800b3',
+            slaveId: formData.get('slaveId'),
             date: selectedDate,
             startTime: formData.get('startTime'),
             endTime: formData.get('endTime'),
@@ -63,8 +62,9 @@ const ScheduleAddPage = () => {
         });
 
         if (response.ok) {
-            // const data = await response.json();
-            // console.log('응답 데이터: ', data);
+            console.log('확인 ');
+            const data = await response.json();
+            console.log('응답 데이터: ', data);
 
             navigate("/detail/schedule-manage");
         }

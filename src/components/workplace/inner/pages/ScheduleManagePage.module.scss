@@ -19,7 +19,7 @@
 
 .addSchedulebutton {
   position: absolute;
-  top: 5px;
+  top: -10px;
   right: 40px;
   padding: 5px 5px;
   //margin-left: 20px;
@@ -29,7 +29,6 @@
   color: white;
   font-size: 16px;
   cursor: pointer;
-
 
   &:hover {
     background-color: gray;

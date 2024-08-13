@@ -4,10 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { removeUserToken } from '../../../../utils/auth';
 import {useDispatch, useSelector} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
+import NoticeModal from "../pages/NoticeModal";
 
 const InnerHeader = () => {
 
     const notices = useSelector(state => state.notice.noticeList);
+    const isModalOpen = useSelector(state => state.notice.isModalOpen);
     const [latestNoticeTitle, setLatestNoticeTitle] = useState('공지사항 없음');
     const dispatch = useDispatch();
 
@@ -23,10 +25,15 @@ const InnerHeader = () => {
     };
 
     const NoticeModalHandler = e => {
+        console.log('최근 공지 클릭');
         if(notices.length > 0) {
             dispatch(noticeActions.setSelectedNotice(notices[0]));
             dispatch(noticeActions.openModal());
         }
+    };
+
+    const handleCloseModal = () => {
+        dispatch(noticeActions.closeModal()); // 모달 닫기
     };
 
     // 최신 공지사항 제목 가져오기
@@ -47,6 +54,20 @@ const InnerHeader = () => {
             </Link>
             <button className={styles['headerButton']} onClick={handleLogout}>로그아웃</button>
             <button className={styles['headerButton']} onClick={handleRetire}>회원 탈퇴</button>
+
+            {/* 모달 컴포넌트 추가 */}
+            {isModalOpen && (
+                <NoticeModal
+                    isOpen={isModalOpen}
+                    onClose={handleCloseModal}
+                    id={notices[0].id}
+                    title={notices[0].title}
+                    content={notices[0].content}
+                    date={notices[0].date}
+                    refreshNotices={() => {}}
+                />
+            )}
+
         </div>
     );
 };

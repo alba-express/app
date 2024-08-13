@@ -74,7 +74,8 @@ const NoticePage = () => {
 
             <div className={styles.actions}>
                 <Link to="/detail/notice-register">
-                {userId && <button type="button" >작성</button>}
+                {/*{userId && <button type="button" >작성</button>}*/}
+                <button type="button" >작성</button>
                 </Link>
             </div>
 
