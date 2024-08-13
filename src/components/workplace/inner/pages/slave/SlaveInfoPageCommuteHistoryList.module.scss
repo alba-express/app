@@ -7,12 +7,13 @@
   margin-bottom: 20px;
   padding: 10px 0;
   width: 100%;
-  height: 5rem;
+  height: 2.5rem;
   // 기본 높이 2, 근무시간 배열 사이즈에 따라 2rem씩 추가하기
   border: 3px solid white;
   background: white;
   border-radius: 5px;
   display: flex;
+  align-items: center;
   
   &-common {
     height: 2rem;
