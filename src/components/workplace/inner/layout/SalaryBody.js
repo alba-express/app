@@ -22,7 +22,7 @@ const SalaryBody = () => {
             role={log.slavePosition}
             wageType={log.wageType}
             hourlyWage={log.wage}
-            totalSalary={log.totalAmount}
+            totalSalary={log.wageType? log.totalAmount : log.wage}
             insurance={log.wageInsurance}
             />
             ))}
