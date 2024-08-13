@@ -29,6 +29,7 @@ import CommuteRecord from "../components/workplace/inner/pages/CommuteRecord";
 import NoticeEditPage from "../components/workplace/inner/pages/NoticeEditPage";
 import RetirePage from "../components/login/pages/RetirePage";
 import WorkplacePwdVerify from "../components/workplace/outer/pages/WorkplacePwdVerify";
+import RecoverPage from "../components/login/pages/RecoverPage";
 
 const loginRouter = [
     {
@@ -56,6 +57,11 @@ const loginRouter = [
         path: "retire",
         element: <RetirePage />,
     },
+    {
+        // 회원복구 페이지
+        path: "recover",
+        element: <RecoverPage />,
+    }
 ];
 
 const workplaceRouter = [

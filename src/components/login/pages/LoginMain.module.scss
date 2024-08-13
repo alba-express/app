@@ -84,6 +84,22 @@
   margin-top: 10px;
 }
 
+.recoverButton {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: rgb(42, 157, 143); /* 복구하기 버튼 색상 */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  width: 100%;
+}
+
+.recoverButton:hover {
+  background: rgba(65, 63, 63, 0.7);
+}
+
 .additionalLinks {
   display: flex;
   justify-content: space-between;

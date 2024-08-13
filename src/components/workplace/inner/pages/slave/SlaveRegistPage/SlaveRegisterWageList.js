@@ -8,7 +8,7 @@ const SlaveRegisterWageModal = ({ onWages }) => {
   // 급여타입(wageType): 1 --> 시급 / 0 --> 월급
   // 4대보험 적용여부(wageInsurance): true, 1 --> 적용 / false, 0 --> 미적용
                             // 급여타입, 급여금액,       4대보험적용여부
-  const initialWageList = [{slaveWageType: '', slaveWageAmount: 0, slaveWageInsurance: ''}];
+  const initialWageList = [{slaveWageType: '', slaveWageAmount: '', slaveWageInsurance: ''}];
 
   // 급여리스트 상태값으로 관리하기
   const [wageList, setWageList] = useState(initialWageList);
@@ -37,11 +37,11 @@ const SlaveRegisterWageModal = ({ onWages }) => {
 
     // 이미 시급(true)이 클릭된 상태인 경우 재클릭이기 때문에 선택 초기화 (급여타입, 급여금액)
     if (wageList[0].slaveWageType === true) {
-      setWageList([{ ...wageList[0], slaveWageType: '', slaveWageAmount: 0 }]);
+      setWageList([{ ...wageList[0], slaveWageType: '', slaveWageAmount: '' }]);
 
-      // 아무것도 클릭을 안했었거나, 월급이 클릭됐었던 경우 급여타입 시급(true) 으로 변경
+      // 아무것도 클릭을 안했었거나, 월급이 클릭됐었던 경우 급여타입 시급(true) 으로 변경, 급여금액 초기화
     } else {
-      setWageList([{ ...wageList[0], slaveWageType: true }]);
+      setWageList([{ ...wageList[0], slaveWageType: true, slaveWageAmount: '' }]);
     }
   };
 
@@ -50,11 +50,11 @@ const SlaveRegisterWageModal = ({ onWages }) => {
 
     // 이미 월급(false)이 클릭된 상태인 경우 재클릭이기 때문에 선택 초기화 (급여타입, 급여금액)
     if (wageList[0].slaveWageType === false) {
-      setWageList([{ ...wageList[0], slaveWageType: '', slaveWageAmount: 0 }]);
+      setWageList([{ ...wageList[0], slaveWageType: '', slaveWageAmount: '' }]);
 
-      // 아무것도 클릭을 안했었거나, 시급이 클릭됐었던 경우 급여타입 월급(false) 으로 변경
+      // 아무것도 클릭을 안했었거나, 시급이 클릭됐었던 경우 급여타입 월급(false) 으로 변경, 급여금액 초기화
     } else {
-      setWageList([{ ...wageList[0], slaveWageType: false }]);
+      setWageList([{ ...wageList[0], slaveWageType: false, slaveWageAmount: '' }]);
     }
   };
 
@@ -63,45 +63,36 @@ const SlaveRegisterWageModal = ({ onWages }) => {
   // 시급 선택한 경우 시급input태그 입력내용을 급여리스트 상태에 반영하기
   const wageAmountHourlyHandler = e => {
 
-    // 급여타입이 시급(true) 인 경우
-    if (wageList[0].slaveWageType === true) {
+    // 급여타입이 시급(true) 이면서 시급의 금액 입력창이 빈 것이 아닐경우
+    if (wageList[0].slaveWageType === true && e.target.value !== '') {
 
-      // 시급의 금액 입력창이 빈 것이 아닐경우
-      if (e.target.value !== '') {
       setWageList([{ ...wageList[0], slaveWageAmount: e.target.value }]);
-      }
     };
   };
 
   // 월급 선택한 경우 월급input태그 입력내용을 급여리스트 상태에 반영하기
   const wageAmountMonthlyHandler = e => {
 
-    // 급여타입이 월급(false) 인 경우
-    if (wageList[0].slaveWageType === false) {
+    // 급여타입이 월급(false) 이면서 월급의 금액 입력창이 빈 것이 아닐경우
+    if (wageList[0].slaveWageType === false && e.target.value !== '') {
 
-      // 월급의 금액 입력창이 빈 것이 아닐경우
-      if (e.target.value !== '') {
       setWageList([{ ...wageList[0], slaveWageAmount: e.target.value }]);
-      }
     };
   };
 
   //-------------------------------------------------
 
   // 4대보험 컴포넌트로  함수 내려보내 4대보험 적용여부 받아오기
-  const applyInsurance = useCallback ((updatedWageInsurance)=> {
-
-    setWageList([{ ...wageList[0], slaveWageInsurance: updatedWageInsurance }]);
+  const applyInsurance = useCallback((updatedWageInsurance) => {
+    setWageList(prev => [{ ...prev[0], slaveWageInsurance: updatedWageInsurance }]);
   }, []);
-
-  //-------------------------------------------------
 
   // 4대보험 적용여부 체크박스 상태값이 업데이트될 때 마다 확인하기
   useEffect(() => {
 
     // 직원등록에서 내려온 함수에 급여리스트 담아서 올려보내기
     onWages(wageList);
-
+    
   }, [wageList, onWages]);
 
   //-------------------------------------------------
@@ -129,7 +120,7 @@ const SlaveRegisterWageModal = ({ onWages }) => {
               <>
                 <label htmlFor="hourly">
                   시급
-                  <input id="hourly" className={styles['slaveRegistPageInputWage-input']} onChange={wageAmountHourlyHandler} />
+                  <input id="hourly" className={styles['slaveRegistPageInputWage-input']} onChange={wageAmountHourlyHandler} value={wageList[0].slaveWageAmount}/>
                   원
                 </label>
               </>
@@ -137,7 +128,7 @@ const SlaveRegisterWageModal = ({ onWages }) => {
               <>
                 <label htmlFor="monthly">
                   월급
-                  <input id="monthly" className={styles['slaveRegistPageInputWage-input']} onChange={wageAmountMonthlyHandler} />
+                  <input id="monthly" className={styles['slaveRegistPageInputWage-input']} onChange={wageAmountMonthlyHandler} value={wageList[0].slaveWageAmount} />
                   원
                 </label>
               </>

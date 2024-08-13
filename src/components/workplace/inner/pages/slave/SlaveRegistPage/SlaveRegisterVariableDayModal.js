@@ -10,10 +10,10 @@ const SlaveRegisterVariableDayModal = ({ onVariable }) => {
                                 { scheduleDay: 1, value: '월', select: false, startSchedule: '', endSchedule: '' },
                                 { scheduleDay: 2, value: '화', select: false, startSchedule: '', endSchedule: '' },
                                 { scheduleDay: 3, value: '수', select: false, startSchedule: '', endSchedule: '' },
-                                { scheduleDay: 4,  value: '목', select: false, startSchedule: '', endSchedule: '' },
+                                { scheduleDay: 4, value: '목', select: false, startSchedule: '', endSchedule: '' },
                                 { scheduleDay: 5, value: '금', select: false, startSchedule: '', endSchedule: '' },
                                 { scheduleDay: 6, value: '토', select: false, startSchedule: '', endSchedule: '' },
-                                { scheduleDay: 7, value: '일', select: false, startSchedule: '', endSchedule: '' },
+                                { scheduleDay: 0, value: '일', select: false, startSchedule: '', endSchedule: '' },
                               ];
 
   // 변동시간 배열 상태값으로 관리
@@ -53,7 +53,7 @@ const SlaveRegisterVariableDayModal = ({ onVariable }) => {
   useEffect(() => {
 
     const updatedVariableDays = variableDays.filter(day => day.select);
-    // console.log('최종 변동시간', updatedVariableDays);
+    console.log('최종 변동시간', updatedVariableDays);
 
     // SlaveRegistPage 에서 내려보낸 onVariable 에 updatedVariableDays 전달하기
     onVariable(updatedVariableDays);
@@ -86,7 +86,7 @@ const SlaveRegisterVariableDayModal = ({ onVariable }) => {
             id={`${day.scheduleDay}-startTime`} 
             value={day.startSchedule} 
             className={styles['slaveRegistPageInputSchedule-input']} 
-            onChange={ e => {startTimeHandler(day.label, e.target.value)}}
+            onChange={ e => {startTimeHandler(day.scheduleDay, e.target.value)}}
           />
           부터
         </label>

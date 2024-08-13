@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styles from './SlaveRegistPage.module.scss'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SlaveRegisterVariableDayModal from "./slave/SlaveRegistPage/SlaveRegisterVariableDayModal";
 import SlaveRegisterFixedDayModal from "./slave/SlaveRegistPage/SlaveRegisterFixedDayModal";
 import SlaveRegisterWageModal from "./slave/SlaveRegistPage/SlaveRegisterWageList";
+import { useSelector } from "react-redux";
 
 const SlaveRegistPage = () => {
 
@@ -24,7 +25,13 @@ const SlaveRegistPage = () => {
         slaveScheduleType: '',
         // 근무시간정보
         slaveScheduleList: [],
+        // 사업장번호
+        workPlaceNumber: ''
     });
+
+    //-------------------------------------------------
+
+    const navigate = useNavigate();
 
     //-------------------------------------------------
 
@@ -137,41 +144,21 @@ const SlaveRegistPage = () => {
 
     //-------------------------------------------------
 
-    // 세션 스토리지에서 사업장 번호를 가져오기
-    const getWorkPlace = () => {
+    // 사업장 번호를 가져오기
+    const workplaceIdByStore = useSelector(state => state.workplace.workplaceId);
 
-        // 세션 스토리지에 사업장번호가 없기때문에 더미데이터 추가
-        let dummyWorkPlace = {workPlaceNumber: 1};
-
-        sessionStorage.setItem("item", JSON.stringify(dummyWorkPlace));
-
-
-        // 세션스토리지에서 키를 통해 value 꺼내기
-        const workPlaceBySession = sessionStorage.getItem('item');
-
-        // JSON 형태의 value 를 변수로 꺼내기
-        const workPlace = JSON.parse(workPlaceBySession);
-
-        // 사업장이 있으면 꺼내오고 없으면 null
-        return workPlace ? workPlace.workPlaceNumber : null;
-    }
-
-    // 
     useEffect(() => {
-        const workPlaceNumber = getWorkPlace();
-
-        if (workPlaceNumber) {
-            setSlaveRegistInput(prev => ({...prev, workPlaceNumber}));
+        if (workplaceIdByStore) {
+            setSlaveRegistInput(prev => ({ ...prev, workPlaceNumber: workplaceIdByStore }));
         }
-
-    }, []);
+    }, [workplaceIdByStore]);
 
     //-------------------------------------------------
 
     // 입력값 검증 함수
     const validateInputs = () => {
-        const { slaveName, slavePhoneNumber, slaveBirthday, slavePosition, slaveWageList, slaveScheduleType, slaveScheduleList } = slaveRegistInput;
-        if (!slaveName || !slavePhoneNumber || !slaveBirthday || !slavePosition || slaveWageList.length === 0 || !slaveScheduleType || slaveScheduleList.length === 0) {
+        const { slaveName, slavePhoneNumber, slaveBirthday, slavePosition, slaveWageList, slaveScheduleType, slaveScheduleList, workPlaceNumber } = slaveRegistInput;
+        if (!slaveName || !slavePhoneNumber || !slaveBirthday || !slavePosition || slaveWageList.length === 0 || slaveScheduleType === '' || slaveScheduleList.length === 0, !workPlaceNumber) {
             return false;
         }
         return true;
@@ -210,11 +197,17 @@ const SlaveRegistPage = () => {
 
                 const result = await response.json();
                 console.log('Success:', result);
+                alert("직원이 등록되었습니다.")
+                navigate("/detail/slave-manage");
+
                 
             } catch (error) {
                 console.error('Error', error);
             };
-}
+    };
+
+    //-------------------------------------------------
+
     return (
         <>
             <div className={styles['slaveRegistPage']} >

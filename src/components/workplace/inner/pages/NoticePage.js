@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import styles from "./NoticePage.module.scss"
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import NoticeModal from "./NoticeModal";
 import {useDispatch, useSelector} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
@@ -14,13 +14,14 @@ const NoticePage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
-    const [workplaceId, setWorkplaceId] = useState("123");
 
     const dispatch = useDispatch();
     const notices = useSelector((state) => state.notice.noticeList || []);
 
     const navigate = useNavigate();
     const userId = useAuth();
+
+    const workplaceId = useSelector((state => state.workplace.workplaceId));
 
     const fetchNotices = useCallback(async () => {
         setIsLoading(true);
@@ -44,10 +45,6 @@ const NoticePage = () => {
         fetchNotices();
     }, [fetchNotices]);
 
-
-    const writeHandler = e => {
-        navigate("/detail/notice-register");
-    };
 
     const openModal = (notice) => {
         setSelectedNotice(notice);
@@ -76,7 +73,9 @@ const NoticePage = () => {
             </div>
 
             <div className={styles.actions}>
-                {userId && <button type="button" onClick={writeHandler} >작성</button>}
+                <Link to="/detail/notice-register">
+                {userId && <button type="button" >작성</button>}
+                </Link>
             </div>
 
             <div className={styles.noticeList}>

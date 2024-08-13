@@ -1,7 +1,6 @@
 .content-box {
-  padding: 30px;
-  // background-color: #f0f4f8; // 배경색을 조금 더 부드럽게
-  // border-radius: 8px; // 모서리를 둥글게
+  padding: 100px;
+  margin-top: -120px;
   // box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); // 약간의 그림자 추가
 }
 
@@ -14,20 +13,32 @@
   margin-bottom: 20px; /* content-box와의 간격 조정 */
 }
 
+.employee-list-title {
+  width: 100px;
+  height: 3rem;
+  font-size: 1.5rem;
+  color: #2a9d8f;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .employee-list-container {
   display: flex;
   gap: 20px; // 두 박스 사이의 간격
-  margin-top: 20px;
+  // margin-top: 20px;
 }
 
 .employee-list {
   width: 500px;
+  height: 600px;
   background: rgba(245, 245, 245, 0.8); // 배경색을 더 밝게
   padding: 15px; // 패딩 증가
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 }
 
 .employee-item-header {
@@ -48,27 +59,34 @@
 .employee-item {
   display: flex;
   justify-content: space-between;
-  padding: 15px; // 패딩 증가
+  padding: 15px;
   border: 1px solid #ddd;
   border-radius: 5px;
   background: #ffffff;
   align-items: center;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.employee-item:hover {
+  background: #f1f1f1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .employee-item-name {
   flex: 1;
-  font-size: 18px; // 글씨 크기 증가
+  font-size: 18px; 
 }
 
 .employee-item-time {
   flex: 1;
-  font-size: 18px; // 글씨 크기 증가
+  font-size: 18px;
   text-align: right;
 }
 
 .input-section {
   width: 200px;
-  margin: 100px auto;
+  margin: 190px auto;
   display: flex;
   flex-direction: column;
 }
