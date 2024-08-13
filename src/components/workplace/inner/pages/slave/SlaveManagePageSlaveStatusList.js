@@ -56,7 +56,7 @@ const SlaveManagePageActiveSlaveList = () => {
     if (error) {
       return <div>Error: {error}</div>;
     }
-  });
+  }, [showSlaveList]);
 
   //-------------------------------------------------
 
@@ -69,7 +69,7 @@ const SlaveManagePageActiveSlaveList = () => {
     <>
       {showWhichSlaveList.slaveList.map((oneSlave) => 
         (
-          <div key={oneSlave.slaveId} className={styles['slaveManagementList-OneSlave']} >
+          <div key={oneSlave.slaveId} className={styles['slaveManagementList-OneSlave']} > 
             
             <div className={styles['slaveManagementList-OneSlaveName']} >
               {oneSlave.slaveName}
@@ -80,18 +80,15 @@ const SlaveManagePageActiveSlaveList = () => {
             </div>
 
             {oneSlave.slaveWageList.map((wage) => 
-            <div key={wage.slaveWageId} className={styles['slaveManagementList-OneSlaveWage']}>
-              <div className={styles['slaveManagementList-OneSlaveMoneyType']} >
-                월급
-                  1000000원
-                  {/* {wage.slaveWageType}
-                  {wage.slaveWageAmount}
-                  {wage.slaveWageInsurance} */}
+              <div key={wage.slaveWageId} className={styles['slaveManagementList-OneSlaveWage']}>
+                <div className={styles['slaveManagementList-OneSlaveMoneyType']} >
+                    급여타입 : {wage.slaveWageType === true ? '시급' : '월급'}
+                    금액: {wage.slaveWageAmount}
+                </div>
+                <div className={styles['slaveManagementList-OneSlaveInsurance']} >
+                  4대보험 : {wage.slaveWageInsurance ? '적용' : '적용안함'}
+                </div>
               </div>
-              <div className={styles['slaveManagementList-OneSlaveInsurance']} >
-                4대보험
-              </div>
-            </div>
             )}
 
             <div className={styles['slaveManagementList-OneSlaveScheduleList']} >
