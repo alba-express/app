@@ -2,7 +2,8 @@ import React, {useEffect, useState} from "react";
 import styles from "./ScheduleAddPage.module.scss";
 import ScheduleCalendarPage from "./ScheduleCalendarPage";
 import {Form, Link, useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {scheduleActions} from "../../../../store/schedule-slice";
 
 const ScheduleAddPage = () => {
 
@@ -14,6 +15,8 @@ const ScheduleAddPage = () => {
     const [slaves, setSlaves] = useState([]);
 
     const workplaceId = useSelector((state => state.workplace.workplaceId));
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchSlave = async () => {
@@ -60,7 +63,7 @@ const ScheduleAddPage = () => {
         console.log('일정 추가 버튼 클릭');
 
         const formData = new FormData(e.target);
-        console.log('form: ', formData.get('startTime'));
+        // console.log('form: ', formData.get('startTime'));
 
         const payload = {
             slaveId: formData.get('slaveId'),
@@ -80,8 +83,9 @@ const ScheduleAddPage = () => {
 
         if (response.ok) {
             console.log('확인 ');
-            const data = await response.json();
-            console.log('응답 데이터: ', data);
+            // const data = await response.json();
+            // console.log('응답 데이터: ', data);
+            dispatch(scheduleActions.setAddedSchedule(payload));
 
             navigate("/detail/schedule-manage");
         }
