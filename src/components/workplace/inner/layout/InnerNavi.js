@@ -9,7 +9,7 @@ const InnerNavi = () => {
     return (
         <div className={styles.fullScreen}>
             <Link to="/detail" className={`${styles['link-text']} ${styles['logo-box']}`} >
-                Alba Express  
+                <img src={`${process.env.PUBLIC_URL}/images/albunny_logo.png`} alt="Albunny Logo" /> 
             </Link>
                 <li className={styles['profile-box']}>
                     <div> workplaceId: {workplaceId} </div>
