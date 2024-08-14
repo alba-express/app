@@ -3,7 +3,7 @@ import styles from './SlaveManagePageSlaveStatusList.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { slaveActions } from '../../../../../store/slave-slice';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SlaveManagePageActiveSlaveList = () => {
 
@@ -66,11 +66,44 @@ const SlaveManagePageActiveSlaveList = () => {
 
   //-------------------------------------------------
 
+  // redux store 에서 특정 직원 한 명의 정보를 표시하는 상태값 불러오기 (초기값: 특정 직원의 한 명의 정보를 넣을 빈 배열)
+  const showOneSlaveInfo = useSelector((state) => state.slave.showOneSlaveInfo);
+
+  const navigate = useNavigate();
+
+  //-------------------------------------------------
+
+  // 특정 직원 한 명을 클릭했을 때 해당 직원의 상세정보페이지로 이동하기
+  const selectOneSlaveHandler = async (slaveId) => {
+
+    // 해당 직원의 id
+    // console.log('이 직원의 아이디', slaveId);
+
+  // 이 직원의 아이디를 서버로 전달하여 일치하는 id를 가진 직원을 찾기
+    try {
+      const response = await axios.get(`http://localhost:8877/detail/slave-manage/${slaveId}`);
+      dispatch(slaveActions.setShowOneSlaveInfo(response.data));
+      navigate(`/detail/slave-info`);
+    } catch (error) {
+      setError(error.message);
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(() => {
+    console.log('특정직원정보', showOneSlaveInfo);
+
+  }, [showOneSlaveInfo]);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <>
       {showWhichSlaveList.slaveList.map((oneSlave) => 
         (
-          <Link to="/detail/slave-info" key={oneSlave.slaveId} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
+          <div key={oneSlave.slaveId} onClick={() => selectOneSlaveHandler(oneSlave.slaveId)} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
             
             <div className={styles['slaveManagementList-OneSlaveName']} >
               {oneSlave.slaveName}
@@ -105,7 +138,7 @@ const SlaveManagePageActiveSlaveList = () => {
             <div className={styles['slaveManagementList-OneSlaveJoin']} >
               {oneSlave.slaveCreatedAt}
             </div>
-          </Link>
+          </div>
         )
       )}
     </>
