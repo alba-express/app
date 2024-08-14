@@ -101,11 +101,11 @@ const SlaveManagePageActiveSlaveList = () => {
             {oneSlave.slaveWageList.map((wage) => 
               <div key={wage.slaveWageId} className={styles['slaveManagementList-OneSlaveWage']}>
                 <div className={styles['slaveManagementList-OneSlaveMoneyType']} >
-                    급여타입 : {wage.slaveWageType === true ? '시급' : '월급'}
+                    급여타입 : {wage.slaveWageType}
                     금액: {wage.slaveWageAmount}
                 </div>
                 <div className={styles['slaveManagementList-OneSlaveInsurance']} >
-                  4대보험 : {wage.slaveWageInsurance ? '적용' : '적용안함'}
+                  4대보험 : {wage.slaveWageInsurance}
                 </div>
               </div>
             )}
@@ -113,9 +113,9 @@ const SlaveManagePageActiveSlaveList = () => {
             <div className={styles['slaveManagementList-OneSlaveScheduleList']} >
               {oneSlave.slaveScheduleList.map((schedule) => 
                 <div key={schedule.slaveScheduleId} className={styles['slaveManagementList-OneSlaveScheduleOne']} >
-                  {schedule.scheduleDay} 요일
-                  {schedule.startSchedule} 부터
-                  {schedule.endSchedule} 까지
+                  {schedule.scheduleDay}
+                  {schedule.scheduleStart} 부터
+                  {schedule.scheduleEnd} 까지
                 </div>
               )}
             </div>

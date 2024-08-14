@@ -11,7 +11,7 @@ const initialState = {
         slaveList: [], 
         totalSlaveCount: ''
     },
-    showOneSlaveInfo: [], // 특정 직원 한 명의 정보 표시 (초기값: 특정 직원의 한 명의 정보를 넣을 빈 배열)
+    showOneSlaveInfo: {slaveId: '', slaveName: '', slavePosition:'', slavePhoneNumber:'', slaveBirthday:'', slaveCreatedAt:'', wageList: [], scheduleList: [], scheduleLogList: []}, // 특정 직원 한 명의 정보 표시 (초기값: 특정 직원의 한 명의 정보를 넣을 빈 배열)
 }
 
 const slaveSlice = createSlice({

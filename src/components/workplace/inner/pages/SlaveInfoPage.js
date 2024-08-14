@@ -47,7 +47,7 @@ const SlaveInfoPage = () => {
             }
         }; 
 
-        if (slaveId) {
+        if (slaveId !== null) {
             fetchSlaveInfo();
           } else {
             setError('직원 ID가 전달되지 않았습니다.');
@@ -55,7 +55,11 @@ const SlaveInfoPage = () => {
 
         // console.log(showOneSlaveInfo);
 
-    }, [slaveId, dispatch]);
+    }, [slaveId]);
+
+    useEffect(() => {
+        console.log(showOneSlaveInfo);
+    }, [showOneSlaveInfo]);
 
     if (error) {
       return <div>Error: {error}</div>;
@@ -95,7 +99,12 @@ const SlaveInfoPage = () => {
                     </div>
                     <div className={styles['slaveInfoPage-SlaveWageBox']}>
                         <div className={styles['slaveInfoPage-SlaveWageTitle']}> 급여타입 / 금액 </div>
-                        <div className={styles['slaveInfoPage-SlaveInfoContentBox']} > 시급 10000원 </div>
+                        {showOneSlaveInfo.wageList.map((wage, index) => (
+                                <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
+                                    {wage.slaveWageType}, {wage.slaveWageAmount}
+                                </div>
+                            ))}
+                        
                     </div>
                 </div>
                 <div>
@@ -103,13 +112,9 @@ const SlaveInfoPage = () => {
                         <div className={styles['slaveInfoPage-SlaveScheduleTitle']}> 고정근무시간 </div>
                         <div className={styles['slaveInfoPage-SlaveScheduleContentBox']} >
                             <div>요일 /  시간</div>
-                            <div>월 : 09:00 ~ 18:00</div>
-                            <div>화 : 09:00 ~ 18:00</div>
-                            <div>수 : 09:00 ~ 18:00</div>
-                            <div>목 : 09:00 ~ 18:00</div>
-                            <div>금 : 09:00 ~ 18:00</div>
-                            <div>토 : 09:00 ~ 18:00</div>
-                            <div>일 : 09:00 ~ 18:00</div>
+                            {showOneSlaveInfo.scheduleList.map((schedule, index) => (
+                                <div> {schedule.scheduleDay} : {schedule.scheduleStart} ~ {schedule.scheduleEnd} </div>
+                            ))}
                         </div>
                     </div>
                 </div>
