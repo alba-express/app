@@ -10,6 +10,8 @@ const InnerHeader = () => {
 
     const notices = useSelector(state => state.notice.noticeList);
     const isModalOpen = useSelector(state => state.notice.isModalOpen);
+    // const latestNoticeTitle = useSelector(state => state.notice.latestNoticeTitle);
+
     const [latestNoticeTitle, setLatestNoticeTitle] = useState('공지사항 없음');
     const dispatch = useDispatch();
 

@@ -13,6 +13,7 @@ const ScheduleAddPage = () => {
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [slaves, setSlaves] = useState([]);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const workplaceId = localStorage.getItem('workplaceId');
 
@@ -87,9 +88,11 @@ const ScheduleAddPage = () => {
 
             navigate("/detail/schedule-manage");
         } else {
-            const errorData = await response.json();
-            console.log('errorData: ', errorData);
+            const errorText = await response.text();
+            console.log('errorText: ', errorText);
+            setErrorMessage(errorText);
         }
+
     };
 
     return (
@@ -105,15 +108,16 @@ const ScheduleAddPage = () => {
                 <div className={styles.modifySchedule}>
                     <h3>일정 추가</h3>
 
-                    {/*{errorMessage && (*/}
-                    {/*    <div className={styles.errorMessage}>이미 해당 날짜에 추가 일정이 존재합니다.</div>*/}
-                    {/*)}*/}
+                    {errorMessage && (
+                        <div className={styles.errorMessage}>{errorMessage}</div>
+                    )}
 
                     <div className={styles.formGroup}>
                         <label htmlFor="slaveSelect">직원 선택:</label>
                         <select id="slaveSelect" name="slaveId"
                                 value={selectedSlave}
                                 onChange={handleSlaveChange}
+                                required
                         >
                             <option value="">직원을 선택하세요</option>
                             {slaves.map(slave => (
@@ -136,6 +140,7 @@ const ScheduleAddPage = () => {
                         <input type="time" id="startTime" name="startTime"
                                value={startTime}
                                onChange={handleStartTimeChange}
+                               required
                         />
                     </div>
 
@@ -144,6 +149,7 @@ const ScheduleAddPage = () => {
                         <input type="time" id="endTime" name="endTime"
                                value={endTime}
                                onChange={handleEndTimeChange}
+                               required
                         />
                     </div>
 
