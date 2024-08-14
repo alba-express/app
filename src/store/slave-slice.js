@@ -7,10 +7,11 @@ const initialState = {
         slaveList: [], 
         totalSlaveCount: ''
     },
-    showInactiveSlaveInfo: { // 퇴사한 직원 정보 표시 (초기값: 퇴사한 직원리스트 빈배열,퇴사한 직원리스트의 총 직원수 빈값)
+    showInactiveSlaveInfo: { // 퇴사한 직원 정보 표시 (초기값: 퇴사한 직원리스트 빈배열, 퇴사한 직원리스트의 총 직원수 빈값)
         slaveList: [], 
         totalSlaveCount: ''
     },
+    showOneSlaveInfo: {slaveId: '', slaveName: '', slavePosition:'', slavePhoneNumber:'', slaveBirthday:'', slaveCreatedAt:'', wageList: [], scheduleList: [], scheduleLogList: []}, // 특정 직원 한 명의 정보 표시 (초기값: 특정 직원의 한 명의 정보를 넣을 빈 배열)
 }
 
 const slaveSlice = createSlice({
@@ -26,38 +27,11 @@ const slaveSlice = createSlice({
         setShowInactiveSlaveInfo (state, action) {
             state.showInactiveSlaveInfo = action.payload;
         },
+        setShowOneSlaveInfo (state, action) {
+            state.showOneSlaveInfo = action.payload;
+        },
     }
 });
 
 export const slaveActions = slaveSlice.actions; // slaveSlice 의 reducers 에서 정의한 함수들 내보내기
 export default slaveSlice.reducer; // React의 index.js에 slaveReducer 제공
-
-// const wageSlice = createSlice({
-//     name: 'wage',
-//     initialState,
-//     reducers: {
-//         setMonthByType(state, action) {
-//             if(action.payload.type === "prev") {
-//                 if (state.month === 1) {
-//                     state.month = 12;
-//                     state.year = state.year - 1;
-//                 } else {
-//                     state.month = state.month - 1;
-//                 }
-//             } else if(action.payload.type === "next") {
-//                 if (state.month === 12) {
-//                     state.month = 1;
-//                     state.year = state.year + 1;
-//                 } else {
-//                     state.month = state.month + 1;
-//                 }
-//             }
-//         }, setSalaryByMonth(state, action) {
-//             state.salaryAmount = action.payload.amount;
-//         }, setSalaryLogList(state, action) {
-//             state.logList = [...action.payload.dtoList];
-//         }, setSlaveData(state, action) {
-//             state.slaveData = action.payload.slaveData;
-//         },
-//     }
-// })

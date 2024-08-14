@@ -3,7 +3,7 @@ import styles from './SlaveManagePageSlaveStatusList.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { slaveActions } from '../../../../../store/slave-slice';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SlaveManagePageActiveSlaveList = () => {
 
@@ -66,11 +66,29 @@ const SlaveManagePageActiveSlaveList = () => {
 
   //-------------------------------------------------
 
+  // redux store 에서 특정 직원 한 명의 정보를 표시하는 상태값 불러오기 (초기값: 특정 직원의 한 명의 정보를 넣을 빈 배열)
+  const showOneSlaveInfo = useSelector((state) => state.slave.showOneSlaveInfo);
+
+  // 
+  const navigate = useNavigate();
+
+  //-------------------------------------------------
+
+  // 특정 직원 한 명을 클릭했을 때 해당 직원의 상세정보페이지로 이동하기
+  const selectOneSlaveHandler = async (selectSlaveId) => {
+
+    // 해당 직원의 id
+    // console.log('이 직원의 아이디', selectSlaveId);
+
+    // 상세정보페이지로 이동, 해당 직원의 id를 상태로 전달하기
+    navigate(`/detail/slave-info`, {state: {slaveId: selectSlaveId}});
+  };
+
   return (
     <>
       {showWhichSlaveList.slaveList.map((oneSlave) => 
         (
-          <Link to="/detail/slave-info" key={oneSlave.slaveId} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
+          <div key={oneSlave.slaveId} onClick={() => selectOneSlaveHandler(oneSlave.slaveId)} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
             
             <div className={styles['slaveManagementList-OneSlaveName']} >
               {oneSlave.slaveName}
@@ -83,11 +101,11 @@ const SlaveManagePageActiveSlaveList = () => {
             {oneSlave.slaveWageList.map((wage) => 
               <div key={wage.slaveWageId} className={styles['slaveManagementList-OneSlaveWage']}>
                 <div className={styles['slaveManagementList-OneSlaveMoneyType']} >
-                    급여타입 : {wage.slaveWageType === true ? '시급' : '월급'}
+                    급여타입 : {wage.slaveWageType}
                     금액: {wage.slaveWageAmount}
                 </div>
                 <div className={styles['slaveManagementList-OneSlaveInsurance']} >
-                  4대보험 : {wage.slaveWageInsurance ? '적용' : '적용안함'}
+                  4대보험 : {wage.slaveWageInsurance}
                 </div>
               </div>
             )}
@@ -95,9 +113,9 @@ const SlaveManagePageActiveSlaveList = () => {
             <div className={styles['slaveManagementList-OneSlaveScheduleList']} >
               {oneSlave.slaveScheduleList.map((schedule) => 
                 <div key={schedule.slaveScheduleId} className={styles['slaveManagementList-OneSlaveScheduleOne']} >
-                  {schedule.scheduleDay} 요일
-                  {schedule.startSchedule} 부터
-                  {schedule.endSchedule} 까지
+                  {schedule.scheduleDay}
+                  {schedule.scheduleStart} 부터
+                  {schedule.scheduleEnd} 까지
                 </div>
               )}
             </div>
@@ -105,7 +123,7 @@ const SlaveManagePageActiveSlaveList = () => {
             <div className={styles['slaveManagementList-OneSlaveJoin']} >
               {oneSlave.slaveCreatedAt}
             </div>
-          </Link>
+          </div>
         )
       )}
     </>
