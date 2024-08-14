@@ -14,7 +14,7 @@ const ScheduleAddPage = () => {
     const [endTime, setEndTime] = useState("");
     const [slaves, setSlaves] = useState([]);
 
-    const workplaceId = useSelector((state => state.workplace.workplaceId));
+    const workplaceId = localStorage.getItem('workplaceId');
 
     const dispatch = useDispatch();
 
@@ -86,6 +86,9 @@ const ScheduleAddPage = () => {
             dispatch(scheduleActions.setAddedSchedule(payload));
 
             navigate("/detail/schedule-manage");
+        } else {
+            const errorData = await response.json();
+            alert(`에러 발생: ${errorData.message}`);
         }
     };
 
