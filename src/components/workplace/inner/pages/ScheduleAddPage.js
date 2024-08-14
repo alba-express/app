@@ -2,7 +2,8 @@ import React, {useEffect, useState} from "react";
 import styles from "./ScheduleAddPage.module.scss";
 import ScheduleCalendarPage from "./ScheduleCalendarPage";
 import {Form, Link, useNavigate} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {scheduleActions} from "../../../../store/schedule-slice";
 
 const ScheduleAddPage = () => {
 
@@ -11,8 +12,27 @@ const ScheduleAddPage = () => {
     const [selectedslave, setSelectedslave] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
+    const [slaves, setSlaves] = useState([]);
 
     const workplaceId = useSelector((state => state.workplace.workplaceId));
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchSlave = async () => {
+            const payload = {
+                workplaceId: workplaceId
+            };
+
+            console.log('payload: ', payload);
+
+            const response = await fetch(`http://localhost:8877/detail/schedule-add?workplaceId=${workplaceId}`)
+            const data = await response.json();
+            console.log("data: ", data);
+            setSlaves(data);
+        };
+        fetchSlave();
+    }, []);
 
     const navigate = useNavigate();
 
@@ -40,14 +60,11 @@ const ScheduleAddPage = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log('일정 추가 버튼 클릭');
-
         const formData = new FormData(e.target);
-        console.log('form: ', formData.get('startTime'));
+        // console.log('form: ', formData.get('startTime'));
 
         const payload = {
-            // slaveId: formData.get('slaveId'),
-            slaveId: '6121557d-9124-4eb9-aee8-a9d258e800b3',
+            slaveId: formData.get('slaveId'),
             date: selectedDate,
             startTime: formData.get('startTime'),
             endTime: formData.get('endTime'),
@@ -63,12 +80,13 @@ const ScheduleAddPage = () => {
         });
 
         if (response.ok) {
+            console.log('확인 ');
             // const data = await response.json();
             // console.log('응답 데이터: ', data);
+            dispatch(scheduleActions.setAddedSchedule(payload));
 
             navigate("/detail/schedule-manage");
         }
-
     };
 
     return (
@@ -90,10 +108,12 @@ const ScheduleAddPage = () => {
                                 value={selectedslave}
                                 onChange={handleSlaveChange}
                         >
-                            <option value="slaveId">직원을 선택하세요</option>
-                            {/*{employees.map((employee, index) => (*/}
-                            {/*    <option key={index} value={employee}>{employee}</option>*/}
-                            {/*))}*/}
+                            <option value="">직원을 선택하세요</option>
+                            {slaves.map(slave => (
+                                <option key={slave.slaveId} value={slave.slaveId}>
+                                    {slave.slaveName} ({slave.slavePosition})
+                                </option>
+                            ))}
                         </select>
                     </div>
 

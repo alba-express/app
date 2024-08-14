@@ -17,6 +17,7 @@ const NoticeModal = ({id, title, content, date, isOpen, onClose, refreshNotices}
         e.preventDefault();
         dispatch(noticeActions.setCurrentNotice({id, title, content}));
         navigate("/detail/notice-edit");
+        dispatch(noticeActions.closeModal());
     };
 
     const deleteHandler = async e => {

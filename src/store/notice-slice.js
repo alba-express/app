@@ -5,7 +5,8 @@ const initialState = {
     currentNotice: null,
     count: 0,
     selectedNotice: null,
-    isModalOpen: false
+    isModalOpen: false,
+    closeModal: true
 };
 
 const noticeSlice = createSlice({
@@ -39,14 +40,14 @@ const noticeSlice = createSlice({
             state.count -= 1;
         },
         setSelectedNotice(state, action) {
-            state.seletedNotice = action.payload;
+            state.selectedNotice = action.payload;
         },
         openModal(state) {
             state.isModalOpen = true;
         },
         closeModal(state) {
             state.isModalOpen = false;
-            state.seletedNotice = null;
+            state.selectedNotice = null;
         }
 
     }

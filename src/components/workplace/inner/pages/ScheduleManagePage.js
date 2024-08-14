@@ -6,7 +6,10 @@ import {useSelector} from "react-redux";
 
 const ScheduleManagePage = () => {
 
+    const addedSchedule = useSelector(state => state.schedule.addedSchedule);
+
     const [scheduleData, setScheduleData] = useState([]);
+    const [extraScheduleData, setExtraScheduleData] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [fetching, setFetching] = useState(false);
     const workplaceId = useSelector((state => state.workplace.workplaceId));
@@ -16,7 +19,6 @@ const ScheduleManagePage = () => {
     useEffect(() => {
         const fetchSchedule = async () => {
             if (!selectedDate) return;
-
             setFetching(true);
 
             const date = selectedDate;
@@ -36,15 +38,37 @@ const ScheduleManagePage = () => {
                 if (!response.ok) {
                     throw new Error('네트워크 응답이 올바르지 않습니다.');
                 }
-                const data = await response.json();
-                console.log("data: ", data);
-                setScheduleData(data);
+                const data1 = await response.json();
+                console.log("data1: ", data1);
+                setScheduleData(data1);
             } catch (error) {
                 console.error('Error: ', error);
             }
         };
         fetchSchedule();
     }, [selectedDate]);
+
+    useEffect(() => {
+        const fetchExtraSchedule = async () => {
+            if (!selectedDate) return;
+            setFetching(true);
+
+            try {
+                console.log("extraSchedule getmapping 보내기 확인");
+                const response = await fetch(
+                    `http://localhost:8877/detail/extraschedule-manage?workplaceId=${workplaceId}&date=${selectedDate}`);
+                if (!response.ok) {
+                    throw new Error('네트워크 응답이 올바르지 않습니다.');
+                }
+                const data2 = await response.json();
+                console.log("추가근무 확인: ", data2);
+                setExtraScheduleData(data2);
+            } catch (error) {
+                console.error('Error: ', error);
+            }
+        };
+        fetchExtraSchedule();
+    }, [addedSchedule, selectedDate]);
 
 
     // 시간 포맷팅 함수
@@ -87,22 +111,21 @@ const ScheduleManagePage = () => {
 
                 <div className={styles.todaySchedule}>
                     <h2>추가 근무자 ({selectedDate})</h2>
-                    {/*<p>총 {scheduleData.length}명</p>*/}
-                    <p>총 1명</p>
+                    <p>총 {extraScheduleData.length}명</p>
 
-                    {/*{scheduleData.length === 0 ? "오늘 추가 근무자가 없습니다."*/}
-                    {/*    : <div className={styles.scheduleList}>*/}
-                    {/*        {scheduleData.map(schedule => (*/}
-                    {/*            <div key={schedule.slaveId} className={styles.scheduleItem}>*/}
-                    {/*                <div className={styles.scheduleItemName}>*/}
-                    {/*                    {schedule.slaveName} ({schedule.slavePosition})*/}
-                    {/*                </div>*/}
-                    {/*                <div className={styles.scheduleItemTime}>*/}
-                    {/*                    {formatTime(schedule.scheduleStart)} ~ {formatTime(schedule.scheduleEnd)}*/}
-                    {/*                </div>*/}
-                    {/*            </div>*/}
-                    {/*        ))}*/}
-                    {/*    </div>}*/}
+                    {extraScheduleData.length === 0 ? "오늘 추가 근무자가 없습니다."
+                        : <div className={styles.scheduleList}>
+                            {extraScheduleData.map((extraSchedule,index) => (
+                                <div key={extraScheduleData.length - index} className={styles.scheduleItem}>
+                                    <div className={styles.scheduleItemName}>
+                                        {extraSchedule.slaveName} ({extraSchedule.slavePosition})
+                                    </div>
+                                    <div className={styles.scheduleItemTime}>
+                                        {formatTime(extraSchedule.startTime)} ~ {formatTime(extraSchedule.endTime)}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>}
                 </div>
 
             </div>
