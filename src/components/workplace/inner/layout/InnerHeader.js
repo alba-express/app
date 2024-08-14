@@ -10,10 +10,21 @@ const InnerHeader = () => {
 
     const notices = useSelector(state => state.notice.noticeList);
     const isModalOpen = useSelector(state => state.notice.isModalOpen);
+    // const latestNoticeTitle = useSelector(state => state.notice.latestNoticeTitle);
+
     const [latestNoticeTitle, setLatestNoticeTitle] = useState('공지사항 없음');
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
+
+    const workplaceId = localStorage.getItem('workplaceId');
+
+    // 최신 공지사항 제목 가져오기
+    useEffect(() => {
+        if(notices.length > 0) {
+            setLatestNoticeTitle(notices[0].title);
+        }
+    }, [workplaceId, notices]);
 
     const handleLogout = () => {
         removeUserToken();
@@ -32,12 +43,6 @@ const InnerHeader = () => {
         dispatch(noticeActions.closeModal()); // 모달 닫기
     };
 
-    // 최신 공지사항 제목 가져오기
-    useEffect(() => {
-        if(notices.length > 0) {
-            setLatestNoticeTitle(notices[0].title);
-        }
-    }, [notices]);
 
     return (
         <div className={styles['headerButton-box']} >

@@ -9,12 +9,13 @@ const ScheduleAddPage = () => {
 
     const [selectedDate, setSelectedDate] = useState(null);
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [selectedslave, setSelectedslave] = useState("");
+    const [selectedSlave, setSelectedSlave] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [slaves, setSlaves] = useState([]);
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const workplaceId = useSelector((state => state.workplace.workplaceId));
+    const workplaceId = localStorage.getItem('workplaceId');
 
     const dispatch = useDispatch();
 
@@ -47,7 +48,7 @@ const ScheduleAddPage = () => {
     };
 
     const handleSlaveChange = (e) => {
-        setSelectedslave(e.target.value);
+        setSelectedSlave(e.target.value);
     };
 
     const handleStartTimeChange = (e) => {
@@ -86,7 +87,12 @@ const ScheduleAddPage = () => {
             dispatch(scheduleActions.setAddedSchedule(payload));
 
             navigate("/detail/schedule-manage");
+        } else {
+            const errorText = await response.text();
+            console.log('errorText: ', errorText);
+            setErrorMessage(errorText);
         }
+
     };
 
     return (
@@ -102,11 +108,16 @@ const ScheduleAddPage = () => {
                 <div className={styles.modifySchedule}>
                     <h3>일정 추가</h3>
 
+                    {errorMessage && (
+                        <div className={styles.errorMessage}>{errorMessage}</div>
+                    )}
+
                     <div className={styles.formGroup}>
                         <label htmlFor="slaveSelect">직원 선택:</label>
                         <select id="slaveSelect" name="slaveId"
-                                value={selectedslave}
+                                value={selectedSlave}
                                 onChange={handleSlaveChange}
+                                required
                         >
                             <option value="">직원을 선택하세요</option>
                             {slaves.map(slave => (
@@ -129,6 +140,7 @@ const ScheduleAddPage = () => {
                         <input type="time" id="startTime" name="startTime"
                                value={startTime}
                                onChange={handleStartTimeChange}
+                               required
                         />
                     </div>
 
@@ -137,6 +149,7 @@ const ScheduleAddPage = () => {
                         <input type="time" id="endTime" name="endTime"
                                value={endTime}
                                onChange={handleEndTimeChange}
+                               required
                         />
                     </div>
 

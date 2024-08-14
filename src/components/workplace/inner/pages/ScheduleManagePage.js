@@ -12,7 +12,7 @@ const ScheduleManagePage = () => {
     const [extraScheduleData, setExtraScheduleData] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
     const [fetching, setFetching] = useState(false);
-    const workplaceId = useSelector((state => state.workplace.workplaceId));
+    const workplaceId = localStorage.getItem('workplaceId');
 
     const navigate = useNavigate();
 

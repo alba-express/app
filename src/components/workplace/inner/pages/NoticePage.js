@@ -21,7 +21,7 @@ const NoticePage = () => {
     const navigate = useNavigate();
     const userId = useAuth();
 
-    const workplaceId = useSelector((state => state.workplace.workplaceId));
+    const workplaceId = localStorage.getItem('workplaceId');
 
     const fetchNotices = useCallback(async () => {
         setIsLoading(true);
