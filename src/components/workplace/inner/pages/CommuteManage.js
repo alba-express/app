@@ -7,13 +7,15 @@ const CommuteManage = () => {
     const [validationMessage, setValidationMessage] = useState("");
     const [employees, setEmployees] = useState([]);
     const [showInput, setShowInput] = useState(false); // 인풋창 표시 여부 상태
+    const [selectedEmployee, setSelectedEmployee] = useState(null); // 선택된 직원 상태
     const inputTimeoutRef = useRef(null); // 타이머를 저장할 ref
     const navigate = useNavigate();
+    const workplaceId = localStorage.getItem('workplaceId');
 
     useEffect(() => {
         const fetchEmployees = async () => {
             try {
-                const response = await fetch("http://localhost:8877/schedule/employees");
+                const response = await fetch(`http://localhost:8877/schedule/employees?workplaceId=${workplaceId}`);
                 const data = await response.json();
                 setEmployees(data);
             } catch (error) {
@@ -23,7 +25,7 @@ const CommuteManage = () => {
         };
 
         fetchEmployees();
-    }, []);
+    }, [workplaceId]);
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
@@ -39,24 +41,32 @@ const CommuteManage = () => {
             setValidationMessage("전화번호를 입력해 주세요.");
             return;
         }
-
-        const workplaceId = 1;
+    
+        if (!selectedEmployee) {
+            setValidationMessage("직원을 선택해 주세요.");
+            return;
+        }
+    
         try {
             const response = await fetch(`http://localhost:8877/schedule/verify-phone-number?phoneNumber=${inputValue}&workplaceId=${workplaceId}`);
-            const data = await response.text();
-
+            const data = await response.json(); // JSON으로 응답을 처리
+    
             if (response.ok) {
-                setValidationMessage("검증 성공!");
-                navigate('/detail/commute-record', { state: { slaveId: data } });
+                if (data.slaveId === selectedEmployee.id) { // 서버에서 받은 slaveId와 비교
+                    setValidationMessage("검증 성공!");
+                    navigate('/detail/commute-record', { state: { slaveId: data.slaveId } });
+                } else {
+                    setValidationMessage("해당 근무자의 번호가 아닙니다.");
+                }
             } else {
-                setValidationMessage(data);
+                setValidationMessage(data.message || "서버에서 오류가 발생했습니다.");
             }
         } catch (error) {
-            setValidationMessage("서버와의 통신 중 오류가 발생했습니다.");
+            setValidationMessage("올바른 전화번호를 입력해 주세요.");
         }
     };
-
-    const handleEmployeeClick = () => {
+    const handleEmployeeClick = (employee) => {
+        setSelectedEmployee(employee); // 클릭한 직원 정보 저장
         setShowInput(true); // 인풋창 표시
 
         // 인풋창을 5초 후에 숨기지만, 기존 타이머는 리셋
@@ -66,6 +76,7 @@ const CommuteManage = () => {
 
         inputTimeoutRef.current = setTimeout(() => {
             setShowInput(false);
+            setSelectedEmployee(null); // 인풋창이 숨겨지면 선택된 직원 정보 초기화
         }, 5000);
     };
 
@@ -80,6 +91,7 @@ const CommuteManage = () => {
         // 인풋 필드에서 포커스가 벗어나면 타이머 재시작
         inputTimeoutRef.current = setTimeout(() => {
             setShowInput(false);
+            setSelectedEmployee(null); // 인풋창이 숨겨지면 선택된 직원 정보 초기화
         }, 5000);
     };
 
@@ -99,7 +111,7 @@ const CommuteManage = () => {
                                 <div 
                                     key={employee.id} 
                                     className={styles['employee-item']}
-                                    onClick={handleEmployeeClick} // 클릭 이벤트 핸들러
+                                    onClick={() => handleEmployeeClick(employee)} // 클릭 시 직원 정보 전달
                                 >
                                     <div className={styles['employee-item-name']}>
                                         {employee.slaveName} ({employee.slavePosition})
@@ -115,7 +127,11 @@ const CommuteManage = () => {
                     </div>
                     {showInput && ( // showInput 상태에 따라 인풋창을 조건부로 렌더링
                         <div className={styles['input-section']}>
-                            <div className={styles['input-label']}></div>
+                            {selectedEmployee && (
+                                <div className={styles['selected-employee']}>
+                                    선택된 직원: {selectedEmployee.slaveName}
+                                </div>
+                            )}
                             <input
                                 type="text"
                                 value={inputValue}
