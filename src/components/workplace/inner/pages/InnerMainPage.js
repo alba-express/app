@@ -30,6 +30,7 @@ const InnerMainPage = () => {
             try {
                 const response = await axios.get(`http://localhost:8877/workplace/${workplaceIdByStore}`);
                 const workplace = response.data;
+                console.log('workplace: {}', workplace)
 
                 if (workplace) {
                     setWorkplaceInfo(workplace);
@@ -41,6 +42,7 @@ const InnerMainPage = () => {
                 console.error('Error fetching workplace data:', error);
                 alert('업장 정보를 가져오는데 실패했습니다.');
             }
+
         };
 
         if (workplaceIdByStore) {
@@ -77,7 +79,7 @@ const InnerMainPage = () => {
         <div className={styles.innerMainContainer}>
             <div className={styles.leftPanel}>
                 <div className={styles.workplaceInfo}>
-                    <h1 className={styles.workplaceName}>사업장명</h1>
+                    <h1 className={styles.workplaceName}>사업자명</h1>
                     <div className={styles.monthNavigation}>
                         <img src={`${process.env.PUBLIC_URL}/images/left-arrow.png`}
                              alt={"좌측화살표"}
