@@ -3,6 +3,7 @@ import wageReducer from "./wage-slice";
 import noticeReducer from "./notice-slice";
 import workplaceReducer from "./workplace-slice";
 import scheduleReducer from "./schedule-slice";
+import slaveReducer from "./slave-slice";
 
 const store = configureStore({
     reducer: {
@@ -10,7 +11,7 @@ const store = configureStore({
         notice: noticeReducer,
         workplace: workplaceReducer,
         schedule: scheduleReducer,
-        
+        slave: slaveReducer,
     }
 });
 

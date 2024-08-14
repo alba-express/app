@@ -20,10 +20,6 @@ const InnerHeader = () => {
         navigate('/login');
     };
 
-    const handleRetire = () => {
-        navigate('/login/retire');
-    };
-
     const NoticeModalHandler = e => {
         console.log('최근 공지 클릭');
         if(notices.length > 0) {
@@ -46,14 +42,13 @@ const InnerHeader = () => {
     return (
         <div className={styles['headerButton-box']} >
             <div className={styles['headerNotice']} >
-                <img src={`${process.env.PUBLIC_URL}/images/master_notice.png`} alt="Example" />
-                <p onClick={NoticeModalHandler}>{latestNoticeTitle}</p>
+                <img className={styles['headerNoticeImg']} src={`${process.env.PUBLIC_URL}/images/master_notice.png`} alt="Example" />
+                <p className={styles['headerNoticeText']} onClick={NoticeModalHandler}>{latestNoticeTitle}</p>
             </div>
             <Link to="/workplace" className={styles['link-text']}>
                 <button className={styles['headerButton']}>사업장변경</button>
             </Link>
             <button className={styles['headerButton']} onClick={handleLogout}>로그아웃</button>
-            <button className={styles['headerButton']} onClick={handleRetire}>회원 탈퇴</button>
 
             {/* 모달 컴포넌트 추가 */}
             {isModalOpen && (

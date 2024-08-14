@@ -17,7 +17,7 @@ const SalaryList = ({
     }
 
     return (
-        <div className={styles.container} onClick={detailHandler}>
+        <div className={styles.container}>
             <div className={styles.info}>
                 <div className={styles.header}>
                     <span className={styles.name}>{name}</span>
@@ -35,6 +35,7 @@ const SalaryList = ({
                 <span className={styles.amount}>
                     {totalSalary.toLocaleString("ko-KR")}원
                 </span>
+                {wageType && <span className={styles.role} onClick={detailHandler}>일별급여보기</span>}
                 <span className={styles.insurance}>{insurance}</span>
             </div>
         </div>

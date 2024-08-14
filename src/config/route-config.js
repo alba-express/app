@@ -28,6 +28,7 @@ import CommuteManage from "../components/workplace/inner/pages/CommuteManage";
 import CommuteRecord from "../components/workplace/inner/pages/CommuteRecord";
 import NoticeEditPage from "../components/workplace/inner/pages/NoticeEditPage";
 import RetirePage from "../components/login/pages/RetirePage";
+import WorkplacePwdVerify from "../components/workplace/outer/pages/WorkplacePwdVerify";
 import RecoverPage from "../components/login/pages/RecoverPage";
 
 const loginRouter = [
@@ -78,6 +79,11 @@ const workplaceRouter = [
         // 업장 등록 페이지
         path: "regist",
         element: <WorkplaceRegistPage />,
+    },
+        // 업장 간편비밀번호 인증 페이지 
+    {
+        path: "pwdverify",
+        element: <WorkplacePwdVerify />,
     },
 ];
 
@@ -137,8 +143,7 @@ const detailRouter = [
     {
         path: "commute-record",
         element: <CommuteRecord />,
-    }
-
+    },
 ];
 
 export const router = createBrowserRouter([

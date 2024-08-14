@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import styles from './WorkplaceModifyPage.module.scss'
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import styles from './WorkplaceModifyPage.module.scss';
 
 const WorkplaceModifyPage = () => {
   const [businessNo, setBusinessNo] = useState('');
@@ -13,75 +12,105 @@ const WorkplaceModifyPage = () => {
   const [workplacePassword, setWorkplacePassword] = useState('');
   const [workplaceSize, setWorkplaceSize] = useState(false);
   const [postalCode, setPostalCode] = useState('');
+  const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  // const { id } = useParams(); // 업장 ID param
-
-  const workplaceIdByStore = useSelector((state) => state.workplace.workplaceId);
+  const workplaceIdByStore = localStorage.getItem('workplaceId');
 
   useEffect(() => {
-    // console.log(id);
-    
     const fetchWorkplace = async (id) => {
-        // console.log('async:', id);
-        
-        try {
-            const response = await axios.get(`http://localhost:8877/workplace/${workplaceIdByStore}`);
-            const workplace = response.data;
-
-            if (workplace) {
-                setBusinessNo(workplace.businessNo || '');
-                setWorkplaceName(workplace.workplaceName || '');
-                setWorkplaceAddressCity(workplace.workplaceAddressCity || '');
-                setWorkplaceAddressStreet(workplace.workplaceAddressStreet || '');
-                setWorkplaceAddressDetail(workplace.workplaceAddressDetail || '');
-                setWorkplacePassword(workplace.workplacePassword || '');
-                setWorkplaceSize(workplace.workplaceSize || false);
-                setPostalCode(workplace.postalCode || '');
-            } else {
-                console.error('No data found for the given ID');
-                alert('업장 정보를 가져오는데 실패했습니다.');
-            }
-        } catch (error) {
-            console.error('Error fetching workplace data:', error);
-            alert('업장 정보를 가져오는데 실패했습니다.');
+      try {
+        const response = await axios.get(`http://localhost:8877/workplace/${workplaceIdByStore}`);
+        const workplace = response.data;
+        if (workplace) {
+          setBusinessNo(workplace.businessNo || '');
+          setWorkplaceName(workplace.workplaceName || '');
+          setWorkplaceAddressCity(workplace.workplaceAddressCity || '');
+          setWorkplaceAddressStreet(workplace.workplaceAddressStreet || '');
+          setWorkplaceAddressDetail(workplace.workplaceAddressDetail || '');
+          setWorkplacePassword(workplace.workplacePassword || '');
+          setWorkplaceSize(workplace.workplaceSize || false);
+          setPostalCode(workplace.postalCode || '');
+        } else {
+          alert('업장 정보를 가져오는데 실패했습니다.');
         }
+      } catch (error) {
+        alert('업장 정보를 가져오는데 실패했습니다.');
+      }
     };
 
     fetchWorkplace(workplaceIdByStore);
   }, [workplaceIdByStore]);
+
+  const formatBusinessNo = (value) => {
+    const numbers = value.replace(/\D/g, '');
+    if (numbers.length <= 3) {
+      return numbers;
+    } else if (numbers.length <= 5) {
+      return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    } else {
+      return `${numbers.slice(0, 3)}-${numbers.slice(3, 5)}-${numbers.slice(5, 10)}`;
+    }
+  };
+
+  const businessNoChangeHandler = async (event) => {
+    const value = event.target.value;
+    setBusinessNo(formatBusinessNo(value));
+    await checkBusinessNoDuplicate(value);
+  };
+
+  const checkBusinessNoDuplicate = async (businessNo) => {
+    const normalizedBusinessNo = businessNo.replace(/-/g, '');
+
+    try {
+      const response = await axios.get(`http://localhost:8877/workplace/checkBusinessNo/${normalizedBusinessNo}`);
+      if (response.data.exists) {
+        setError('이미 등록된 사업장 등록번호입니다.');
+      } else {
+        setError('');
+      }
+    } catch (error) {
+      setError('사업장 등록번호 검토 중 오류가 발생했습니다.');
+    }
+  };
 
   const changeHandler = (setter) => (event) => {
     setter(event.target.value);
   };
 
   const cancelHandler = () => {
-    navigate('/workplace');
+    navigate('/workplace', {replace: true});
   };
 
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    try {
-        const updatedWorkplace = {
-            workplaceIdByStore,
-            businessNo,
-            workplaceName,
-            workplaceAddressCity,
-            workplaceAddressStreet,
-            workplaceAddressDetail,
-            workplacePassword,
-            workplaceSize,
-            postalCode
-        };
-
-        await axios.put(`http://localhost:8877/workplace/modify/${workplaceIdByStore}`, updatedWorkplace);
-        navigate('/workplace');
-    } catch (error) {
-        console.error('Error updating workplace:', error);
-        alert('업장 정보를 수정하는데 실패했습니다.');
+    if (error) {
+      alert('사업장 등록번호가 중복됩니다.');
+      return;
     }
-};
+
+    try {
+      const updatedWorkplace = {
+        workplaceIdByStore,
+        businessNo,
+        workplaceName,
+        workplaceAddressCity,
+        workplaceAddressStreet,
+        workplaceAddressDetail,
+        workplacePassword,
+        workplaceSize,
+        postalCode
+      };
+
+      await axios.put(`http://localhost:8877/workplace/modify/${workplaceIdByStore}`, updatedWorkplace);
+
+      // 수정 완료 후 WorkplaceListPage로 이동, 히스토리 스택을 대체하여 중간 페이지 제거함
+      navigate('/workplace', { replace: true });
+    } catch (error) {
+      alert('업장 정보를 수정하는데 실패했습니다.');
+    }
+  };
 
   const openAddressSearch = () => {
     if (window.daum && window.daum.Postcode) {
@@ -91,7 +120,6 @@ const WorkplaceModifyPage = () => {
           setWorkplaceAddressCity(data.sido);
           setWorkplaceAddressStreet(data.roadAddress);
           setWorkplaceAddressDetail('');
-
           document.getElementById("sample6_detailAddress").focus();
         }
       }).open();
@@ -110,7 +138,10 @@ const WorkplaceModifyPage = () => {
             type="text"
             id="businessNo"
             value={businessNo}
-            onChange={changeHandler(setBusinessNo)}
+            onChange={businessNoChangeHandler}
+            maxLength={12}
+            minLength={12}
+            placeholder="10자리 숫자만 입력하세요."
             required
           />
         </div>
@@ -159,6 +190,8 @@ const WorkplaceModifyPage = () => {
             id="workplacePassword"
             value={workplacePassword}
             onChange={changeHandler(setWorkplacePassword)}
+            minLength={4}
+            placeholder="4자리 숫자를 입력하세요."
             required
           />
         </div>
@@ -174,7 +207,7 @@ const WorkplaceModifyPage = () => {
           </select>
         </div>
         <div className={styles.buttonGroup}>
-          <button type="button" onClick={cancelHandler}>취소</button>
+          <button type="submit" onClick={cancelHandler}>취소</button>
           <button type="submit">수정</button>
         </div>
       </form>
