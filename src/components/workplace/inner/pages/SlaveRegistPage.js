@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import SlaveRegisterVariableDayModal from "./slave/SlaveRegistPage/SlaveRegisterVariableDayModal";
 import SlaveRegisterFixedDayModal from "./slave/SlaveRegistPage/SlaveRegisterFixedDayModal";
 import SlaveRegisterWageModal from "./slave/SlaveRegistPage/SlaveRegisterWageList";
-import { useSelector } from "react-redux";
 
 const SlaveRegistPage = () => {
 
@@ -145,7 +144,7 @@ const SlaveRegistPage = () => {
     //-------------------------------------------------
 
     // 사업장 번호를 가져오기
-    const workplaceIdByStore = useSelector(state => state.workplace.workplaceId);
+    const workplaceIdByStore = localStorage.getItem('workplaceId');
 
     useEffect(() => {
         if (workplaceIdByStore) {
