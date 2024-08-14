@@ -9,7 +9,7 @@ const ScheduleAddPage = () => {
 
     const [selectedDate, setSelectedDate] = useState(null);
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [selectedslave, setSelectedslave] = useState("");
+    const [selectedSlave, setSelectedSlave] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [slaves, setSlaves] = useState([]);
@@ -47,7 +47,7 @@ const ScheduleAddPage = () => {
     };
 
     const handleSlaveChange = (e) => {
-        setSelectedslave(e.target.value);
+        setSelectedSlave(e.target.value);
     };
 
     const handleStartTimeChange = (e) => {
@@ -88,7 +88,7 @@ const ScheduleAddPage = () => {
             navigate("/detail/schedule-manage");
         } else {
             const errorData = await response.json();
-            alert(`에러 발생: ${errorData.message}`);
+            console.log('errorData: ', errorData);
         }
     };
 
@@ -105,10 +105,14 @@ const ScheduleAddPage = () => {
                 <div className={styles.modifySchedule}>
                     <h3>일정 추가</h3>
 
+                    {/*{errorMessage && (*/}
+                    {/*    <div className={styles.errorMessage}>이미 해당 날짜에 추가 일정이 존재합니다.</div>*/}
+                    {/*)}*/}
+
                     <div className={styles.formGroup}>
                         <label htmlFor="slaveSelect">직원 선택:</label>
                         <select id="slaveSelect" name="slaveId"
-                                value={selectedslave}
+                                value={selectedSlave}
                                 onChange={handleSlaveChange}
                         >
                             <option value="">직원을 선택하세요</option>
