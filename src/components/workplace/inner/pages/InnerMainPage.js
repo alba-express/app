@@ -16,7 +16,9 @@ const InnerMainPage = () => {
     // const workplaceIdByStore = useSelector((state => state.workplace.workplaceId));
 
     // 로컬 스토리지에서 workplaceId 가져와 쓰기
-    const workplaceIdByStore = localStorage.getItem('workplaceId'); 
+    const workplaceIdByStore = localStorage.getItem('workplaceId');
+    const workplaceNameByStore = localStorage.getItem('workplaceName');
+
     
 
     // 날짜 포맷 함수
@@ -95,7 +97,7 @@ const InnerMainPage = () => {
         <div className={styles.innerMainContainer}>
             <div className={styles.leftPanel}>
                 <div className={styles.workplaceInfo}>
-                    <h1 className={styles.workplaceName}>사업자명</h1>
+                    <h1 className={styles.workplaceName}>{workplaceInfo ? workplaceInfo.workplaceName : '사업장명 없음'}</h1>
                     <div className={styles.monthNavigation}>
                         <img src={`${process.env.PUBLIC_URL}/images/left-arrow.png`}
                              alt={"좌측화살표"}
