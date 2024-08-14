@@ -60,8 +60,6 @@ const ScheduleAddPage = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        console.log('일정 추가 버튼 클릭');
-
         const formData = new FormData(e.target);
         // console.log('form: ', formData.get('startTime'));
 
@@ -89,7 +87,6 @@ const ScheduleAddPage = () => {
 
             navigate("/detail/schedule-manage");
         }
-
     };
 
     return (

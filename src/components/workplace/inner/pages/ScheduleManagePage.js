@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styles from "./ScheduleManagePage.module.scss";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import ScheduleCalendarPage from "./ScheduleCalendarPage";
 import {useSelector} from "react-redux";
 
@@ -19,7 +19,6 @@ const ScheduleManagePage = () => {
     useEffect(() => {
         const fetchSchedule = async () => {
             if (!selectedDate) return;
-
             setFetching(true);
 
             const date = selectedDate;
@@ -50,10 +49,8 @@ const ScheduleManagePage = () => {
     }, [selectedDate]);
 
     useEffect(() => {
-
         const fetchExtraSchedule = async () => {
             if (!selectedDate) return;
-
             setFetching(true);
 
             try {
