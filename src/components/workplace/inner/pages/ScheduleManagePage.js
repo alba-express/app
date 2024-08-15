@@ -94,9 +94,14 @@ const ScheduleManagePage = () => {
                 <div className={styles.todaySchedule}>
                     <h2>오늘 근무자 ({selectedDate})</h2>
                     <p>총 {scheduleData.length}명</p>
-                    {scheduleData.length === 0 ? "오늘 근무자가 없습니다."
+                    {scheduleData.length === 0 ?
+
+                        <div style={{textAlign: 'center', margin: '20px 0'}}>
+                            오늘 추가 근무자가 없습니다.
+                        </div>
+
                         : <div className={styles.scheduleList}>
-                            {scheduleData.map(schedule => (
+                {scheduleData.map(schedule => (
                                 <div key={schedule.slaveId} className={styles.scheduleItem}>
                                     <div className={styles.scheduleItemName}>
                                         {schedule.slaveName} ({schedule.slavePosition})
@@ -113,9 +118,13 @@ const ScheduleManagePage = () => {
                     <h2>추가 근무자 ({selectedDate})</h2>
                     <p>총 {extraScheduleData.length}명</p>
 
-                    {extraScheduleData.length === 0 ? "오늘 추가 근무자가 없습니다."
+                    {extraScheduleData.length === 0 ?
+                        <div style={{textAlign: 'center', margin: '20px 0'}}>
+                            오늘 추가 근무자가 없습니다.
+                        </div>
+
                         : <div className={styles.scheduleList}>
-                            {extraScheduleData.map((extraSchedule,index) => (
+                {extraScheduleData.map((extraSchedule,index) => (
                                 <div key={extraScheduleData.length - index} className={styles.scheduleItem}>
                                     <div className={styles.scheduleItemName}>
                                         {extraSchedule.slaveName} ({extraSchedule.slavePosition})

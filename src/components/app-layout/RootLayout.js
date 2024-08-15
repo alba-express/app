@@ -10,7 +10,7 @@ const RootLayout = () => {
     const handleRedirection = () => {
       // 접근을 차단할 경로 목록
       const restrictedPaths = [
-        '/detail',
+        // '/detail',
         '/workplace/modify',
         '/workplace/pwdverify',
         // '/workplace/regist'
