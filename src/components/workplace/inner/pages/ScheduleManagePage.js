@@ -97,7 +97,7 @@ const ScheduleManagePage = () => {
                     {scheduleData.length === 0 ?
 
                         <div style={{textAlign: 'center', margin: '20px 0'}}>
-                            오늘 추가 근무자가 없습니다.
+                            오늘 근무자가 없습니다.
                         </div>
 
                         : <div className={styles.scheduleList}>
