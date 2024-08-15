@@ -207,8 +207,8 @@ const WorkplaceModifyPage = () => {
           </select>
         </div>
         <div className={styles.buttonGroup}>
-          <button type="submit" onClick={cancelHandler}>취소</button>
           <button type="submit">수정</button>
+          <button type="submit" onClick={cancelHandler}>취소</button>
         </div>
       </form>
     </div>
