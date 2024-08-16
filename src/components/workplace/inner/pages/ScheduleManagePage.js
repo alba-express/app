@@ -91,8 +91,10 @@ const ScheduleManagePage = () => {
                     <button className={styles.addSchedulebutton}>일정 추가</button>
                 </Link>
 
+                <div className={styles.scheduleList}>
+
                 <div className={styles.todaySchedule}>
-                    <h2>오늘 근무자 ({selectedDate})</h2>
+                    <h3>오늘 근무자 ({selectedDate})</h3>
                     <p>총 {scheduleData.length}명</p>
                     {scheduleData.length === 0 ?
 
@@ -112,10 +114,10 @@ const ScheduleManagePage = () => {
                                 </div>
                             ))}
                         </div>}
-                </div>
+                {/*</div>*/}
 
-                <div className={styles.todaySchedule}>
-                    <h2>추가 근무자 ({selectedDate})</h2>
+                {/*<div className={styles.todaySchedule}>*/}
+                    <h3>추가 근무자 ({selectedDate})</h3>
                     <p>총 {extraScheduleData.length}명</p>
 
                     {extraScheduleData.length === 0 ?
@@ -135,8 +137,9 @@ const ScheduleManagePage = () => {
                                 </div>
                             ))}
                         </div>}
+                {/*</div>*/}
                 </div>
-
+            </div>
             </div>
         </>
     );
