@@ -94,8 +94,8 @@ const ScheduleManagePage = () => {
                 <div className={styles.scheduleList}>
 
                 <div className={styles.todaySchedule}>
-                    <h3>오늘 근무자 ({selectedDate})</h3>
-                    <p>총 {scheduleData.length}명</p>
+                    <h3>오늘 근무자</h3>
+                    <p>({selectedDate}) 총 {scheduleData.length}명</p>
                     {scheduleData.length === 0 ?
 
                         <div style={{textAlign: 'center', margin: '20px 0'}}>
@@ -117,8 +117,8 @@ const ScheduleManagePage = () => {
                 {/*</div>*/}
 
                 {/*<div className={styles.todaySchedule}>*/}
-                    <h3>추가 근무자 ({selectedDate})</h3>
-                    <p>총 {extraScheduleData.length}명</p>
+                    <h3>추가 근무자</h3>
+                    <p>({selectedDate}) 총 {extraScheduleData.length}명</p>
 
                     {extraScheduleData.length === 0 ?
                         <div style={{textAlign: 'center', margin: '20px 0'}}>
