@@ -60,7 +60,7 @@ const SlaveRegisterFixedDayModal = ({ onFixed }) => {
     
       <div className={styles['slaveRegistPageScheduleModal-content']} >
       {fixedDays.map((day) => (
-        <label key={day.scheduleDay} htmlFor={day.scheduleDay} className={day.select ? styles.selectedDaySchedule : styles.daySchedule } >
+        <label key={day.scheduleDay} htmlFor={day.scheduleDay} className={day.select ? styles.selectedDaySchedule : styles.nonDaySchedule } >
           {day.value}
           <input 
             type='checkbox' 

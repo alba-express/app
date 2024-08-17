@@ -42,9 +42,9 @@ const SlaveManagePage = () => {
             <div className={styles['slaveManagementHeader-title']}>직원관리</div>
 
             {showSlaveList ? 
-                      <div className={styles['slaveManagementHeader-count']}> 근무중인 직원 총 인원수 : {showActiveSlaveInfo.totalSlaveCount}명 </div> 
+                      <div className={styles['slaveManagementHeader-count']}> 근무중인 직원 총 인원수 : {showActiveSlaveInfo.totalSlaveCount ? showActiveSlaveInfo.totalSlaveCount : 0}명 </div> 
                     :
-                      <div className={styles['slaveManagementHeader-count']}> 퇴사한 직원 총 인원수 : {showInactiveSlaveInfo.totalSlaveCount}명 </div>
+                      <div className={styles['slaveManagementHeader-count']}> 퇴사한 직원 총 인원수 : {showInactiveSlaveInfo.totalSlaveCount ? showInactiveSlaveInfo.totalSlaveCount : 0}명 </div>
             }
             
             <Link to="/detail/slave-regist" className={styles['link-text']}> 
@@ -54,8 +54,8 @@ const SlaveManagePage = () => {
           </div>
           
           <div className={styles['slaveManagementTitle-box']}>
-            <div onClick={activeSlaveHandler} className={styles['slaveManagementTitle-list']}> 근무중 아르바이트생 목록 </div>
-            <div onClick={inactiveSlaveHandler} className={styles['slaveManagementTitle-list']}> 퇴사한 아르바이트생 목록 </div>
+            <div onClick={activeSlaveHandler} className={styles['slaveManagementTitle-slaveListType']}> 근무중인 직원 목록 </div>
+            <div onClick={inactiveSlaveHandler} className={styles['slaveManagementTitle-slaveListType']}> 퇴사한 직원 목록 </div>
             <div className={styles['slaveManagementTitle-searchbox']}>
               {/* <input className={styles['slaveManagementTitle-search']} value={"이름으로 검색"} /> */}
               <FontAwesomeIcon icon={faSearch} className={styles['slaveManagementList-question']} />

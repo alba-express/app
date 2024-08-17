@@ -68,7 +68,7 @@ const SlaveRegisterVariableDayModal = ({ onVariable }) => {
 
       {variableDays.map((day) => (
       <div className={styles['slaveRegistPageScheduleModal-content']} key={day.scheduleDay} >
-        <label htmlFor={day.scheduleDay} className={day.select ? styles.selectedDaySchedule : styles.daySchedule} >
+        <label htmlFor={day.scheduleDay} className={day.select ? styles.selectedDaySchedule : styles.nonDaySchedule } >
           {day.value}
           <input 
             type="checkbox" 

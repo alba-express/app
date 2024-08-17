@@ -1,5 +1,6 @@
 .content-box {
   padding: 1.5%;
+  font-size: 20px;
 
   .slaveManagementHeader-box {
     width: 100%;
@@ -38,23 +39,29 @@
     }
   
     .headerButton {
-      width: 6.5rem;
-      height: 2.5rem;
-      background: rgba(0, 139, 134, 0.8);
-      //------------------------------------
-      color: rgb(255, 255, 255);
+      width: 7.5rem;
+      height: 3rem;
+      //--------------------------
       font-weight: 600;
+      color: rgb(255, 255, 255);
       //--------------------------
       display: flex;
       justify-content: center;
       align-items: center;
       //----------------------
-      margin-left: 10px;
-      border: none;
       border: 1px solid rgba(0, 139, 134, 0.8);
+      cursor: pointer;
+      //-------------
+      box-shadow:
+      inset 2px 2px 2px 0px rgba(255,255,255,.5),
+      7px 7px 20px 0px rgba(0,0,0,.1),
+      4px 4px 5px 0px rgba(0,0,0,.1);
+      //----------------------------------
+      background: rgba(0, 139, 134, 0.8);
     }
     .headerButton:hover {
       background: rgba(65, 63, 63, 0.7);
+      border: 1px solid rgba(65, 63, 63, 1);
       color: rgb(255, 255, 255);
       cursor: pointer;
     }
@@ -67,25 +74,55 @@
     display: flex;
     align-items: center;
     //------------------
+    font-size: 20px;
     // border: 1px solid blue;
-  
-    .slaveManagementTitle-list {
+
+    .slaveManagementTitle-slaveListType {
       width: 15rem;
       height: 3rem;
-      background: rgba(0, 139, 134, 0.8);
-      border: 2px solid rgba(49, 49, 49, 0.9);
-      //-----------------------------------
+      //---------------
+      font-weight: 600;
+      color: rgb(255, 255, 255);
+      letter-spacing: 1px;
+      //----------------------
       display: flex;
       justify-content: center;
       align-items: center;
       //----------------------
       margin-right: 8px;
-      //-----------------------------------
-      font-size: 1rem;
-      font-weight: 700;
+      border: 1px solid rgba(65, 63, 63, 1);
+      cursor: pointer;
+      //-----------------------------------------
+      box-shadow:
+      inset 2px 2px 2px 0px rgba(255,255,255,.5),
+      7px 7px 20px 0px rgba(0,0,0,.1),
+      4px 4px 5px 0px rgba(0,0,0,.1);
+      //----------------------------------
+      background: rgba(65, 63, 63, 0.7);
+    }
+  
+    .slaveManagementTitle-slaveListSelectType {
+      width: 15rem;
+      height: 3rem;
+      //---------------
+      font-weight: 600;
       color: rgb(255, 255, 255);
       letter-spacing: 1px;
+      //----------------------
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      //----------------------
+      margin-right: 8px;
+      border: 1px solid rgba(0, 139, 134, 0.8);
       cursor: pointer;
+      //-----------------------------------------
+      box-shadow:
+      inset 2px 2px 2px 0px rgba(255,255,255,.5),
+      7px 7px 20px 0px rgba(0,0,0,.1),
+      4px 4px 5px 0px rgba(0,0,0,.1);
+      //----------------------------------
+      background: rgba(0, 139, 134, 0.8);
     }
   
     .slaveManagementTitle-searchbox {

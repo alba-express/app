@@ -40,14 +40,13 @@ const SlaveRegistPage = () => {
     // 근무방식선택에 따른 버튼 스타일 변경
     const getScheduleTypeClassName = (type) => {
 
-
         if (selectScheduleType === '') {
-            return styles.slaveRegistPageInputScheduleType;
+            return styles.nonScheduleType;
         } else if (type === 'fixed') {
-            return selectScheduleType ? styles.scheduleType : styles.slaveRegistPageInputScheduleType;
+            return selectScheduleType ? styles.scheduleType : styles.nonScheduleType;
 
         } else if (type === 'variable') {
-            return !selectScheduleType ? styles.scheduleType : styles.slaveRegistPageInputScheduleType;
+            return !selectScheduleType ? styles.scheduleType : styles.nonScheduleType;
         }
     };
 
@@ -219,6 +218,7 @@ const SlaveRegistPage = () => {
                     <div className={styles['slaveRegistPageForm-top']} >
                         <div className={styles['slaveRegistPageForm-left']} >
 
+                            {/* 이름, 전화번호, 생년월일, 직책 */}
                             <label htmlFor="slaveName" className={styles['slaveRegistPageInput-box']} >
                                 <div className={styles['slaveRegistPageInput-title']} > 이름 </div>
                                 <input id="slaveName" onChange={nameHandler} className={styles['slaveRegistPageInput-input']} />
@@ -239,7 +239,7 @@ const SlaveRegistPage = () => {
                                 <input id="slavePosition" onChange={positionHandler} className={styles['slaveRegistPageInput-input']} />
                             </label>
 
-                            {/* 급여 리스트 */}
+                            {/* 급여정보리스트 */}
                             <SlaveRegisterWageModal onWages={onWageList} />
 
                         </div>
@@ -248,6 +248,7 @@ const SlaveRegistPage = () => {
 
                         <div className={styles['slaveRegistPageForm-right']}>
 
+                            {/* 근무정보리스트 */}
                             <div className={styles['slaveRegistPageSchedule-box']} >
                                 <div className={styles['slaveRegistPageInput-title']} > 근무시간선택 </div>
 
