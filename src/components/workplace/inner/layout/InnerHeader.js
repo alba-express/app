@@ -21,9 +21,19 @@ const InnerHeader = () => {
 
     // 최신 공지사항 제목 가져오기
     useEffect(() => {
-        if(notices.length > 0) {
-            setLatestNoticeTitle(notices[0].title);
+        const fetchNotice = async () => {
+            const response = await fetch(`http://localhost:8877/detail?workplaceId=${workplaceId}`);
+            if (!response.ok) {
+                throw new Error('네트워크 응답이 올바르지 않습니다.');
+            }
+            const data = await response.json();
+            console.log("data:", data);
+            setLatestNoticeTitle(data.title);
         }
+        // if(notices.length > 0) {
+        //     setLatestNoticeTitle(notices[0].title);
+        // }
+        fetchNotice();
     }, [workplaceId, notices]);
 
     const handleLogout = () => {
