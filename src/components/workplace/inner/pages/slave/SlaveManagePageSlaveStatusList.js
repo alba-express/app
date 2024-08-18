@@ -5,7 +5,7 @@ import { slaveActions } from '../../../../../store/slave-slice';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
-const SlaveManagePageActiveSlaveList = () => {
+const SlaveManagePageSlaveStatusList = () => {
 
   // redux store 에서 상태값 변경하는 action hook 불러오기
   const dispatch = useDispatch();
@@ -86,7 +86,10 @@ const SlaveManagePageActiveSlaveList = () => {
 
   return (
     <>
-      {showWhichSlaveList.slaveList.map((oneSlave) => 
+      {showWhichSlaveList.slaveList.length === 0 ? 
+      ( <div className={`${styles['link-text']} ${styles['slaveManagementList-nonSlave']}`}> 직원정보없음 </div> ) 
+      :
+      (showWhichSlaveList.slaveList.map((oneSlave) => 
         (
           <div key={oneSlave.slaveId} onClick={() => selectOneSlaveHandler(oneSlave.slaveId)} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
             
@@ -125,9 +128,10 @@ const SlaveManagePageActiveSlaveList = () => {
             </div>
           </div>
         )
-      )}
+      ))
+      }
     </>
   )
 }
 
-export default SlaveManagePageActiveSlaveList
+export default SlaveManagePageSlaveStatusList
