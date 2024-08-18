@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styles from './SlaveRegisterWageList.module.scss';
 import SlaveRegisterWageInsurance from './SlaveRegisterWageInsurance';
 
-const SlaveRegisterWageModal = ({ onWages }) => {
+const SlaveRegisterWageList = ({ onWages }) => {
   
-  // 급여리스트 기본 배열 설정하기
+  // 급여정보리스트 기본 배열 설정하기
   // 급여타입(wageType): 1 --> 시급 / 0 --> 월급
   // 4대보험 적용여부(wageInsurance): true, 1 --> 적용 / false, 0 --> 미적용
                             // 급여타입, 급여금액,       4대보험적용여부
@@ -87,10 +87,11 @@ const SlaveRegisterWageModal = ({ onWages }) => {
     setWageList(prev => [{ ...prev[0], slaveWageInsurance: updatedWageInsurance }]);
   }, []);
 
-  // 4대보험 적용여부 체크박스 상태값이 업데이트될 때 마다 확인하기
+  //-------------------------------------------------
+
+  // 직원등록에서 내려온 함수에 급여리스트 담아서 올려보내기
   useEffect(() => {
 
-    // 직원등록에서 내려온 함수에 급여리스트 담아서 올려보내기
     onWages(wageList);
     
   }, [wageList, onWages]);
@@ -143,4 +144,4 @@ const SlaveRegisterWageModal = ({ onWages }) => {
   );
 };
 
-export default SlaveRegisterWageModal;
+export default SlaveRegisterWageList;

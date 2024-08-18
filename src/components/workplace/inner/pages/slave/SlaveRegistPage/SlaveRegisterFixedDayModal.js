@@ -50,7 +50,7 @@ const SlaveRegisterFixedDayModal = ({ onFixed }) => {
     // SlaveRegistPage 에서 내려보낸 onFixed 에 updatedFixedDays 전달하기
     onFixed(updatedFixedDays);
 
-  }, [fixedDays, onFixed]);
+  }, [fixedDays]);
 
   //-------------------------------------------------
 
