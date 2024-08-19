@@ -1,20 +1,42 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styles from './SlaveInfoPage.module.scss';
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SlaveInfoPageCommuteList from './slave/SlaveInfoPageCommuteList';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { slaveActions } from '../../../../store/slave-slice';
 
 const SlaveInfoPage = () => {
 
-    // 해당 사업장의 선택한 직원 한 명의 정보를 불러오기 위해 로컬스토리지에 저장된 선택한 직원 한 명 변수로 생성하기
-    const oneSlave = localStorage.getItem('oneSlave');
+    // 선택된 직원 한 명이 없을경우 사용할 대체데이터
+    const defaultOneSlave = {
+        slaveName: '알바니',
+        slavePosition: '직원',
+        slavePhoneNumber: '000-0000-0000',
+        slaveBirthday: '0000-01-01',
+        slaveCreatedAt: '0000-01-01',
+        wageList: [{ slaveWageType: "급여타입미정", slaveWageAmount: "급여금액미정" }],
+        scheduleList: [{scheduleDay: "요일없음", scheduleStart: "00:00", scheduleEnd: "00:00"}],
+        scheduleLogList: ["근태정보없음"]
+    };
 
-    // 에러 상태값으로 관리
-    const [error, setError] = useState(null);
+    const getOneSlave = () => {
+        // 해당 사업장의 직원 중 선택한 직원 한 명의 정보를 가져오기위해 로컬스토리지에서 oneSlave 데이터 가져오기
+        const oneSlave = localStorage.getItem('oneSlave');
 
-    const navigate = useNavigate();
+        // oneSlave가 존재하지 않을 경우 대체데이터 사용하기
+        if (!oneSlave) {
+            return oneSlave = defaultOneSlave;
+        } 
+
+        // oneSlave가 있으면 oneSlave 사용하기
+        try {
+            return JSON.parse(oneSlave);
+        } catch (e) {
+            console.error("로컬스토리지의 oneSlave 에러", e);
+            return defaultOneSlave;
+        }
+    };
+
+    // oneSlave 정의하기
+    const oneSlave = getOneSlave();
 
     //-------------------------------------------------
 
@@ -22,6 +44,9 @@ const SlaveInfoPage = () => {
 
     useEffect(() => {console.log("나오니?", oneSlave);
     }, [oneSlave]);
+
+    // 페이지를 이동시킬때 사용하는 useNavigate 생성하기
+    const navigate = useNavigate();
 
     // 직원수정버튼을 클릭했을 때 해당 직원의 정보수정페이지로 이동하기
     const thisSlaveModifyHandler = async () => {
@@ -62,11 +87,11 @@ const SlaveInfoPage = () => {
                     </div>
                     <div className={styles['slaveInfoPage-SlaveWageBox']}>
                         <div className={styles['slaveInfoPage-SlaveWageTitle']}> 급여타입 / 금액 </div>
-                        {/* {oneSlave.wageList.map((wage, index) => (
+                        {oneSlave.wageList.map((wage, index) => (
                                 <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
                                     {wage.slaveWageType}, {wage.slaveWageAmount}
                                 </div>
-                            ))} */}
+                            ))}
                         
                     </div>
                 </div>
@@ -75,9 +100,9 @@ const SlaveInfoPage = () => {
                         <div className={styles['slaveInfoPage-SlaveScheduleTitle']}> 고정근무시간 </div>
                         <div className={styles['slaveInfoPage-SlaveScheduleContentBox']} >
                             <div>요일 /  시간</div>
-                            {/* {oneSlave.scheduleList.map((schedule, index) => (
+                            {oneSlave.scheduleList.map((schedule, index) => (
                                 <div key={index}> {schedule.scheduleDay} : {schedule.scheduleStart} ~ {schedule.scheduleEnd} </div>
-                            ))} */}
+                            ))}
                         </div>
                     </div>
                 </div>
