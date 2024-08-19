@@ -31,7 +31,7 @@ const InnerHeader = () => {
             setLatestNoticeTitle(data.title);
         }
         fetchNotice();
-    }, [workplaceId]);
+    }, [workplaceId, notices]);
 
     const handleLogout = () => {
         removeUserToken();
