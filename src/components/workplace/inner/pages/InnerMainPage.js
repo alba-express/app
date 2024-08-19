@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./InnerMainPage.module.scss";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -14,6 +13,8 @@ const InnerMainPage = () => {
     const [workingEmployees, setWorkingEmployees] = useState([]);
     const [notStartedEmployees, setNotStartedEmployees] = useState([]);
     const [offDutyEmployees, setOffDutyEmployees] = useState([]);
+    const [estimatedWages, setEstimatedWages] = useState(0); // 총 급여
+    const [employeeWages, setEmployeeWages] = useState([]); // 직원별 급여
     const workplaceIdByStore = localStorage.getItem('workplaceId');
 
     // 날짜 포맷 함수
@@ -76,11 +77,38 @@ const InnerMainPage = () => {
             }
         };
 
+        const fetchWageData = async () => {
+            const payload = {
+                workplaceId: workplaceIdByStore,
+                ym: `${currentYear}-${currentMonth < 10 ? "0" + currentMonth : currentMonth}`,
+            };
+            try {
+                const res = await fetch(`http://localhost:8877/wage/workplace`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+
+                const json = await res.json();
+                setEstimatedWages(json.salaryAmount);
+                setEmployeeWages(json.logList);
+            } catch (error) {
+                console.error("Error fetching wage data:", error);
+            }
+        };
+
         if (workplaceIdByStore) {
             fetchWorkplaceInfo();
             fetchEmployees();
+            fetchWageData();
         }
-    }, [workplaceIdByStore, selectedDate]);
+    }, [workplaceIdByStore, selectedDate, currentMonth, currentYear]);
 
     if (!workplaceInfo) {
         return <div>사업장 정보를 가져오는데 실패했습니다.</div>;
@@ -126,7 +154,7 @@ const InnerMainPage = () => {
                              onClick={handleNextMonth}></img>
                     </div>
                     <div className={styles.monthDetails}>
-                        <p className={styles.estimatedWages}>예상 급여 : 8,290,800 원</p>
+                        <p className={styles.estimatedWages}>예상 급여 : {estimatedWages.toLocaleString()} 원</p>
                         <p className={styles.totalEmployees}>총 직원 수 : {workingEmployees.length + notStartedEmployees.length + offDutyEmployees.length}명</p>
                     </div>
                 </div>
@@ -134,10 +162,11 @@ const InnerMainPage = () => {
                 <div className={styles.employeeSection}>
                     <p className={styles.employeeTitle}>직원별 월 급여</p>
                     <div className={styles.employeeWages}>
-                        <div className={styles.employeeWage}>정재한 (매니저) : 2,280,500 원</div>
-                        <div className={styles.employeeWage}>박성진 (직원) : 1,280,500 원</div>
-                        <div className={styles.employeeWage}>이지효 (직원) : 1,780,500 원</div>
-                        <div className={styles.employeeWage}>이수빈 (직원) : 2,080,500 원</div>
+                        {employeeWages.map((employee) => (
+                            <div key={employee.slaveId} className={styles.employeeWage}>
+                                {employee.slaveName} ({employee.slavePosition}) : {employee.totalAmount.toLocaleString()} 원
+                            </div>
+                        ))}
                     </div>
                 </div>
                 <div className={styles.scroll}></div>
