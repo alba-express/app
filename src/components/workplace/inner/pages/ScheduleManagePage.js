@@ -91,12 +91,19 @@ const ScheduleManagePage = () => {
                     <button className={styles.addSchedulebutton}>일정 추가</button>
                 </Link>
 
+                <div className={styles.scheduleList}>
+
                 <div className={styles.todaySchedule}>
-                    <h2>오늘 근무자 ({selectedDate})</h2>
-                    <p>총 {scheduleData.length}명</p>
-                    {scheduleData.length === 0 ? "오늘 근무자가 없습니다."
+                    <h3>오늘 근무자</h3>
+                    <p>({selectedDate}) 총 {scheduleData.length}명</p>
+                    {scheduleData.length === 0 ?
+
+                        <div style={{textAlign: 'center', margin: '20px 0'}}>
+                            오늘 근무자가 없습니다.
+                        </div>
+
                         : <div className={styles.scheduleList}>
-                            {scheduleData.map(schedule => (
+                {scheduleData.map(schedule => (
                                 <div key={schedule.slaveId} className={styles.scheduleItem}>
                                     <div className={styles.scheduleItemName}>
                                         {schedule.slaveName} ({schedule.slavePosition})
@@ -107,15 +114,19 @@ const ScheduleManagePage = () => {
                                 </div>
                             ))}
                         </div>}
-                </div>
+                {/*</div>*/}
 
-                <div className={styles.todaySchedule}>
-                    <h2>추가 근무자 ({selectedDate})</h2>
-                    <p>총 {extraScheduleData.length}명</p>
+                {/*<div className={styles.todaySchedule}>*/}
+                    <h3>추가 근무자</h3>
+                    <p>({selectedDate}) 총 {extraScheduleData.length}명</p>
 
-                    {extraScheduleData.length === 0 ? "오늘 추가 근무자가 없습니다."
+                    {extraScheduleData.length === 0 ?
+                        <div style={{textAlign: 'center', margin: '20px 0'}}>
+                            오늘 추가 근무자가 없습니다.
+                        </div>
+
                         : <div className={styles.scheduleList}>
-                            {extraScheduleData.map((extraSchedule,index) => (
+                {extraScheduleData.map((extraSchedule,index) => (
                                 <div key={extraScheduleData.length - index} className={styles.scheduleItem}>
                                     <div className={styles.scheduleItemName}>
                                         {extraSchedule.slaveName} ({extraSchedule.slavePosition})
@@ -126,8 +137,9 @@ const ScheduleManagePage = () => {
                                 </div>
                             ))}
                         </div>}
+                {/*</div>*/}
                 </div>
-
+            </div>
             </div>
         </>
     );

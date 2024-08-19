@@ -64,7 +64,7 @@ const ScheduleCalendarPage = ({ selectedDate, setSelectedDate, dateClick }) => {
                 </div>
                 <div className={styles.calendarBody}>
                     {['일', '월', '화', '수', '목', '금', '토'].map(day => (
-                        <div key={day} className={styles.day}>{day}</div>
+                        <div key={day} className={styles.dayOfWeek}>{day}</div>
                     ))}
                     {days.map((day, index) => (
                         <div
