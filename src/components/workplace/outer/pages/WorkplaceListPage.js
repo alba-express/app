@@ -11,8 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const WorkplaceListPage = () => {
     const navigate = useNavigate();
 
-    // const dispatch = useDispatch();
-
+    // 사장 아이디
     const userId = useAuth();
     const [workplaces, setWorkplaces] = useState([]);
 
