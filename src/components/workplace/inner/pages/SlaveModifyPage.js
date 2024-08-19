@@ -10,33 +10,21 @@ import { slaveActions } from "../../../../store/slave-slice";
 
 const SlaveModifyPage = () => {
 
-    // redux store 에서 특정 직원 한 명의 정보를 표시하는 상태값 불러오기 (초기값: 특정 직원의 한 명의 정보를 넣을 빈 배열)
-    const showOneSlaveInfo = useSelector((state) => state.slave.showOneSlaveInfo);
+    // 해당 사업장의 선택한 직원 한 명의 정보를 불러오기 위해 로컬스토리지에 저장된 선택한 직원 한 명 변수로 생성하기
+    const oneSlave = localStorage.getItem('oneSlave');
 
-    // 가져온 직원 정보를 담을 로컬 기본 배열
-    const [slaveModifyInput, setSlaveModifyInput] = useState(showOneSlaveInfo);
+    // 가져온 직원 정보를 담을 로컬 기본 배열 생성하기
+    const [slaveModifyInput, setSlaveModifyInput] = useState(oneSlave);
 
     // 가져오는 직원의 정보가 변화하면 로컬 배열도 변경
     useEffect(()=> {
-        setSlaveModifyInput(showOneSlaveInfo)
+        setSlaveModifyInput(oneSlave)
 
-        console.log("초기수정배열", showOneSlaveInfo);
+        console.log("초기수정배열", oneSlave);
         
     }, []);
 
     //-------------------------------------------------
-
-    // 사업장 번호를 가져오기
-    const workplaceIdByStore = localStorage.getItem('workplaceId');
-
-    useEffect(() => {
-
-        console.log("사업장?", workplaceIdByStore);
-        
-        if (workplaceIdByStore && slaveModifyInput.workPlaceNumber !== workplaceIdByStore) {
-            setSlaveModifyInput(prev => ({...prev, workPlaceNumber: workplaceIdByStore}));
-        }
-    }, [workplaceIdByStore, setSlaveModifyInput]);
 
     // 이름 입력한 경우 input태그 상태창 변경하기
     const nameHandler = e => {
@@ -87,27 +75,27 @@ const SlaveModifyPage = () => {
     //-------------------------------------------------
 
     // 입력값 검증 함수
-    const validateInputs = () => {
-        const { slaveId, slaveName, slavePhoneNumber, slaveBirthday, slavePosition, wageList, slaveScheduleType, scheduleList, workPlaceNumber } = slaveModifyInput;
-        if (!slaveName || !slavePhoneNumber || !slaveBirthday || !slavePosition || wageList.length === 0 || slaveScheduleType === '' || scheduleList.length === 0, !workPlaceNumber) {
-            return false;
-        }
-        return true;
-    };
+    // const validateInputs = () => {
+    //     const { slaveId, slaveName, slavePhoneNumber, slaveBirthday, slavePosition, wageList, slaveScheduleType, scheduleList, workPlaceNumber } = slaveModifyInput;
+    //     if (!slaveName || !slavePhoneNumber || !slaveBirthday || !slavePosition || wageList.length === 0 || slaveScheduleType === '' || scheduleList.length === 0, !workPlaceNumber) {
+    //         return false;
+    //     }
+    //     return true;
+    // };
 
     // form태그에 입력한 값을 서버로 넘기는 button태그를 상태값으로 관리하기
     const [formButtonType, setFormButtonType] = useState('button');
 
-    useEffect(()=> {
-        // 모든 입력값이 입력된 상태일 경우
-        if (validateInputs()) {
-            setFormButtonType('submit');
+    // useEffect(()=> {
+    //     // 모든 입력값이 입력된 상태일 경우
+    //     if (validateInputs()) {
+    //         setFormButtonType('submit');
 
-            // 입력값이 하나라도 빈 상태일 경우
-        } else {
-            setFormButtonType('button');
-        }
-    }, [slaveModifyInput]);
+    //         // 입력값이 하나라도 빈 상태일 경우
+    //     } else {
+    //         setFormButtonType('button');
+    //     }
+    // }, [slaveModifyInput]);
 
     useEffect(()=> {console.log('수정입력', slaveModifyInput);
     }, [slaveModifyInput]);
@@ -120,16 +108,16 @@ const SlaveModifyPage = () => {
 
         console.log('slaveModifyInput', slaveModifyInput);
     
-        e.preventDefault();
+        // e.preventDefault();
 
-        if (!validateInputs()) {
-            alert('모든 필드를 입력하지않으면 직원등록을 할 수 없습니다.');
-            return;
-        }
+        // if (!validateInputs()) {
+        //     alert('모든 필드를 입력하지않으면 직원등록을 할 수 없습니다.');
+        //     return;
+        // }
 
         // const payload = {
-        //     ...slaveRegistInput,
-        //     slaveWageList: Object.values(slaveRegistInput.slaveWageList),
+        //     ...slaveModifyInput,
+        //     slaveWageList: Object.values(slaveModifyInput.slaveWageList),
         // };
 
             try {
@@ -147,7 +135,7 @@ const SlaveModifyPage = () => {
 
                 const result = await response.json();
                 console.log('Success:', result);
-                alert("직원이 등록되었습니다.")
+                alert("직원이 수정되었습니다.")
                 navigate("/detail/slave-manage");
 
                 
@@ -211,7 +199,7 @@ const SlaveModifyPage = () => {
                             <Link to="/detail/slave-manage" className={styles['link-text']} > 
                                 <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
-                            <button type={formButtonType} className={styles['slaveRegistPage-nonButton']} > 등록 </button>
+                            <button type="submit" className={styles['slaveRegistPage-nonButton']} > 등록 </button>
                         </div>
                     </div>
                 </form>

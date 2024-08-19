@@ -8,8 +8,8 @@ import { slaveActions } from '../../../../store/slave-slice';
 
 const SlaveInfoPage = () => {
 
-    // redux store 에서 특정 직원 한 명의 정보를 표시하는 상태값 불러오기 (초기값: 특정 직원의 한 명의 정보를 넣을 빈 배열)
-    const showOneSlaveInfo = useSelector((state) => state.slave.showOneSlaveInfo);
+    // 해당 사업장의 선택한 직원 한 명의 정보를 불러오기 위해 로컬스토리지에 저장된 선택한 직원 한 명 변수로 생성하기
+    const oneSlave = localStorage.getItem('oneSlave');
 
     // 에러 상태값으로 관리
     const [error, setError] = useState(null);
@@ -20,15 +20,8 @@ const SlaveInfoPage = () => {
 
     // showOneSlaveInfo가 로드되지 않았을 때 로딩 상태를 표시하거나 에러를 처리
 
-    useEffect(() => {console.log("나오니?", showOneSlaveInfo);
-    }, [showOneSlaveInfo]);
-    if (!showOneSlaveInfo) {
-        return <div>Loading...</div>; // 로딩 중임을 표시
-    }
-
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    useEffect(() => {console.log("나오니?", oneSlave);
+    }, [oneSlave]);
 
     // 직원수정버튼을 클릭했을 때 해당 직원의 정보수정페이지로 이동하기
     const thisSlaveModifyHandler = async () => {
@@ -59,21 +52,21 @@ const SlaveInfoPage = () => {
                                 <div> 입사일 : </div>
                             </div>
                             <div className={styles['slaveInfoPage-SlaveInfoContentContent']}>
-                                <div>{showOneSlaveInfo.slaveName}</div>
-                                <div>{showOneSlaveInfo.slavePosition}</div>
-                                <div>{showOneSlaveInfo.slavePhoneNumber}</div>
-                                <div>{showOneSlaveInfo.slaveBirthday}</div>
-                                <div>{showOneSlaveInfo.slaveCreatedAt}</div>
+                                <div>{oneSlave.slaveName}</div>
+                                <div>{oneSlave.slavePosition}</div>
+                                <div>{oneSlave.slavePhoneNumber}</div>
+                                <div>{oneSlave.slaveBirthday}</div>
+                                <div>{oneSlave.slaveCreatedAt}</div>
                             </div>
                         </div>
                     </div>
                     <div className={styles['slaveInfoPage-SlaveWageBox']}>
                         <div className={styles['slaveInfoPage-SlaveWageTitle']}> 급여타입 / 금액 </div>
-                        {showOneSlaveInfo.wageList.map((wage, index) => (
+                        {/* {oneSlave.wageList.map((wage, index) => (
                                 <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
                                     {wage.slaveWageType}, {wage.slaveWageAmount}
                                 </div>
-                            ))}
+                            ))} */}
                         
                     </div>
                 </div>
@@ -82,9 +75,9 @@ const SlaveInfoPage = () => {
                         <div className={styles['slaveInfoPage-SlaveScheduleTitle']}> 고정근무시간 </div>
                         <div className={styles['slaveInfoPage-SlaveScheduleContentBox']} >
                             <div>요일 /  시간</div>
-                            {showOneSlaveInfo.scheduleList.map((schedule, index) => (
-                                <div> {schedule.scheduleDay} : {schedule.scheduleStart} ~ {schedule.scheduleEnd} </div>
-                            ))}
+                            {/* {oneSlave.scheduleList.map((schedule, index) => (
+                                <div key={index}> {schedule.scheduleDay} : {schedule.scheduleStart} ~ {schedule.scheduleEnd} </div>
+                            ))} */}
                         </div>
                     </div>
                 </div>

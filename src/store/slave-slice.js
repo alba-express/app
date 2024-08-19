@@ -34,7 +34,6 @@ const slaveSlice = createSlice({
         },
         setShowOneSlaveInfo (state, action) {
             state.showOneSlaveInfo = action.payload;
-            localStorage.setItem('myArray', JSON.stringify(state.myArray)); // 상태를 localStorage에 저장
         },
         setModifySlaveInfo (state, action) {
             state.modifySlaveInfo = action.payload;

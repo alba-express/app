@@ -19,6 +19,9 @@ const SlaveManagePageSlaveStatusList = () => {
   // redux store 에서 퇴사한 직원의 정보를 표시하는 상태값 불러오기
   const showInactiveSlaveInfo = useSelector((state) => state.slave.showInactiveSlaveInfo);
 
+  // redux store 에서 선택한 직원 한 명의 정보를 표시하는 상태값 불러오기
+  const showOneSlaveInfo = useSelector((state) => state.slave.showInactiveSlaveInfo);
+
   //-------------------------------------------------
 
   // redux store 에서 상태값 변경하는 action hook 불러오기
@@ -48,6 +51,7 @@ const SlaveManagePageSlaveStatusList = () => {
           // console.log('전체직원', slaveDto);
           
           dispatch(slaveActions.setAllSlaveInfo(slaveDto));
+          localStorage.setItem('allSlaveList', showAllSlaveInfo); // 전체 직원 정보 목록 로컬스토리지에 저장
         })
         .catch(error => {
           setError(error.message);
@@ -71,10 +75,14 @@ const SlaveManagePageSlaveStatusList = () => {
         totalSlaveCount: activeSlaves.length
     }));
 
+    localStorage.setItem('activeSlaveList', showActiveSlaveInfo); // 직원 목록 중 근무중인 직원 정보 목록 로컬스토리지에 저장
+
     dispatch(slaveActions.setShowInactiveSlaveInfo({
         slaveList: inactiveSlaves,
         totalSlaveCount: inactiveSlaves.length
     }));
+
+    localStorage.setItem('inactiveSlaveList', showInactiveSlaveInfo);  // 직원 목록 중 퇴사한 직원 정보 목록 로컬스토리지에 저장
 
   }, [showAllSlaveInfo, dispatch]);
 
@@ -99,6 +107,11 @@ const SlaveManagePageSlaveStatusList = () => {
     }
 
   };
+
+  localStorage.setItem('oneSlave', showOneSlaveInfo); // 직원 목록 중 선택한 직원 한 명 정보 로컬스토리지에 저장
+
+  console.log("직원한명", showOneSlaveInfo);
+  
 
   if (error) {
     return <div>Error: {error}</div>;
