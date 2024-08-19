@@ -37,6 +37,14 @@ const SlaveRegistPage = () => {
 
     // 전화번호 입력한 경우 input태그 상태창 변경하기
     const phoneNumberHandler = e => {
+
+        // 전화번호 입력 1초 후 입력한 전화번호를 서버로 전송해서 DB 에 등록된 전화번호인지 검증하기
+
+        // 입력한 전화번호
+        const inputPhoneNumber = e.target.value;
+
+        // setTimeout(() => {}, 1000);
+
         setSlaveRegistInput(prev => ({...slaveRegistInput, slavePhoneNumber: e.target.value}));
     };
 
@@ -87,6 +95,20 @@ const SlaveRegistPage = () => {
         }
         return true;
     };
+
+    // form태그에 입력한 값을 서버로 넘기는 button태그를 상태값으로 관리하기
+    const [formButtonType, setFormButtonType] = useState('button');
+
+    useEffect(()=> {
+        // 모든 입력값이 입력된 상태일 경우
+        if (validateInputs()) {
+            setFormButtonType('submit');
+
+            // 입력값이 하나라도 빈 상태일 경우
+        } else {
+            setFormButtonType('button');
+        }
+    }, [slaveRegistInput]);
 
     //-------------------------------------------------
 
@@ -183,9 +205,9 @@ const SlaveRegistPage = () => {
                     <div className={styles['slaveRegistPageForm-bottom']} >
                         <div className={styles['slaveRegistPageButton-box']} >
                             <Link to="/detail/slave-manage" className={styles['link-text']} > 
-                            <button className={styles['slaveRegistPage-button']} > 취소 </button>
+                                <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
-                            <button type="submit" className={styles['slaveRegistPage-button']} > 등록 </button>
+                            <button type={formButtonType} className={styles['slaveRegistPage-nonButton']} > 등록 </button>
                         </div>
                     </div>
                 </form>
