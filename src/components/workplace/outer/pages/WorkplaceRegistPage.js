@@ -13,136 +13,151 @@ const WorkplaceRegistPage = () => {
     const [workplaceSize, setWorkplaceSize] = useState(false);
     const [postalCode, setPostalCode] = useState('');
     const [error, setError] = useState('');
+    const [isBusinessNoValid, setIsBusinessNoValid] = useState(true);
+    const [isDuplicate, setIsDuplicate] = useState(false); // 중복 여부 관리
     
-    const userId = useAuth();
-
-    const formatBusinessNo = (value) => {
-        const numbers = value.replace(/\D/g, '');
-        if (numbers.length <= 3) {
-            return numbers;
-        } else if (numbers.length <= 5) {
-            return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
-        } else {
-            return `${numbers.slice(0, 3)}-${numbers.slice(3, 5)}-${numbers.slice(5, 10)}`;
-        }
-    };
-
-    const changeHandler = (setter) => (event) => {
-        setter(event.target.value);
-    };
-
-    const businessNoChangeHandler = (event) => {
-        const value = event.target.value;
-        setBusinessNo(formatBusinessNo(value));
-        checkBusinessNoDuplicate(value);
-    };
-
-    // 사업장 등록번호 중복체크 함수
-    const checkBusinessNoDuplicate = async (businessNo) => {
-        console.log(businessNo);
-        
-        const normalizedBusinessNo = businessNo.replace(/-/g, '');
-        console.log('중복체크를 위한 사업장 등록번호: ', normalizedBusinessNo);
-        
-        
-        try {
-            const response = await axios.get(`http://localhost:8877/workplace/checkBusinessNo/${normalizedBusinessNo}`);
-            if (response.data.exists) {
-                setError('이미 등록된 사업장 등록번호입니다.');
+        const userId = useAuth();
+    
+        const formatBusinessNo = (value) => {
+            const numbers = value.replace(/\D/g, '');
+            if (numbers.length <= 3) {
+                return numbers;
+            } else if (numbers.length <= 5) {
+                return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
             } else {
-                setError('');
-            }
-        } catch (error) {
-            console.error('Error checking business number:', error);
-            setError('사업장 등록번호 검토 중 오류가 발생했습니다.');
-        }
-    };    
-
-    const cancelHandler = () => {
-        window.location.href = '/workplace'; 
-    };
-
-    const submitHandler = async (event) => {
-        event.preventDefault();
-
-        if (error) {
-            alert('사업장 등록번호가 중복됩니다.');
-            return;
-        }
-
-        try {
-            const newWorkplace = {
-                businessNo,
-                workplaceName,
-                workplaceAddressCity,
-                workplaceAddressStreet,
-                workplaceAddressDetail,
-                workplacePassword,
-                workplaceSize,
-                postalCode,
-                masterId: userId
-            };
-
-            await axios.post('http://localhost:8877/workplace/register', newWorkplace);
-            window.location.href = '/workplace';
-        } catch (error) {
-            console.error('Error registering workplace:', error);
-            alert('등록에 실패했습니다. 다시 시도해 주세요.');
-        }
-    };
-
-    useEffect(() => {
-        const script = document.createElement('script');
-        script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
-        script.async = true;
-        script.onload = () => {
-            if (window.daum && window.daum.Postcode) {
-                window.daum.Postcode = window.daum.Postcode || {};
+                return `${numbers.slice(0, 3)}-${numbers.slice(3, 5)}-${numbers.slice(5, 10)}`;
             }
         };
-        document.body.appendChild(script);
-
-        return () => {
-            document.body.removeChild(script);
+    
+        const businessNoChangeHandler = (event) => {
+            const value = event.target.value;
+            const formattedValue = formatBusinessNo(value);
+            setBusinessNo(formattedValue);
+            checkBusinessNoDuplicate(value); // 포맷팅된 값을 제거한 원본 값으로 체크
         };
-    }, []);
-
-    const openAddressSearch = () => {
-        if (window.daum && window.daum.Postcode) {
-            new window.daum.Postcode({
-                oncomplete: function(data) {
-                    setPostalCode(data.zonecode);
-                    setWorkplaceAddressCity(data.sido);
-                    setWorkplaceAddressStreet(data.roadAddress);
-                    setWorkplaceAddressDetail('');
-                    document.getElementById("sample6_detailAddress").focus();
+    
+        const checkBusinessNoDuplicate = async (normalizedBusinessNo) => {
+            console.log('Checking business number:', normalizedBusinessNo);
+    
+            if (normalizedBusinessNo.length !== 12) {
+                setIsBusinessNoValid(false);
+                setError('사업장 등록번호는 10자리여야 합니다.');
+                return;
+            }
+            setIsBusinessNoValid(true);
+    
+            try {
+                const response = await axios.get(`http://localhost:8877/workplace/checkBusinessNo/${userId}/${normalizedBusinessNo}`);
+                if (response.data.exists) {
+                    setIsDuplicate(true); // 중복 상태 설정
+                    setError('이미 등록된 사업장 등록번호입니다.');
+                } else {
+                    setIsDuplicate(false); // 중복 상태 해제
+                    setError('');
                 }
-            }).open();
-        } else {
-            console.error("Kakao Postcode script not loaded.");
-        }
-    };
+            } catch (error) {
+                console.error('Error checking business number:', error.response || error);
+                setError('사업장 등록번호 검토 중 오류가 발생했습니다.');
+            }
+        };
+    
+        const changeHandler = (setter) => (event) => {
+            setter(event.target.value);
+        };
+    
+        const cancelHandler = () => {
+            window.location.href = '/workplace';
+        };
+    
+        const submitHandler = async (event) => {
+            event.preventDefault();
+    
+            if (error || !isBusinessNoValid || isDuplicate) { // 중복이면 등록 중단
+                alert('사업장 등록번호가 중복되었거나 올바르지 않습니다.');
+                return;
+            }
+    
+            try {
+                const newWorkplace = {
+                    businessNo,
+                    workplaceName,
+                    workplaceAddressCity,
+                    workplaceAddressStreet,
+                    workplaceAddressDetail,
+                    workplacePassword,
+                    workplaceSize,
+                    postalCode,
+                    masterId: userId
+                };
+    
+                await axios.post('http://localhost:8877/workplace/register', newWorkplace);
+                window.location.href = '/workplace';
+            } catch (error) {
+                console.error('Error registering workplace:', error);
+                alert('등록에 실패했습니다. 다시 시도해 주세요.');
+            }
+        };
+    
+        useEffect(() => {
+            const script = document.createElement('script');
+            script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+            script.async = true;
+            script.onload = () => {
+                if (window.daum && window.daum.Postcode) {
+                    window.daum.Postcode = window.daum.Postcode || {};
+                }
+            };
+            document.body.appendChild(script);
+    
+            return () => {
+                document.body.removeChild(script);
+            };
+        }, []);
+    
+        const openAddressSearch = () => {
+            if (window.daum && window.daum.Postcode) {
+                new window.daum.Postcode({
+                    oncomplete: function(data) {
+                        setPostalCode(data.zonecode);
+                        setWorkplaceAddressCity(data.sido);
+                        setWorkplaceAddressStreet(data.roadAddress);
+                        setWorkplaceAddressDetail('');
+                        document.getElementById("sample6_detailAddress").focus();
+                    }
+                }).open();
+            } else {
+                console.error("Kakao Postcode script not loaded.");
+            }
+        };
+    
+        const errorStyle = (message) => {
+            if (message === '이미 등록된 사업장 등록번호입니다.') {
+                return styles.errorRed;
+            }
+            return styles.error;
+        };
+    
+        return (
+            <div className={styles.container}>
+                <form onSubmit={submitHandler} className={styles.form}>
+                    <div className={styles.formHeader}>
+                        <h1>사업장 등록</h1>
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="businessNo">사업자 등록번호:</label>
+                        <input
+                            type="text"
+                            id="businessNo"
+                            value={businessNo}
+                            onChange={businessNoChangeHandler}
+                            minLength={12}
+                            maxLength={12}
+                            placeholder="10자리 숫자만 입력하세요."
+                            required
+                        />
+                        {error && <p className={errorStyle(error)}>{error}</p>}
+                    </div>
 
-    return (
-        <div className={styles.container}>
-            <form onSubmit={submitHandler} className={styles.form}>
-                <div className={styles.formHeader}>
-                    <h1>사업장 등록</h1>
-                </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="businessNo">사업자 등록번호:</label>
-                    <input
-                        type="text"
-                        id="businessNo"
-                        value={businessNo}
-                        onChange={businessNoChangeHandler}
-                        minLength={12}
-                        maxLength={12}
-                        placeholder="10자리 숫자만 입력하세요."
-                        required
-                    />
-                    {error && <p className={styles.error}>{error}</p>}
-                </div>
                 <div className={styles.formGroup}>
                     <label htmlFor="workplaceName">상호명:</label>
                     <input
@@ -208,8 +223,8 @@ const WorkplaceRegistPage = () => {
                     <button type="button" className={styles.cancelButton} onClick={cancelHandler}>
                         취소
                     </button>
-                    <button type="submit" className={styles.submitButton}>
-                        등록
+                    <button type="submit" className={styles.submitButton} disabled={isDuplicate}> {/* 중복일 경우 비활성화 */}
+                         등록
                     </button>
                 </div>
             </form>

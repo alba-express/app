@@ -1,7 +1,5 @@
 .slaveRegistPage {
   padding: 30px;
-  // border: 1px solid red;
-  //------------
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,13 +9,10 @@
     width: 86rem;
     height: 3.5rem;
     background: rgba(0, 139, 134, 0.8);
-    // background: rgba(0, 0, 0, 0.5);
-    //-----------------------------------
     font-size: 25px;
     font-weight: 600;
     color: rgb(255, 255, 255);
     letter-spacing: 5px;
-    //--------------------------
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,36 +22,26 @@
     padding: 30px;
     width: 86rem;
     height: 40rem;
-    //----------------------
     display: flex;
     flex-direction: column;
-    // justify-content: center;
     align-items: center;
-    //----------------------
-    // border: 3px solid red;
-    
-    input {
-      padding: 1px 10px;
-    }
 
     .slaveRegistPageForm-top {
       width: 86rem;
       display: flex;
-      // border: 3px solid red;
 
       .slaveRegistPageForm-middle {
         position: relative;
 
-
         &::before,
         &::after {
-              content: '';
-              position: absolute;
-              top: 0;
-              bottom: 0;
-              width: 1px;
-              height: 29.9rem;
-              background-color: rgba(0, 0, 0, 0.2);
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          width: 1px;
+          height: 29.9rem;
+          background-color: rgba(0, 0, 0, 0.2);
         }
       }
 
@@ -67,177 +52,23 @@
       .slaveRegistPageForm-right {
         padding: 0 0 0 38px;
       }
-      .slaveRegistPageForm-left, 
-      .slaveRegistPageForm-right {
 
-        .slaveRegistPageInput-box {
-          display: flex;
-          justify-content: left;
-          width: 43rem;
-          // height: 2.5rem;
-          font-size: 20px;
-          font-weight: 700;
-          margin-bottom: 32px;
-          padding-left: 4.5rem;
-          // border: 1px solid rgb(120, 1, 255);
-    
-          .slaveRegistPageInput-title {
-            width: 10rem;
-          }
+      .slaveRegistPageInput-box {
+        display: flex;
+        justify-content: left;
+        width: 43rem;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 32px;
+        padding-left: 4.5rem;
 
-          .slaveRegistPageInput-input {
-            width: 21.5rem;
-            height: 2.5rem;
-          }
-        
-          .slaveRegistPageInputWage-box {
-            width: 21.5rem;
-            height: 5rem;
-            // border: 5px solid rgb(230, 22, 56);
-      
-            .slaveRegistPageInputWage-content {
-              display: flex;
-              align-items: center;
-              // border: 2px solid rgb(6, 225, 233);
-              // background: orange;
-              
-              .slaveRegistPageInputWageType {
-                width: 10.8rem;
-                height: 2.5rem;
-                background: rgba(0, 139, 134, 0.8);
-                //------------------------------------
-                color: rgb(255, 255, 255);
-                font-weight: 600;
-                //--------------------------
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                //----------------------
-                border: 1px solid rgb(1, 119, 115);
-                //-----------------------------------
-                cursor: pointer;
-              }
-
-              .wageType {
-                width: 10.8rem;
-                height: 2.5rem;
-                background: rgba(65, 63, 63, 0.7);
-                //------------------------------------
-                color: rgb(255, 255, 255);
-                font-weight: 600;
-                //--------------------------
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                //----------------------
-                border: 1px solid rgba(65, 63, 63, 1);
-                //-----------------------------------
-                cursor: pointer;
-              }
-      
-              .slaveRegistPageInputWage-input {
-                width: 14.5rem;
-                height: 2.2rem;
-                margin: 10px 10px 0 10px;
-              }
-            }
-          }
-      
-          .slaveRegistPageInputTax-box {
-            display: flex;
-            justify-content: left;
-            align-items: center;
-            // margin: 0 1rem;
-            width: 21.5rem;
-            height: 2.5rem;
-            // border: 1px solid yellowgreen;
-      
-            .slaveRegistPageInputTax-content {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              // margin-right: 5rem;
-              width: 21.5rem;
-              // border: 1px solid rgb(233, 26, 205);
-      
-              .slaveRegistPageInputTax-title {
-                display: flex;
-                align-items: center;
-                height: 2.5rem;
-                margin-right: 1rem;
-              }
-        
-              .slaveRegistPageInputTax-input {
-                width: 1.5rem;
-                height: 1.5rem;
-                // margin-right: 1rem;
-                // background-color: greenyellow;
-              }
-            }
-          }
+        .slaveRegistPageInput-title {
+          width: 10rem;
         }
 
-        .slaveRegistPageSchedule-box {
-          display: flex;
-          flex-direction: column;
-          justify-content: left;
-          width: 43rem;
-          font-size: 20px;
-          font-weight: 700;
-          padding-left: 4.5rem;
-
-          .slaveRegistPageInputScheduleTitle-box {
-            display: flex;
-            justify-content: left;
-            align-items: center;
-            // border: 2px solid red;
-            //-----------------------
-            width: 38.5rem;
-            height: 2.5rem;
-            margin: 10px 0;
-
-            .slaveRegistPageInputScheduleType {
-              width: 10.8rem;
-              height: 2.5rem;
-              background: rgba(0, 139, 134, 0.8);
-              //------------------------------------
-              color: rgb(255, 255, 255);
-              font-weight: 600;
-              //--------------------------
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              //----------------------
-              margin-right: 20px;
-              //----------------------------------
-              border: 1px solid rgb(1, 119, 115);
-              //-----------------
-              cursor: pointer;
-            }
-
-            .scheduleType {
-              width: 10.8rem;
-              height: 2.5rem;
-              background: rgba(65, 63, 63, 0.7);
-              //------------------------------------
-              color: rgb(255, 255, 255);
-              font-weight: 600;
-              //--------------------------
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              //----------------------
-              margin-right: 20px;
-              //-----------------
-              border: 1px solid rgba(65, 63, 63, 1);
-              //--------------------------------------
-              cursor: pointer;
-            }
-          }
-
-          .slaveRegistPageInputScheduleContent-box {
-            margin-top: 10px;
-          }
+        .slaveRegistPageInput-input {
+          width: 21.5rem;
+          height: 2.5rem;
         }
       }
     }
@@ -249,33 +80,34 @@
         height: 2.5rem;
         display: flex;
         justify-content: center;
-        // border: 1px solid red;
-  
+        font-size: 20px;
+
         .link-text {
           text-decoration: none;
           color: rgb(255, 255, 255);
         }
-  
+
         .slaveRegistPage-button {
           width: 10.8rem;
           height: 2.5rem;
-          background: rgba(0, 139, 134, 0.8);
-          //------------------------------------
-          color: rgb(255, 255, 255);
-          font-weight: 600;
-          //--------------------------
+          margin: 0 10px;
           display: flex;
           justify-content: center;
           align-items: center;
-          //----------------------
-          margin: 0 10px;
-          //----------------------------------------
+          font-weight: 600;
+          color: rgb(255, 255, 255);
           border: 1px solid rgba(0, 139, 134, 0.8);
+          cursor: pointer;
+          box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
+          7px 7px 20px 0px rgba(0,0,0,.1),
+          4px 4px 5px 0px rgba(0,0,0,.1);
+          background: rgba(0, 139, 134, 0.8);
         }
+
         .slaveRegistPage-button:hover {
           background: rgba(65, 63, 63, 0.7);
           color: rgb(255, 255, 255);
-          cursor: pointer;
+          border: 1px solid rgba(65, 63, 63, 1);
         }
       }
     }

@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 import styles from './InnerNavi.module.scss';
 
 const InnerNavi = () => {
+
+    const workplaceId = localStorage.getItem('workplaceId');
+
     return (
         <div className={styles.fullScreen}>
             <Link to="/detail" className={`${styles['link-text']} ${styles['logo-box']}`} >
-                Alba Express  
+                <img src={`${process.env.PUBLIC_URL}/images/albunny_logo.png`} alt="Albunny Logo" /> 
             </Link>
                 <li className={styles['profile-box']}>
+                    <div> workplaceId: {workplaceId} </div>
                     <div> 사장님 안녕? 만나서반가워 </div>
                     <div> 로그인한 회원 정보 간단히 나중에 추가 </div>
                     <div> 비밀번호변경, 탈퇴 기능 나중에 추가 </div>

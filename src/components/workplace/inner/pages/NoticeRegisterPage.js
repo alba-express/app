@@ -8,7 +8,7 @@ const NoticeRegisterPage = () => {
 
     const [currentDate, setCurrentDate] = useState("");
 
-    const workplaceId = useSelector((state => state.workplace.workplaceId));
+    const workplaceId = localStorage.getItem('workplaceId');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();

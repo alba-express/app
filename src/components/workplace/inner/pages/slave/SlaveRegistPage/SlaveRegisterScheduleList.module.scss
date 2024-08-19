@@ -1,0 +1,22 @@
+.slaveRegistPageSchedule-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  width: 43rem;
+  font-size: 20px;
+  font-weight: 700;
+  padding-left: 4.5rem;
+
+  .slaveRegistPageInputScheduleTitle-box {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 38.5rem;
+    height: 2.5rem;
+    margin: 10px 0;
+  }
+
+  .slaveRegistPageInputScheduleContent-box {
+    margin-top: 10px;
+  }
+}

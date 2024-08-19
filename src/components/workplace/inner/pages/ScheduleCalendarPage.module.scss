@@ -26,7 +26,7 @@
   grid-template-columns: repeat(7, 1fr);
   padding: 16px;
   font-size: 18px;
-  height: 450px;
+  height: 550px;
 }
 
 .day {
@@ -38,13 +38,24 @@
   margin: 4px;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
-
+  //font-weight: bold;
 }
 
 .day:hover {
   background-color: rgba(0, 139, 134, 0.8);
   color: #fff;
+}
+
+.dayOfWeek {
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 4px;
+  border-radius: 4px;
 }
 
 // 클릭 날짜 스타일

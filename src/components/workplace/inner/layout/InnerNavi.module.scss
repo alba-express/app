@@ -31,6 +31,11 @@
     display: flex;
     justify-content: center;
     align-items: end;
+
+    img {
+      width: 18rem; /* 로고의 크기를 적절히 조정 */
+      height: auto;
+    }
   }
   .logo-box:hover {
     cursor: pointer;

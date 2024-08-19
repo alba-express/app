@@ -1,8 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./InnerMainPage.module.scss";
-import { useSelector } from "react-redux";
-import { faL } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -12,12 +10,12 @@ const InnerMainPage = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1); // 현재 월 (1~12)
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear()); // 현재 연도
     const [selectedDate, setSelectedDate] = useState(new Date()); // 오늘 날짜로 초기화
-  
-    // const workplaceIdByStore = useSelector((state => state.workplace.workplaceId));
-
-    // 로컬 스토리지에서 workplaceId 가져와 쓰기
-    const workplaceIdByStore = localStorage.getItem('workplaceId'); 
-    
+    const [workingEmployees, setWorkingEmployees] = useState([]);
+    const [notStartedEmployees, setNotStartedEmployees] = useState([]);
+    const [offDutyEmployees, setOffDutyEmployees] = useState([]);
+    const [estimatedWages, setEstimatedWages] = useState(0); // 총 급여
+    const [employeeWages, setEmployeeWages] = useState([]); // 직원별 급여
+    const workplaceIdByStore = localStorage.getItem('workplaceId');
 
     // 날짜 포맷 함수
     const formatDate = (date) => {
@@ -30,12 +28,9 @@ const InnerMainPage = () => {
 
     useEffect(() => {
         const fetchWorkplaceInfo = async () => {
-            console.log('async:', workplaceIdByStore);
-
             try {
                 const response = await axios.get(`http://localhost:8877/workplace/${workplaceIdByStore}`);
                 const workplace = response.data;
-
                 if (workplace) {
                     setWorkplaceInfo(workplace);
                 } else {
@@ -46,19 +41,74 @@ const InnerMainPage = () => {
                 console.error('사업장 정보 페치 오류:', error);
                 alert('업장 정보를 가져오는데 실패했습니다.');
             } finally {
-                // 데이터 로딩이 완료된 후 로컬 스토리지 삭제 시키기
                 setLoading(false);
+            }
+        };
+
+        const fetchEmployees = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8877/schedule/employees?workplaceId=${workplaceIdByStore}`);
+                const employees = response.data;
+                const currentTime = new Date(); // 현재 시간
+
+                const working = [];
+                const notStarted = [];
+                const offDuty = [];
+
+                employees.forEach(employee => {
+                    const startTime = new Date(`${selectedDate.toDateString()} ${employee.scheduleStart}`);
+                    const endTime = new Date(`${selectedDate.toDateString()} ${employee.scheduleEnd}`);
+
+                    if (currentTime >= startTime && currentTime < endTime) {
+                        working.push(employee);
+                    } else if (currentTime < startTime) {
+                        notStarted.push(employee);
+                    } else if (currentTime >= endTime) {
+                        offDuty.push(employee);
+                    }
+                });
+
+                setWorkingEmployees(working);
+                setNotStartedEmployees(notStarted);
+                setOffDutyEmployees(offDuty);
+            } catch (error) {
+                console.error('직원 정보 페치 오류:', error);
+                alert('직원 정보를 가져오는데 실패했습니다.');
+            }
+        };
+
+        const fetchWageData = async () => {
+            const payload = {
+                workplaceId: workplaceIdByStore,
+                ym: `${currentYear}-${currentMonth < 10 ? "0" + currentMonth : currentMonth}`,
+            };
+            try {
+                const res = await fetch(`http://localhost:8877/wage/workplace`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+
+                const json = await res.json();
+                setEstimatedWages(json.salaryAmount);
+                setEmployeeWages(json.logList);
+            } catch (error) {
+                console.error("Error fetching wage data:", error);
             }
         };
 
         if (workplaceIdByStore) {
             fetchWorkplaceInfo();
-        } 
-    }, [workplaceIdByStore]);
-
-    // if (loading) {
-    //     return <div>Loading...</div>;
-    // }
+            fetchEmployees();
+            fetchWageData();
+        }
+    }, [workplaceIdByStore, selectedDate, currentMonth, currentYear]);
 
     if (!workplaceInfo) {
         return <div>사업장 정보를 가져오는데 실패했습니다.</div>;
@@ -84,7 +134,6 @@ const InnerMainPage = () => {
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        // 여기서 날짜가 변경될 때 해당 날짜의 정보를 DB에서 가져오도록 추가할 수 있습니다.
     };
 
     const formattedMonth = `${currentYear}년 ${currentMonth}월`;
@@ -93,7 +142,7 @@ const InnerMainPage = () => {
         <div className={styles.innerMainContainer}>
             <div className={styles.leftPanel}>
                 <div className={styles.workplaceInfo}>
-                    <h1 className={styles.workplaceName}>사업장명</h1>
+                    <h1 className={styles.workplaceName}>{workplaceInfo.workplaceName}</h1>
                     <div className={styles.monthNavigation}>
                         <img src={`${process.env.PUBLIC_URL}/images/left-arrow.png`}
                              alt={"좌측화살표"}
@@ -105,18 +154,19 @@ const InnerMainPage = () => {
                              onClick={handleNextMonth}></img>
                     </div>
                     <div className={styles.monthDetails}>
-                        <p className={styles.estimatedWages}>예상 급여 : 8,290,800 원</p>
-                        <p className={styles.totalEmployees}>총 직원 수 : 6명</p>
+                        <p className={styles.estimatedWages}>예상 급여 : {estimatedWages.toLocaleString()} 원</p>
+                        <p className={styles.totalEmployees}>총 직원 수 : {workingEmployees.length + notStartedEmployees.length + offDutyEmployees.length}명</p>
                     </div>
                 </div>
 
                 <div className={styles.employeeSection}>
                     <p className={styles.employeeTitle}>직원별 월 급여</p>
                     <div className={styles.employeeWages}>
-                        <div className={styles.employeeWage}>정재한 (매니저) : 2,280,500 원</div>
-                        <div className={styles.employeeWage}>박성진 (직원) : 1,280,500 원</div>
-                        <div className={styles.employeeWage}>이지효 (직원) : 1,780,500 원</div>
-                        <div className={styles.employeeWage}>이수빈 (직원) : 2,080,500 원</div>
+                        {employeeWages.map((employee) => (
+                            <div key={employee.slaveId} className={styles.employeeWage}>
+                                {employee.slaveName} ({employee.slavePosition}) : {employee.totalAmount.toLocaleString()} 원
+                            </div>
+                        ))}
                     </div>
                 </div>
                 <div className={styles.scroll}></div>
@@ -141,28 +191,33 @@ const InnerMainPage = () => {
                     </div>
                     <div className={styles.scheduleTable}>
                         <div className={styles.scheduleColumn}>
-                            <p className={styles.columnTitle}>출근전 (2)</p>
-                            <p className={styles.scheduleEntry}>정재한 (매니저) 11:00 출근예정</p>
-                            <p className={styles.scheduleEntry}>이지효 (직원) 휴가</p>
+                            <p className={styles.columnTitle}>출근전 ({notStartedEmployees.length})</p>
+                            {notStartedEmployees.map(employee => (
+                                <p key={employee.id} className={styles.scheduleEntry}>
+                                    {employee.slaveName} ({employee.slavePosition}) {employee.scheduleStart} 출근 예정
+                                </p>
+                            ))}
                         </div>
                         <div className={styles.scheduleColumn}>
-                            <p className={styles.columnTitle}>근무중 (2)</p>
-                            <p className={styles.scheduleEntry}>박성진 (직원) 09:00 출근</p>
-                            <p className={styles.scheduleEntry}>이수빈 (직원) 08:30 출근</p>
+                            <p className={styles.columnTitle}>근무중 ({workingEmployees.length})</p>
+                            {workingEmployees.map(employee => (
+                                <p key={employee.id} className={styles.scheduleEntry}>
+                                    {employee.slaveName} ({employee.slavePosition}) {employee.scheduleStart} 출근
+                                </p>
+                            ))}
                         </div>
                         <div className={styles.scheduleColumn}>
-                            <p className={styles.columnTitle}>퇴근 (1)</p>
-                            <p className={styles.scheduleEntry}>강지혜 (직원) 10:00 퇴근</p>
-                        </div>
-                        <div className={styles.scheduleColumn}>
-                            <p className={styles.columnTitle}>기타 (1)</p>
-                            <p className={styles.scheduleEntry}>배윤정 (직원) 병가</p>
+                            <p className={styles.columnTitle}>퇴근 ({offDutyEmployees.length})</p>
+                            {offDutyEmployees.map(employee => (
+                                <p key={employee.id} className={styles.scheduleEntry}>
+                                    {employee.slaveName} ({employee.slavePosition}) {employee.scheduleEnd} 퇴근
+                                </p>
+                            ))}
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* 우측 하단 이미지 추가 */}
             <div
                 className={styles.backgroundImage}
                 style={{
