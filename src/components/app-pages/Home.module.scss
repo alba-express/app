@@ -52,3 +52,18 @@
     height: 17vh;
     width: 100%;
 }
+
+/* 기존 스타일 */
+.logo {
+    height: 160px;
+    float: inline-end;
+    animation: shake 1s infinite; /* 애니메이션 추가 */
+  }
+  
+  /* 애니메이션 정의 */
+  @keyframes shake {
+    0% { transform: rotate(-30deg); }
+    50% { transform: rotate(30deg); }
+    100% { transform: rotate(-30deg); }
+  }
+  

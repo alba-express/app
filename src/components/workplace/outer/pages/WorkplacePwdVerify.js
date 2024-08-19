@@ -22,11 +22,16 @@ const WorkplacePwdVerify = () => {
                 const action = localStorage.getItem('action');
                 navigate(action, { replace: true });
 
+                // 비밀번호 검증 후 페이지 이동 조건문
                 if (action === 'modify') {
                     navigate('/workplace/modify', { replace: true }); // 수정 페이지로 이동
                 } else {
                     navigate('/detail', { replace: true }); // 기본 업장 메인페이지로 이동
                 } 
+
+                // 비밀번호 검증 페이지 방문 기록 삭제
+                localStorage.removeItem('action');
+
             } else {
                 setError('간편 비밀번호가 일치하지 않습니다.');
             }
