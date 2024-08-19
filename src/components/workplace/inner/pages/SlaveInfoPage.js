@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './SlaveInfoPage.module.scss';
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SlaveInfoPageCommuteList from './slave/SlaveInfoPageCommuteList';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,6 +27,8 @@ const SlaveInfoPage = () => {
 
     // 에러 상태값으로 관리
     const [error, setError] = useState(null);
+
+    const navigate = useNavigate();
 
     //-------------------------------------------------
 
@@ -67,14 +69,26 @@ const SlaveInfoPage = () => {
 
     //-------------------------------------------------
 
+    
+
+    // 직원수정버튼을 클릭했을 때 해당 직원의 정보수정페이지로 이동하기
+    const thisSlaveModifyHandler = async (thisSlaveId) => {
+
+      // 해당 직원의 id
+      // console.log('이 직원의 아이디', thisSlaveId);
+
+      // 상세정보페이지로 이동, 해당 직원의 id를 상태로 전달하기
+      navigate(`/detail/slave-modify`, {state: {slaveId: thisSlaveId}});
+    };
+
+    //-------------------------------------------------
+
   return (
     <>
         <div className={styles['content-box']}>
             <div className={styles['slaveInfoPage-HeaderBox']} >
                 <div className={styles['slaveInfoPage-HeaderTitle']} > 직원상세정보 </div>
-                <Link to="/detail/slave-modify" className={styles['link-text']}> 
-                    <button className={styles['headerButton']} > 직원수정 </button>
-                </Link>
+                <button className={styles['headerButton']} onClick={thisSlaveModifyHandler(slaveId)} > 직원수정 </button>
             </div>
             <div className={styles['slaveInfoPage-MiddleBox']}>
                 <div>
