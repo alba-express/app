@@ -1,27 +1,23 @@
-.slaveRegistPageWage-box {
-  display: flex;
-  justify-content: left;
-  width: 43rem;
-  // height: 2.5rem;
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 32px;
-  padding-left: 4.5rem;
-  // border: 1px solid rgb(120, 1, 255);
+.slaveRegistPageSchedule-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    width: 43rem;
+    font-size: 20px;
+    font-weight: 700;
+    padding-left: 4.5rem;
 
-  .slaveRegistPageWage-title {
-    width: 10rem;
-  }
-
-  .slaveRegistPageWage-contentBox {
-
-    .slaveRegistPageWage-content {
-      width: 21.5rem;
-      height: 2.5rem;
-      //-------------
+    .slaveRegistPageInputScheduleTitle-box {
       display: flex;
+      justify-content: left;
+      align-items: center;
+      // border: 2px solid red;
+      //-----------------------
+      width: 38.5rem;
+      height: 2.5rem;
+      margin: 10px 0;
 
-      .nonWageType {
+      .nonScheduleType {
         width: 10.8rem;
         height: 2.5rem;
         //-------------
@@ -44,7 +40,7 @@
         background: rgba(65, 63, 63, 0.7);
       }
 
-      .wageType {
+      .scheduleType {
         width: 10.8rem;
         height: 2.5rem;
         //-------------
@@ -55,7 +51,7 @@
         font-weight: 600;
         color: rgb(255, 255, 255);
         //--------------------------
-        border: 1px solid rgba(0, 139, 134, 0.8);
+        border: 1px solid rgb(1, 119, 115);
         //--------------------------------------
         cursor: pointer;
         //---------------------------------------------
@@ -65,12 +61,9 @@
         //--------------------------------------
         background: linear-gradient(0deg, rgba(0, 139, 134, 0.7) 0%, rgba(0, 139, 134, 1) 100%);
       }
+    }
 
-      .slaveRegistPageInputWage-input {
-        width: 14.5rem;
-        height: 2.2rem;
-        margin: 10px 10px 0 10px;
-      }
+    .slaveRegistPageInputScheduleContent-box {
+      margin-top: 10px;
     }
   }
-}

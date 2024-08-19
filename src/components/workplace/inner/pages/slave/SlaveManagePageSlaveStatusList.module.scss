@@ -3,6 +3,20 @@
   color: rgb(0, 0, 0, 1);
 }
 
+.slaveManagementList-nonSlave {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  //----------------------
+  width: 100%;
+  height: 5rem;
+  //------------
+  background: white;
+  //-------------------
+  border: 3px solid white;
+  border-radius: 5px;
+}
+
 .slaveManagementList-OneSlave {
   margin-bottom: 20px;
   padding: 10px 0;

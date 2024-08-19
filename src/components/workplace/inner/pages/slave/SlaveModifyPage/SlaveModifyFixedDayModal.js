@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import styles from './SlaveRegisterFixedDayModal.module.scss';
+import styles from './SlaveModifyFixedDayModal.module.scss';
 
-const SlaveRegisterFixedDayModal = ({ onFixed }) => {
+const SlaveModifyFixedDayModal = ({ onFixed }) => {
 
   // 근무시간선택 --> 고정시간을 선택한 경우 요일 & 시간을 배열(객체{label, 요일선택여부, 시작시간, 종료시간})로 담기
   // 근무요일 (월=1, 화=2, 수=3, 목=4, 금=5, 토=6, 일=7)
@@ -99,4 +99,4 @@ const SlaveRegisterFixedDayModal = ({ onFixed }) => {
   )
 }
 
-export default SlaveRegisterFixedDayModal
+export default SlaveModifyFixedDayModal

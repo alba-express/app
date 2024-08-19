@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import styles from './SlaveRegisterWageList.module.scss';
-import SlaveRegisterWageInsurance from './SlaveRegisterWageInsurance';
+import styles from './SlaveModifyWageList.module.scss';
+import SlaveModifyWageInsurance from './SlaveModifyWageInsurance';
 
-const SlaveRegisterWageList = ({ onWages }) => {
+const SlaveModifyWageList = ({ onWages }) => {
   
   // 급여정보리스트 기본 배열 설정하기
   // 급여타입(wageType): 1 --> 시급 / 0 --> 월급
@@ -139,9 +139,9 @@ const SlaveRegisterWageList = ({ onWages }) => {
       </div>
 
       {/* 4대보험 적용여부 */}
-      <SlaveRegisterWageInsurance onApply={applyInsurance} />
+      <SlaveModifyWageInsurance onApply={applyInsurance} />
     </>
   );
 };
 
-export default SlaveRegisterWageList;
+export default SlaveModifyWageList;

@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styles from './SlaveRegistPage.module.scss'
 import { Link, useNavigate } from "react-router-dom";
-import SlaveRegisterVariableDayModal from "./slave/SlaveRegistPage/SlaveRegisterVariableDayModal";
-import SlaveRegisterFixedDayModal from "./slave/SlaveRegistPage/SlaveRegisterFixedDayModal";
-import SlaveRegisterWageModal from "./slave/SlaveRegistPage/SlaveRegisterWageList";
+import SlaveRegisterWageList from "./slave/SlaveRegistPage/SlaveRegisterWageList";
+import SlaveRegisterScheduleList from "./slave/SlaveRegistPage/SlaveRegisterScheduleList";
 
 const SlaveRegistPage = () => {
 
@@ -19,10 +18,7 @@ const SlaveRegistPage = () => {
         slavePosition: '',
         // 직원 급여리스트 (급여방식(시급 (true, 1), 월급 (false, 0)), 급여금액, 4대보험여부)
         slaveWageList: [],
-
-        // 근무시간타입 고정 or 변동
-        slaveScheduleType: '',
-        // 근무시간정보
+        // 직원 근무리스트 (근무방식(고정시간 (true, 1), 변동시간 (false, 0), 근무요일, 근무시작시간, 근무종료시간))
         slaveScheduleList: [],
         // 사업장번호
         workPlaceNumber: ''
@@ -34,51 +30,6 @@ const SlaveRegistPage = () => {
 
     //-------------------------------------------------
 
-    // 근무방식선택 --> 고정시간 or 변동시간 상태값 관리
-    const [selectScheduleType, setSelectScheduleType] = useState('');
-
-    // 근무방식선택에 따른 버튼 스타일 변경
-    const getScheduleTypeClassName = (type) => {
-
-
-        if (selectScheduleType === '') {
-            return styles.slaveRegistPageInputScheduleType;
-        } else if (type === 'fixed') {
-            return selectScheduleType ? styles.scheduleType : styles.slaveRegistPageInputScheduleType;
-
-        } else if (type === 'variable') {
-            return !selectScheduleType ? styles.scheduleType : styles.slaveRegistPageInputScheduleType;
-        }
-    };
-
-    // 고정시간 클릭이벤트 
-    const fixedDayHandler = e => {
-
-        if (selectScheduleType === true) {
-            setSelectScheduleType('');
-
-        } else {
-            // 근무방식 - 고정은 true, 1
-            setSelectScheduleType(true);
-        }
-    };
-
-    //-------------------------------------------------
-
-    // 변동시간 클릭이벤트
-    const variableDayHandler = e => {
-
-        if (selectScheduleType === false) {
-            setSelectScheduleType('');
-
-        } else {
-            // 근무방식 - 변동은 false, 0
-            setSelectScheduleType(false);
-        }
-    };
-
-    //-------------------------------------------------
-
     // 이름 입력한 경우 input태그 상태창 변경하기
     const nameHandler = e => {
         setSlaveRegistInput(prev => ({...slaveRegistInput, slaveName: e.target.value}));
@@ -86,6 +37,14 @@ const SlaveRegistPage = () => {
 
     // 전화번호 입력한 경우 input태그 상태창 변경하기
     const phoneNumberHandler = e => {
+
+        // 전화번호 입력 1초 후 입력한 전화번호를 서버로 전송해서 DB 에 등록된 전화번호인지 검증하기
+
+        // 입력한 전화번호
+        const inputPhoneNumber = e.target.value;
+
+        // setTimeout(() => {}, 1000);
+
         setSlaveRegistInput(prev => ({...slaveRegistInput, slavePhoneNumber: e.target.value}));
     };
 
@@ -109,37 +68,11 @@ const SlaveRegistPage = () => {
 
     //-------------------------------------------------
 
-    // 함수를 통해 받아온 고정시간 정보 상태관리하기
-    const [updatedFixedDay, setUpdatedFixedDay] = useState([]);
+    // 근무정보 모달창으로 함수 내려보내 근무타입 & 근무요일 & 근무시간 정보 받아오기 & 상태관리하기
+    const onScheduleList = useCallback ((updatedScheduleList) => {
 
-    // 고정시간 모달창으로 함수 내려보내 고정시간 정보 받아오기 & 상태관리하기
-    const onFixedDay = useCallback((fixedDay) => {
-        setUpdatedFixedDay(fixedDay);
+        setSlaveRegistInput(prev => ({ ...prev, slaveScheduleList: updatedScheduleList }));
     }, []);
-
-    // 함수를 통해 받아온 변동시간 정보 상태관리하기
-    const [updatedVariableDay, setUpdatedVariableDay] = useState([]);
-
-    // 변동시간 모달창으로 함수 내려보내 변동시간 정보 받아오기 & 상태관리하기
-    const onVariableDay = (variableDay) => {
-
-        setUpdatedVariableDay(variableDay);
-    };
-
-    // scheduleType 에 따른 고정시간 정보 & 변동시간 정보 업데이트하기
-    useEffect (() => {
-
-        // console.log('근무타입', selectScheduleType);
-
-        if (selectScheduleType === true) { // 근무타입 - 고정시간은 true, 1
-            setSlaveRegistInput((prev) => ({...prev, slaveScheduleType: selectScheduleType, slaveScheduleList: updatedFixedDay}));
-        } else if (selectScheduleType === false) { // 근무타입 - 변동시간은 false, 0
-            setSlaveRegistInput((prev) => ({...prev, slaveScheduleType: selectScheduleType, slaveScheduleList: updatedVariableDay}));
-        } else { // 근무방식 미선택
-            setSlaveRegistInput((prev) => ({...prev}));
-        }
-
-    }, [selectScheduleType, updatedFixedDay, updatedVariableDay]);
 
     //-------------------------------------------------
 
@@ -162,6 +95,20 @@ const SlaveRegistPage = () => {
         }
         return true;
     };
+
+    // form태그에 입력한 값을 서버로 넘기는 button태그를 상태값으로 관리하기
+    const [formButtonType, setFormButtonType] = useState('button');
+
+    useEffect(()=> {
+        // 모든 입력값이 입력된 상태일 경우
+        if (validateInputs()) {
+            setFormButtonType('submit');
+
+            // 입력값이 하나라도 빈 상태일 경우
+        } else {
+            setFormButtonType('button');
+        }
+    }, [slaveRegistInput]);
 
     //-------------------------------------------------
 
@@ -219,6 +166,7 @@ const SlaveRegistPage = () => {
                     <div className={styles['slaveRegistPageForm-top']} >
                         <div className={styles['slaveRegistPageForm-left']} >
 
+                            {/* 이름, 전화번호, 생년월일, 직책 */}
                             <label htmlFor="slaveName" className={styles['slaveRegistPageInput-box']} >
                                 <div className={styles['slaveRegistPageInput-title']} > 이름 </div>
                                 <input id="slaveName" onChange={nameHandler} className={styles['slaveRegistPageInput-input']} />
@@ -239,8 +187,8 @@ const SlaveRegistPage = () => {
                                 <input id="slavePosition" onChange={positionHandler} className={styles['slaveRegistPageInput-input']} />
                             </label>
 
-                            {/* 급여 리스트 */}
-                            <SlaveRegisterWageModal onWages={onWageList} />
+                            {/* 급여정보리스트 */}
+                            <SlaveRegisterWageList onWages={onWageList} />
 
                         </div>
 
@@ -248,35 +196,18 @@ const SlaveRegistPage = () => {
 
                         <div className={styles['slaveRegistPageForm-right']}>
 
-                            <div className={styles['slaveRegistPageSchedule-box']} >
-                                <div className={styles['slaveRegistPageInput-title']} > 근무시간선택 </div>
+                            {/* 근무정보리스트 */}
+                            <SlaveRegisterScheduleList onSchedules={onScheduleList}/>
 
-                                <div className={styles['slaveRegistPageInputScheduleTitle-box']} >
-                                    <label htmlFor="fixed" className={getScheduleTypeClassName('fixed')} >
-                                        고정시간
-                                        <input id="fixed" onClick={fixedDayHandler} type="checkbox" style={{ display: 'none' }} />
-                                    </label>
-
-                                    <label htmlFor="variable" className={getScheduleTypeClassName('variable')} >
-                                        변동시간
-                                        <input id="variable" onClick={variableDayHandler} type="checkbox" style={{ display: 'none' }} />
-                                    </label>
-                                </div>
-
-                                <div className={styles['slaveRegistPageInputScheduleContent-box']} >
-                                    {selectScheduleType === true && <SlaveRegisterFixedDayModal onFixed={onFixedDay} />}
-                                    {selectScheduleType === false && <SlaveRegisterVariableDayModal onVariable={onVariableDay} />}
-                                </div>
-                            </div>
                         </div>
                     </div>
 
                     <div className={styles['slaveRegistPageForm-bottom']} >
                         <div className={styles['slaveRegistPageButton-box']} >
                             <Link to="/detail/slave-manage" className={styles['link-text']} > 
-                            <button className={styles['slaveRegistPage-button']} > 취소 </button>
+                                <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
-                            <button type="submit" className={styles['slaveRegistPage-button']} > 등록 </button>
+                            <button type={formButtonType} className={styles['slaveRegistPage-nonButton']} > 등록 </button>
                         </div>
                     </div>
                 </form>
