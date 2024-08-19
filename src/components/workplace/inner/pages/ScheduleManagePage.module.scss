@@ -75,6 +75,7 @@
   border-radius: 5px;
   background: #ffffff;
   align-items: center;
+  width: 90%;
 }
 
 .scheduleItemName {
@@ -91,7 +92,7 @@
 .scheduleList {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .todayAddSchedule {
