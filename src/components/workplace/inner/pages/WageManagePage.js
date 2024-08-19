@@ -8,13 +8,13 @@ const WageManagePage = () => {
     const month = useSelector((state) => state.wage.month);
     const year = useSelector((state) => state.wage.year);
     const salaryAmount = useSelector((state) => state.wage.salaryAmount);
-
+    const workplaceId = localStorage.getItem("workplaceId");
     const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchData = async () => {
             const payload = {
-                workplaceId: "1",
+                workplaceId,
                 ym: `${year}-${month < 10 ? "0" + month : month}`,
             };
             try {
