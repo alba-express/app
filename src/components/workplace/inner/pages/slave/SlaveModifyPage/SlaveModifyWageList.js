@@ -94,7 +94,7 @@ const SlaveModifyWageList = ({ onWages }) => {
 
     onWages(wageList);
     
-  }, [wageList, onWages]);
+  }, [wageList]);
 
   //-------------------------------------------------
 
