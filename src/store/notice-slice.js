@@ -7,7 +7,6 @@ const initialState = {
     selectedNotice: null,
     isModalOpen: false,
     closeModal: true,
-    latestNoticeTitle: null,
 };
 
 const noticeSlice = createSlice({

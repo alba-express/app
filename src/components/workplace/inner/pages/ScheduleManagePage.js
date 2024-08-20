@@ -78,24 +78,40 @@ const ScheduleManagePage = () => {
         return `${hours}:${minutes}`;
     };
 
+    const handleDeleteExtraSchedule = async (id) => {
+        console.log('삭제버튼 클릭, id: ', id);
+        try {
+            const response = await fetch(`http://localhost:8877/detail/extraSchedule-manage?id=${id}`, {
+                method: 'DELETE',
+            });
+
+            if(!response.ok) {
+                throw new Error('삭제 요청에 실패했습니다.');
+            }
+            setExtraScheduleData(prevData => prevData.filter(item => item.id !== id))
+        } catch (error) {
+            console.error('삭제 중 오류 발생: ', error);
+        }
+
+    };
 
     return (
         <>
             <div className={styles.scheduleTitle}>
                 <h1>일정관리</h1>
+                <Link to="/detail/schedule-add">
+                    <button className={styles.addSchedulebutton}>일정 추가</button>
+                </Link>
             </div>
             <div className={styles.schedule}>
                 <ScheduleCalendarPage selectedDate={selectedDate}
                                       setSelectedDate={setSelectedDate}/>
-                <Link to="/detail/schedule-add">
-                    <button className={styles.addSchedulebutton}>일정 추가</button>
-                </Link>
 
                 <div className={styles.scheduleList}>
 
                 <div className={styles.todaySchedule}>
-                    <h3>오늘 근무자</h3>
-                    <p>({selectedDate}) 총 {scheduleData.length}명</p>
+                    <h4>오늘 근무자</h4>
+                    <p className={styles.count}>({selectedDate}) 총 {scheduleData.length}명</p>
                     {scheduleData.length === 0 ?
 
                         <div style={{textAlign: 'center', margin: '20px 0'}}>
@@ -114,11 +130,11 @@ const ScheduleManagePage = () => {
                                 </div>
                             ))}
                         </div>}
-                {/*</div>*/}
+                </div>
 
-                {/*<div className={styles.todaySchedule}>*/}
-                    <h3>추가 근무자</h3>
-                    <p>({selectedDate}) 총 {extraScheduleData.length}명</p>
+                <div className={styles.extraSchedule}>
+                    <h4>추가 근무자</h4>
+                    <p className={styles.count}>({selectedDate}) 총 {extraScheduleData.length}명</p>
 
                     {extraScheduleData.length === 0 ?
                         <div style={{textAlign: 'center', margin: '20px 0'}}>
@@ -126,20 +142,27 @@ const ScheduleManagePage = () => {
                         </div>
 
                         : <div className={styles.scheduleList}>
-                {extraScheduleData.map((extraSchedule,index) => (
-                                <div key={extraScheduleData.length - index} className={styles.scheduleItem}>
-                                    <div className={styles.scheduleItemName}>
-                                        {extraSchedule.slaveName} ({extraSchedule.slavePosition})
-                                    </div>
-                                    <div className={styles.scheduleItemTime}>
-                                        {formatTime(extraSchedule.startTime)} ~ {formatTime(extraSchedule.endTime)}
-                                    </div>
-                                </div>
-                            ))}
+                {extraScheduleData.map((extraSchedule, index) => (
+                    <div key={extraSchedule.id || index} className={styles.extraScheduleItem}>
+                        <button
+                            className={styles.extraScheduleItemButton}
+                            onClick={() => handleDeleteExtraSchedule(extraSchedule.id)}
+                        >
+                            x
+                        </button>
+
+                        <div className={styles.scheduleItemName}>
+                            {extraSchedule.slaveName} ({extraSchedule.slavePosition})
+                        </div>
+                        <div className={styles.scheduleItemTime}>
+                            {formatTime(extraSchedule.startTime)} ~ {formatTime(extraSchedule.endTime)}
+                        </div>
+                    </div>
+                ))}
                         </div>}
-                {/*</div>*/}
+                    {/*</div>*/}
                 </div>
-            </div>
+                </div>
             </div>
         </>
     );

@@ -60,7 +60,7 @@ const NoticePage = () => {
     // if (isLoading) return <div>로딩 중...</div>;  // 로딩 상태 표시
 
     const handlePageChange = (newPage) => {
-        if(newPage >= 1 && newPage <= totalPages) {
+        if (newPage >= 1 && newPage <= totalPages) {
             setCurrentPage(newPage);
         }
     };
@@ -70,17 +70,17 @@ const NoticePage = () => {
 
             <div className={styles.noticeBoard}>
                 <h1 className={styles.notice}>공지사항</h1>
+
+                <div className={styles.actions}>
+                    <Link to="/detail/notice-register">
+                        <button type="button">작성</button>
+                    </Link>
+                </div>
             </div>
 
-            <div className={styles.actions}>
-                <Link to="/detail/notice-register">
-                {/*{userId && <button type="button" >작성</button>}*/}
-                <button type="button" >작성</button>
-                </Link>
-            </div>
 
             <div className={styles.noticeList}>
-                { !isLoading &&
+                {!isLoading &&
                     (<ul>
                         {notices.length > 0 ? (
                             notices.map(notice => (
@@ -103,7 +103,7 @@ const NoticePage = () => {
                     이전
                 </button>}
                 <span className={styles.page}> {currentPage} / {totalPages == 0 ? 1 : totalPages}</span>
-                { currentPage !== totalPages && <button
+                {currentPage !== totalPages && <button
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
                 >
