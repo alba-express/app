@@ -62,10 +62,13 @@ const SlaveManagePage = () => {
 
     // 검색한 이름을 가진 직원 정보가 있을 경우
     if (response.data) {
-      dispatch(slaveActions.setShowOneSlaveInfo(response.data)); // redux 의 직원 한 명 정보에 저장
-      localStorage.setItem('oneSlave', JSON.stringify(response.data)); // 로컬스토리지에 저장
+      dispatch(slaveActions.setShowSearchSlaveInfo(response.data)); // redux 의 직원 한 명 정보에 저장
+      localStorage.setItem('searchSlaveList', JSON.stringify(response.data)); // 로컬스토리지에 저장
 
-      // 검색한 이름을 가진 직원 정보가 없을 경우
+      const searchSlave = localStorage.getItem('searchSlaveList');
+
+      console.log('검색한직원', searchSlave);
+      
     } else {
       alert("해당 이름을 가진 직원 정보가 없습니다")
     }

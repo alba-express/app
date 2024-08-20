@@ -39,7 +39,7 @@ const SlaveRegisterVariableDayModal = ({ onVariable }) => {
         const updatedVariableDays = variableDays.filter((day) => day.select);
         console.log('최종 변동시간', updatedVariableDays);
         onVariable(updatedVariableDays);
-    }, [variableDays]);
+    }, [variableDays, onVariable]);
 
     return (
         <>
