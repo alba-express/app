@@ -148,7 +148,7 @@ const ScheduleManagePage = () => {
                             className={styles.extraScheduleItemButton}
                             onClick={() => handleDeleteExtraSchedule(extraSchedule.id)}
                         >
-                            x
+                            -
                         </button>
 
                         <div className={styles.scheduleItemName}>
