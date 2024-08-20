@@ -25,20 +25,28 @@ const SalaryHeader = () => {
 
     return (
         <>
-            <h2>월 총누적급여</h2>
+            {/* <h2>월 총누적급여</h2> */}
             <div className={styles.container}>
                 <div className={styles.salaryHeader}>
                     <div
                         onClick={handlePreviousMonth}
                         className={styles.buttonWrapper}
                     >
-                        <button className={styles.button}>◀</button>
+                        <button className={styles.button}>
+                        <img src={`${process.env.PUBLIC_URL}/images/left-arrow.png`}
+                             alt={"좌측화살표"}
+                             className={styles.arrowButton} />
+                        </button>
                     </div>
                     <span className={styles.salaryText}>
                         {year}년 {formatMonth(month)}월 급여
                     </span>
                     <div onClick={handleNextMonth} className={styles.buttonWrapper}>
-                        <button className={styles.button}>▶</button>
+                        <button className={styles.button}>
+                        <img src={`${process.env.PUBLIC_URL}/images/right-arrow.png`}
+                             alt={"우측화살표"}
+                             className={styles.arrowButton} />
+                        </button>
                     </div>
                 </div>
                 <div className={styles.salaryBox}>

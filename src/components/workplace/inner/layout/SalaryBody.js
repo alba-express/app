@@ -12,7 +12,7 @@ const SalaryBody = () => {
     
   return (
     <>
-        <h2>{formatMonth(month)}월 직원별 급여</h2>
+        {/* <h2 className={styles.salaryTitle}>{formatMonth(month)}월 직원별 급여</h2> */}
         <div className={styles.salaryBody}>
         {logList.map((log) => (
             <SalaryList
