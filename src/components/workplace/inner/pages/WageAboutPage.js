@@ -45,6 +45,7 @@ const WageAboutPage = () => {
                 }
 
                 const json = await res.json();
+                console.log("wageInsuranceTestByJson");
                 console.log(json);
                 dispatch(wageActions.setSlaveData({slaveData: json}));
             } catch (error) {

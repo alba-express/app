@@ -10,6 +10,7 @@ const initialState = {
     slaveData: {
         slaveId: "",
         slaveName: "",
+        wageInsurance: false,
         totalSalary: 0,
         dtoList: [],
     },
