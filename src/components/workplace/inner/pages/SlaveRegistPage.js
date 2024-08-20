@@ -79,6 +79,9 @@ const SlaveRegistPage = () => {
         const payload = {
             ...slaveRegistInput,
             slaveWageList: Object.values(slaveRegistInput.slaveWageList),
+            slaveScheduleList: Array.isArray(slaveRegistInput.slaveScheduleList)
+                ? slaveRegistInput.slaveScheduleList
+                : [slaveRegistInput.slaveScheduleList], // 배열로 변환하여 전송
         };
 
         try {
