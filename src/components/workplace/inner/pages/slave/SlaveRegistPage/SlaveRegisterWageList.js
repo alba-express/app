@@ -5,7 +5,7 @@ import SlaveRegisterWageInsurance from './SlaveRegisterWageInsurance';
 
 const SlaveRegisterWageList = ({ onWages }) => {
 
-  const initialWageList = [{ slaveWageType: '', slaveWageAmount: '', slaveWageInsurance: '' }];
+  const initialWageList = [{ slaveWageType: null, slaveWageAmount: '', slaveWageInsurance: null }];
   const [wageList, setWageList] = useState(initialWageList);
   const [selectedWageType, setSelectedWageType] = useState('');
 

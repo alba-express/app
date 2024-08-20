@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import styles from './SlaveModifyWageInsurance.module.scss';
 
-const SlaveModifyWageInsurance = ({ onApply }) => {
+const SlaveModifyWageInsurance = ({ onApply, oneSlave }) => {
 
   // 4대보험 적용여부선택 --> 적용 or 미적용 체크박스 상태값 관리
-  const [slaveWageInsurance, setSlaveWageInsurance] = useState('');
+  const [slaveWageInsurance, setSlaveWageInsurance] = useState(null);
+
+  useEffect(() => {
+
+    // 로컬스토리지에서 받아온 선택한 직원의 정보에서 급여리스트 정보만 추출하기
+    const modifyWageList = oneSlave().wageList;
+
+    if (modifyWageList && modifyWageList.length > 0) {
+      // modifyWageList가 존재하고 비어 있지 않을 때 wageList를 업데이트
+      setSlaveWageInsurance(modifyWageList[0].slaveWageInsurance == '적용' ? true : modifyWageList[0].slaveWageInsurance === '미적용' ? false : slaveWageInsurance);
+    };
+
+  }, []);
 
   // 4대보험 적용버튼 클릭이벤트
   const appliedHandler = e => {

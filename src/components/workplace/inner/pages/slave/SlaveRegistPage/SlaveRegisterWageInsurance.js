@@ -4,7 +4,7 @@ import styles from './SlaveRegisterWageInsurance.module.scss';
 const SlaveRegisterWageInsurance = ({ onApply }) => {
 
   // 4대보험 적용여부선택 --> 적용 or 미적용 체크박스 상태값 관리
-  const [slaveWageInsurance, setSlaveWageInsurance] = useState('');
+  const [slaveWageInsurance, setSlaveWageInsurance] = useState(null);
 
   // 4대보험 적용버튼 클릭이벤트
   const appliedHandler = e => {

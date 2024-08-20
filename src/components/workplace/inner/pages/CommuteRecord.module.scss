@@ -102,14 +102,15 @@
 
 .buttonContainer {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row; /* 버튼을 가로로 나열 */
+  justify-content: center; /* 버튼을 중앙 정렬 */
   gap: 10px;
+  margin-bottom: 20px;
 }
 
 .checkButton {
   width: 300px;
   height: 250px;
-  margin: 0 auto;
   background: #2a9d8f;
   color: #fff;
   font-weight: 600;
@@ -126,6 +127,24 @@
 
 .checkButton:hover:not(:disabled) {
   background: #264653;
+}
+
+.timeInfo {
+  display: flex;
+  flex-direction: column; /* 시간 정보를 세로로 나열 */
+  align-items: center; /* 시간 정보를 중앙 정렬 */
+  gap: 10px;
+}
+
+.timeLabelBox {
+  position: absolute;
+  margin-top: 260px;
+}
+
+.timeLabel {
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(43, 42, 42, 0.9);
 }
 
 .validationMessage {
