@@ -8,7 +8,8 @@ import NoticeModal from "../pages/NoticeModal";
 
 const InnerHeader = () => {
 
-    const notices = useSelector(state => state.notice.noticeList);
+    const noticeList = useSelector(state => state.notice.noticeList);
+    const [notices, setNotices] = useState([]);
     const isModalOpen = useSelector(state => state.notice.isModalOpen);
     // const latestNoticeTitle = useSelector(state => state.notice.latestNoticeTitle);
 
@@ -22,21 +23,23 @@ const InnerHeader = () => {
     // 최신 공지사항 제목 가져오기
     useEffect(() => {
         const fetchNotice = async () => {
-            const response = await fetch(`http://localhost:8877/detail?workplaceId=${workplaceId}`);
+            const response = await fetch(`http://localhost:8877/detail/notice?workplaceId=${workplaceId}`);
             if (!response.ok) {
                 throw new Error('네트워크 응답이 올바르지 않습니다.');
             }
             const data = await response.json();
             console.log("data:", data);
-            setLatestNoticeTitle(data.title);
+            setLatestNoticeTitle(data.noticeList.length > 0 ? data.noticeList[0].title : "공지사항 없음");
+            setNotices(data.noticeList);
         }
         fetchNotice();
-    }, [workplaceId, notices]);
+    }, [workplaceId, noticeList]);
 
     const handleLogout = () => {
         removeUserToken();
         navigate('/login');
     };
+    
 
     // useEffect(() => {
     //     if (notices.length > 0) {

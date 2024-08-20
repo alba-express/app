@@ -102,7 +102,7 @@ const NoticePage = () => {
                 >
                     이전
                 </button>}
-                <span className={styles.page}> {currentPage} / {totalPages}</span>
+                <span className={styles.page}> {currentPage} / {totalPages == 0 ? 1 : totalPages}</span>
                 { currentPage !== totalPages && <button
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
