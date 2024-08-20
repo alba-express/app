@@ -3,7 +3,7 @@ import styles from './SlaveModifyScheduleList.module.scss';
 import SlaveModifyFixedDayModal from './SlaveModifyFixedDayModal';
 import SlaveModifyVariableDayModal from './SlaveModifyVariableDayModal';
 
-const SlaveModifyScheduleList = ({ onSchedules }) => {
+const SlaveModifyScheduleList = ({ onSchedules, oneSlave }) => {
   
   // 근무정보리스트 기본 배열 설정하기
   // 근무타입(ScheduleType): true, 1 --> 고정시간 / false, 0 --> 변동시간
@@ -17,13 +17,12 @@ const SlaveModifyScheduleList = ({ onSchedules }) => {
     // 근무방식선택에 따른 버튼 스타일 변경
     const getScheduleTypeClassName = (type) => {
 
-        if (type === '') {
-            return styles.nonScheduleType;
-        } else if (type === 'fixed') {
+        if (type === 'fixed') {
             return scheduleList.slaveScheduleType === true ? styles.scheduleType : styles.nonScheduleType;
-
         } else if (type === 'variable') {
             return scheduleList.slaveScheduleType === false ? styles.scheduleType : styles.nonScheduleType;
+        } else {
+            return styles.nonScheduleType;
         }
     };
 
@@ -100,8 +99,8 @@ const SlaveModifyScheduleList = ({ onSchedules }) => {
 
             <div className={styles['slaveRegistPageInputScheduleContent-box']} >
 
-                {scheduleList.slaveScheduleType === true && <SlaveModifyFixedDayModal onFixed={onFixedDay} />}
-                {scheduleList.slaveScheduleType === false && <SlaveModifyVariableDayModal onVariable={onVariableDay} />}
+                {scheduleList.slaveScheduleType === true && <SlaveModifyFixedDayModal onFixed={onFixedDay} oneSlave={oneSlave} />}
+                {scheduleList.slaveScheduleType === false && <SlaveModifyVariableDayModal onVariable={onVariableDay} oneSlave={oneSlave} />}
 
             </div>
         </div>

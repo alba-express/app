@@ -2,7 +2,7 @@ import React from "react";
 import styles from './SlaveInfoPageCommuteList.module.scss';
 import SlaveInfoPageCommuteHistoryList from "./SlaveInfoPageCommuteHistoryList";
 
-const SlaveInfoPageCommuteList = () => {
+const SlaveInfoPageCommuteList = ({ commuteList }) => {
   return (
     <>
       <div className={styles['slaveManagementList-title']}>
@@ -15,7 +15,7 @@ const SlaveInfoPageCommuteList = () => {
       <div className={styles['slaveManagementList-content']}>
         <div className={styles['slaveManagementList-box']}>
 
-          <SlaveInfoPageCommuteHistoryList />
+          <SlaveInfoPageCommuteHistoryList scheduleLogList={commuteList}/>
 
         </div>
       </div>

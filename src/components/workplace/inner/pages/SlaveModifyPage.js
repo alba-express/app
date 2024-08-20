@@ -1,42 +1,70 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from './SlaveModifyPage.module.scss';
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SlaveModifyWageList from "./slave/SlaveModifyPage/SlaveModifyWageList";
 import SlaveModifyScheduleList from "./slave/SlaveModifyPage/SlaveModifyScheduleList";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { slaveActions } from "../../../../store/slave-slice";
 
 
 const SlaveModifyPage = () => {
 
-    // redux store 에서 특정 직원 한 명의 정보를 표시하는 상태값 불러오기 (초기값: 특정 직원의 한 명의 정보를 넣을 빈 배열)
-    const showOneSlaveInfo = useSelector((state) => state.slave.showOneSlaveInfo);
+    const getOneSlave = () => {
 
-    // 가져온 직원 정보를 담을 로컬 기본 배열
-    const [slaveModifyInput, setSlaveModifyInput] = useState(showOneSlaveInfo);
+        // 선택된 직원 한 명이 없을경우 사용할 대체데이터
+        const defaultOneSlave = {
+            workPlaceNumber: 1,
+            slaveId: 1,
+            slaveName: '알바니',
+            slavePosition: '직원',
+            slavePhoneNumber: '000-0000-0000',
+            slaveBirthday: '0000-01-01',
+            slaveCreatedAt: '0000-01-01',
+            wageList: [{ slaveWageType: "급여타입미정", slaveWageAmount: "급여금액미정", slaveWageInsurance: "4대보험미정" }],
+            scheduleList: [{scheduleDay: "요일없음", scheduleStart: "00:00", scheduleEnd: "00:00"}],
+        };
 
-    // 가져오는 직원의 정보가 변화하면 로컬 배열도 변경
-    useEffect(()=> {
-        setSlaveModifyInput(showOneSlaveInfo)
+        // 해당 사업장의 직원 중 선택한 직원 한 명의 정보를 가져오기위해 로컬스토리지에서 oneSlave 데이터 가져오기
+        let oneSlave = localStorage.getItem('oneSlave');
 
-        console.log("초기수정배열", showOneSlaveInfo);
-        
-    }, []);
+        // oneSlave가 존재하지 않을 경우 대체데이터를 로컬스토리지에 저장하기
+        if (!oneSlave) {
+            localStorage.setItem('oneSlave', JSON.stringify(defaultOneSlave));
+            oneSlave = JSON.stringify(defaultOneSlave);
+        } 
+
+        // oneSlave가 있으면 oneSlave 사용하기
+        try {
+            return JSON.parse(oneSlave);
+        } catch (e) {
+            console.error("로컬스토리지의 oneSlave 에러", e);
+            return defaultOneSlave;
+        }
+    };
 
     //-------------------------------------------------
 
-    // 사업장 번호를 가져오기
-    const workplaceIdByStore = localStorage.getItem('workplaceId');
+    // 직원 수정을 위한 기본 객체
+    const [slaveModifyInput, setSlaveModifyInput] = useState({
+        workPlaceNumber: '',
+        slaveId: '',
+        slaveName: '',
+        slavePhoneNumber: '',
+        slavePosition: '',
+        slaveBirthday: '',
+        slaveCreatedAt: '',
+        wageList: [],
+        scheduleList: [],
+    });
 
-    useEffect(() => {
+    useEffect(()=> {
 
-        console.log("사업장?", workplaceIdByStore);
-        
-        if (workplaceIdByStore && slaveModifyInput.workPlaceNumber !== workplaceIdByStore) {
-            setSlaveModifyInput(prev => ({...prev, workPlaceNumber: workplaceIdByStore}));
-        }
-    }, [workplaceIdByStore, setSlaveModifyInput]);
+        // oneSlave 정의하기
+        const oneSlave = getOneSlave();
+
+        // 선택한 직원의 정보를 직원 수정을 위한 기본 객체에 등록하기
+        setSlaveModifyInput(oneSlave);
+    }, []);
+
+    //-------------------------------------------------
 
     // 이름 입력한 경우 input태그 상태창 변경하기
     const nameHandler = e => {
@@ -51,9 +79,28 @@ const SlaveModifyPage = () => {
         // 입력한 전화번호
         const inputPhoneNumber = e.target.value;
 
-        // setTimeout(() => {}, 1000);
+        // 해당 사업장
+        const workPlaceId = slaveModifyInput.workPlaceNumber;
 
-        setSlaveModifyInput(prev => ({...prev, slavePhoneNumber: e.target.value}));
+        setTimeout(async () => {
+            try {
+                const response = await fetch(`http://localhost:8877/detail/validPhoneNumber`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({inputPhoneNumber, workPlaceId})
+                });
+                const result = await response.json();
+                if (result.isValid) {
+                    // alert("사용가능한 전화번호입니다");
+                    setSlaveModifyInput(prev => ({...prev, slavePhoneNumber: inputPhoneNumber}));
+                } else {
+                    // alert("이미 존재하는 전화번호입니다");
+                    setSlaveModifyInput(prev => ({...prev, slavePhoneNumber: ''}));
+                }
+            } catch (error) {
+                console.error("전화번호 검증 에러", error);
+            }
+        }, 2000);
     };
 
     // 생년월일 입력한 경우 input태그 상태창 변경하기
@@ -73,7 +120,7 @@ const SlaveModifyPage = () => {
     // 급여정보 모달창으로 함수 내려보내 급여타입 & 급여금액 & 4대보험 적용여부 정보 받아오기 & 상태관리하기
     const onWageList = ((updatedWageList) => {
 
-        setSlaveModifyInput(prev => ({...prev, slaveWageList: updatedWageList}));
+        setSlaveModifyInput(prev => ({...prev, wageList: updatedWageList}));
     });
 
     // -------------------------------------------------
@@ -81,14 +128,14 @@ const SlaveModifyPage = () => {
     // 근무정보 모달창으로 함수 내려보내 근무타입 & 근무요일 & 근무시간 정보 받아오기 & 상태관리하기
     const onScheduleList = ((updatedScheduleList) => {
 
-        setSlaveModifyInput(prev => ({...prev, slaveScheduleList: updatedScheduleList}));
+        setSlaveModifyInput(prev => ({...prev, scheduleList: updatedScheduleList}));
     });
 
     //-------------------------------------------------
 
     // 입력값 검증 함수
     const validateInputs = () => {
-        const { slaveId, slaveName, slavePhoneNumber, slaveBirthday, slavePosition, wageList, slaveScheduleType, scheduleList, workPlaceNumber } = slaveModifyInput;
+        const { slaveName, slavePhoneNumber, slaveBirthday, slavePosition, wageList, slaveScheduleType, scheduleList, workPlaceNumber } = slaveModifyInput;
         if (!slaveName || !slavePhoneNumber || !slaveBirthday || !slavePosition || wageList.length === 0 || slaveScheduleType === '' || scheduleList.length === 0, !workPlaceNumber) {
             return false;
         }
@@ -98,19 +145,16 @@ const SlaveModifyPage = () => {
     // form태그에 입력한 값을 서버로 넘기는 button태그를 상태값으로 관리하기
     const [formButtonType, setFormButtonType] = useState('button');
 
-    useEffect(()=> {
-        // 모든 입력값이 입력된 상태일 경우
-        if (validateInputs()) {
-            setFormButtonType('submit');
+    // useEffect(()=> {
+    //     // 모든 입력값이 입력된 상태일 경우
+    //     if (validateInputs()) {
+    //         setFormButtonType('submit');
 
-            // 입력값이 하나라도 빈 상태일 경우
-        } else {
-            setFormButtonType('button');
-        }
-    }, [slaveModifyInput]);
-
-    useEffect(()=> {console.log('수정입력', slaveModifyInput);
-    }, [slaveModifyInput]);
+    //         // 입력값이 하나라도 빈 상태일 경우
+    //     } else {
+    //         setFormButtonType('button');
+    //     }
+    // }, [slaveModifyInput]);
 
     //-------------------------------------------------
 
@@ -127,10 +171,10 @@ const SlaveModifyPage = () => {
             return;
         }
 
-        // const payload = {
-        //     ...slaveRegistInput,
-        //     slaveWageList: Object.values(slaveRegistInput.slaveWageList),
-        // };
+        const payload = {
+            ...slaveModifyInput,
+            slaveWageList: Object.values(slaveModifyInput.slaveWageList),
+        };
 
             try {
                 const response = await fetch(`http://localhost:8877/detail/modifySlave`, {
@@ -138,7 +182,7 @@ const SlaveModifyPage = () => {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(slaveModifyInput),
+                    body: JSON.stringify(payload),
                 });
 
                 if (!response.ok) {
@@ -147,7 +191,7 @@ const SlaveModifyPage = () => {
 
                 const result = await response.json();
                 console.log('Success:', result);
-                alert("직원이 등록되었습니다.")
+                alert("직원이 수정되었습니다.")
                 navigate("/detail/slave-manage");
 
                 
@@ -173,7 +217,7 @@ const SlaveModifyPage = () => {
                             {/* 이름, 전화번호, 생년월일, 직책 */}
                             <label htmlFor="slaveName" className={styles['slaveRegistPageInput-box']} >
                                 <div className={styles['slaveRegistPageInput-title']} > 이름 </div>
-                                <input id="slaveName" onChange={nameHandler} className={styles['slaveRegistPageInput-input']} value={slaveModifyInput.slaveName}  />
+                                <input id="slaveName" onChange={nameHandler} className={styles['slaveRegistPageInput-input']} value={slaveModifyInput.slaveName} disabled/>
                             </label>
 
                             <label htmlFor="slavePhoneNumber" className={styles['slaveRegistPageInput-box']} >
@@ -192,7 +236,7 @@ const SlaveModifyPage = () => {
                             </label>
 
                             {/* 급여정보리스트 */}
-                            <SlaveModifyWageList onWages={onWageList}  />
+                            <SlaveModifyWageList onWages={onWageList}  oneSlave={getOneSlave}/>
 
                         </div>
 
@@ -201,7 +245,7 @@ const SlaveModifyPage = () => {
                         <div className={styles['slaveRegistPageForm-right']}>
 
                             {/* 근무정보리스트 */}
-                            <SlaveModifyScheduleList onSchedules={onScheduleList}/>
+                            <SlaveModifyScheduleList onSchedules={onScheduleList} oneSlave={getOneSlave} modifyScheduleList={slaveModifyInput.slaveName}/>
 
                         </div>
                     </div>
@@ -211,7 +255,7 @@ const SlaveModifyPage = () => {
                             <Link to="/detail/slave-manage" className={styles['link-text']} > 
                                 <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
-                            <button type={formButtonType} className={styles['slaveRegistPage-nonButton']} > 등록 </button>
+                            <button type="submit" className={styles['slaveRegistPage-nonButton']} > 등록 </button>
                         </div>
                     </div>
                 </form>

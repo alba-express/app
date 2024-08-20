@@ -6,6 +6,8 @@ import { Button } from 'react-bootstrap'; // 부트스트랩 버튼 컴포넌트
 import styles from './SlaveRegistPage.module.scss';
 
 const SlaveRegistPage = () => {
+
+    // 직원 등록을 위한 기본 객체
     const [slaveRegistInput, setSlaveRegistInput] = useState({
         slaveName: '',
         slavePhoneNumber: '',
