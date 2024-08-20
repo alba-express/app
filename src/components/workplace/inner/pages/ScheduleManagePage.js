@@ -99,19 +99,19 @@ const ScheduleManagePage = () => {
         <>
             <div className={styles.scheduleTitle}>
                 <h1>일정관리</h1>
+                <Link to="/detail/schedule-add">
+                    <button className={styles.addSchedulebutton}>일정 추가</button>
+                </Link>
             </div>
             <div className={styles.schedule}>
                 <ScheduleCalendarPage selectedDate={selectedDate}
                                       setSelectedDate={setSelectedDate}/>
-                <Link to="/detail/schedule-add">
-                    <button className={styles.addSchedulebutton}>일정 추가</button>
-                </Link>
 
                 <div className={styles.scheduleList}>
 
                 <div className={styles.todaySchedule}>
-                    <h3>오늘 근무자</h3>
-                    <p>({selectedDate}) 총 {scheduleData.length}명</p>
+                    <h4>오늘 근무자</h4>
+                    <p className={styles.count}>({selectedDate}) 총 {scheduleData.length}명</p>
                     {scheduleData.length === 0 ?
 
                         <div style={{textAlign: 'center', margin: '20px 0'}}>
@@ -130,11 +130,11 @@ const ScheduleManagePage = () => {
                                 </div>
                             ))}
                         </div>}
-                {/*</div>*/}
+                </div>
 
-                {/*<div className={styles.todayAddSchedule}>*/}
-                    <h3>추가 근무자</h3>
-                    <p>({selectedDate}) 총 {extraScheduleData.length}명</p>
+                <div className={styles.extraSchedule}>
+                    <h4>추가 근무자</h4>
+                    <p className={styles.count}>({selectedDate}) 총 {extraScheduleData.length}명</p>
 
                     {extraScheduleData.length === 0 ?
                         <div style={{textAlign: 'center', margin: '20px 0'}}>
