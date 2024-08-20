@@ -46,21 +46,17 @@
   border-radius: 5px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   gap: 10px;
-
-  h2 {
-    text-align: center;
-    margin: 20px auto;
-  }
 
   h3 {
     text-align: center;
-    margin: 20px auto;
+    margin: 5px auto;
   }
 
   p {
     text-align: right;
-    margin-right: 15px;
+    margin-right: 30px;
     font-size: 15px;
   }
 
@@ -95,6 +91,41 @@
   align-items: center;
 }
 
-.todayAddSchedule {
+// 추가근무자 리스트 항목
+.extraScheduleItem {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  margin: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: #ffffff;
+  align-items: center;
+  width: 90%;
 
+  &:hover .extraScheduleItemButton {
+    display: flex;
+  }
+}
+
+// 추가근무자 삭제 버튼
+.extraScheduleItemButton {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: darkgray;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: gray;
+  }
 }
