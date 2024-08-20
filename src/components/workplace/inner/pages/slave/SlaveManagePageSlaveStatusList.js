@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 
 const SlaveManagePageSlaveStatusList = () => {
 
+  // redux store 에서 에러의 정보를 표시하는 상태값 불러오기
+  const showError = useSelector((state) => state.showError);
+
   // redux store 에서 근무중인 직원 or 퇴사한 직원 리스트 표시하는 상태값 불러오기 (초기값: 근무중인 직원 리스트 표시)
   const showSlaveList = useSelector((state) => state.slave.showSlaveList);
 
@@ -99,19 +102,22 @@ const SlaveManagePageSlaveStatusList = () => {
   const selectOneSlaveHandler = async (slaveId) => {
     try {
       const response = await axios.get(`http://localhost:8877/detail/slave-info/${slaveId}`);
-      dispatch(slaveActions.setShowOneSlaveInfo(response.data));
+
+      const clickOneSlave = response.data;
+      // 해당 직원의 정보를 redux 특정 직원 한 명의 정보 표시 에 저장하기
+      dispatch(slaveActions.setShowOneSlaveInfo(clickOneSlave));
+      // 해당 직원의 정보를 로컬스토리지에 저장하기
+      localStorage.setItem('oneSlave', JSON.stringify(clickOneSlave)); 
+    
+      // 해당 직원 상세페이지로 이동하기
       navigate(`/detail/slave-info`);
+
     } catch (error) {
       setError(error.message);
       console.error('Error:', error);
     }
 
   };
-
-  localStorage.setItem('oneSlave', showOneSlaveInfo); // 직원 목록 중 선택한 직원 한 명 정보 로컬스토리지에 저장
-
-  console.log("직원한명", showOneSlaveInfo);
-  
 
   if (error) {
     return <div>Error: {error}</div>;

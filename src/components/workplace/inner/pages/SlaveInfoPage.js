@@ -40,18 +40,12 @@ const SlaveInfoPage = () => {
 
     //-------------------------------------------------
 
-    // showOneSlaveInfo가 로드되지 않았을 때 로딩 상태를 표시하거나 에러를 처리
-
-    useEffect(() => {console.log("나오니?", oneSlave);
-    }, [oneSlave]);
-
     // 페이지를 이동시킬때 사용하는 useNavigate 생성하기
     const navigate = useNavigate();
 
     // 직원수정버튼을 클릭했을 때 해당 직원의 정보수정페이지로 이동하기
     const thisSlaveModifyHandler = async () => {
 
-      // 상세정보페이지로 이동, 해당 직원의 id를 상태로 전달하기
       navigate(`/detail/slave-modify`);
     };
 
@@ -115,7 +109,7 @@ const SlaveInfoPage = () => {
             </div>
             <div className={styles['slaveInfoPage-BottomBox']} >
                 <div className={styles['slaveInfoPage-BottomTitle']}> 근태정보 </div>
-                <SlaveInfoPageCommuteList />
+                <SlaveInfoPageCommuteList commuteList={oneSlave.scheduleLogList} />
             </div>
         </div>
     </>
