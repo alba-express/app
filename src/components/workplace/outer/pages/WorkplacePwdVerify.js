@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import styles from './WorkplacePwdVerify.module.scss'; 
 
 const WorkplacePwdVerify = () => {
     const [password, setPassword] = useState('');
@@ -41,25 +42,35 @@ const WorkplacePwdVerify = () => {
         }
     };
 
+    const cancelHandler = () => {
+        window.location.href = '/workplace';
+    };
+
     return (
-        <div>
-            <h1>간편 비밀번호 입력</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="password">간편 비밀번호:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                {error && <p>{error}</p>}
-                <button type="submit">확인</button>
-            </form>
+        <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
+                <h1 className={styles.header1}>간편 비밀번호 검증</h1>
+                <form onSubmit={handleSubmit}>
+                    <div className={styles.inputGroup}>
+                        <label htmlFor="password">간편 비밀번호:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    {error && <p className={styles.error}>{error}</p>}
+                    <div className={styles.buttonGroup}>
+                        <button type="submit" className={styles.submitButton}>확인</button>
+                        <button type="button" onClick={cancelHandler} className={styles.cancelButton}>취소</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };
+
 
 export default WorkplacePwdVerify;

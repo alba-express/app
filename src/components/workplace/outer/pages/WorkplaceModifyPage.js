@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from './WorkplaceModifyPage.module.scss';
+import useAuth from "../../../../hooks/useAuth";
 
 const WorkplaceModifyPage = () => {
   const [businessNo, setBusinessNo] = useState('');
@@ -14,11 +15,18 @@ const WorkplaceModifyPage = () => {
   const [postalCode, setPostalCode] = useState('');
   const [error, setError] = useState('');
 
+  const [isBusinessNoValid, setIsBusinessNoValid] = useState(true);
+  const [isDuplicate, setIsDuplicate] = useState(false); // 중복 여부 관리
+
+  const userId = useAuth();
+
   const navigate = useNavigate();
   const workplaceIdByStore = localStorage.getItem('workplaceId');
 
   useEffect(() => {
+    // 사업장 아이디로 업장 정보 가져오기
     const fetchWorkplace = async (id) => {
+
       try {
         const response = await axios.get(`http://localhost:8877/workplace/${workplaceIdByStore}`);
         const workplace = response.data;
@@ -42,6 +50,22 @@ const WorkplaceModifyPage = () => {
     fetchWorkplace(workplaceIdByStore);
   }, [workplaceIdByStore]);
 
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    script.async = true;
+    script.onload = () => {
+        if (window.daum && window.daum.Postcode) {
+            window.daum.Postcode = window.daum.Postcode || {};
+        }
+    };
+    document.body.appendChild(script);
+
+    return () => {
+        document.body.removeChild(script);
+    };
+}, []);
+
   const formatBusinessNo = (value) => {
     const numbers = value.replace(/\D/g, '');
     if (numbers.length <= 3) {
@@ -56,23 +80,33 @@ const WorkplaceModifyPage = () => {
   const businessNoChangeHandler = async (event) => {
     const value = event.target.value;
     setBusinessNo(formatBusinessNo(value));
-    await checkBusinessNoDuplicate(value);
+    checkBusinessNoDuplicate(value);
   };
 
-  const checkBusinessNoDuplicate = async (businessNo) => {
-    const normalizedBusinessNo = businessNo.replace(/-/g, '');
+  const checkBusinessNoDuplicate = async (normalizedBusinessNo) => {
+    console.log('Checking business number:', normalizedBusinessNo);
+
+    if (normalizedBusinessNo.length !== 12) {
+        setIsBusinessNoValid(false);
+        setError('사업장 등록번호는 10자리여야 합니다.');
+        return;
+    }
+    setIsBusinessNoValid(true);
 
     try {
-      const response = await axios.get(`http://localhost:8877/workplace/checkBusinessNo/${normalizedBusinessNo}`);
-      if (response.data.exists) {
-        setError('이미 등록된 사업장 등록번호입니다.');
-      } else {
-        setError('');
-      }
+        const response = await axios.get(`http://localhost:8877/workplace/checkBusinessNo/${userId}/${normalizedBusinessNo}`);
+        if (response.data.exists) {
+            setIsDuplicate(true); // 중복 상태 설정
+            setError('이미 등록된 사업장 등록번호입니다.');
+        } else {
+            setIsDuplicate(false); // 중복 상태 해제
+            setError('');
+        }
     } catch (error) {
-      setError('사업장 등록번호 검토 중 오류가 발생했습니다.');
+        console.error('Error checking business number:', error.response || error);
+        setError('사업장 등록번호 검토 중 오류가 발생했습니다.');
     }
-  };
+};
 
   const changeHandler = (setter) => (event) => {
     setter(event.target.value);
@@ -128,6 +162,13 @@ const WorkplaceModifyPage = () => {
     }
   };
 
+  const errorStyle = (message) => {
+    if (message === '이미 등록된 사업장 등록번호입니다.') {
+        return styles.errorRed;
+    }
+    return styles.error;
+  };
+
   return (
     <div className={styles.container}>
       <h1>사업장 수정</h1>
@@ -144,6 +185,7 @@ const WorkplaceModifyPage = () => {
             placeholder="10자리 숫자만 입력하세요."
             required
           />
+          {error && <p className={errorStyle(error)}>{error}</p>}
         </div>
         <div>
           <label htmlFor="workplaceName">상호명: </label>
@@ -158,19 +200,23 @@ const WorkplaceModifyPage = () => {
         <div className={styles.addressGroup}>
           <div>
             <label htmlFor="sample6_address">주소: </label>
+            <button type="button" className={styles.searchButton} onClick={openAddressSearch}>
+                주소 찾기
+            </button>
             <input
               type="text"
               id="sample6_address"
               placeholder="주소"
               value={workplaceAddressStreet}
               readOnly
+              className={styles.addressInput}
             />
           </div>
-          <input
+          {/* <input
             type="button"
             onClick={openAddressSearch}
             value="주소 찾기"
-          />
+          /> */}
         </div>
         <div>
           <label htmlFor="sample6_detailAddress">상세주소: </label>
