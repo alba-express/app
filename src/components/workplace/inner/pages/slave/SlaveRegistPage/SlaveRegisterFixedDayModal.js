@@ -58,11 +58,11 @@ const SlaveRegisterFixedDayModal = ({ onFixed }) => {
                             fontWeight: '600',
                             color: '#fff',
                             cursor: 'pointer',
-                            backgroundColor: day.select ? 'rgba(0, 139, 134, 0.7)' : 'rgba(65, 63, 63, 0.7)',
-                            border: day.select ? '1px solid rgba(0, 139, 134, 0.8)' : '1px solid rgba(65, 63, 63, 1)',
-                            boxShadow: day.select
-                                ? 'inset -4px -4px 6px 0 rgba(255,255,255,.2), inset 4px 4px 6px 0 rgba(0, 0, 0, .4)'
-                                : 'inset 2px 2px 2px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1)',
+                            backgroundColor: day.select ? '#ff8803' : '#ccc',
+                            border: '0',
+                            // boxShadow: day.select
+                            //     ? 'inset -4px -4px 6px 0 rgba(255,255,255,.2), inset 4px 4px 6px 0 rgba(0, 0, 0, .4)'
+                            //     : 'inset 2px 2px 2px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1)',
                         }}
                     >
                         {day.value}

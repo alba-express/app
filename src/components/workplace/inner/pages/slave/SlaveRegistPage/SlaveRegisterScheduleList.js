@@ -33,10 +33,10 @@ const SlaveRegisterScheduleList = ({ onSchedules }) => {
     }, [scheduleList, onSchedules]);
 
     const activeStyle = {
-        backgroundColor: 'rgba(0, 139, 134, 0.8)',
+        backgroundColor: '#ff8803',
         color: '#fff',
-        border: '1px solid rgba(0, 139, 134, 0.8)',
-        boxShadow: 'inset 2px 2px 2px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1)',
+        border: '0',
+        // boxShadow: 'inset 2px 2px 2px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1)',
         width: '10.8rem',
         height: '2.5rem',
         display: 'flex',
@@ -46,10 +46,10 @@ const SlaveRegisterScheduleList = ({ onSchedules }) => {
     };
 
     const inactiveStyle = {
-        backgroundColor: 'rgba(65, 63, 63, 0.7)',
+        backgroundColor: '#ccc',
         color: '#fff',
-        border: '1px solid rgba(65, 63, 63, 1)',
-        boxShadow: 'inset 2px 2px 2px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1)',
+        border: '0',
+        // boxShadow: 'inset 2px 2px 2px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1)',
         width: '10.8rem',
         height: '2.5rem',
         display: 'flex',

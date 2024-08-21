@@ -153,7 +153,7 @@ const SlaveRegistPage = () => {
                 <div className={styles['slaveRegistPageForm-bottom']} >
                     <div className={styles['slaveRegistPageButton-box']} >
                         <Link to="/detail/slave-manage" className={styles['link-text']} >
-                            <Button className={`${styles['slaveRegistPage-button']} btn`} variant="primary">취소</Button>
+                            <Button className={`${styles['slaveRegistPage-button-left']} btn`} variant="primary">취소</Button>
                         </Link>
                         <Button type={formButtonType} className={`${styles['slaveRegistPage-button']} btn`} variant="primary">등록</Button>
                     </div>
