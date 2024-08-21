@@ -3,8 +3,6 @@ import styles from "./ScheduleManagePage.module.scss";
 import {Link, useNavigate} from "react-router-dom";
 import ScheduleCalendarPage from "./ScheduleCalendarPage";
 import {useSelector} from "react-redux";
-import {FiMinusCircle} from "react-icons/fi";
-import {TiDeleteOutline} from "react-icons/ti";
 import {AiOutlineMinusCircle} from "react-icons/ai";
 
 
@@ -119,7 +117,7 @@ const ScheduleManagePage = () => {
                     {scheduleData.length === 0 ?
 
                         <div style={{textAlign: 'center', margin: '20px 0'}}>
-                            오늘 근무자가 없습니다.
+                            <br/><br/>오늘 근무자가 없습니다.
                         </div>
 
                         : <div className={styles.scheduleList}>
@@ -142,7 +140,7 @@ const ScheduleManagePage = () => {
 
                     {extraScheduleData.length === 0 ?
                         <div style={{textAlign: 'center', margin: '20px 0'}}>
-                            오늘 추가 근무자가 없습니다.
+                            <br/><br/>오늘 추가 근무자가 없습니다.
                         </div>
 
                         : <div className={styles.scheduleList}>
