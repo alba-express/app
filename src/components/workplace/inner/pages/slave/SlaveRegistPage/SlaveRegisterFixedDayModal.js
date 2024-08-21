@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react'
+import styles from './SlaveRegisterFixedDayModal.module.scss';
 
 const SlaveRegisterFixedDayModal = ({ onFixed }) => {
     const initialFixedDays = [

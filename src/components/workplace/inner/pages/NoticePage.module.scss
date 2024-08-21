@@ -24,21 +24,21 @@
       //margin-left: 10px;
       border: none;
       border-radius: 5px;
-      background-color: rgba(0, 139, 134, 0.8);
+      background-color: #ff8803;
       color: white;
       font-size: 16px;
       cursor: pointer;
       align-self: flex-end;
 
       &:hover {
-        background-color: rgba(0, 139, 134, 0.8);
+        background-color: #ff5e00;
       }
 
       &:first-child {
-        background-color: #6c757d;
+        background-color: #ff8803;
 
         &:hover {
-          background-color: #5a6268;
+          background-color: #ff5e00;
         }
       }
     }
@@ -59,7 +59,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 0;
+      padding: 15px 30px;
       border-bottom: 1px solid #e0e0e0;
       cursor: pointer;
 
@@ -137,13 +137,13 @@
     margin-left: 10px;
     border: none;
     border-radius: 5px;
-    background-color: rgba(0, 139, 134, 0.8);
+    background-color: #ff8803;
     color: white;
     font-size: 16px;
     cursor: pointer;
 
     &:hover {
-      background-color: rgba(0, 139, 134, 0.8);
+      background-color: #ff5e00;
     }
   }
 }

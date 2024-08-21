@@ -46,7 +46,8 @@
   .buttonContainer {
     display: flex;
     justify-content: center;
-    gap: 20px; /* 버튼 사이 간격 */
+    gap: 30px; /* 버튼 사이 간격 */
+
   }
 
 }
@@ -55,15 +56,22 @@
   margin-top: 10px;
   padding: 10px 20px;
   border: none;
-  background: rgba(0, 139, 134, 0.8);
+  background: #ff8803;
   color: #fff;
   border-radius: 5px;
   cursor: pointer;
   width: 80px;
   align-self: center;
 
-
   &:hover {
-    background: rgba(0, 139, 134, 0.8);
+    background: #ff5e00;
+  }
+
+  &:last-child {
+    background: #cccccc;
+
+    &:hover {
+      background-color: #bbbbbb;
+    }
   }
 }

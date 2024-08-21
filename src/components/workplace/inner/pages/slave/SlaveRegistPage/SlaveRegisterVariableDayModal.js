@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react'
+import styles from './SlaveRegisterVariableDayModal.module.scss';
 
 const SlaveRegisterVariableDayModal = ({ onVariable }) => {
+
     const initialVariableDays = [
         { scheduleDay: 1, value: '월', select: false, startSchedule: '', endSchedule: '' },
         { scheduleDay: 2, value: '화', select: false, startSchedule: '', endSchedule: '' },
