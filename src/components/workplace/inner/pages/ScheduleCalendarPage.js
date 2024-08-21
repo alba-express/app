@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styles from "./ScheduleCalendarPage.module.scss";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 const ScheduleCalendarPage = ({selectedDate, setSelectedDate, dateClick}) => {
 
@@ -59,17 +60,11 @@ const ScheduleCalendarPage = ({selectedDate, setSelectedDate, dateClick}) => {
             <div className={styles.calendar}>
                 <div className={styles.calendarHeader}>
                     <button onClick={handlePrevMonth} className={styles.arrowButton}>
-                        <img src={`${process.env.PUBLIC_URL}/images/left-arrow.png`}
-                             alt={"좌측화살표"}
-                             className={styles.arrowButton}
-                        ></img>
+                        <MdKeyboardArrowLeft />
                     </button>
                     <h2>{monthName} {year}</h2>
                     <button onClick={handleNextMonth} className={styles.arrowButton}>
-                        <img src={`${process.env.PUBLIC_URL}/images/right-arrow.png`}
-                             alt={"우측화살표"}
-                             className={styles.arrowButton}
-                        ></img>
+                        <MdKeyboardArrowRight />
                     </button>
                 </div>
                 <div className={styles.calendarBody}>
