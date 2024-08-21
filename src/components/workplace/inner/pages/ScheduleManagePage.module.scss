@@ -9,17 +9,17 @@
 }
 
 .addSchedulebutton {
-  padding: 5px 10px;
+  padding: 10px 20px;
   margin-top: 20px;
   border: none;
   border-radius: 5px;
-  background-color: rgba(0, 139, 134, 0.8);
+  background-color: #ff8803;
   color: white;
   font-size: 16px;
   cursor: pointer;
 
   &:hover {
-    background-color: gray;
+    background-color: #ff5e00;
   }
 }
 

@@ -13,7 +13,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background-color: rgba(0, 139, 134, 0.8);
+  background-color: #ff8803;
   color: white;
 }
 
@@ -25,7 +25,7 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   padding: 16px;
-  font-size: 18px;
+  font-size: 20px;
   height: 550px;
 }
 
@@ -42,7 +42,7 @@
 }
 
 .day:hover {
-  background-color: rgba(0, 139, 134, 0.8);
+  background-color: #ff5e00;
   color: #fff;
 }
 
@@ -60,7 +60,7 @@
 
 // 클릭 날짜 스타일
 .daySelected {
-  background-color: rgba(0, 139, 134, 0.8);
+  background-color: #ff8803;
   color: #fff;
   font-weight: bold;
 }

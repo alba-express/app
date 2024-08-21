@@ -54,14 +54,14 @@
   //margin-left: 10px;
   border: none;
   border-radius: 5px;
-  background-color: rgba(0, 139, 134, 0.8);
+  background-color: #cccccc;
   color: white;
   font-size: 16px;
   cursor: pointer;
 
 
   &:hover {
-    background-color: gray;
+    background-color: #bbbbbb;
   }
 }
 
@@ -70,14 +70,14 @@
   //margin-left: 10px;
   border: none;
   border-radius: 5px;
-  background-color: rgba(0, 139, 134, 0.8);
+  background-color: #ff8803;
   color: white;
   font-size: 16px;
   cursor: pointer;
 
 
   &:hover {
-    background-color: gray;
+    background-color: #ff5e00;
   }
 }
 
