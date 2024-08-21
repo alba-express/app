@@ -88,7 +88,6 @@ const Home = () => {
                             <h1 className={styles.header}>출퇴근관리</h1>
                             <h2 className={styles.header2}>대리 출퇴근을 방지하기 위해<br></br> 휴대폰번호를 통해 접근하며 <br></br> 근무시간이 아닐시 접근 불가</h2>
                             <p className={styles.ptext}>각 출퇴근 클릭시 현재 시간이 뜨며 시간 준수를 못하여 <br></br>지각/조퇴처리시 차감된 급여가 자동 산정된다.</p>
-                            <img className={styles.logo} src={`${process.env.PUBLIC_URL}/images/background.png`} alt="알바니 로고" />
                         </div>
                     </div>
 
