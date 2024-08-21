@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './SlaveRegisterVariableDayModal.module.scss';
+import { Button } from 'react-bootstrap';
 
 const SlaveRegisterVariableDayModal = ({ onVariable }) => {
 

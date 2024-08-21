@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './SlaveRegisterFixedDayModal.module.scss';
+import { Button } from 'react-bootstrap';
 
 const SlaveRegisterFixedDayModal = ({ onFixed }) => {
     const initialFixedDays = [
