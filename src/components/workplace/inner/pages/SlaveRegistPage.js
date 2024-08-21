@@ -79,8 +79,8 @@ const SlaveRegistPage = () => {
 
         const payload = {
             ...slaveRegistInput,
-            slaveWageList: Array.isArray(slaveRegistInput.slaveWageList) ? slaveRegistInput.slaveWageList : [],
-            slaveScheduleList: Array.isArray(slaveRegistInput.slaveScheduleList) ? slaveRegistInput.slaveScheduleList : [],
+            slaveWageList: [...slaveRegistInput.slaveWageList],
+            slaveScheduleList: [...slaveRegistInput.slaveScheduleList.slaveScheduleList]
         };
 
         console.log('Payload to be sent:', payload);
