@@ -63,7 +63,7 @@ const SlaveRegisterScheduleList = ({ onSchedules }) => {
             <div className={styles['slaveRegistPageSchedule-box']}>
                 <div className={styles['slaveRegistPageInput-title']}>근무시간선택</div>
                 <div className={styles['slaveRegistPageInputScheduleTitle-box']}>
-                    <ButtonGroup toggle className={styles['slaveRegistPageScheduleButtonGroup']}>
+                    <ButtonGroup className={styles['slaveRegistPageScheduleButtonGroup']}>
                         <ToggleButton
                             type="radio"
                             style={selectedScheduleType === 'fixed' ? activeStyle : inactiveStyle}

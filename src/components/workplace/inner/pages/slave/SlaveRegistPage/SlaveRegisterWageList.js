@@ -52,7 +52,7 @@ const SlaveRegisterWageList = ({ onWages }) => {
         <div className={styles['slaveRegistPageWage-box']}>
           <div className={styles['slaveRegistPageWage-title']}>급여정보</div>
           <div className={styles['slaveRegistPageWage-contentBox']}>
-            <ButtonGroup toggle className={styles['slaveRegistPageWage-content']}>
+            <ButtonGroup className={styles['slaveRegistPageWage-content']}>
               <ToggleButton
                   type="radio"
                   value="hourly"
