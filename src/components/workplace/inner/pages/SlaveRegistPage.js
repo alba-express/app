@@ -7,7 +7,6 @@ import styles from './SlaveRegistPage.module.scss';
 
 const SlaveRegistPage = () => {
 
-    // 직원 등록을 위한 기본 객체
     const [slaveRegistInput, setSlaveRegistInput] = useState({
         slaveName: '',
         slavePhoneNumber: '',
@@ -40,7 +39,7 @@ const SlaveRegistPage = () => {
         setSlaveRegistInput(prev => ({ ...prev, slaveWageList: updatedWageList }));
     }, []);
 
-    const onScheduleList = useCallback ((updatedScheduleList) => {
+    const onScheduleList = useCallback((updatedScheduleList) => {
         setSlaveRegistInput(prev => ({ ...prev, slaveScheduleList: updatedScheduleList }));
     }, []);
 
@@ -80,11 +79,11 @@ const SlaveRegistPage = () => {
 
         const payload = {
             ...slaveRegistInput,
-            slaveWageList: Object.values(slaveRegistInput.slaveWageList),
-            slaveScheduleList: Array.isArray(slaveRegistInput.slaveScheduleList)
-                ? slaveRegistInput.slaveScheduleList
-                : [slaveRegistInput.slaveScheduleList], // 배열로 변환하여 전송
+            slaveWageList: Array.isArray(slaveRegistInput.slaveWageList) ? slaveRegistInput.slaveWageList : [],
+            slaveScheduleList: Array.isArray(slaveRegistInput.slaveScheduleList) ? slaveRegistInput.slaveScheduleList : [],
         };
+
+        console.log('Payload to be sent:', payload);
 
         try {
             const response = await fetch(`http://localhost:8877/detail/registSlave`, {
@@ -105,7 +104,7 @@ const SlaveRegistPage = () => {
             navigate("/detail/slave-manage");
 
         } catch (error) {
-            console.error('Error', error);
+            console.error('Error:', error);
         }
     };
 
