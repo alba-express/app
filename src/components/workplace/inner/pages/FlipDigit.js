@@ -10,13 +10,15 @@ const FlipDigit = ({ value }) => {
         const previousDigits = previousValueRef.current.toString().padStart(2, '0').split('');
 
         currentDigits.forEach((digit, index) => {
-            // 일의 자리가 바뀌거나, 9에서 0으로 바뀔 때 애니메이션 트리거
             if (digit !== previousDigits[index]) {
                 if (digitRefs.current[index]) {
                     digitRefs.current[index].classList.add(styles.flip);
                     const timer = setTimeout(() => {
-                        digitRefs.current[index].classList.remove(styles.flip);
+                        if (digitRefs.current[index]) {
+                            digitRefs.current[index].classList.remove(styles.flip);
+                        }
                     }, 600); // 애니메이션 시간과 일치
+                    // Cleanup function to clear the timer
                     return () => clearTimeout(timer);
                 }
             }
