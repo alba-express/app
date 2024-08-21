@@ -21,7 +21,7 @@
   .logo-box {
     width: 79%;
     height: 20.8%;
-    background: rgba(0, 139, 134, 0.8);
+    background: #ff8803;
     //-----------------------------------
     padding-bottom: 5%;
     //-----------------------------------
@@ -44,7 +44,7 @@
   .profile-box {
     width: 79%;
     height: 17%;
-    border: 1px solid rgba(148, 179, 151, 0.9);
+    border: 1px solid #ffc977;
     //-------------------------------------
     margin: 3.5% 0;
     //-------------------
@@ -55,7 +55,7 @@
     width: 79%;
     height: 10%;
     // background: rgba(217, 241, 218, 0.9);
-    background: rgba(183, 228, 202, 0.9);
+    background: #fdc46f;
     //----------------------------------
     // margin-left: 50px;
     margin-bottom: 3.5%;
@@ -63,7 +63,7 @@
     font-size: 1.4rem;
     font-weight: 700;
     letter-spacing: 5px;
-    color: rgba(43, 42, 42, 0.8);
+    color: #fff;
     //------------------------------
     display: flex;
     align-items: center;
@@ -77,11 +77,12 @@
       height: 3rem;
       margin: 0 30px 0 40px;
       margin-right: 20px;
+      filter: opacity(0.6) drop-shadow(0 0 0 rgb(0, 255, 247));
     }
   }
   .leftMenu-box:hover {
-    background: rgba(65, 63, 63, 0.3);
-    color: rgba(255, 255, 255, 1);
+    background: #ff8803;
+    color: #fff;
     cursor: pointer;
   }
 }
