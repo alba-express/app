@@ -72,6 +72,31 @@ const SlaveRegisterScheduleList = ({ onSchedules }) => {
 
     // 직원등록에서 내려온 함수에 근무리스트 담아서 올려보내기
     useEffect(() => {
+    const activeStyle = {
+        backgroundColor: '#ff8803',
+        color: '#fff',
+        border: '0',
+        // boxShadow: 'inset 2px 2px 2px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1)',
+        width: '10.8rem',
+        height: '2.5rem',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontWeight: '600',
+    };
+
+    const inactiveStyle = {
+        backgroundColor: '#ccc',
+        color: '#fff',
+        border: '0',
+        // boxShadow: 'inset 2px 2px 2px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1)',
+        width: '10.8rem',
+        height: '2.5rem',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontWeight: '600',
+    };
 
       onSchedules(scheduleList);
 
@@ -97,6 +122,7 @@ const SlaveRegisterScheduleList = ({ onSchedules }) => {
                 </label>
 
             </div>
+
 
             <div className={styles['slaveRegistPageInputScheduleContent-box']} >
                 {scheduleList[0].slaveScheduleType === true && <SlaveRegisterFixedDayModal onFixed={onFixedDay} />}
