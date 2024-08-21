@@ -21,7 +21,9 @@ const SalaryHeader = () => {
         dispatch(wageActions.setMonthByType({ type: "next" }));
     };
 
-    
+    const benefit = useSelector(state => state.wage.benefit);
+
+    console.log(benefit);
 
     return (
         <>

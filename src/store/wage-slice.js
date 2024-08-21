@@ -14,6 +14,7 @@ const initialState = {
         totalSalary: 0,
         dtoList: [],
     },
+    benefit: 0,
 }
 
 const wageSlice = createSlice({
@@ -42,7 +43,9 @@ const wageSlice = createSlice({
             state.logList = [...action.payload.dtoList];
         }, setSlaveData(state, action) {
             state.slaveData = action.payload.slaveData;
-        },
+        }, setBenefit(state, action) {
+            state.benefit += action.payload.benefit;
+        }
     }
 })
 export const wageActions = wageSlice.actions;
