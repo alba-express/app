@@ -71,31 +71,31 @@ const WorkplaceListPage = () => {
 
     return (
         <div className={styles.container}>
+
+            <div className={styles.workplaceWrap}>
             <div className={styles.header}>
                 <Link to="regist">
                     <button className={styles.registerButton}>사업장 등록</button>
                 </Link>
             </div>
-
-            <div>
-                <h1>사업장 목록</h1>
+                <h1 className={styles.listAlign}>사업장 목록</h1>
                 {workplaces.length === 0 ? (
-                    <p>등록된 사업장이 존재하지 않습니다.</p>
+                    <p className={styles.notworkplace}>등록된 사업장이 존재하지 않습니다 😣</p>
                 ) : (
                     <ul className={styles.list}>
                         {workplaces.map(workplace => (
                             <li key={workplace.id} className={styles.listItem}>
                                 <Link to="#" className={styles.link} onClick={() => handleWorkplaceSelect(workplace.id)}>
-                                    <h2>{workplace.workplaceName}</h2>
-                                    <p>주소: {`${workplace.workplaceAddressStreet} ${workplace.workplaceAddressDetail}`}</p>
-                                    <p>사업장 규모: {workplace.workplaceSize ? '5인 이상' : '5인 미만'}</p>
+                                    <h2 className={styles.name}>{workplace.workplaceName}</h2>
+                                    <p><strong>주소: </strong>{`${workplace.workplaceAddressStreet} ${workplace.workplaceAddressDetail}`}</p>
+                                    <p><strong>사업장 규모: </strong>{workplace.workplaceSize ? '5인 이상' : '5인 미만'}</p>
                                     {/* <div className={styles.wrap}> */}
-                                    <p className={styles.date}>등록일: {new Date(workplace.workplaceCreatedAt).toLocaleDateString()}</p>
+                                    <p className={styles.date}><strong>등록일: </strong>{new Date(workplace.workplaceCreatedAt).toLocaleDateString()}</p>
                                 </Link>
                                 <div className={styles.buttonGroup}>
                                     <button className={styles.modifyButton}
                                         onClick={() => handleModifyClick(workplace.id)}>
-                                            사업장 수정
+                                           사업장 수정
                                     </button>
 
                                     <button
@@ -105,7 +105,7 @@ const WorkplaceListPage = () => {
                                             deleteHandler(workplace.id, workplace.workplaceName)
                                         }}
                                     >
-                                        사업장 삭제
+                                       사업장 삭제
                                     </button>
                                 </div>
                                 {/* </div> */}

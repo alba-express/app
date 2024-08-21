@@ -22,24 +22,27 @@ const NoticeModal = ({id, title, content, date, isOpen, onClose, refreshNotices}
 
     const deleteHandler = async e => {
         e.preventDefault();
+        const confirmed = window.confirm("정말 삭제하시겠습니까?");
         console.log('삭제 공지 id:', id);
-        try {
-            const response = await fetch(`http://localhost:8877/detail/notice/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
+        if (confirmed) {
+            try {
+                const response = await fetch(`http://localhost:8877/detail/notice/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                if (response.ok) {
+                    dispatch(noticeActions.deleteNotice(id));
+                    await refreshNotices();
+                    onClose();
+                    navigate("/detail/notice");
+                } else {
+                    throw new Error('삭제 요청에 실패했습니다.');
                 }
-            });
-            if (response.ok) {
-                dispatch(noticeActions.deleteNotice(id));
-                await refreshNotices();
-                onClose();
-                navigate("/detail/notice");
-            } else {
-                throw new Error('삭제 요청에 실패했습니다.');
+            } catch (error) {
+                console.error('삭제 오류:', error);
             }
-        } catch (error) {
-            console.error('삭제 오류:', error);
         }
     };
 
@@ -50,8 +53,8 @@ const NoticeModal = ({id, title, content, date, isOpen, onClose, refreshNotices}
                 <span className={styles.date}>{date}</span>
                 <p className={styles.content}>{content}</p>
                 <div className={styles.buttonContainer}>
-                    {userId && <button className={styles.button} onClick={editHandler}>수정</button>}
                     {userId && <button className={styles.button} onClick={deleteHandler}>삭제</button>}
+                    {userId && <button className={styles.button} onClick={editHandler}>수정</button>}
                     <button className={styles.button} onClick={onClose}>닫기</button>
                 </div>
             </div>
