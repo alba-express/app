@@ -72,7 +72,7 @@ const WorkplaceRegistPage = () => {
         const submitHandler = async (event) => {
             event.preventDefault();
     
-            if (error || !isBusinessNoValid || isDuplicate) { // 중복이면 등록 중단
+            if (error) { // 중복이면 등록 중단
                 alert('사업장 등록번호가 중복되었거나 올바르지 않습니다.');
                 return;
             }
@@ -96,7 +96,7 @@ const WorkplaceRegistPage = () => {
                 console.error('Error registering workplace:', error);
                 alert('등록에 실패했습니다. 다시 시도해 주세요.');
             }
-        };
+        };  
     
         useEffect(() => {
             const script = document.createElement('script');
@@ -141,95 +141,105 @@ const WorkplaceRegistPage = () => {
             <div className={styles.container}>
                 <form onSubmit={submitHandler} className={styles.form}>
                     <div className={styles.formHeader}>
-                        <h1>사업장 등록</h1>
+                        <h1 className={styles.registworkplace}>사업장 등록</h1>
                     </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="businessNo">사업자 등록번호:</label>
-                        <input
+        
+                    <div className={styles.formRow}>
+                        <div className={styles.formGroup1}>
+                            <label htmlFor="businessNo">사업자 등록번호:</label>
+                            <input
+                                type="text"
+                                id="businessNo"
+                                value={businessNo}
+                                onChange={businessNoChangeHandler}
+                                minLength={12}
+                                maxLength={12}
+                                placeholder="10자리 숫자만 입력하세요."
+                                required
+                            />
+                            {/* 하나의 p 태그 내에서 오류 메시지 표시 */}
+                            <p className={`${error === '이미 등록된 사업장 등록번호입니다.' ? styles.errorRed : styles.errorBlack}`}>
+                                  {error ? error : "\u00A0"}
+                            </p>
+                        </div>
+        
+                        <div className={styles.formGroup2}>
+                            <label htmlFor="workplaceName">상호명:</label>
+                            <input
+                                type="text"
+                                id="workplaceName"
+                                value={workplaceName}
+                                placeholder='사업장명'
+                                onChange={changeHandler(setWorkplaceName)}
+                                required
+                            />
+                        </div>
+                    </div>
+        
+                    {/* 이하 내용은 그대로 유지 */}
+                    <div className={styles.addressSection}>
+                        <label className={styles.addressLabel} htmlFor="sample6_address">주소: </label>
+                        <button type="button" className={styles.searchButton} onClick={openAddressSearch}>
+                            주소 찾기
+                        </button>
+                        <input 
                             type="text"
-                            id="businessNo"
-                            value={businessNo}
-                            onChange={businessNoChangeHandler}
-                            minLength={12}
-                            maxLength={12}
-                            placeholder="10자리 숫자만 입력하세요."
-                            required
+                            id="sample6_address"
+                            placeholder="주소"
+                            value={workplaceAddressStreet}
+                            readOnly
+                            className={styles.addressInput}
                         />
-                        {error && <p className={errorStyle(error)}>{error}</p>}
                     </div>
-
-                <div className={styles.formGroup}>
-                    <label htmlFor="workplaceName">상호명:</label>
-                    <input
-                        type="text"
-                        id="workplaceName"
-                        value={workplaceName}
-                        onChange={changeHandler(setWorkplaceName)}
-                        required
-                    />
-                </div>
-                <div className={styles.addressSection}>
-                    <label className={styles.addressLabel} htmlFor="sample6_address">주소:</label>
-                    <input 
-                        type="text"
-                        id="sample6_address"
-                        placeholder="주소"
-                        value={workplaceAddressStreet}
-                        readOnly
-                        className={styles.addressInput}
-                    />
-                    <button type="button" className={styles.searchButton} onClick={openAddressSearch}>
-                        주소 찾기
-                    </button>
-                </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="sample6_detailAddress">상세주소:</label>
-                    <input
-                        type="text"
-                        id="sample6_detailAddress"
-                        placeholder="상세주소"
-                        value={workplaceAddressDetail}
-                        onChange={changeHandler(setWorkplaceAddressDetail)}
-                        required
-                    />
-                </div>
-                <div className={styles.sizeSection}>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="workplacePassword">간편비밀번호:</label>
+        
+                    <div className={styles.formGroup3}>
+                        <label htmlFor="sample6_detailAddress">상세주소:</label>
                         <input
                             type="text"
-                            id="workplacePassword"
-                            value={workplacePassword}
-                            onChange={changeHandler(setWorkplacePassword)}
-                            minLength={4}
-                            maxLength={4}
-                            placeholder="4자리 숫자를 입력하세요."
+                            id="sample6_detailAddress"
+                            placeholder="상세주소"
+                            value={workplaceAddressDetail}
+                            onChange={changeHandler(setWorkplaceAddressDetail)}
                             required
                         />
                     </div>
-                    <div className={styles.sizeDropdown}>
-                        <label className={styles.sizeLabel} htmlFor="workplaceSize">사업장 규모:</label>
-                        <select
-                            id="workplaceSize"
-                            value={workplaceSize}
-                            onChange={e => setWorkplaceSize(e.target.value === 'true')}
-                        >
-                            <option value={false}>5인 미만</option>
-                            <option value={true}>5인 이상</option>
-                        </select>
+        
+                    <div className={styles.sizeSection}>
+                        <div className={styles.formGroup4}>
+                            <label htmlFor="workplacePassword">간편비밀번호:</label>
+                            <input
+                                type="text"
+                                id="workplacePassword"
+                                value={workplacePassword}
+                                onChange={changeHandler(setWorkplacePassword)}
+                                minLength={4}
+                                maxLength={4}
+                                placeholder="4자리 숫자를 입력하세요."
+                                required
+                            />
+                        </div>
+                        <div className={styles.sizeDropdown}>
+                            <label className={styles.sizeLabel} htmlFor="workplaceSize">사업장 규모:</label>
+                            <select
+                                id="workplaceSize"
+                                value={workplaceSize}
+                                onChange={e => setWorkplaceSize(e.target.value === 'true')}
+                            >
+                                <option value={false}>5인 미만</option>
+                                <option value={true}>5인 이상</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div className={styles.buttonContainer}>
-                    <button type="button" className={styles.cancelButton} onClick={cancelHandler}>
-                        취소
-                    </button>
-                    <button type="submit" className={styles.submitButton} disabled={isDuplicate}> {/* 중복일 경우 비활성화 */}
-                         등록
-                    </button>
-                </div>
-            </form>
-        </div>
-    );
-};
-
+        
+                    <div className={styles.buttonContainer}>
+                        <button type="submit" className={styles.submitButton}>등록</button>
+                        <button type="button" className={styles.cancelButton} onClick={cancelHandler}>
+                            취소
+                        </button>
+                    </div>
+                </form>
+            </div>
+        );
+        
+    };
 export default WorkplaceRegistPage;
