@@ -46,12 +46,14 @@
 
   h4 {
     text-align: center;
-    margin: 5px auto;
+    margin: 15px 10px;
+    margin-bottom: 20px;
   }
 
-  .count {
+  span {
     text-align: right;
     margin-right: 30px;
+    margin-bottom: 5px;
     font-size: 15px;
   }
 }
@@ -60,7 +62,7 @@
   width: 620px;
   height: 240px;
   background: rgba(245, 245, 245, 0.8);
-  padding: 10px;
+  padding: 10px 20px;
   margin: 10px 10px;
   border-radius: 5px;
   display: flex;
@@ -70,12 +72,14 @@
 
   h4 {
     text-align: center;
-    margin: 5px auto;
+    margin: 15px 10px;
+    margin-bottom: 20px;
   }
 
-  .count {
+  span {
     text-align: right;
     margin-right: 30px;
+    margin-bottom: 5px;
     font-size: 15px;
   }
 }
@@ -83,7 +87,7 @@
 .scheduleItem {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: 10px 20px;
   margin: 5px;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -131,20 +135,22 @@
 // 추가근무자 삭제 버튼
 .extraScheduleItemButton {
   position: absolute;
-  top: 9px;
-  left: -31px;
-  background-color: darkgray;
-  color: white;
+  top: 7px;
+  left: -32px;
+  //background-color: darkgray;
+  //color: white;
   border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  ////border-radius: 50%;
+  //width: 40px;
+  //height: 40px;
+  font-size: 30px;
   display: none;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  color: #d54444;
 
   &:hover {
-    background-color: gray;
+    //background-color: gray;
   }
 }

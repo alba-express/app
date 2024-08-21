@@ -119,7 +119,7 @@ const ScheduleAddPage = () => {
                                 onChange={handleSlaveChange}
                                 required
                         >
-                            <option value="">직원을 선택하세요</option>
+                            <option value="" >직원을 선택하세요</option>
                             {slaves.map(slave => (
                                 <option key={slave.slaveId} value={slave.slaveId}>
                                     {slave.slaveName} ({slave.slavePosition})
