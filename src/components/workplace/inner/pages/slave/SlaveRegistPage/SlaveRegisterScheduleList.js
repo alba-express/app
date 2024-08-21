@@ -73,9 +73,6 @@ const SlaveRegisterScheduleList = ({ onSchedules }) => {
     // 직원등록에서 내려온 함수에 근무리스트 담아서 올려보내기
     useEffect(() => {
 
-        console.log("최종스케쥴", scheduleList);
-        
-
       onSchedules(scheduleList);
 
     }, [scheduleList]);

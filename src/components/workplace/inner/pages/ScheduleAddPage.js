@@ -7,7 +7,7 @@ import {scheduleActions} from "../../../../store/schedule-slice";
 
 const ScheduleAddPage = () => {
 
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState("");
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedSlave, setSelectedSlave] = useState("");
     const [startTime, setStartTime] = useState("");
@@ -90,7 +90,8 @@ const ScheduleAddPage = () => {
         } else {
             const errorText = await response.text();
             console.log('errorText: ', errorText);
-            setErrorMessage(errorText);
+            alert(errorText);
+            // setErrorMessage(errorText);
         }
 
     };
@@ -119,7 +120,7 @@ const ScheduleAddPage = () => {
                                 onChange={handleSlaveChange}
                                 required
                         >
-                            <option value="">직원을 선택하세요</option>
+                            <option value="" >직원을 선택하세요</option>
                             {slaves.map(slave => (
                                 <option key={slave.slaveId} value={slave.slaveId}>
                                     {slave.slaveName} ({slave.slavePosition})

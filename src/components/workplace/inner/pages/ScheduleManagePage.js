@@ -3,6 +3,8 @@ import styles from "./ScheduleManagePage.module.scss";
 import {Link, useNavigate} from "react-router-dom";
 import ScheduleCalendarPage from "./ScheduleCalendarPage";
 import {useSelector} from "react-redux";
+import {AiOutlineMinusCircle} from "react-icons/ai";
+
 
 const ScheduleManagePage = () => {
 
@@ -111,11 +113,11 @@ const ScheduleManagePage = () => {
 
                 <div className={styles.todaySchedule}>
                     <h4>오늘 근무자</h4>
-                    <p className={styles.count}>({selectedDate}) 총 {scheduleData.length}명</p>
+                    <span className={styles.count}>({selectedDate}) 총 {scheduleData.length}명</span>
                     {scheduleData.length === 0 ?
 
                         <div style={{textAlign: 'center', margin: '20px 0'}}>
-                            오늘 근무자가 없습니다.
+                            <br/><br/>오늘 근무자가 없습니다.
                         </div>
 
                         : <div className={styles.scheduleList}>
@@ -134,22 +136,22 @@ const ScheduleManagePage = () => {
 
                 <div className={styles.extraSchedule}>
                     <h4>추가 근무자</h4>
-                    <p className={styles.count}>({selectedDate}) 총 {extraScheduleData.length}명</p>
+                    <span className={styles.count}>({selectedDate}) 총 {extraScheduleData.length}명</span>
 
                     {extraScheduleData.length === 0 ?
                         <div style={{textAlign: 'center', margin: '20px 0'}}>
-                            오늘 추가 근무자가 없습니다.
+                            <br/><br/>오늘 추가 근무자가 없습니다.
                         </div>
 
                         : <div className={styles.scheduleList}>
                 {extraScheduleData.map((extraSchedule, index) => (
                     <div key={extraSchedule.id || index} className={styles.extraScheduleItem}>
-                        <button
+                        <div
                             className={styles.extraScheduleItemButton}
                             onClick={() => handleDeleteExtraSchedule(extraSchedule.id)}
                         >
-                            x
-                        </button>
+                            <AiOutlineMinusCircle/>
+                        </div>
 
                         <div className={styles.scheduleItemName}>
                             {extraSchedule.slaveName} ({extraSchedule.slavePosition})
