@@ -19,20 +19,25 @@
 
 .confirmButton {
   margin: 10px;
-  background-color: rgb(42, 157, 143);
+  background-color: #ff8803;
   color: white;
   padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
-
+.confirmButton:hover {
+  background-color: #ff5e00;
+}
 .cancelButton {
   margin: 10px;
-  background-color: #f34040;
+  background-color: #ccc;
   color: white;
   padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+.cancelButton:hover {
+  background-color: #bbb;
 }

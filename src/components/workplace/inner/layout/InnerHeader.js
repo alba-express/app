@@ -9,13 +9,10 @@ import NoticeModal from "../pages/NoticeModal";
 const InnerHeader = () => {
 
     const noticeList = useSelector(state => state.notice.noticeList);
-    const [notices, setNotices] = useState([]);
     const isModalOpen = useSelector(state => state.notice.isModalOpen);
-    // const latestNoticeTitle = useSelector(state => state.notice.latestNoticeTitle);
-
+    const [notices, setNotices] = useState([]);
     const [latestNoticeTitle, setLatestNoticeTitle] = useState('공지사항 없음');
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
 
     const workplaceId = localStorage.getItem('workplaceId');
@@ -39,16 +36,9 @@ const InnerHeader = () => {
         removeUserToken();
         navigate('/login');
     };
-    
-
-    // useEffect(() => {
-    //     if (notices.length > 0) {
-    //         setLatestNoticeTitle(notices[0].title);
-    //     }
-    // }, [workplaceId]);
 
     const NoticeModalHandler = e => {
-        console.log('최근 공지 클릭');
+        // console.log('최근 공지 클릭');
         if (notices.length > 0) {
             dispatch(noticeActions.setSelectedNotice(notices[0]));
             dispatch(noticeActions.openModal());

@@ -3,6 +3,8 @@ import styles from "./ScheduleManagePage.module.scss";
 import {Link, useNavigate} from "react-router-dom";
 import ScheduleCalendarPage from "./ScheduleCalendarPage";
 import {useSelector} from "react-redux";
+import {AiOutlineMinusCircle} from "react-icons/ai";
+
 
 const ScheduleManagePage = () => {
 
@@ -78,68 +80,93 @@ const ScheduleManagePage = () => {
         return `${hours}:${minutes}`;
     };
 
+    const handleDeleteExtraSchedule = async (id) => {
+        const confirmed = window.confirm("정말 삭제하시겠습니까?");
+        console.log('삭제버튼 클릭, id: ', id);
+        if (confirmed) {
+            try {
+                const response = await fetch(`http://localhost:8877/detail/extraSchedule-manage?id=${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    throw new Error('삭제 요청에 실패했습니다.');
+                }
+                setExtraScheduleData(prevData => prevData.filter(item => item.id !== id))
+            } catch (error) {
+                console.error('삭제 중 오류 발생: ', error);
+            }
+        }
+    };
 
     return (
         <>
             <div className={styles.scheduleTitle}>
                 <h1>일정관리</h1>
+                <Link to="/detail/schedule-add">
+                    <button className={styles.addSchedulebutton}>일정 추가</button>
+                </Link>
             </div>
             <div className={styles.schedule}>
                 <ScheduleCalendarPage selectedDate={selectedDate}
                                       setSelectedDate={setSelectedDate}/>
-                <Link to="/detail/schedule-add">
-                    <button className={styles.addSchedulebutton}>일정 추가</button>
-                </Link>
 
                 <div className={styles.scheduleList}>
 
-                <div className={styles.todaySchedule}>
-                    <h3>오늘 근무자</h3>
-                    <p>({selectedDate}) 총 {scheduleData.length}명</p>
-                    {scheduleData.length === 0 ?
+                    <div className={styles.todaySchedule}>
+                        <h4>오늘 근무자</h4>
+                        <span className={styles.count}>({selectedDate}) 총 {scheduleData.length}명</span>
+                        {scheduleData.length === 0 ?
 
-                        <div style={{textAlign: 'center', margin: '20px 0'}}>
-                            오늘 근무자가 없습니다.
-                        </div>
+                            <div style={{textAlign: 'center', margin: '20px 0'}}>
+                                <br/><br/>오늘 근무자가 없습니다.
+                            </div>
 
-                        : <div className={styles.scheduleList}>
-                {scheduleData.map(schedule => (
-                                <div key={schedule.slaveId} className={styles.scheduleItem}>
-                                    <div className={styles.scheduleItemName}>
-                                        {schedule.slaveName} ({schedule.slavePosition})
+                            : <div className={styles.scheduleList}>
+                                {scheduleData.map(schedule => (
+                                    <div key={schedule.slaveId} className={styles.scheduleItem}>
+                                        <div className={styles.scheduleItemName}>
+                                            {schedule.slaveName} ({schedule.slavePosition})
+                                        </div>
+                                        <div className={styles.scheduleItemTime}>
+                                            {formatTime(schedule.scheduleStart)} ~ {formatTime(schedule.scheduleEnd)}
+                                        </div>
                                     </div>
-                                    <div className={styles.scheduleItemTime}>
-                                        {formatTime(schedule.scheduleStart)} ~ {formatTime(schedule.scheduleEnd)}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>}
-                {/*</div>*/}
+                                ))}
+                            </div>}
+                    </div>
 
-                {/*<div className={styles.todaySchedule}>*/}
-                    <h3>추가 근무자</h3>
-                    <p>({selectedDate}) 총 {extraScheduleData.length}명</p>
+                    <div className={styles.extraSchedule}>
+                        <h4>추가 근무자</h4>
+                        <span className={styles.count}>({selectedDate}) 총 {extraScheduleData.length}명</span>
 
-                    {extraScheduleData.length === 0 ?
-                        <div style={{textAlign: 'center', margin: '20px 0'}}>
-                            오늘 추가 근무자가 없습니다.
-                        </div>
+                        {extraScheduleData.length === 0 ?
+                            <div style={{textAlign: 'center', margin: '20px 0'}}>
+                                <br/><br/>오늘 추가 근무자가 없습니다.
+                            </div>
 
-                        : <div className={styles.scheduleList}>
-                {extraScheduleData.map((extraSchedule,index) => (
-                                <div key={extraScheduleData.length - index} className={styles.scheduleItem}>
-                                    <div className={styles.scheduleItemName}>
-                                        {extraSchedule.slaveName} ({extraSchedule.slavePosition})
+                            : <div className={styles.scheduleList}>
+                                {extraScheduleData.map((extraSchedule, index) => (
+                                    <div key={extraSchedule.id || index} className={styles.extraScheduleItem}>
+                                        <div
+                                            className={styles.extraScheduleItemButton}
+                                            onClick={() => handleDeleteExtraSchedule(extraSchedule.id)}
+                                        >
+                                            <AiOutlineMinusCircle/>
+                                        </div>
+
+                                        <div className={styles.scheduleItemName}>
+                                            {extraSchedule.slaveName} ({extraSchedule.slavePosition})
+                                        </div>
+                                        <div className={styles.scheduleItemTime}>
+                                            {formatTime(extraSchedule.startTime)} ~ {formatTime(extraSchedule.endTime)}
+                                        </div>
                                     </div>
-                                    <div className={styles.scheduleItemTime}>
-                                        {formatTime(extraSchedule.startTime)} ~ {formatTime(extraSchedule.endTime)}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>}
-                {/*</div>*/}
+                                ))}
+                            </div>}
+                        {/*</div>*/}
+                    </div>
                 </div>
-            </div>
             </div>
         </>
     );

@@ -1,5 +1,5 @@
 .fullPageContainer {
-  height: 100vh;
+  height: 90vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f0f0f0;
+  background-color: #f8f8f8;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -19,7 +19,7 @@
 }
 
 .loginTitle {
-  background-color: rgb(42, 157, 143);
+  background-color: #ff8803;
   width: 100%;
   text-align: center;
   padding: 10px 0;
@@ -67,7 +67,7 @@
 .submitButton {
   width: 100%;
   padding: 10px;
-  background-color: rgb(42, 157, 143);
+  background-color: #ff8803;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -76,7 +76,7 @@
 }
 
 .submitButton:hover {
-  background: rgba(65, 63, 63, 0.7);
+  background: #ff5e00;
 }
 
 .error {
@@ -87,7 +87,7 @@
 .recoverButton {
   margin-top: 10px;
   padding: 10px;
-  background-color: rgb(42, 157, 143); /* 복구하기 버튼 색상 */
+  background-color: #ff8803; /* 복구하기 버튼 색상 */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -97,7 +97,7 @@
 }
 
 .recoverButton:hover {
-  background: rgba(65, 63, 63, 0.7);
+  background: #ff5e00;
 }
 
 .additionalLinks {
@@ -108,7 +108,7 @@
 }
 
 .linkButton {
-  background-color: rgb(42, 157, 143);
+  background-color: #ff8803;
   border: none;
   padding: 10px;
   border-radius: 5px;
@@ -120,5 +120,5 @@
 }
 
 .linkButton:hover {
-  background: rgba(65, 63, 63, 0.7);
+  background: #ff5e00;
 }

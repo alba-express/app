@@ -31,6 +31,8 @@ const CommuteRecord = () => {
     const [serverTime, setServerTime] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [modalAction, setModalAction] = useState(null);
+    const [checkInTime, setCheckInTime] = useState(null); // 출근 시간을 위한 상태 추가
+    const [checkOutTime, setCheckOutTime] = useState(null); // 퇴근 시간을 위한 상태 추가
 
     useEffect(() => {
         if (location.state && location.state.slaveId) {
@@ -49,8 +51,11 @@ const CommuteRecord = () => {
                     if (data.id) {
                         setLogId(data.id);
                         setIsCheckedIn(true);
+                        setCheckInTime(new Date(data.scheduleLogStart)); // 출근 시간 설정
                         if (data.scheduleLogEnd) {
                             setHasCheckedOut(true);
+                            setCheckOutTime(new Date(data.scheduleLogEnd)); // 퇴근 시간 설정
+                            setIsComplete(true); // 퇴근 처리가 완료된 상태로 설정
                         }
                     }
                 }
@@ -77,12 +82,6 @@ const CommuteRecord = () => {
 
         fetchServerTime();
     }, [slaveId]);
-
-    useEffect(() => {
-        if (isCheckedIn && hasCheckedOut) {
-            setIsComplete(true);
-        }
-    }, [isCheckedIn, hasCheckedOut]);
 
     useEffect(() => {
         let interval;
@@ -128,7 +127,9 @@ const CommuteRecord = () => {
                     const data = await response.json();
                     setLogId(data.id);
                     setIsCheckedIn(true);
+                    setCheckInTime(serverTime); // 출근 시간 설정
                     setErrorMessage('');
+                    setIsComplete(false); // 출퇴근 처리 완료 상태를 false로 설정
                 } else {
                     const errorData = await response.json();
                     throw new Error(errorData.error || '서버 오류');
@@ -154,6 +155,8 @@ const CommuteRecord = () => {
                     setLogId('');
                     setIsCheckedIn(false);
                     setHasCheckedOut(true);
+                    setCheckOutTime(serverTime); // 퇴근 시간 설정
+                    setIsComplete(true); // 출퇴근 처리 완료 상태로 설정
                     setErrorMessage('');
                 } else {
                     const errorData = await response.json();
@@ -188,12 +191,27 @@ const CommuteRecord = () => {
             </div>
             <div className={styles.buttonContainer}>
                 {isComplete ? (
-                    <div>출퇴근 처리가 완료되었습니다.</div>
+                    <div className={styles.timeInfo}>
+                        <div>
+                            출퇴근 처리가 완료되었습니다.
+                        </div>
+                        <div>
+                            <span className={styles.timeLabel}>출근 시간:</span> {checkInTime && checkInTime.toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                        </div>
+                        <div>
+                            <span className={styles.timeLabel}>퇴근 시간:</span> {checkOutTime && checkOutTime.toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                        </div>
+                    </div>
                 ) : (
-                    <>
+                    <div className={styles.buttonContainer}>
                         <button onClick={handleCheckIn} disabled={isCheckedIn} className={styles.checkButton}>출근</button>
                         <button onClick={handleCheckOut} disabled={!isCheckedIn || hasCheckedOut} className={styles.checkButton}>퇴근</button>
-                    </>
+                        {isCheckedIn && !isComplete && (
+                            <div className={styles.timeLabelBox}>
+                                <span className={styles.timeLabel}>출근 시간:</span> {checkInTime && checkInTime.toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                            </div>
+                        )}
+                    </div>
                 )}
             </div>
             {errorMessage && <div className={styles.validationMessage}>{errorMessage}</div>}

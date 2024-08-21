@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import styles from "./ScheduleCalendarPage.module.scss";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
-const ScheduleCalendarPage = ({ selectedDate, setSelectedDate, dateClick }) => {
+const ScheduleCalendarPage = ({selectedDate, setSelectedDate, dateClick}) => {
 
     const [currentDate, setCurrentDate] = useState(new Date());
     const [days, setDays] = useState([]);
@@ -58,9 +59,13 @@ const ScheduleCalendarPage = ({ selectedDate, setSelectedDate, dateClick }) => {
         <>
             <div className={styles.calendar}>
                 <div className={styles.calendarHeader}>
-                    <button onClick={handlePrevMonth}> ◀</button>
+                    <button onClick={handlePrevMonth} className={styles.arrowButton}>
+                        <MdKeyboardArrowLeft />
+                    </button>
                     <h2>{monthName} {year}</h2>
-                    <button onClick={handleNextMonth}> ▶</button>
+                    <button onClick={handleNextMonth} className={styles.arrowButton}>
+                        <MdKeyboardArrowRight />
+                    </button>
                 </div>
                 <div className={styles.calendarBody}>
                     {['일', '월', '화', '수', '목', '금', '토'].map(day => (

@@ -1,7 +1,7 @@
 
 .container {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     align-items: center;
     padding: 10px;
     border-bottom: 1px solid #ccc;
@@ -10,6 +10,12 @@
   .info {
     display: flex;
     flex-direction: column;
+    width: 300px;
+  }
+  .insurance {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
   }
   
   .header {
@@ -39,6 +45,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    margin-left: 300px;
   }
   
   .amount {

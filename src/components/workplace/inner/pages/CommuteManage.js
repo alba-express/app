@@ -97,7 +97,7 @@ const CommuteManage = () => {
 
     return (
         <div>
-            <div className={styles['title']}>출퇴근 관리</div>
+            <div className={styles['title']}><h1>출퇴근 관리</h1></div>
             <div className={styles['content-box']}>
                 <div className={styles['employee-list-title']}>직원목록</div> {/* 스타일이 적용된 제목 */}
                 <div className={styles['employee-list-container']}>

@@ -7,7 +7,7 @@ import {scheduleActions} from "../../../../store/schedule-slice";
 
 const ScheduleAddPage = () => {
 
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState("");
     const [currentDate, setCurrentDate] = useState(new Date());
     const [selectedSlave, setSelectedSlave] = useState("");
     const [startTime, setStartTime] = useState("");
@@ -90,7 +90,8 @@ const ScheduleAddPage = () => {
         } else {
             const errorText = await response.text();
             console.log('errorText: ', errorText);
-            setErrorMessage(errorText);
+            alert(errorText);
+            // setErrorMessage(errorText);
         }
 
     };
@@ -106,7 +107,7 @@ const ScheduleAddPage = () => {
                                       dateClick={dateClickHandler}/>
 
                 <div className={styles.modifySchedule}>
-                    <h3>일정 추가</h3>
+                    <h2>일정 추가</h2>
 
                     {errorMessage && (
                         <div className={styles.errorMessage}>{errorMessage}</div>
@@ -114,43 +115,49 @@ const ScheduleAddPage = () => {
 
                     <div className={styles.formGroup}>
                         <label htmlFor="slaveSelect">직원 선택:</label>
-                        <select id="slaveSelect" name="slaveId"
-                                value={selectedSlave}
-                                onChange={handleSlaveChange}
-                                required
-                        >
-                            <option value="">직원을 선택하세요</option>
-                            {slaves.map(slave => (
-                                <option key={slave.slaveId} value={slave.slaveId}>
-                                    {slave.slaveName} ({slave.slavePosition})
-                                </option>
-                            ))}
-                        </select>
+                        <div className={styles.selectWrapper}>
+                            <select id="slaveSelect" name="slaveId"
+                                    value={selectedSlave}
+                                    onChange={handleSlaveChange}
+                                    required
+                            >
+                                <option value="">직원을 선택하세요</option>
+                                {slaves.map(slave => (
+                                    <option key={slave.slaveId} value={slave.slaveId}>
+                                        {slave.slaveName} ({slave.slavePosition})
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
 
                     <div className={styles.formGroup}>
                         <label htmlFor="daySelect">추가 날짜:</label>
-                        <div id="daySelect" name="day">
+                        <div id="daySelect" name="day" className={styles.date}>
                             {selectedDate ? selectedDate : "날짜를 선택하세요"}
                         </div>
                     </div>
 
                     <div className={styles.formGroup}>
                         <label htmlFor="startTime">시작 시간:</label>
-                        <input type="time" id="startTime" name="startTime"
-                               value={startTime}
-                               onChange={handleStartTimeChange}
-                               required
-                        />
+                        <div className={styles.timeInputWrapper}>
+                            <input type="time" id="startTime" name="startTime"
+                                   value={startTime}
+                                   onChange={handleStartTimeChange}
+                                   required
+                            />
+                        </div>
                     </div>
 
                     <div className={styles.formGroup}>
                         <label htmlFor="endTime">종료 시간:</label>
-                        <input type="time" id="endTime" name="endTime"
-                               value={endTime}
-                               onChange={handleEndTimeChange}
-                               required
-                        />
+                        <div className={styles.timeInputWrapper}>
+                            <input type="time" id="endTime" name="endTime"
+                                   value={endTime}
+                                   onChange={handleEndTimeChange}
+                                   required
+                            />
+                        </div>
                     </div>
 
                     <div className={styles.button}>

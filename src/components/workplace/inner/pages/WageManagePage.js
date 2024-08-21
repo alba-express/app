@@ -3,6 +3,7 @@ import SalaryHeader from "../layout/SalaryHeader";
 import { useDispatch, useSelector } from "react-redux";
 import { wageActions } from "../../../../store/wage-slice";
 import SalaryBody from "../layout/SalaryBody";
+import styles from "./WageManagePage.module.scss";
 const WageManagePage = () => {
 
     const month = useSelector((state) => state.wage.month);
@@ -46,8 +47,13 @@ const WageManagePage = () => {
     
     return (
         <>
+            <div className={styles.salaryTitle}>
+                <h1>급여관리</h1>
+            </div>
+            <div className={styles.salaryBodyContainer}>
             <SalaryHeader />
-            <SalaryBody />
+                <SalaryBody />
+            </div>
         </>
     );
 };
