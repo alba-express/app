@@ -85,6 +85,16 @@ const LoginMain = () => {
         navigate('/login/recover', { state: { email } });
     };
 
+    // 체크박스 스타일을 상태에 따라 설정
+    const checkboxStyle = (isChecked) => ({
+        border: isChecked ? '0' : '2px solid #ccc', // 체크가 안된 경우 테두리를 추가
+        backgroundColor: isChecked ? '#ff8803' : '#fff', // 체크된 경우 배경색 변경
+        width: '20px',
+        height: '20px',
+        display: 'inline-block',
+        cursor: 'pointer',
+    });
+
     return (
         <div className={styles.fullPageContainer}>
             <div className={styles.loginContainer}>
@@ -120,6 +130,7 @@ const LoginMain = () => {
                                 checked={rememberMe}
                                 onChange={handleCheckboxChange(setRememberMe)}
                                 id="rememberMe"
+                                style={checkboxStyle(rememberMe)}
                             />
                             <label className="form-check-label" htmlFor="rememberMe">
                                 아이디 저장
@@ -132,6 +143,7 @@ const LoginMain = () => {
                                 checked={autoLogin}
                                 onChange={handleCheckboxChange(setAutoLogin)}
                                 id="autoLogin"
+                                style={checkboxStyle(autoLogin)}
                             />
                             <label className="form-check-label" htmlFor="autoLogin">
                                 자동 로그인
