@@ -22,9 +22,10 @@
   margin: 20px;
   background: rgba(245, 245, 245, 0.8);
 
-  h3 {
+  h2 {
     text-align: center;
-    margin-bottom: 50px;
+    margin-top: 20px;
+    margin-bottom: 30px;
   }
 
   .formGroup {
@@ -36,8 +37,99 @@
     border-radius: 5px;
     background: #ffffff;
     align-items: center;
+    font-size: 18px;
   }
 }
+
+.date {
+  font-size: 20px;
+}
+
+/* 기본 스타일 제거 */
+select {
+  appearance: none; /* 기본 드롭다운 화살표 숨기기 */
+  -webkit-appearance: none; /* 기본 드롭다운 화살표 숨기기 (Safari) */
+  -moz-appearance: none; /* 기본 드롭다운 화살표 숨기기 (Firefox) */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 15px;
+  color: #333;
+  width: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: right;
+}
+
+select:focus {
+  border-color: #ff8803; /* 포커스 시 테두리 색상 */
+  outline: none; /* 기본 포커스 outline 제거 */
+}
+
+/* 옵션 선택 스타일 */
+option {
+  background-color: #fff;
+  color: #333;
+}
+
+/* 커스터마이즈된 드롭다운 화살표 */
+.selectWrapper {
+  position: relative;
+  display: flex;
+  justify-content: right;
+  width: 70%;
+}
+
+.selectWrapper::after {
+  content: '\25BC'; /* 드롭다운 화살표 아이콘 */
+  font-size: 12px;
+  color: #333;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+select {
+  padding-right: 30px; /* 화살표를 위해 padding 추가 */
+}
+
+/* 시간 입력 필드 스타일 */
+.timeInputWrapper {
+  position: relative;
+  display: flex;
+  justify-content: right;
+  width: 70%;
+}
+
+.timeInputWrapper input[type="time"] {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 15px;
+  width: 50%;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.timeInputWrapper input[type="time"]:focus {
+  border-color: #ff8803;
+  outline: none;
+}
+
+.timeInputWrapper label {
+  display: block;
+  font-size: 15px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
 
 .button {
   display: flex;
@@ -48,7 +140,6 @@
 
 .cancelButton {
   padding: 10px 20px;
-  //margin-left: 10px;
   border: none;
   border-radius: 5px;
   background-color: #cccccc;
@@ -64,7 +155,6 @@
 
 .addButton {
   padding: 10px 20px;
-  //margin-left: 10px;
   border: none;
   border-radius: 5px;
   background-color: #ff8803;
