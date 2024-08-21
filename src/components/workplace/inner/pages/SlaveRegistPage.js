@@ -88,25 +88,66 @@ const SlaveRegistPage = () => {
     //-------------------------------------------------
 
     // 입력값 검증 함수
-    const validateInputs = () => {
-        const { slaveName, slavePhoneNumber, slaveBirthday, slavePosition, slaveWageList, slaveScheduleType, slaveScheduleList, workPlaceNumber } = slaveRegistInput;
-        if (!slaveName || !slavePhoneNumber || !slaveBirthday || !slavePosition || slaveWageList.length === 0 || slaveScheduleType === '' || slaveScheduleList.length === 0, !workPlaceNumber) {
-            return false;
-        }
-        return true;
+    const isValidInput = () => {
+        const { 
+            slaveName, 
+            slavePhoneNumber, 
+            slaveBirthday, 
+            slavePosition, 
+            slaveWageList, 
+            slaveScheduleList, 
+            workPlaceNumber 
+        } = slaveRegistInput;
+    
+        // 값이 빈 문자열, undefined, 또는 null이 아닌지 확인
+        const isNotEmpty = value => value !== '' && value !== undefined && value !== null;
+        
+        // 급여리스트의 모든 객체가 빈 문자열이 아닌지 확인
+        const areWagesValid = Array.isArray(slaveWageList) &&
+            slaveWageList.every(wage =>
+                isNotEmpty(wage.slaveWageType) &&
+                isNotEmpty(wage.slaveWageAmount) &&
+                isNotEmpty(wage.slaveWageInsurance)
+            );
+    
+        // 근무리스트의 모든 객체가 빈 문자열이 아닌지 확인
+        const areSchedulesValid = Array.isArray(slaveScheduleList) &&
+            slaveScheduleList.every(schedule =>
+                isNotEmpty(schedule.slaveScheduleType) &&
+                Array.isArray(schedule.slaveScheduleList) &&
+                schedule.slaveScheduleList.some(daySchedule =>
+                    daySchedule.select === true &&
+                    isNotEmpty(daySchedule.startSchedule) &&
+                    isNotEmpty(daySchedule.endSchedule)
+        )
+    );
+    
+        return (
+            isNotEmpty(slaveName) &&
+            isNotEmpty(slavePhoneNumber) &&
+            isNotEmpty(slaveBirthday) &&
+            isNotEmpty(slavePosition) &&
+            areWagesValid &&
+            areSchedulesValid &&
+            isNotEmpty(workPlaceNumber)
+        );
     };
 
     // form태그에 입력한 값을 서버로 넘기는 button태그를 상태값으로 관리하기
-    const [formButtonType, setFormButtonType] = useState('button');
+    const [formButtonType, setFormButtonType] = useState('button'); // 버튼의 type 관리
+    const [formButtonStyle, setFormButtonStyle] = useState(styles['slaveRegistPage-nonButton']); // 버튼의 className(스타일) 관리
+
 
     useEffect(()=> {
         // 모든 입력값이 입력된 상태일 경우
-        if (validateInputs()) {
+        if (isValidInput()) {
             setFormButtonType('submit');
+            setFormButtonStyle(styles['slaveRegistPage-button']);
 
             // 입력값이 하나라도 빈 상태일 경우
         } else {
             setFormButtonType('button');
+            setFormButtonStyle(styles['slaveRegistPage-nonButton']);
         }
 
         console.log('버튼타입', formButtonType);
@@ -121,7 +162,7 @@ const SlaveRegistPage = () => {
     
         e.preventDefault();
 
-        if (!validateInputs()) {
+        if (!isValidInput()) {
             alert('모든 필드를 입력하지않으면 직원등록을 할 수 없습니다.');
             return;
         }
@@ -206,7 +247,7 @@ const SlaveRegistPage = () => {
                             <Link to="/detail/slave-manage" className={styles['link-text']} > 
                                 <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
-                            <button type={formButtonType} className={styles['slaveRegistPage-nonButton']} > 등록 </button>
+                            <button type={formButtonType} className={formButtonStyle} > 등록 </button>
                         </div>
                     </div>
                 </form>
