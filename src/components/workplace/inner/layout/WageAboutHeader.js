@@ -8,10 +8,9 @@ const WageAboutHeader = () => {
     const month = useSelector((state) => state.wage.month);
     const year = useSelector((state) => state.wage.year);
     const slaveData = useSelector((state) => state.wage.slaveData);
-    
+
     const dispatch = useDispatch();
 
-    
     const handlePreviousMonth = () => {
         dispatch(wageActions.setMonthByType({ type: "prev" }));
     };
@@ -19,18 +18,21 @@ const WageAboutHeader = () => {
     const handleNextMonth = () => {
         dispatch(wageActions.setMonthByType({ type: "next" }));
     };
-    
 
     return (
         <>
-            <h2>{slaveData.slaveName}님의 급여</h2>
+            {/* <h2>{slaveData.slaveName}님의 급여</h2> */}
             <div className={styles.container}>
                 <div className={styles.salaryHeader}>
                     <div
                         onClick={handlePreviousMonth}
                         className={styles.buttonWrapper}
                     >
-                        <button className={styles.button}>◀</button>
+                        <button className={styles.button}>
+                        <img src={`${process.env.PUBLIC_URL}/images/left-arrow.png`}
+                             alt={"좌측화살표"}
+                             className={styles.arrowButton} />
+                        </button>
                     </div>
                     <span className={styles.salaryText}>
                         {year}년 {formatMonth(month)}월 누적급여
@@ -39,11 +41,17 @@ const WageAboutHeader = () => {
                         onClick={handleNextMonth}
                         className={styles.buttonWrapper}
                     >
-                        <button className={styles.button}>▶</button>
+                        <button className={styles.button}>
+                        <img src={`${process.env.PUBLIC_URL}/images/right-arrow.png`}
+                             alt={"우측화살표"}
+                             className={styles.arrowButton} />
+                        </button>
                     </div>
                 </div>
                 <div className={styles.salaryBox}>
-                    <span className={styles.salaryAmount}>{slaveData.totalSalary.toLocaleString("ko-KR")}원</span>
+                    <span className={styles.salaryAmount}>
+                        {slaveData.totalSalary.toLocaleString("ko-KR")}원
+                    </span>
                 </div>
             </div>
         </>

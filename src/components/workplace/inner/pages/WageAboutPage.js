@@ -4,12 +4,14 @@ import { wageActions } from "../../../../store/wage-slice";
 import WageAboutHeader from "../layout/WageAboutHeader";
 import WageAboutBody from "../layout/WageAboutBody";
 import { useLocation } from "react-router-dom";
+import styles from "./WageManagePage.module.scss";
 
 const WageAboutPage = () => {
     const month = useSelector((state) => state.wage.month);
     const year = useSelector((state) => state.wage.year);
     const dispatch = useDispatch();
 
+    const [slaveName, setSlaveName] = useState("");
     const location = useLocation();
     const [slaveId, setSlaveId] = useState(null);
 
@@ -29,16 +31,13 @@ const WageAboutPage = () => {
                 ym: `${year}-${month < 10 ? "0" + month : month}`,
             };
             try {
-                const res = await fetch(
-                    `http://localhost:8877/wage/slave`,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(payload),
-                    }
-                );
+                const res = await fetch(`http://localhost:8877/wage/slave`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                });
 
                 if (!res.ok) {
                     throw new Error("Network response was not ok");
@@ -47,20 +46,25 @@ const WageAboutPage = () => {
                 const json = await res.json();
                 console.log("wageInsuranceTestByJson");
                 console.log(json);
-                dispatch(wageActions.setSlaveData({slaveData: json}));
+                dispatch(wageActions.setSlaveData({ slaveData: json }));
+                setSlaveName(json.slaveName);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
-
 
         fetchData();
     }, [slaveId, month, year, dispatch]);
 
     return (
         <>
-            <WageAboutHeader />
-            <WageAboutBody />
+            <div className={styles.salaryTitle}>
+                <h1>{slaveName}님의 급여</h1>
+            </div>
+            <div className={styles.salaryBodyContainer}>
+                <WageAboutHeader />
+                <WageAboutBody />
+            </div>
         </>
     );
 };

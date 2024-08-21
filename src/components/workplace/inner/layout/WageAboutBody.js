@@ -14,7 +14,7 @@ const WageAboutBody = () => {
     
   return (
     <>
-        <h2>{slaveData.slaveName}님의 일별 급여</h2>
+        {/* <h2>{slaveData.slaveName}님의 일별 급여</h2> */}
         <div className={styles.salaryBody}>
             {slaveData.dtoList.map((dto, index) => (
                 <SalaryDetailList 
