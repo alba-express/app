@@ -7,8 +7,8 @@ import "react-datepicker/dist/react-datepicker.css";
 const InnerMainPage = () => {
     const [workplaceInfo, setWorkplaceInfo] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1); // 현재 월 (1~12)
-    const [currentYear, setCurrentYear] = useState(new Date().getFullYear()); // 현재 연도
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     const [selectedDate, setSelectedDate] = useState(new Date()); // 오늘 날짜로 초기화
     const [workingEmployees, setWorkingEmployees] = useState([]);
     const [notStartedEmployees, setNotStartedEmployees] = useState([]);
@@ -18,13 +18,11 @@ const InnerMainPage = () => {
     const [employeeWages, setEmployeeWages] = useState([]); // 직원별 급여
     const workplaceIdByStore = localStorage.getItem('workplaceId');
 
-    // 날짜 포맷 함수
     const formatDate = (date) => {
         const options = { year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'long' };
         return date.toLocaleDateString('ko-KR', options);
     };
 
-    // DatePicker의 ref 생성
     const datePickerRef = useRef(null);
 
     useEffect(() => {
@@ -48,9 +46,13 @@ const InnerMainPage = () => {
 
         const fetchEmployees = async () => {
             try {
-                const response = await axios.get(`http://localhost:8877/schedule/employees?workplaceId=${workplaceIdByStore}`);
+                const formattedDate = selectedDate.toISOString().split('T')[0]; // yyyy-mm-dd 형식으로 변환
+                const response = await axios.get(`http://localhost:8877/schedule/employees?workplaceId=${workplaceIdByStore}&date=${formattedDate}`);
                 const employees = response.data;
                 const currentTime = new Date(); // 현재 시간
+                const currentDate = new Date().setHours(0, 0, 0, 0); // 오늘 날짜 자정 기준
+                const selectedDateStartOfDay = new Date(selectedDate).setHours(0, 0, 0, 0); // 선택된 날짜 자정 기준
+                const selectedDateEndOfDay = new Date(selectedDate).setHours(23, 59, 59, 999); // 선택된 날짜의 마지막 시간
 
                 const working = [];
                 const notStarted = [];
@@ -58,27 +60,39 @@ const InnerMainPage = () => {
                 const misc = [];
 
                 for (const employee of employees) {
-                    const logResponse = await axios.get(`http://localhost:8877/schedule/current-log?slaveId=${employee.id}`);
+                    // 현재 선택된 날짜에 해당하는 스케줄 로그를 가져옵니다.
+                    const logResponse = await axios.get(`http://localhost:8877/schedule/current-log?slaveId=${employee.id}&date=${formattedDate}`);
                     const log = logResponse.data;
 
-                    const startTime = new Date(`${selectedDate.toDateString()} ${employee.scheduleStart}`);
-                    const endTime = new Date(`${selectedDate.toDateString()} ${employee.scheduleEnd}`);
+                    const startTime = new Date(`${formattedDate}T${employee.scheduleStart}`);
+                    const endTime = new Date(`${formattedDate}T${employee.scheduleEnd}`);
 
-                    if (log && log.scheduleLogStart && !log.scheduleLogEnd) {
-                        // 출근 로그가 있고, 퇴근 로그가 없는 경우: 근무중
-                        working.push(employee);
-                    } else if (!log.scheduleLogStart && currentTime < startTime) {
-                        // 출근 로그가 없고, 출근 예정 시간보다 현재 시간이 이전인 경우: 출근 전
-                        notStarted.push(employee);
-                    } else if (log.scheduleLogEnd && new Date(log.scheduleLogEnd) < endTime) {
-                        // 퇴근 로그가 있고, 로그의 퇴근 시간이 스케줄의 퇴근 시간보다 빠른 경우: 조퇴
-                        misc.push({ ...employee, status: '조퇴' });
-                    } else if (log.scheduleLogEnd) {
-                        // 퇴근 로그가 있는 경우: 퇴근
-                        offDuty.push(employee);
-                    } else if (!log.scheduleLogStart) {
-                        // 스케줄이 있지만, 출근 로그와 퇴근 로그가 모두 없는 경우: 결근
-                        misc.push({ ...employee, status: '결근' });
+                    // 스케줄 로그의 시작과 끝이 선택된 날짜에 해당하는지 확인
+                    const logStartDate = log ? new Date(log.scheduleLogStart) : null;
+                    const logEndDate = log && log.scheduleLogEnd ? new Date(log.scheduleLogEnd) : null;
+
+                    if (selectedDateStartOfDay < currentDate) { // 선택된 날짜가 과거일 경우
+                        if (logStartDate && logEndDate && logEndDate <= selectedDateEndOfDay) {
+                            offDuty.push(employee); // 과거에 퇴근한 경우
+                        } else if (logStartDate && !logEndDate && logStartDate <= selectedDateEndOfDay) {
+                            misc.push({ ...employee, status: '조퇴' }); // 과거에 조퇴한 경우
+                        } else if (!logStartDate || logStartDate > selectedDateEndOfDay) {
+                            misc.push({ ...employee, status: '결근' }); // 과거에 결근한 경우
+                        }
+                    } else if (selectedDateStartOfDay > currentDate) { // 선택된 날짜가 미래일 경우
+                        notStarted.push(employee); // 출근 전 (미래에는 로그가 없으므로)
+                    } else { // 선택된 날짜가 오늘인 경우
+                        if (logStartDate && !logEndDate) {
+                            working.push(employee); // 근무 중
+                        } else if (!logStartDate && currentTime < startTime) {
+                            notStarted.push(employee); // 출근 전
+                        } else if (logEndDate && logEndDate < endTime) {
+                            misc.push({ ...employee, status: '조퇴' }); // 조퇴
+                        } else if (logEndDate) {
+                            offDuty.push(employee); // 퇴근
+                        } else if (!logStartDate) {
+                            misc.push({ ...employee, status: '결근' }); // 결근
+                        }
                     }
                 }
 
@@ -91,6 +105,10 @@ const InnerMainPage = () => {
                 alert('직원 정보를 가져오는데 실패했습니다.');
             }
         };
+
+
+
+
 
         const fetchWageData = async () => {
             const payload = {
