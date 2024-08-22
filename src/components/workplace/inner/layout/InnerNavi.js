@@ -23,7 +23,7 @@ const InnerNavi = () => {
             <li className={styles['profile-box']}>
                 <div className={styles.workplaceName}> {workplaceData.workplaceName} </div>
                 {/*<div> 안녕하세요. </div>*/}
-                <div className={styles.workplaceAddress}> {workplaceData.workplaceAddressCity} {workplaceData.workplaceAddressStreet} {workplaceData.workplaceAddressDetail}</div>
+                <div className={styles.workplaceAddress}> {workplaceData.workplaceAddressStreet} {workplaceData.workplaceAddressDetail}</div>
             </li>
 
             <Link to="slave-manage" className={`${styles['link-text']} ${styles['leftMenu-box']}`}>
