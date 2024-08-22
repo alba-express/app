@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './CommuteRecord.module.scss'; // 모듈 스타일을 가져옵니다
 import FlipDigit from './FlipDigit'; // 플립 디지털 시계 컴포넌트를 가져옵니다
 
+
 const Modal = ({ show, onClose, onConfirm, message }) => {
     if (!show) return null; // 모달이 보이지 않으면 아무것도 렌더링하지 않음
 
@@ -11,8 +12,8 @@ const Modal = ({ show, onClose, onConfirm, message }) => {
             <div className={styles.modalContent}>
                 <div>{message}</div>
                 <div className={styles.modalButtons}>
-                    <button onClick={onConfirm} className={styles.confirmButton}>확인</button>
                     <button onClick={onClose} className={styles.cancelButton}>취소</button>
+                    <button onClick={onConfirm} className={styles.confirmButton}>확인</button>
                 </div>
             </div>
         </div>
@@ -174,13 +175,24 @@ const CommuteRecord = () => {
 
     const getModalMessage = () => {
         if (modalAction === 'checkIn') {
-            return `현재시간: ${serverTime ? serverTime.toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '로딩 중...'} 으로 출근하시겠습니까?`;
+            return (
+                <>
+                    현재시간: {serverTime ? serverTime.toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '로딩 중...'} 으로
+                    <br />
+                     출근하시겠습니까?
+                </>
+            );
         } else if (modalAction === 'checkOut') {
-            return `현재시간: ${serverTime ? serverTime.toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '로딩 중...'} 으로 퇴근하시겠습니까?`;
+            return (
+                <>
+                    현재시간: {serverTime ? serverTime.toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '로딩 중...'} 으로
+                    <br />
+                     퇴근하시겠습니까?
+                </>
+            );
         }
         return '';
     };
-
     return (
         <div className={styles.contentBox}>
             <div className={styles.title}></div>
@@ -191,14 +203,13 @@ const CommuteRecord = () => {
             </div>
             <div className={styles.buttonContainer}>
                 {isComplete ? (
-                    <div className={styles.timeInfo}>
+                    <div className={styles.timeInfoTitle}>
                         <div>
                             출퇴근 처리가 완료되었습니다.
                         </div>
-                        <div>
+                        <div className={styles.timeInfo}>
                             <span className={styles.timeLabel}>출근 시간:</span> {checkInTime && checkInTime.toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-                        </div>
-                        <div>
+                            <br></br>
                             <span className={styles.timeLabel}>퇴근 시간:</span> {checkOutTime && checkOutTime.toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                         </div>
                     </div>
