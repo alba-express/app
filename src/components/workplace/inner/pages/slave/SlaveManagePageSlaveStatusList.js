@@ -35,6 +35,11 @@ const SlaveManagePageSlaveStatusList = () => {
 
   //-------------------------------------------------
 
+  // 요일의 순서를 정의합니다.
+  const dayOrder = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"];
+
+  //-------------------------------------------------
+
   // 해당 사업장의 모든 직원 목록을 불러오기 위해 로컬스토리지에 저장된 사업장을 변수로 생성
   const workplaceIdByStore = localStorage.getItem('workplaceId');
 
@@ -52,9 +57,15 @@ const SlaveManagePageSlaveStatusList = () => {
         })
         .then(slaveDto => {
           console.log('전체직원', slaveDto);
+
+          // slaveScheduleList를 요일 순서에 따라 정렬하기
+          slaveDto.map(slave => slave.slaveScheduleList.sort((a, b) => {
+            return dayOrder.indexOf(a.scheduleDay) - dayOrder.indexOf(b.scheduleDay);
+          }));
           
           dispatch(slaveActions.setAllSlaveInfo(slaveDto));
           localStorage.setItem('allSlaveList', showAllSlaveInfo); // 전체 직원 정보 목록 로컬스토리지에 저장
+          
         })
         .catch(error => {
           setError(error.message);
@@ -70,6 +81,7 @@ const SlaveManagePageSlaveStatusList = () => {
 
   // 퇴사일이 없는 직원은 근무중인 직원, 퇴사일이 있는 직원은 퇴사한 직원
   useEffect (() => {
+    
     const activeSlaves = showAllSlaveInfo.filter(slave => slave.slaveFiredDate === null);
     const inactiveSlaves = showAllSlaveInfo.filter(slave => slave.slaveFiredDate !== null);
 
@@ -92,14 +104,6 @@ const SlaveManagePageSlaveStatusList = () => {
   // true 라면 근무중인 직원리스트를, false 라면 퇴사한 직원리스트를 렌더링하는 조건식을 변수에 담기
   const showWhichSlaveList = showSlaveList ? showActiveSlaveInfo : showInactiveSlaveInfo;
 
-  const slaveStyleBoxHeight = () => {
-
-    // 전체직원 -> 근무/퇴직직원 -> 근무정보리스트의 개수
-    const slaveScheduleListCount = showWhichSlaveList.slaveList.map(slave => slave.slaveScheduleList.length);
-
-    return slaveScheduleListCount;
-  }
-
   //-------------------------------------------------
 
   const navigate = useNavigate();
@@ -112,6 +116,12 @@ const SlaveManagePageSlaveStatusList = () => {
       const response = await axios.get(`http://localhost:8877/detail/slave-info/${slaveId}`);
 
       const clickOneSlave = response.data;
+    
+      // slaveScheduleList를 요일 순서에 따라 정렬하기
+      clickOneSlave.scheduleList.sort((a, b) => {
+        return dayOrder.indexOf(a.scheduleDay) - dayOrder.indexOf(b.scheduleDay);
+      });
+
       // 해당 직원의 정보를 redux 특정 직원 한 명의 정보 표시 에 저장하기
       dispatch(slaveActions.setShowOneSlaveInfo(clickOneSlave));
       // 해당 직원의 정보를 로컬스토리지에 저장하기
@@ -131,6 +141,27 @@ const SlaveManagePageSlaveStatusList = () => {
     return <div>Error: {error}</div>;
   }
 
+  //-------------------------------------------------
+
+  // 근무정보리스트의 내역을 scheduleType (고정시간 -> true, 변동시간 -> false) 에 따라 렌더링 태그 변경하기
+
+  // const isScheduleType = () => {
+  //   const scheduleTypeIsTrue = oneSlave.scheduleList.filter(schedule => schedule.scheduleType === true);
+
+  //   const scheduleTypeIsFalse = oneSlave.scheduleList.filter(schedule => schedule.scheduleType === false);
+
+  //   if (scheduleTypeIsTrue) {
+  //       return true;
+  //   } else if (scheduleTypeIsFalse || null) {
+  //       return false;
+  //   }
+  // }
+
+//-------------------------------------------------
+
+
+  // const isScheduleTypeTrue = slaveList.map(oneSlave => oneSlave.slaveScheduleList.some(schedule => schedule.scheduleType === true));
+
   return (
     <>
       {showWhichSlaveList.slaveList.length === 0 ? 
@@ -148,6 +179,7 @@ const SlaveManagePageSlaveStatusList = () => {
               {oneSlave.slavePosition}
             </div>
 
+            {/* 급여리스트 */}
             {oneSlave.slaveWageList.map((wage) => 
               <div key={wage.slaveWageId} className={styles['slaveManagementList-OneSlaveWage']}>
                 <div className={styles['slaveManagementList-OneSlaveMoneyType']} >
@@ -159,15 +191,28 @@ const SlaveManagePageSlaveStatusList = () => {
               </div>
             )}
 
-            <div className={styles['slaveManagementList-OneSlaveScheduleList']} >
-              {oneSlave.slaveScheduleList.map((schedule) => 
-                <div key={schedule.slaveScheduleId} className={styles['slaveManagementList-OneSlaveScheduleOne']} >
-                  {schedule.scheduleDay}
-                  {schedule.scheduleStart} 부터
-                  {schedule.scheduleEnd} 까지
+            {/* 근무리스트 */}
+            {oneSlave.slaveScheduleList.some(schedule => schedule.scheduleType === true) ? (
+              <div className={styles['slaveManagementList-OneSlaveScheduleList']}>
+                <div>
+                  {oneSlave.slaveScheduleList
+                    .filter(schedule => schedule.scheduleType === true)
+                    .map(schedule => Array.isArray(schedule.scheduleDay) 
+                      ? schedule.scheduleDay.map(day => day.charAt(0)).join(', ') // 요일의 첫 글자만 추출
+                      : schedule.scheduleDay.charAt(0))
+                    .join(', ')} 
+                  , {oneSlave.slaveScheduleList[0].scheduleStart} ~ {oneSlave.slaveScheduleList[0].scheduleEnd}
                 </div>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div className={styles['slaveManagementList-OneSlaveScheduleList']}>
+                {oneSlave.slaveScheduleList.map((schedule) => 
+                  <div key={schedule.slaveScheduleId} className={styles['slaveManagementList-OneSlaveScheduleOne']}>
+                    {schedule.scheduleDay} {schedule.scheduleStart} 부터 {schedule.scheduleEnd} 까지
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className={styles['slaveManagementList-OneSlaveJoin']} >
               {oneSlave.slaveCreatedAt}

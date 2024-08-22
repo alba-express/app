@@ -318,7 +318,7 @@ const SlaveModifyPage = () => {
                             <Link to="/detail/slave-manage" className={styles['link-text']} > 
                                 <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
-                            <button type={formButtonType} className={formButtonStyle} > 등록 </button>
+                            <button type={formButtonType} className={formButtonStyle} > 수정 </button>
                         </div>
                     </div>
                 </form>
