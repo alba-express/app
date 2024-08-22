@@ -60,9 +60,6 @@ const SlaveInfoPage = () => {
 
     const isScheduleTypeTrue = oneSlave.scheduleList.some(schedule => schedule.scheduleType === true);
 
-
-
-
     //-------------------------------------------------
 
     // 페이지를 이동시킬때 사용하는 useNavigate 생성하기
@@ -74,6 +71,33 @@ const SlaveInfoPage = () => {
       navigate(`/detail/slave-modify`);
     };
 
+    // 직원퇴사버튼을 클릭했을 때 해당 직원 퇴사시키기
+    const thisSlaveFiredHandler = async (slaveId) => {
+
+        try {
+            // 서버로 요청 보내기
+            const response = await fetch(`http://localhost:8877/detail/slave-fired/${slaveId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+      
+            // 응답 처리
+            if (response.ok) {
+              alert("직원의 탈퇴 요청이 성공적으로 처리되었습니다.");
+              // 해당 직원 상세페이지로 이동하기
+              navigate(`/detail/slave-manage`);
+
+            } else {
+                console.error('탈퇴 요청 처리 실패:', response.statusText);
+            }
+          } catch (error) {
+              console.error('서버 요청 오류:', error);
+          }
+        
+    };
+
     //-------------------------------------------------
 
   return (
@@ -82,6 +106,7 @@ const SlaveInfoPage = () => {
             <div className={styles['slaveInfoPage-HeaderBox']} >
                 <div className={styles['slaveInfoPage-HeaderTitle']} > 직원상세정보 </div>
                 <div className={styles['headerButton']} onClick={thisSlaveModifyHandler} > 직원수정 </div>
+                <div className={styles['headerButton']} onClick={() => thisSlaveFiredHandler(oneSlave.slaveId)} > 직원퇴사 </div>
             </div>
             <div className={styles['slaveInfoPage-MiddleBox']}>
                 <div>
@@ -110,7 +135,7 @@ const SlaveInfoPage = () => {
                             .filter(wage => !wage.wageEndDate) // wageEndDate가 없는 항목만 필터링
                             .map((wage, index) => (
                                 <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
-                                    {wage.slaveWageType}, {wage.slaveWageAmount}
+                                    {wage.slaveWageType}, {wage.slaveWageAmount}원
                                 </div>
                             ))
                         }
