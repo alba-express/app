@@ -61,14 +61,12 @@ const WageAboutPage = () => {
         <>
             <div className={styles.salaryTitle}>
                 <h1>{slaveName}님의 급여</h1>
-                <Link to="../wage-manage"><IoArrowBackCircleSharp />
-                업장급여</Link>
+                <button className={styles.backButton}>업장 급여</button>
             </div>
             <div className={styles.salaryBodyContainer}>
                 <WageAboutHeader />
                 <WageAboutBody />
             </div>
-
         </>
     );
 };

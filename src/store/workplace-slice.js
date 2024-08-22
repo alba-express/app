@@ -7,6 +7,7 @@ const workplaceSlice = createSlice({
             workplaces: [{}], // 초기값 설정
         },
         workplaceId: "",
+        currentPage: 0,
 
     },
     reducers: {
@@ -15,6 +16,9 @@ const workplaceSlice = createSlice({
         },
         setWorkplaceId(state, action) {
             state.workplaceId = action.payload.workplaceId;
+        },
+        setCurrentPage(state, action) {
+            state.currentPage = action.payload.currentPage;
         }
     },
 });

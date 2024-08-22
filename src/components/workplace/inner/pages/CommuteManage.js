@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from './CommuteManage.module.scss';
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { workplaceActions } from "../../../../store/workplace-slice";
 
 const CommuteManage = () => {
     const [inputValue, setInputValue] = useState("");
@@ -11,6 +13,13 @@ const CommuteManage = () => {
     const inputTimeoutRef = useRef(null); // 타이머를 저장할 ref
     const navigate = useNavigate();
     const workplaceId = localStorage.getItem('workplaceId');
+
+    // 괴도 박성진 다녀감
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(workplaceActions.setCurrentPage({currentPage: 5}));
+    }, [])
+    // 괴도 박성진 다녀감
 
     useEffect(() => {
         const fetchEmployees = async () => {

@@ -3,6 +3,8 @@ import styles from "./InnerMainPage.module.scss";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useDispatch } from "react-redux";
+import { workplaceActions } from "../../../../store/workplace-slice";
 
 const InnerMainPage = () => {
     const [workplaceInfo, setWorkplaceInfo] = useState(null);
@@ -16,6 +18,13 @@ const InnerMainPage = () => {
     const [estimatedWages, setEstimatedWages] = useState(0); // 총 급여
     const [employeeWages, setEmployeeWages] = useState([]); // 직원별 급여
     const workplaceIdByStore = localStorage.getItem('workplaceId');
+
+        // 괴도 박성진 다녀감
+        const dispatch = useDispatch();
+        useEffect(() => {
+            dispatch(workplaceActions.setCurrentPage({currentPage: 0}));
+        }, [])
+        // 괴도 박성진 다녀감
 
     // 날짜 포맷 함수
     const formatDate = (date) => {

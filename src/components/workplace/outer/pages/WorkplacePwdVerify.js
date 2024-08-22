@@ -26,9 +26,11 @@ const WorkplacePwdVerify = () => {
                 // 비밀번호 검증 후 페이지 이동 조건문
                 if (action === 'modify') {
                     navigate('/workplace/modify', { replace: true }); // 수정 페이지로 이동
-                } else {
+                } else if(action === "view") {
                     navigate('/detail', { replace: true }); // 기본 업장 메인페이지로 이동
-                } 
+                } else if(action === "") {
+                    //뭐뭐하고.
+                }
 
                 // 비밀번호 검증 페이지 방문 기록 삭제
                 localStorage.removeItem('action');

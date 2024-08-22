@@ -11,10 +11,20 @@
     display: flex;
     justify-content: space-between;
 
-    a {
-        text-decoration: none;
-        color: black;
-        height: fit-content;
-
-    }
+    .backButton {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #ff8803;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        line-height: 16px;
+        height: 44px;
+      
+        &:hover {
+          background-color: #ff5e00;
+        }
+      }
 }

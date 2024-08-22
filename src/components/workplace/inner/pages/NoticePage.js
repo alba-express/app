@@ -5,6 +5,7 @@ import NoticeModal from "./NoticeModal";
 import {useDispatch, useSelector} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
 import useAuth from "../../../../hooks/useAuth";
+import { workplaceActions } from "../../../../store/workplace-slice";
 
 const NoticePage = () => {
 
@@ -22,6 +23,11 @@ const NoticePage = () => {
     const userId = useAuth();
 
     const workplaceId = localStorage.getItem('workplaceId');
+        // 괴도 박성진 다녀감
+        useEffect(() => {
+            dispatch(workplaceActions.setCurrentPage({currentPage: 4}));
+        }, [])
+        // 괴도 박성진 다녀감
 
     const fetchNotices = useCallback(async () => {
         setIsLoading(true);
