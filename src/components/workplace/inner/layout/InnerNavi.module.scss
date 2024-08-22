@@ -97,7 +97,7 @@
       filter: opacity(0.6) drop-shadow(0 0 0 rgb(0, 255, 247));
     }
   }
-  .leftMenu-box:hover {
+  .leftMenu-box:hover, .active {
     background: #ff8803;
     color: #fff;
     cursor: pointer;
