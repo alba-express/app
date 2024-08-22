@@ -3,6 +3,7 @@ import styles from "./SalaryDetailList.module.scss";
 import BonusModal from "./BonusModal";
 import { useDispatch } from "react-redux";
 import { wageActions } from "../../../../store/wage-slice";
+import { IoMdAddCircleOutline } from "react-icons/io";
 
 const SalaryDetailList = ({
     workingTime,
@@ -18,8 +19,6 @@ const SalaryDetailList = ({
     });
     const dispatch = useDispatch();
 
-    
-
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -32,33 +31,27 @@ const SalaryDetailList = ({
         }));
     };
 
-    const handleSave = async() => {
+    const handleSave = async () => {
         const payload = {
             slaveId,
             workDate,
             amount: modalData.amount,
         };
         try {
-            const res = await fetch(
-                `http://localhost:8877/wage/bonus`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                }
-            );
+            const res = await fetch(`http://localhost:8877/wage/bonus`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
 
             if (!res.ok) {
                 throw new Error("Network response was not ok");
             }
 
             const json = await res.json();
-            dispatch(wageActions.setSlaveData({slaveData: json}));
-            
-            
-
+            dispatch(wageActions.setSlaveData({ slaveData: json }));
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -77,16 +70,14 @@ const SalaryDetailList = ({
                     </div>
                 </div>
                 <div className={styles.salary}>
-                    
-                    
                     <span className={styles.amount}>
                         {salary.toLocaleString("ko-KR")}원
                     </span>
                     <span className={styles.amount}>
-                        (추가수당:{bonusAmount.toLocaleString("ko-KR")}원)
-                    <button className={styles.addButton} onClick={openModal}>
-                        +
-                    </button>
+                        (추가수당: {bonusAmount.toLocaleString("ko-KR")}원)
+                        <span className={styles.addButton} onClick={openModal}>
+                            <IoMdAddCircleOutline />
+                        </span>
                     </span>
                 </div>
             </div>

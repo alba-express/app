@@ -1,20 +1,20 @@
 .container {
-  
     border: 1px solid #000;
-    margin-bottom: 10px;
-    background-color: #F0F0F0;
+    background-color: #ff8803;
     width: 1000px;
     padding: 10px;
-  }
-  
-  .salaryHeader {
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+}
+
+.salaryHeader {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-  }
-  
-  .buttonWrapper {
+}
+
+.buttonWrapper {
     position: absolute;
     width: 50px; /* 클릭 영역의 너비 */
     height: 50px; /* 클릭 영역의 높이 */
@@ -22,48 +22,52 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-  }
-  
-  .buttonWrapper:first-of-type {
+}
+
+.buttonWrapper:first-of-type {
     left: 0;
-  }
-  
-  .buttonWrapper:last-of-type {
+}
+
+.buttonWrapper:last-of-type {
     right: 0;
-  }
-  
-  .button {
-    color: red;
+}
+
+.button {
     background: none;
     border: none;
     font-size: 16px;
-    pointer-events: none; /* 이벤트가 부모 요소에서 처리되도록 설정 */
-  }
-  
-  .salaryText {
+    pointer-events: none;
+    background: none;
+    color: white;
+    display: flex;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.salaryText {
     font-size: 20px;
-  }
-  
-  .salaryBox {
+}
+
+.salaryBox {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #E0E0E0;
+    background-color: #fff;
     border: 1px solid #000;
     margin-top: 10px;
     padding: 10px;
-  }
-  
-  .salaryAmount {
+}
+
+.salaryAmount {
     font-size: 24px;
     color: green;
-  }
-  
-  .arrowButton {
+}
+
+.arrowButton {
     background: none;
     border: none;
     color: white;
     font-size: 2rem;
     cursor: pointer;
     width: 25px;
-  }
+}
