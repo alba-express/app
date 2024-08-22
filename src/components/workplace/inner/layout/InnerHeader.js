@@ -14,6 +14,7 @@ const InnerHeader = () => {
     const [latestNoticeTitle, setLatestNoticeTitle] = useState('공지사항 없음');
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const currentPage = useSelector(state => state.workplace.currentPage);
 
     const workplaceId = localStorage.getItem('workplaceId');
 
@@ -57,10 +58,10 @@ const InnerHeader = () => {
                      alt="Example"/>
                 <p className={styles['headerNoticeText']} onClick={NoticeModalHandler}>{latestNoticeTitle}</p>
             </div>
-            <Link to="/workplace" className={styles['link-text']}>
+            {(currentPage !== 5) && <Link to="/workplace" className={styles['link-text']}>
                 <button className={styles['headerButton']}>사업장변경</button>
-            </Link>
-            <button className={styles['headerButton']} onClick={handleLogout}>로그아웃</button>
+            </Link>}
+            {(currentPage !== 5) && <button className={styles['headerButton']} onClick={handleLogout}>로그아웃</button>}
 
             {/* 모달 컴포넌트 추가 */}
             {isModalOpen && (
