@@ -103,11 +103,13 @@ const SlaveInfoPage = () => {
   return (
     <>
         <div className={styles['content-box']}>
+
             <div className={styles['slaveInfoPage-HeaderBox']} >
                 <div className={styles['slaveInfoPage-HeaderTitle']} > 직원상세정보 </div>
                 <div className={styles['headerButton']} onClick={thisSlaveModifyHandler} > 직원수정 </div>
                 <div className={styles['headerButton']} onClick={() => thisSlaveFiredHandler(oneSlave.slaveId)} > 직원퇴사 </div>
             </div>
+            
             <div className={styles['slaveInfoPage-MiddleBox']}>
                 <div>
                     <div className={styles['slaveInfoPage-SlaveInfoBox']}>
