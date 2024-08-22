@@ -49,8 +49,21 @@
     border: 1px solid #ffc977;
     //-------------------------------------
     margin: 3.5% 0;
+    padding: 10px;
     //-------------------
     list-style-type: none;
+    border-radius: 10px;
+
+    .workplaceName {
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .workplaceAddress {
+      font-size: 20px;
+      text-align: center;
+    }
   }
   
   .leftMenu-box {
