@@ -12,7 +12,7 @@
     //-----------------------------------------
     padding-bottom: 15px;
     margin-bottom: 10px;
-    border-bottom: 1px solid rgba(0, 139, 134, 0.8);
+    border-bottom: 2px solid black;
   
     .slaveManagementHeader-title {
       // width: 7.6rem;
@@ -42,7 +42,7 @@
       justify-content: center;
       align-items: center;
       //----------------------
-      border: 1px solid rgba(0, 139, 134, 0.8);
+      //border: 1px solid rgba(0, 139, 134, 0.8);
       margin-bottom: -10px;
       cursor: pointer;
       //-------------
@@ -51,11 +51,11 @@
       7px 7px 20px 0px rgba(0,0,0,.1),
       4px 4px 5px 0px rgba(0,0,0,.1);
       //----------------------------------
-      background: rgba(0, 139, 134, 0.8);
+      background: #ff8803;
     }
     .headerButton:hover {
-      background: rgba(65, 63, 63, 0.7);
-      border: 1px solid rgba(65, 63, 63, 1);
+      background: #ff5e00;
+      //border: 1px solid rgba(65, 63, 63, 1);
       color: rgb(255, 255, 255);
       cursor: pointer;
     }
@@ -84,15 +84,19 @@
       align-items: center;
       //----------------------
       margin-right: 8px;
-      border: 1px solid rgba(65, 63, 63, 1);
+      //border: 1px solid rgba(65, 63, 63, 1);
       cursor: pointer;
       //-----------------------------------------
-      box-shadow:
-      inset 2px 2px 2px 0px rgba(255,255,255,.5),
-      7px 7px 20px 0px rgba(0,0,0,.1),
-      4px 4px 5px 0px rgba(0,0,0,.1);
+      //box-shadow:
+      //inset 2px 2px 2px 0px rgba(255,255,255,.5),
+      //7px 7px 20px 0px rgba(0,0,0,.1),
+      //4px 4px 5px 0px rgba(0,0,0,.1);
       //----------------------------------
-      background: rgba(65, 63, 63, 0.7);
+      background: #cccccc;
+
+      &:hover {
+        background-color: #bbbbbb;
+      }
     }
   
     .slaveListSelectType {
@@ -109,14 +113,14 @@
       align-items: center;
       //----------------------
       margin-right: 8px;
-      border: 1px solid rgba(0, 139, 134, 0.8);
+      //border: 1px solid rgba(0, 139, 134, 0.8);
       cursor: pointer;
       //-----------------------------------------
-      box-shadow: 
-      inset -4px -4px 6px 0 rgba(255,255,255,.2),
-      inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+      //box-shadow:
+      //inset -4px -4px 6px 0 rgba(255,255,255,.2),
+      //inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
       //----------------------------------
-      background: rgba(0, 139, 134, 0.8);
+      background: #ff8803;
     }
 
     .slaveListCount {
