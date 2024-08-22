@@ -42,23 +42,28 @@
   .logo-box:hover {
     cursor: pointer;
   }
-  
+
   .profile-box {
     width: 79%;
     height: 17%;
     border: 1px solid #ffc977;
     //-------------------------------------
     margin: 3.5% 0;
-    padding: 10px;
+     padding: 15px 15px;
     //-------------------
     list-style-type: none;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     .workplaceName {
       font-size: 30px;
       font-weight: bold;
       text-align: center;
-      margin: 20px;
+      // margin: 20px;
+      padding-bottom: 20px;
     }
 
     .workplaceAddress {
