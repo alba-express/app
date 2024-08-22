@@ -8,7 +8,7 @@ const SlaveModifyWageList = ({ onWages, oneSlave }) => {
   // 급여타입(wageType): 1 --> 시급 / 0 --> 월급
   // 4대보험 적용여부(wageInsurance): true, 1 --> 적용 / false, 0 --> 미적용
                             // 급여타입, 급여금액,       4대보험적용여부
-  const initialWageList = [{slaveWageType: 'null', slaveWageAmount: '', slaveWageInsurance: null}];
+  const initialWageList = [{modifyId: '', slaveWageType: 'null', slaveWageAmount: '', slaveWageInsurance: null}];
 
   // 급여리스트 상태값으로 관리하기
   const [wageList, setWageList] = useState(initialWageList);
@@ -18,18 +18,19 @@ const SlaveModifyWageList = ({ onWages, oneSlave }) => {
     // 로컬스토리지에서 받아온 선택한 직원의 정보에서 급여리스트 정보만 추출하기
     const modifyWageList = oneSlave().wageList;
 
+    console.log("급여정보", modifyWageList);
+    
+
     if (modifyWageList && modifyWageList.length > 0) {
       // modifyWageList가 존재하고 비어 있지 않을 때 wageList를 업데이트
-      setWageList(prev =>
-        prev.map(wage => ({
-          ...wage,
-          slaveWageType: modifyWageList[0].slaveWageType == '시급' ? true : modifyWageList[0].slaveWageType === '월급' ? false : wage.slaveWageType,
-          slaveWageAmount: modifyWageList[0].slaveWageAmount,
-          slaveWageInsurance: modifyWageList[0].slaveWageInsurance == '적용' ? true : modifyWageList[0].slaveWageInsurance === '미적용' ? false : wage.slaveWageInsurance,
-        }))
-      );
-    };
 
+      setWageList(
+        [{
+          modifyId: modifyWageList[0].slaveWageId, 
+          slaveWageType: modifyWageList[0].slaveWageType == '시급' ? true : modifyWageList[0].slaveWageType === '월급' ? false : wageList.slaveWageType,
+          slaveWageAmount: modifyWageList[0].slaveWageAmount,
+        }])
+    };
   }, []);
 
   // 급여방식선택에 따른 버튼 스타일 변경

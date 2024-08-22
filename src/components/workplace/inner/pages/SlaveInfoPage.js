@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './SlaveInfoPage.module.scss';
 import { useNavigate } from "react-router-dom";
 import SlaveInfoPageCommuteList from './slave/SlaveInfoPageCommuteList';
@@ -37,6 +37,31 @@ const SlaveInfoPage = () => {
 
     // oneSlave 정의하기
     const oneSlave = getOneSlave();
+
+    useEffect(()=> {console.log("한명보여줘", oneSlave);
+    }, [])
+
+    //-------------------------------------------------
+
+    // 근무정보리스트의 내역을 scheduleType (고정시간 -> true, 변동시간 -> false) 에 따라 렌더링 태그 변경하기
+
+    const isScheduleType = () => {
+        const scheduleTypeIsTrue = oneSlave.scheduleList.filter(schedule => schedule.scheduleType === true);
+
+        const scheduleTypeIsFalse = oneSlave.scheduleList.filter(schedule => schedule.scheduleType === false);
+
+        if (scheduleTypeIsTrue) {
+            return true;
+        } else if (scheduleTypeIsFalse || null) {
+            return false;
+        }
+    }
+
+
+    const isScheduleTypeTrue = oneSlave.scheduleList.some(schedule => schedule.scheduleType === true);
+
+
+
 
     //-------------------------------------------------
 
@@ -81,11 +106,14 @@ const SlaveInfoPage = () => {
                     </div>
                     <div className={styles['slaveInfoPage-SlaveWageBox']}>
                         <div className={styles['slaveInfoPage-SlaveWageTitle']}> 급여타입 / 금액 </div>
-                        {oneSlave.wageList.map((wage, index) => (
+                        {oneSlave.wageList
+                            .filter(wage => !wage.wageEndDate) // wageEndDate가 없는 항목만 필터링
+                            .map((wage, index) => (
                                 <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
                                     {wage.slaveWageType}, {wage.slaveWageAmount}
                                 </div>
-                            ))}
+                            ))
+                        }
                         
                     </div>
                 </div>
@@ -94,10 +122,18 @@ const SlaveInfoPage = () => {
                         <div className={styles['slaveInfoPage-SlaveScheduleTitle']}> 고정근무시간 </div>
                         <div className={styles['slaveInfoPage-SlaveScheduleContentBox']} >
                             <div>요일 /  시간</div>
-                            {oneSlave.scheduleList.map((schedule, index) => (
-                                <div key={index}> {schedule.scheduleDay} : {schedule.scheduleStart} ~ {schedule.scheduleEnd} </div>
-                            ))}
+
+
+                            {oneSlave.scheduleList
+                                .filter(schedule => schedule.scheduleEndDate === null) // scheduleEndDate가 null인 항목만 필터링
+                                .map((schedule, index) => (
+                                    <div key={index}>
+                                        {schedule.scheduleDay} : {schedule.scheduleStart} ~ {schedule.scheduleEnd}
+                                    </div>
+                                ))
+                            }
                         </div>
+
                     </div>
                 </div>
                 <div>
