@@ -65,6 +65,7 @@ const CommuteManage = () => {
             setValidationMessage("올바른 전화번호를 입력해 주세요.");
         }
     };
+
     const handleEmployeeClick = (employee) => {
         setSelectedEmployee(employee); // 클릭한 직원 정보 저장
         setShowInput(true); // 인풋창 표시
@@ -93,6 +94,12 @@ const CommuteManage = () => {
             setShowInput(false);
             setSelectedEmployee(null); // 인풋창이 숨겨지면 선택된 직원 정보 초기화
         }, 5000);
+    };
+
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            handleCheck();
+        }
     };
 
     return (
@@ -138,6 +145,7 @@ const CommuteManage = () => {
                                 onChange={handleInputChange}
                                 onFocus={handleInputFocus} // 포커스 시 타이머 중지
                                 onBlur={handleInputBlur} // 포커스 해제 시 타이머 재시작
+                                onKeyDown={handleKeyDown} // 엔터 키 이벤트 처리
                                 placeholder="전화번호 입력"
                                 className={styles['input-field']}
                             />
