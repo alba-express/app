@@ -31,6 +31,8 @@
     display: flex;
     justify-content: center;
     align-items: end;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
 
     img {
       width: 18rem; /* 로고의 크기를 적절히 조정 */
@@ -47,8 +49,21 @@
     border: 1px solid #ffc977;
     //-------------------------------------
     margin: 3.5% 0;
+    padding: 10px;
     //-------------------
     list-style-type: none;
+    border-radius: 10px;
+
+    .workplaceName {
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .workplaceAddress {
+      font-size: 20px;
+      text-align: center;
+    }
   }
   
   .leftMenu-box {
@@ -71,6 +86,7 @@
     box-shadow: 2px 2px 3px rgba(110, 110, 110, 0.5);
     //-------------------------------------------------
     text-decoration: none;
+    border-radius: 10px;
   
     img {
       width: 3rem;
