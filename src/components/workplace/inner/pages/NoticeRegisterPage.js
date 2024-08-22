@@ -27,11 +27,19 @@ const NoticeRegisterPage = () => {
         console.log('form 제출');
 
         const formData = new FormData(e.target);
+        const title = formData.get('title');
+        const content = formData.get('content');
         console.log('form: ', formData.get('title'));
 
+        // 제목과 내용이 비어 있는지 확인
+        if (!title || !content) {
+            alert('제목과 내용을 모두 입력해주세요.');
+            return; // 내용이 없으면 제출을 중단
+        }
+
         const payload = {
-            title: formData.get('title'),
-            content: formData.get('content'),
+            title: title,
+            content: content,
             workplaceId: workplaceId
         };
 
@@ -63,11 +71,20 @@ const NoticeRegisterPage = () => {
             <div className={styles.write}>
                 <p>
                     <label htmlFor="title">제목</label>
-                    <input id="title" type="text" name="title"/>
+                    <input
+                        id="title"
+                        type="text"
+                        name="title"
+                        maxLength={30}
+                        required/>
                 </p>
                 <p>
                     <label htmlFor="content">내용</label>
-                    <textarea id="content" name="content" rows="5"/>
+                    <textarea
+                        id="content"
+                        name="content"
+                        rows="5"
+                        required/>
                 </p>
 
                 <div className={styles.info}>
