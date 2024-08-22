@@ -145,7 +145,7 @@
   .slaveRegistPageHeader-box {
     width: 86rem;
     height: 3.5rem;
-    background: rgba(0, 139, 134, 0.8);
+    background: #ff8803;
     // background: rgba(0, 0, 0, 0.5);
     //-----------------------------------
     font-size: 25px;
@@ -258,14 +258,18 @@
           font-weight: 600;
           color: rgb(255, 255, 255);
           //--------------------------
-          border: 1px solid rgba(65, 63, 63, 1);
+          //border: 1px solid rgba(65, 63, 63, 1);
           //--------------------------------------
           box-shadow:
           inset 2px 2px 2px 0px rgba(255,255,255,.5),
           7px 7px 20px 0px rgba(0,0,0,.1),
           4px 4px 5px 0px rgba(0,0,0,.1);
           //----------------------------------
-          background: rgba(65, 63, 63, 0.7);
+          background: #ff8803;
+          
+          &:hover {
+            background: #ff5e00;
+          }
         }
   
         .slaveRegistPage-button {
@@ -281,7 +285,7 @@
           font-weight: 600;
           color: rgb(255, 255, 255);
           //--------------------------
-          border: 1px solid rgba(0, 139, 134, 0.8);
+          //border: 1px solid rgba(0, 139, 134, 0.8);
           //--------------------------------------
           cursor: pointer;
           //-------------------------------------------
@@ -290,12 +294,13 @@
           7px 7px 20px 0px rgba(0,0,0,.1),
           4px 4px 5px 0px rgba(0,0,0,.1);
           //----------------------------------
-          background: rgba(0, 139, 134, 0.8);
+          background: #cccccc;
+
         }
         .slaveRegistPage-button:hover {
-          background: rgba(65, 63, 63, 0.7);
+          background: #bbbbbb;
           color: rgb(255, 255, 255);
-          border: 1px solid rgba(65, 63, 63, 1);
+          //border: 1px solid rgba(65, 63, 63, 1);
           cursor: pointer;
         }
       }

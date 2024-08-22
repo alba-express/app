@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './SlaveInfoPage.module.scss';
 import { useNavigate } from "react-router-dom";
 import SlaveInfoPageCommuteList from './slave/SlaveInfoPageCommuteList';
@@ -38,6 +38,28 @@ const SlaveInfoPage = () => {
     // oneSlave 정의하기
     const oneSlave = getOneSlave();
 
+    useEffect(()=> {console.log("한명보여줘", oneSlave);
+    }, [])
+
+    //-------------------------------------------------
+
+    // 근무정보리스트의 내역을 scheduleType (고정시간 -> true, 변동시간 -> false) 에 따라 렌더링 태그 변경하기
+
+    const isScheduleType = () => {
+        const scheduleTypeIsTrue = oneSlave.scheduleList.filter(schedule => schedule.scheduleType === true);
+
+        const scheduleTypeIsFalse = oneSlave.scheduleList.filter(schedule => schedule.scheduleType === false);
+
+        if (scheduleTypeIsTrue) {
+            return true;
+        } else if (scheduleTypeIsFalse || null) {
+            return false;
+        }
+    }
+
+
+    const isScheduleTypeTrue = oneSlave.scheduleList.some(schedule => schedule.scheduleType === true);
+
     //-------------------------------------------------
 
     // 페이지를 이동시킬때 사용하는 useNavigate 생성하기
@@ -49,6 +71,33 @@ const SlaveInfoPage = () => {
       navigate(`/detail/slave-modify`);
     };
 
+    // 직원퇴사버튼을 클릭했을 때 해당 직원 퇴사시키기
+    const thisSlaveFiredHandler = async (slaveId) => {
+
+        try {
+            // 서버로 요청 보내기
+            const response = await fetch(`http://localhost:8877/detail/slave-fired/${slaveId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+      
+            // 응답 처리
+            if (response.ok) {
+              alert("직원의 탈퇴 요청이 성공적으로 처리되었습니다.");
+              // 해당 직원 상세페이지로 이동하기
+              navigate(`/detail/slave-manage`);
+
+            } else {
+                console.error('탈퇴 요청 처리 실패:', response.statusText);
+            }
+          } catch (error) {
+              console.error('서버 요청 오류:', error);
+          }
+        
+    };
+
     //-------------------------------------------------
 
   return (
@@ -57,6 +106,7 @@ const SlaveInfoPage = () => {
             <div className={styles['slaveInfoPage-HeaderBox']} >
                 <div className={styles['slaveInfoPage-HeaderTitle']} > 직원상세정보 </div>
                 <div className={styles['headerButton']} onClick={thisSlaveModifyHandler} > 직원수정 </div>
+                <div className={styles['headerButton']} onClick={() => thisSlaveFiredHandler(oneSlave.slaveId)} > 직원퇴사 </div>
             </div>
             <div className={styles['slaveInfoPage-MiddleBox']}>
                 <div>
@@ -81,11 +131,14 @@ const SlaveInfoPage = () => {
                     </div>
                     <div className={styles['slaveInfoPage-SlaveWageBox']}>
                         <div className={styles['slaveInfoPage-SlaveWageTitle']}> 급여타입 / 금액 </div>
-                        {oneSlave.wageList.map((wage, index) => (
+                        {oneSlave.wageList
+                            .filter(wage => !wage.wageEndDate) // wageEndDate가 없는 항목만 필터링
+                            .map((wage, index) => (
                                 <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
-                                    {wage.slaveWageType}, {wage.slaveWageAmount}
+                                    {wage.slaveWageType}, {wage.slaveWageAmount}원
                                 </div>
-                            ))}
+                            ))
+                        }
                         
                     </div>
                 </div>
@@ -94,10 +147,18 @@ const SlaveInfoPage = () => {
                         <div className={styles['slaveInfoPage-SlaveScheduleTitle']}> 고정근무시간 </div>
                         <div className={styles['slaveInfoPage-SlaveScheduleContentBox']} >
                             <div>요일 /  시간</div>
-                            {oneSlave.scheduleList.map((schedule, index) => (
-                                <div key={index}> {schedule.scheduleDay} : {schedule.scheduleStart} ~ {schedule.scheduleEnd} </div>
-                            ))}
+
+
+                            {oneSlave.scheduleList
+                                .filter(schedule => schedule.scheduleEndDate === null) // scheduleEndDate가 null인 항목만 필터링
+                                .map((schedule, index) => (
+                                    <div key={index}>
+                                        {schedule.scheduleDay} : {schedule.scheduleStart} ~ {schedule.scheduleEnd}
+                                    </div>
+                                ))
+                            }
                         </div>
+
                     </div>
                 </div>
                 <div>

@@ -13,7 +13,7 @@
 
 .modal {
   width: 50%;
-  height: 60%;
+  height: 70%;
   background: #fff;
   padding: 20px;
   border-radius: 5px;
@@ -38,9 +38,10 @@
   .content {
     font-size: 20px;
     flex: 1;
-    padding: 30px 0;
+    padding: 30px 20px;
     border-top: 2px solid rgba(0, 0, 0, 0.5);
     white-space: pre-wrap;
+    overflow: auto;
   }
 
   .buttonContainer {
@@ -62,6 +63,7 @@
   cursor: pointer;
   width: 80px;
   align-self: center;
+  font-weight: bold;
 
   &:hover {
     background: #ff5e00;
