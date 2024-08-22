@@ -159,68 +159,65 @@ const SlaveManagePageSlaveStatusList = () => {
 
 //-------------------------------------------------
 
-
-  // const isScheduleTypeTrue = slaveList.map(oneSlave => oneSlave.slaveScheduleList.some(schedule => schedule.scheduleType === true));
-
   return (
     <>
-      {showWhichSlaveList.slaveList.length === 0 ? 
-      ( <div className={`${styles['link-text']} ${styles['slaveManagementList-nonSlave']}`}> 직원정보없음 </div> ) 
-      :
-      (showWhichSlaveList.slaveList.map((oneSlave) => 
-        (
+      <div className={styles['content-box']}>
+        {showWhichSlaveList.slaveList.length === 0 ? 
+        ( <div className={`${styles['link-text']} ${styles['slaveManagementList-nonSlave']}`}> 직원정보없음 </div> ) 
+        :
+        (showWhichSlaveList.slaveList.map((oneSlave) => 
+          (
             <div key={oneSlave.slaveId} onClick={() => selectOneSlaveHandler(oneSlave.slaveId)} style={{height: `${oneSlave.slaveScheduleList.length * 2.5}rem`}} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
-            
-            <div className={styles['slaveManagementList-OneSlaveName']} >
-              {oneSlave.slaveName}
-            </div>
 
-            <div className={styles['slaveManagementList-OneSlavePosition']} >
-              {oneSlave.slavePosition}
-            </div>
-
-            {/* 급여리스트 */}
-            {oneSlave.slaveWageList.map((wage) => 
-              <div key={wage.slaveWageId} className={styles['slaveManagementList-OneSlaveWage']}>
-                <div className={styles['slaveManagementList-OneSlaveMoneyType']} >
-                    {wage.slaveWageType}, {wage.slaveWageAmount}원
+              <div className={styles['slaveManagementList-OneSlaveNameAndPosition']}>
+                <div className={styles['slaveManagementList-OneSlaveName']} >
+                  {oneSlave.slaveName}
                 </div>
-                <div className={styles['slaveManagementList-OneSlaveInsurance']} >
-                  4대보험 {wage.slaveWageInsurance}
+                <div className={styles['slaveManagementList-OneSlavePosition']} >
+                  {oneSlave.slavePosition}
                 </div>
               </div>
-            )}
-
-            {/* 근무리스트 */}
-            {oneSlave.slaveScheduleList.some(schedule => schedule.scheduleType === true) ? (
-              <div className={styles['slaveManagementList-OneSlaveScheduleList']}>
-                <div>
-                  {oneSlave.slaveScheduleList
-                    .filter(schedule => schedule.scheduleType === true)
-                    .map(schedule => Array.isArray(schedule.scheduleDay) 
-                      ? schedule.scheduleDay.map(day => day.charAt(0)).join(', ') // 요일의 첫 글자만 추출
-                      : schedule.scheduleDay.charAt(0))
-                    .join(', ')} 
-                  , {oneSlave.slaveScheduleList[0].scheduleStart} ~ {oneSlave.slaveScheduleList[0].scheduleEnd}
-                </div>
-              </div>
-            ) : (
-              <div className={styles['slaveManagementList-OneSlaveScheduleList']}>
-                {oneSlave.slaveScheduleList.map((schedule) => 
-                  <div key={schedule.slaveScheduleId} className={styles['slaveManagementList-OneSlaveScheduleOne']}>
-                    {schedule.scheduleDay} {schedule.scheduleStart} 부터 {schedule.scheduleEnd} 까지
+              {/* 급여리스트 */}
+              {oneSlave.slaveWageList.map((wage) => 
+                <div key={wage.slaveWageId} className={styles['slaveManagementList-OneSlaveWage']}>
+                  <div className={styles['slaveManagementList-OneSlaveMoneyType']} >
+                      {wage.slaveWageType} {wage.slaveWageAmount}원
                   </div>
-                )}
+                  <div className={styles['slaveManagementList-OneSlaveInsurance']} >
+                    4대보험 {wage.slaveWageInsurance}
+                  </div>
+                </div>
+              )}
+              <div className={styles['slaveManagementList-OneSlaveJoin']} >
+                {oneSlave.slaveCreatedAt}
               </div>
-            )}
-
-            <div className={styles['slaveManagementList-OneSlaveJoin']} >
-              {oneSlave.slaveCreatedAt}
+              {/* 근무리스트 */}
+              {oneSlave.slaveScheduleList.some(schedule => schedule.scheduleType === true) ? (
+                <div className={styles['slaveManagementList-OneSlaveScheduleList']}>
+                  <div>
+                    {oneSlave.slaveScheduleList
+                      .filter(schedule => schedule.scheduleType === true)
+                      .map(schedule => Array.isArray(schedule.scheduleDay) 
+                        ? schedule.scheduleDay.map(day => day.charAt(0)).join(', ') // 요일의 첫 글자만 추출
+                        : schedule.scheduleDay.charAt(0))
+                      .join(', ')} 
+                    , {oneSlave.slaveScheduleList[0].scheduleStart} - {oneSlave.slaveScheduleList[0].scheduleEnd}
+                  </div>
+                </div>
+              ) : (
+                <div className={styles['slaveManagementList-OneSlaveScheduleList']}>
+                  {oneSlave.slaveScheduleList.map((schedule) => 
+                    <div key={schedule.slaveScheduleId} className={styles['slaveManagementList-OneSlaveScheduleOne']}>
+                      {schedule.scheduleDay} {schedule.scheduleStart} - {schedule.scheduleEnd}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-          </div>
-        )
-      ))
-      }
+          )
+        ))
+        }
+      </div>
     </>
   )
 }

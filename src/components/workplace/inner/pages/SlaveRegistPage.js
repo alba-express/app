@@ -199,7 +199,7 @@ const SlaveRegistPage = () => {
             <div className={styles['slaveRegistPage']} >
 
                 <div className={styles['slaveRegistPageHeader-box']} >
-                    직원등록
+                    <div className={styles['slaveRegistPageHeader-title']}> 직원등록 </div>
                 </div>
 
                 <form onSubmit={sendSlaveInputHandler} className={styles['slaveRegistPageForm-box']} >
@@ -232,8 +232,6 @@ const SlaveRegistPage = () => {
 
                         </div>
 
-                        <div className={styles['slaveRegistPageForm-middle']}></div>
-
                         <div className={styles['slaveRegistPageForm-right']}>
 
                             {/* 근무정보리스트 */}
@@ -247,6 +245,9 @@ const SlaveRegistPage = () => {
                             <Link to="/detail/slave-manage" className={styles['link-text']} > 
                                 <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
+                        </div>
+                        
+                        <div className={styles['slaveRegistPageButton-box']} >
                             <button type={formButtonType} className={formButtonStyle} > 등록 </button>
                         </div>
                     </div>
