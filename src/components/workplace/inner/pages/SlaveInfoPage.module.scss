@@ -6,18 +6,21 @@
     height: 1%;
     //-----------
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    // border: 3px solid red;
+    justify-content: space-between;
+    //-----------------------------------------
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid black;
   
     .slaveInfoPage-HeaderTitle {
-      width: 12rem;
+      // width: 7.6rem;
       height: 3rem;
       //----------------------------
-      font-size: 25px;
-      font-weight: 700;
+      font-size: 40px;
+      font-weight: 900;
       letter-spacing: 2px;
-      color: rgba(43, 42, 42, 0.9);
+      color: rgba(42, 43, 43, 0.8);
       //-----------------------------
       // border: 3px solid red;
     }
@@ -28,24 +31,25 @@
     }
   
     .headerButton {
-      width: 6.5rem;
+      width: 7rem;
       height: 2.5rem;
-      background: #ff8803;
-      //------------------------------------
-      color: rgb(255, 255, 255);
-      font-weight: 600;
       //--------------------------
+      background-color: #ff8803;
+      font-weight: 600;
+      color: rgb(255, 255, 255);
+      //----------------------
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       //----------------------
-      margin-left: 10px;
       border: none;
-      //border: 1px solid rgba(0, 139, 134, 0.8);
+      border-radius: 5px;
+      margin-right: 8px;
+      cursor: pointer;
     }
     .headerButton:hover {
-      background: #ff5e00;
-      color: rgb(255, 255, 255);
+      background-color: #ff5e00;
       cursor: pointer;
     }
   }
@@ -67,6 +71,7 @@
         font-size: 18px;
         font-weight: 600;
         padding: 15px;
+
       }
       .slaveInfoPage-SlaveInfoContentBox {
         padding: 0 15px 0 15px;
