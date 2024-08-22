@@ -48,7 +48,7 @@ const SalaryList = ({
                 (prev) => (prev += (log.fifthWorkingTime * hourlyWage) / 5)
             );
         }
-        dispatch(wageActions.setBenefit({benefit: benefit}));
+        dispatch(wageActions.setBenefit({ benefit: benefit }));
     }, []);
 
     return (
@@ -99,7 +99,7 @@ const SalaryList = ({
                 <div>
                     {insurance && (
                         <span className={styles.realAmount}>
-                            실급여:
+                            실급여:{" "}
                             {Math.floor(
                                 ((totalSalary + benefit) / 100) * 90.61
                             ).toLocaleString("ko-KR")}
@@ -114,7 +114,7 @@ const SalaryList = ({
                     원
                 </span>
                 {wageType && (
-                    <span className={styles.role} onClick={detailHandler}>
+                    <span className={styles.daily} onClick={detailHandler}>
                         일별급여보기
                     </span>
                 )}

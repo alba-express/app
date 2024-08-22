@@ -1,102 +1,122 @@
-.link-text {
-  text-decoration: none;
-  color: rgb(0, 0, 0, 1);
-}
+.content-box {
+  font-size: 16px;
 
-.slaveManagementList-nonSlave {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  //----------------------
-  width: 100%;
-  height: 5rem;
-  //------------
-  background: white;
-  //-------------------
-  border: 3px solid white;
-  border-radius: 5px;
-}
-
-.slaveManagementList-OneSlave {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-  padding: 10px 0;
-  width: 100%;
-  // height: 5rem;
-  // // 기본 높이 2, 근무시간 배열 사이즈에 따라 2rem씩 추가하기
-  border: 3px solid white;
-  background: white;
-  border-radius: 5px;
-  display: flex;
+  .link-text {
+    text-decoration: none;
+    color: rgb(0, 0, 0, 1);
+  }
   
-  &-common {
-    height: 2rem;
+  .slaveManagementList-nonSlave {
     display: flex;
     justify-content: center;
     align-items: center;
-    // margin-right: 20px;
+    //----------------------
+    width: 100%;
+    height: 5rem;
+    //------------
+    background: white;
+    //-------------------
+    border: 3px solid white;
+    border-radius: 5px;
   }
-
-  &Name {
-    @extend .slaveManagementList-OneSlave-common;
-    width: 11.1rem;
-    margin: 0 0.5rem;
+  
+  .slaveManagementList-OneSlave {
     display: flex;
-    justify-content: right;
-    // border: 1px solid red;
-  }
-
-  &Position {
-    @extend .slaveManagementList-OneSlave-common;
-    width: 7rem;
+    // justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px 0;
+    width: 100%;
+    // height: 5rem;
+    // // 기본 높이 2, 근무시간 배열 사이즈에 따라 2rem씩 추가하기
+    border: 3px solid white;
+    background: white;
+    border-radius: 5px;
     display: flex;
-    justify-content: left;
-    // border: 1px solid red;
-  }
-
-  &Wage {
-    @extend .slaveManagementList-OneSlave-common;
-    width: 18rem;
-    // border: 1px solid red;
-
-    .slaveManagementList-OneSlaveMoneyType {
-      width: 11rem;
-      // border: 1px solid red;
-      //----------------------
+    
+    &-common {
+      height: 2rem;
       display: flex;
-      justify-content: center;
-    }
-    .slaveManagementList-OneSlaveInsurance {
-      width: 5rem;
-      // border: 1px solid red;
-      //----------------------
-      display: flex;
-      justify-content: center;
-    }
-  }
-
-  &ScheduleList {
-    @extend .slaveManagementList-OneSlave-common;
-    width: 25rem;
-    display: flex;
-    flex-direction: column;
-    // border: 1px solid rgb(38, 0, 255);
-
-    .slaveManagementList-OneSlaveScheduleOne {
-      width: 25rem;
-      //-----------
-      display: flex;
-      justify-content: center;
-      // border: 1px solid red;
+      // justify-content: center;
+      align-items: center;
+      // margin-right: 20px;
     }
 
-  }
+    .slaveManagementList-OneSlaveNameAndPosition {
+      width: 17.5rem;
+      // border: 1px solid red;
+      display: flex;
+      .slaveManagementList-OneSlaveName {
+        @extend .slaveManagementList-OneSlave-common;
+        width: 11rem;
+        margin: 0 0.5rem;
+        display: flex;
+        justify-content: right;
+        // border: 1px solid red;
+      }
+    
+      .slaveManagementList-OneSlavePosition {
+        @extend .slaveManagementList-OneSlave-common;
+        // width: 7rem;
+        height: 1.7rem;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 0 3px;
+        display: flex;
+        justify-content: left;
+        color: rgb(255, 255, 255);
+        background: rgb(42, 157, 143);
+        border-radius: 5px;
+        margin-right: 1rem;
+      }
+    }
+  
+    &Wage {
+      @extend .slaveManagementList-OneSlave-common;
+      width: 20rem;
+      // border: 1px solid red;
+  
+      .slaveManagementList-OneSlaveMoneyType {
+        width: 10rem;
+        // border: 1px solid red;
+        //----------------------
+        display: flex;
+        justify-content: right;
+      }
+      .slaveManagementList-OneSlaveInsurance {
+        width: 8rem;
+        // border: 1px solid red;
+        //----------------------
+        display: flex;
+        justify-content: center;
+      }
+    }
 
-  &Join {
-    @extend .slaveManagementList-OneSlave-common;
-    width: 16rem;
-    // border: 1px solid red;
+    &Join {
+      @extend .slaveManagementList-OneSlave-common;
+      display: flex;
+      justify-content: center;
+      width: 19rem;
+      // border: 1px solid red;
+    }
+  
+    &ScheduleList {
+      @extend .slaveManagementList-OneSlave-common;
+      width: 24rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      // border: 1px solid rgb(38, 0, 255);
+  
+      .slaveManagementList-OneSlaveScheduleOne {
+        width: 25rem;
+        //-----------
+        display: flex;
+        justify-content: center;
+        // border: 1px solid red;
+      }
+  
+    }
   }
 }

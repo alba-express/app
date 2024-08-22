@@ -2,8 +2,9 @@ import React, {useEffect, useState} from "react";
 import styles from "./ScheduleManagePage.module.scss";
 import {Link, useNavigate} from "react-router-dom";
 import ScheduleCalendarPage from "./ScheduleCalendarPage";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AiOutlineMinusCircle} from "react-icons/ai";
+import { workplaceActions } from "../../../../store/workplace-slice";
 
 
 const ScheduleManagePage = () => {
@@ -17,6 +18,13 @@ const ScheduleManagePage = () => {
     const workplaceId = localStorage.getItem('workplaceId');
 
     const navigate = useNavigate();
+
+        // 괴도 박성진 다녀감
+        const dispatch = useDispatch();
+        useEffect(() => {
+            dispatch(workplaceActions.setCurrentPage({currentPage: 3}));
+        }, [])
+        // 괴도 박성진 다녀감
 
     useEffect(() => {
         const fetchSchedule = async () => {
