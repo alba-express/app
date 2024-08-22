@@ -51,7 +51,7 @@ const SlaveManagePageSlaveStatusList = () => {
           return response.json();
         })
         .then(slaveDto => {
-          // console.log('전체직원', slaveDto);
+          console.log('전체직원', slaveDto);
           
           dispatch(slaveActions.setAllSlaveInfo(slaveDto));
           localStorage.setItem('allSlaveList', showAllSlaveInfo); // 전체 직원 정보 목록 로컬스토리지에 저장
@@ -92,6 +92,14 @@ const SlaveManagePageSlaveStatusList = () => {
   // true 라면 근무중인 직원리스트를, false 라면 퇴사한 직원리스트를 렌더링하는 조건식을 변수에 담기
   const showWhichSlaveList = showSlaveList ? showActiveSlaveInfo : showInactiveSlaveInfo;
 
+  const slaveStyleBoxHeight = () => {
+
+    // 전체직원 -> 근무/퇴직직원 -> 근무정보리스트의 개수
+    const slaveScheduleListCount = showWhichSlaveList.slaveList.map(slave => slave.slaveScheduleList.length);
+
+    return slaveScheduleListCount;
+  }
+
   //-------------------------------------------------
 
   const navigate = useNavigate();
@@ -122,7 +130,7 @@ const SlaveManagePageSlaveStatusList = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
-  
+
   return (
     <>
       {showWhichSlaveList.slaveList.length === 0 ? 
@@ -130,7 +138,7 @@ const SlaveManagePageSlaveStatusList = () => {
       :
       (showWhichSlaveList.slaveList.map((oneSlave) => 
         (
-          <div key={oneSlave.slaveId} onClick={() => selectOneSlaveHandler(oneSlave.slaveId)} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
+            <div key={oneSlave.slaveId} onClick={() => selectOneSlaveHandler(oneSlave.slaveId)} style={{height: `${oneSlave.slaveScheduleList.length * 2.5}rem`}} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
             
             <div className={styles['slaveManagementList-OneSlaveName']} >
               {oneSlave.slaveName}
@@ -143,11 +151,10 @@ const SlaveManagePageSlaveStatusList = () => {
             {oneSlave.slaveWageList.map((wage) => 
               <div key={wage.slaveWageId} className={styles['slaveManagementList-OneSlaveWage']}>
                 <div className={styles['slaveManagementList-OneSlaveMoneyType']} >
-                    급여타입 : {wage.slaveWageType}
-                    금액: {wage.slaveWageAmount}
+                    {wage.slaveWageType}, {wage.slaveWageAmount}원
                 </div>
                 <div className={styles['slaveManagementList-OneSlaveInsurance']} >
-                  4대보험 : {wage.slaveWageInsurance}
+                  4대보험 {wage.slaveWageInsurance}
                 </div>
               </div>
             )}
