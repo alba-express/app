@@ -138,7 +138,7 @@ const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
             type="time" 
             className={styles['slaveRegistPageInputSchedule-input']} 
             onChange={startTimeHandler}
-            value={inputStartSchedule} 
+            value={fixedDays.startSchedule} 
           />
           부터
         </label>
@@ -148,7 +148,7 @@ const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
             type="time" 
             className={styles['slaveRegistPageInputSchedule-input']} 
             onChange={endTimeHandler}
-            value={inputEndSchedule} 
+            value={fixedDays.endSchedule} 
           />
           까지
         </label>
