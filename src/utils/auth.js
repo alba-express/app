@@ -27,6 +27,15 @@ export const getUserId = () => {
     console.log("Parsed Token:", parsedToken); // 파싱된 토큰 로그
     return parsedToken ? parsedToken.sub : null;
 };
+// jwt 토큰에서 이메일을 추출
+export const getUserEmail = () => {
+    const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt');
+    if (!token) return null;
+
+    const parsedToken = parseJwt(token); // 토큰을 파싱하여 JSON 객체로 변환
+    return parsedToken ? parsedToken.email : null; // 'email' 클레임 반환
+};
+
 
 // jwt 토큰 저장
 export const saveUserToken = (token, rememberMe) => {

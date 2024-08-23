@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { removeUserToken } from '../../../utils/auth';
+import {getUserEmail, removeUserToken} from '../../../utils/auth';
 import ConfirmRetireModal from './ConfirmRetireModal';
 import styles from '../pages/commonStyles.module.scss';
+import useAuth from "../../../hooks/useAuth";
 
 const RetirePage = () => {
     const [password, setPassword] = useState('');
@@ -14,10 +15,13 @@ const RetirePage = () => {
         setPassword(event.target.value);
     };
 
+    const userEmail = getUserEmail();
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const email = localStorage.getItem('userId') || sessionStorage.getItem('userId');
+
+
+        const email =  sessionStorage.getItem('userId') || userEmail ;
         if (!email) {
             setError('No email found in storage');
             return;
