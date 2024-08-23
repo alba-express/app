@@ -58,58 +58,70 @@ const InnerMainPage = () => {
         const fetchEmployees = async () => {
             try {
                 const formattedDate = selectedDate.toISOString().split('T')[0]; // yyyy-mm-dd 형식으로 변환
-                const response = await axios.get(`http://localhost:8877/schedule/employees?workplaceId=${workplaceIdByStore}&date=${formattedDate}`);
-                const employees = response.data;
-                const currentTime = new Date(); // 현재 시간
-                const currentDate = new Date().setHours(0, 0, 0, 0); // 오늘 날짜 자정 기준
-                const selectedDateStartOfDay = new Date(selectedDate).setHours(0, 0, 0, 0); // 선택된 날짜 자정 기준
-                const selectedDateEndOfDay = new Date(selectedDate).setHours(23, 59, 59, 999); // 선택된 날짜의 마지막 시간
+                // const response = await axios.get(`http://localhost:8877/schedule/employees?workplaceId=${workplaceIdByStore}&date=${formattedDate}`);
+                const res = await fetch(`http://localhost:8877/detail/schedule-log-list?workplaceId=${workplaceIdByStore}&date=${formattedDate}`);
+                // const employees = response.data;
+                const employees = await res.json();
+                // const currentTime = new Date(); // 현재 시간
+                // const currentDate = new Date().setHours(0, 0, 0, 0); // 오늘 날짜 자정 기준
+                // const selectedDateStartOfDay = new Date(selectedDate).setHours(0, 0, 0, 0); // 선택된 날짜 자정 기준
+                // const selectedDateEndOfDay = new Date(selectedDate).setHours(23, 59, 59, 999); // 선택된 날짜의 마지막 시간
 
+                
+                const beforeWorking = [];
                 const working = [];
-                const notStarted = [];
-                const offDuty = [];
+                const endWorking = [];
                 const misc = [];
 
                 for (const employee of employees) {
+                    if(employee.dailyAtt === "출근예정") {
+                        beforeWorking.push(employee);
+                    } else if(employee.dailyAtt === "근무중") {
+                        working.push(employee);
+                    } else if(employee.dailyAtt === "결근" || employee.dailyAtt === "지각" || employee.dailyAtt === "조퇴" || employee.dailyAtt === "정상근무") {
+                        endWorking.push(employee);
+                    } else {
+                        misc.push(employee);
+                    }
                     // 현재 선택된 날짜에 해당하는 스케줄 로그를 가져옵니다.
-                    const logResponse = await axios.get(`http://localhost:8877/schedule/current-log?slaveId=${employee.id}&date=${formattedDate}`);
-                    const log = logResponse.data;
+                    // const logResponse = await axios.get(`http://localhost:8877/schedule/current-log?slaveId=${employee.id}&date=${formattedDate}`);
+                    // const log = logResponse.data;
 
-                    const startTime = new Date(`${formattedDate}T${employee.scheduleStart}`);
-                    const endTime = new Date(`${formattedDate}T${employee.scheduleEnd}`);
+                    // const startTime = new Date(`${formattedDate}T${employee.scheduleStart}`);
+                    // const endTime = new Date(`${formattedDate}T${employee.scheduleEnd}`);
 
                     // 스케줄 로그의 시작과 끝이 선택된 날짜에 해당하는지 확인
-                    const logStartDate = log ? new Date(log.scheduleLogStart) : null;
-                    const logEndDate = log && log.scheduleLogEnd ? new Date(log.scheduleLogEnd) : null;
+                    // const logStartDate = log ? new Date(log.scheduleLogStart) : null;
+                    // const logEndDate = log && log.scheduleLogEnd ? new Date(log.scheduleLogEnd) : null;
 
-                    if (selectedDateStartOfDay < currentDate) { // 선택된 날짜가 과거일 경우
-                        if (logStartDate && logEndDate && logEndDate <= selectedDateEndOfDay) {
-                            offDuty.push(employee); // 과거에 퇴근한 경우
-                        } else if (logStartDate && !logEndDate && logStartDate <= selectedDateEndOfDay) {
-                            misc.push({ ...employee, status: '조퇴' }); // 과거에 조퇴한 경우
-                        } else if (!logStartDate || logStartDate > selectedDateEndOfDay) {
-                            misc.push({ ...employee, status: '결근' }); // 과거에 결근한 경우
-                        }
-                    } else if (selectedDateStartOfDay > currentDate) { // 선택된 날짜가 미래일 경우
-                        notStarted.push(employee); // 출근 전 (미래에는 로그가 없으므로)
-                    } else { // 선택된 날짜가 오늘인 경우
-                        if (logStartDate && !logEndDate) {
-                            working.push(employee); // 근무 중
-                        } else if (!logStartDate && currentTime < startTime) {
-                            notStarted.push(employee); // 출근 전
-                        } else if (logEndDate && logEndDate < endTime) {
-                            misc.push({ ...employee, status: '조퇴' }); // 조퇴
-                        } else if (logEndDate) {
-                            offDuty.push(employee); // 퇴근
-                        } else if (!logStartDate) {
-                            misc.push({ ...employee, status: '결근' }); // 결근
-                        }
-                    }
+                    // if (selectedDateStartOfDay < currentDate) { // 선택된 날짜가 과거일 경우
+                    //     if (logStartDate && logEndDate && logEndDate <= selectedDateEndOfDay) {
+                    //         endWorking.push(employee); // 과거에 퇴근한 경우
+                    //     } else if (logStartDate && !logEndDate && logStartDate <= selectedDateEndOfDay) {
+                    //         misc.push({ ...employee, status: '조퇴' }); // 과거에 조퇴한 경우
+                    //     } else if (!logStartDate || logStartDate > selectedDateEndOfDay) {
+                    //         misc.push({ ...employee, status: '결근' }); // 과거에 결근한 경우
+                    //     }
+                    // } else if (selectedDateStartOfDay > currentDate) { // 선택된 날짜가 미래일 경우
+                    //     beforeWorking.push(employee); // 출근 전 (미래에는 로그가 없으므로)
+                    // } else { // 선택된 날짜가 오늘인 경우
+                    //     if (logStartDate && !logEndDate) {
+                    //         working.push(employee); // 근무 중
+                    //     } else if (!logStartDate && currentTime < startTime) {
+                    //         beforeWorking.push(employee); // 출근 전
+                    //     } else if (logEndDate && logEndDate < endTime) {
+                    //         misc.push({ ...employee, status: '조퇴' }); // 조퇴
+                    //     } else if (logEndDate) {
+                    //         endWorking.push(employee); // 퇴근
+                    //     } else if (!logStartDate) {
+                    //         misc.push({ ...employee, status: '결근' }); // 결근
+                    //     }
+                    // }
                 }
 
                 setWorkingEmployees(working);
-                setNotStartedEmployees(notStarted);
-                setOffDutyEmployees(offDuty);
+                setNotStartedEmployees(beforeWorking);
+                setOffDutyEmployees(endWorking);
                 setMiscEmployees(misc);
             } catch (error) {
                 console.error('직원 정보 페치 오류:', error);
@@ -235,33 +247,33 @@ const InnerMainPage = () => {
                     <div className={styles.scheduleTable}>
                         <div className={styles.scheduleColumn}>
                             <p className={styles.columnTitle}>출근전 ({notStartedEmployees.length})</p>
-                            {notStartedEmployees.map(employee => (
-                                <p key={employee.id} className={styles.scheduleEntry}>
-                                    {employee.slaveName} ({employee.slavePosition}) {employee.scheduleStart} 출근 예정
+                            {notStartedEmployees.map((employee, index) => (
+                                <p key={notStartedEmployees.length - index} className={styles.scheduleEntry}>
+                                    {employee.slaveName} ({employee.slavePosition})<br/> {employee.scheduleStart} ~ {employee.scheduleEnd}
                                 </p>
                             ))}
                         </div>
                         <div className={styles.scheduleColumn}>
                             <p className={styles.columnTitle}>근무중 ({workingEmployees.length})</p>
-                            {workingEmployees.map(employee => (
-                                <p key={employee.id} className={styles.scheduleEntry}>
-                                    {employee.slaveName} ({employee.slavePosition}) {employee.scheduleStart} 출근
+                            {workingEmployees.map((employee, index) => (
+                                <p key={workingEmployees.length - index} className={styles.scheduleEntry}>
+                                    {employee.slaveName} ({employee.slavePosition})<br/> {employee.scheduleLogStart} 출근
                                 </p>
                             ))}
                         </div>
                         <div className={styles.scheduleColumn}>
                             <p className={styles.columnTitle}>퇴근 ({offDutyEmployees.length})</p>
-                            {offDutyEmployees.map(employee => (
-                                <p key={employee.id} className={styles.scheduleEntry}>
-                                    {employee.slaveName} ({employee.slavePosition}) {employee.scheduleEnd} 퇴근
+                            {offDutyEmployees.map((employee, index) => (
+                                <p key={offDutyEmployees.length - index} className={styles.scheduleEntry}>
+                                    {employee.slaveName} ({employee.slavePosition}) <span style={{ color: 'red' }}>{employee.dailyAtt}</span>
                                 </p>
                             ))}
                         </div>
                         <div className={styles.scheduleColumn}>
                             <p className={styles.columnTitle}>기타 ({miscEmployees.length})</p>
-                            {miscEmployees.map(employee => (
-                                <p key={employee.id} className={styles.scheduleEntry}>
-                                    {employee.slaveName} ({employee.slavePosition}) {employee.scheduleStart}  <span style={{ color: 'red' }}>{employee.status}</span>
+                            {miscEmployees.map((employee, index) => (
+                                <p key={miscEmployees.length - index} className={styles.scheduleEntry}>
+                                    {employee.slaveName} ({employee.slavePosition}) 
                                 </p>
                             ))}
                         </div>
