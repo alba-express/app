@@ -4,7 +4,9 @@
     align-items: center;
     padding: 10px;
     border-bottom: 1px solid #ccc;
+
 }
+
 
 .info {
     display: flex;
@@ -71,4 +73,7 @@
     border-radius: 3px;
     font-size: 0.9em;
     cursor: pointer;
+}
+.daily:hover {
+    background-color: #ff8803;
 }
