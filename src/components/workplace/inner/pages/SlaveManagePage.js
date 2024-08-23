@@ -92,7 +92,10 @@ const SlaveManagePage = () => {
       <>
         <div className={styles['content-box']}>
           <div className={styles['slaveManagementHeader-box']}>
-            <div className={styles['slaveManagementHeader-title']}> 직원관리 </div>
+            
+            <h1 className={styles['slaveManagementHeader-title']}> 
+              직원관리
+            </h1>
 
             <Link to="/detail/slave-regist" className={styles['link-text']}> 
               <button className={styles['headerButton']} > 직원등록 </button>
