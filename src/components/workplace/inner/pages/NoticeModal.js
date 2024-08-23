@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "./NoticeModal.module.scss"
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {noticeActions} from "../../../../store/notice-slice";
 import useAuth from "../../../../hooks/useAuth";
@@ -10,6 +10,7 @@ const NoticeModal = ({id, title, content, date, isOpen, onClose, refreshNotices}
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const userId = useAuth();
+    const currentPage = useSelector(state => state.workplace.currentPage);
 
     if (!isOpen) return null;
 
@@ -53,8 +54,8 @@ const NoticeModal = ({id, title, content, date, isOpen, onClose, refreshNotices}
                 <span className={styles.date}>{date}</span>
                 <p className={styles.content}>{content}</p>
                 <div className={styles.buttonContainer}>
-                    {userId && <button className={styles.button} onClick={deleteHandler}>삭제</button>}
-                    {userId && <button className={styles.button} onClick={editHandler}>수정</button>}
+                    {currentPage !== 5 && <button className={styles.button} onClick={deleteHandler}>삭제</button>}
+                    {currentPage !== 5 && <button className={styles.button} onClick={editHandler}>수정</button>}
                     <button className={styles.button} onClick={onClose}>닫기</button>
                 </div>
             </div>
