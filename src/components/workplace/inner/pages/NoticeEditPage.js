@@ -75,7 +75,7 @@ const NoticeEditPage = () => {
             <div className={styles.write}>
                 <p>
                     <label htmlFor="title">제목</label>
-                    <input id="title" type="text" name="title" value={title}
+                    <input id="title" type="text" name="title" value={title} maxLength={30} required
                            onChange={(e) => setTitle(e.target.value)}/>
                 </p>
                 <p>

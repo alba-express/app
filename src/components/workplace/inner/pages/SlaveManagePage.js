@@ -1,17 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './SlaveManagePage.module.scss';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import SlaveManagePageSlaveList from "./slave/SlaveManagePageSlaveList";
+import SlaveManagePageSlaveList from "./slave/SlaveManagePage/SlaveManagePageSlaveList";
 import { useDispatch, useSelector } from 'react-redux';
 import { slaveActions } from '../../../../store/slave-slice';
 import axios from 'axios';
+import { workplaceActions } from '../../../../store/workplace-slice';
 
 const SlaveManagePage = () => {
 
   // redux store 에서 상태값 변경하는 action hook 불러오기
   const dispatch = useDispatch();
+
+      // 괴도 박성진 다녀감
+      useEffect(() => {
+          dispatch(workplaceActions.setCurrentPage({currentPage: 1}));
+      }, [])
+      // 괴도 박성진 다녀감
 
   // redux store 에서 근무중인 직원 or 퇴사한 직원 목록 표시하는 상태값 불러오기 (초기값: 근무중인 직원 목록 표시)
   const showSlaveList = useSelector((state) => state.slave.showSlaveList);
@@ -85,7 +92,10 @@ const SlaveManagePage = () => {
       <>
         <div className={styles['content-box']}>
           <div className={styles['slaveManagementHeader-box']}>
-            <div className={styles['slaveManagementHeader-title']}>직원관리</div>
+            
+            <h1 className={styles['slaveManagementHeader-title']}> 
+              직원관리
+            </h1>
 
             <Link to="/detail/slave-regist" className={styles['link-text']}> 
               <button className={styles['headerButton']} > 직원등록 </button>

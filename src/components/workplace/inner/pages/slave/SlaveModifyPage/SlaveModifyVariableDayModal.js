@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './SlaveModifyVariableDayModal.module.scss';
+import { Button } from 'react-bootstrap';
 
 const SlaveModifyVariableDayModal = ({ onVariable, oneSlave }) => {
 
@@ -19,33 +20,48 @@ const SlaveModifyVariableDayModal = ({ onVariable, oneSlave }) => {
   // 변동시간 배열 상태값으로 관리
   const [variableDays , setVariableDays] = useState(initialVariableDays);
 
-  useEffect(() => {
-    // 로컬스토리지에서 받아온 선택한 직원의 정보에서 스케줄 리스트 정보만 추출하기
-    const modifyScheduleList = oneSlave().scheduleList;
+  function convertToTimeFormat(timeString) {
+    // 예시로 주어진 timeString: '20시 21분'
+    const timeParts = timeString.match(/(\d{1,2})시\s*(\d{1,2})분/);
+    if (timeParts) {
+        let hours = timeParts[1];
+        let minutes = timeParts[2];
 
-    if (modifyScheduleList && modifyScheduleList.length > 0) {
-      setVariableDays(prev =>
-        prev.map(day => {
-          // modifyScheduleList 배열에서 해당 요일에 맞는 스케줄 찾기
-          const matchedSchedule = modifyScheduleList.find(schedule => 
-            schedule.scheduleDay.substring(0, 1) === day.value
-          );
+        // 시간을 두 자리로 맞추기 위해 0을 채운다.
+        if (hours.length === 1) hours = '0' + hours;
+        if (minutes.length === 1) minutes = '0' + minutes;
 
-          if (matchedSchedule) {
-            return {
-              ...day,
-              select: true,
-              startSchedule: matchedSchedule.scheduleStart,
-              endSchedule: matchedSchedule.scheduleEnd,
-            };
-          } else {
-            return day; // 일치하는 스케줄이 없으면 기존의 day 객체 반환
-          }
-        })
-      );
+        return `${hours}:${minutes}`;
     }
+    return '';
+  }
 
-    console.log("스케쥴", modifyScheduleList);
+  useEffect(() => {
+
+    // 로컬스토리지에서 받아온 선택한 직원의 정보에서 급여리스트 정보만 추출하기
+    const modifyScheduleList = oneSlave().scheduleList;
+  
+    // scheduleType이 false인 경우에만 아래 코드를 실행
+    if (modifyScheduleList[0].scheduleType === false) {
+  
+      console.log("변동조회조회", modifyScheduleList[0].scheduleType);
+  
+      const updatedVariableDays = variableDays.map(day => {
+        const schedule = modifyScheduleList.find(schedule => schedule.scheduleDay[0] === day.value);
+        if (schedule) {
+          return {
+            ...day,
+            select: true,
+            startSchedule: convertToTimeFormat(schedule.scheduleStart),
+            endSchedule: convertToTimeFormat(schedule.scheduleEnd)
+          };
+        }
+        return day;
+      });
+  
+      setVariableDays(updatedVariableDays);
+    }
+  
   }, []);
 
   // 요일을 선택여부에 따라 select 값 변경하기
@@ -59,81 +75,75 @@ const SlaveModifyVariableDayModal = ({ onVariable, oneSlave }) => {
   };
 
   // 시작시간을 입력하면 startSchedule 값 변경하기
-  const startTimeHandler = (label, value) => {
-    // console.log('label', label);
-    // console.log('value', value);
-    
-    const inputStartTime = variableDays.map((day) => day.scheduleDay === label ? {...day, startSchedule: value} : {...day});
+    const startTimeHandler = (label, value) => {
+      const inputStartTime = variableDays.map((day) => day.scheduleDay === label ? {...day, startSchedule: value} : {...day});
 
-    setVariableDays(inputStartTime);
-  };
+      setVariableDays(inputStartTime);
+    };
 
-  // 종료시간을 입력하면 endSchedule 값 변경하기
-  const endTimeHandler = (label, value) => {
-    // console.log('label', label);
-    // console.log('value', value);
+    // 종료시간을 입력하면 endSchedule 값 변경하기
+    const endTimeHandler = (label, value) => {
+      const inputEndTime = variableDays.map((day) => day.scheduleDay === label ? {...day, endSchedule: value} : {...day});
 
-    const inputEndTime = variableDays.map((day) => day.scheduleDay === label ? {...day, endSchedule: value} : {...day});
+      setVariableDays(inputEndTime);
+    };
 
-    setVariableDays(inputEndTime);
-  };
+    // 배열에서 요일을 선택한 객체만 필터링하기
+    useEffect(() => {
+      
+      const updatedVariableDays = variableDays.filter(day => day.select);
+      console.log('최종 변동시간', updatedVariableDays);
+  
+      // SlaveRegistPage 에서 내려보낸 onVariable 에 updatedVariableDays 전달하기
+      onVariable(updatedVariableDays);
+  
+    }, [variableDays]);
 
-  // 배열에서 요일을 선택한 객체만 필터링하기
-  useEffect(() => {
+    //-------------------------------------------------
 
-    const updatedVariableDays = variableDays.filter(day => day.select);
-    console.log('최종 변동시간', updatedVariableDays);
+    return (
+      <>
+        <div className={styles['slaveRegistPageScheduleModal-title']} > 요일을 선택해주세요 </div>
+  
+        {variableDays.map((day) => (
+        <div className={styles['slaveRegistPageScheduleModal-content']} key={day.scheduleDay} >
 
-    // SlaveRegistPage 에서 내려보낸 onVariable 에 updatedVariableDays 전달하기
-    onVariable(updatedVariableDays);
-
-  }, [variableDays, onVariable]);
-
-  //-------------------------------------------------
-
-  return (
-    <>
-      <div className={styles['slaveRegistPageScheduleModal-title']} > 요일을 선택해주세요 </div>
-
-      {variableDays.map((day) => (
-      <div className={styles['slaveRegistPageScheduleModal-content']} key={day.scheduleDay} >
-        <label htmlFor={day.scheduleDay} className={day.select ? styles.selectedDaySchedule : styles.nonDaySchedule } >
-          {day.value}
-          <input 
-            type="checkbox" 
-            checked={day.select} 
+          <Button 
             id={day.scheduleDay} 
-            value={day.value} 
-            style={{ display: 'none' }} 
-            onChange={selectDayHandler} 
-          />
-        </label>
+            className={day.select ? styles.selectedDaySchedule : styles.nonDaySchedule } 
+            value={day.value}
+            onClick={selectDayHandler} 
+            aria-pressed={day.select}
+          >
+            {day.value}
+          </Button>
 
-        <label htmlFor={`${day.scheduleDay}-startTime`} >
-          <input 
-            type="time" 
-            id={`${day.scheduleDay}-startTime`} 
-            value={day.startSchedule} 
-            className={styles['slaveRegistPageInputSchedule-input']} 
-            onChange={ e => {startTimeHandler(day.scheduleDay, e.target.value)}}
-          />
-          부터
-        </label>
+          <label htmlFor={`${day.scheduleDay}-startTime`} className={styles['slaveRegistPageInputSchedule-label']} >
+            <input 
+              type="time" 
+              id={`${day.scheduleDay}-startTime`} 
+              value={day.startSchedule} 
+              className={styles['slaveRegistPageInputSchedule-input']} 
+              onChange={ e => {startTimeHandler(day.scheduleDay, e.target.value)}}
+            />
+            부터
+          </label>
+  
+          <label htmlFor={`${day.scheduleDay}-EndTime`} className={styles['slaveRegistPageInputSchedule-label']}>
+            <input 
+              type="time" 
+              id={`${day.scheduleDay}-EndTime`} 
+              value={day.endSchedule} 
+              className={styles['slaveRegistPageInputSchedule-input']} 
+              onChange={ e => {endTimeHandler(day.scheduleDay, e.target.value)}}
+            />
+            까지
+          </label>
 
-        <label htmlFor={`${day.scheduleDay}-EndTime`}>
-          <input 
-            type="time" 
-            id={`${day.scheduleDay}-EndTime`} 
-            value={day.endSchedule} 
-            className={styles['slaveRegistPageInputSchedule-input']} 
-            onChange={ e => {endTimeHandler(day.scheduleDay, e.target.value)}}
-          />
-          까지
-        </label>
-      </div>
-      ))}
-    </>
-  )
-}
-
-export default SlaveModifyVariableDayModal
+        </div>
+        ))}
+      </>
+    )
+  }
+  
+  export default SlaveModifyVariableDayModal

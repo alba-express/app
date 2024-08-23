@@ -3,27 +3,37 @@ import styles from "./InnerMainPage.module.scss";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useDispatch } from "react-redux";
+import { workplaceActions } from "../../../../store/workplace-slice";
 
 const InnerMainPage = () => {
     const [workplaceInfo, setWorkplaceInfo] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1); // 현재 월 (1~12)
-    const [currentYear, setCurrentYear] = useState(new Date().getFullYear()); // 현재 연도
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     const [selectedDate, setSelectedDate] = useState(new Date()); // 오늘 날짜로 초기화
     const [workingEmployees, setWorkingEmployees] = useState([]);
     const [notStartedEmployees, setNotStartedEmployees] = useState([]);
     const [offDutyEmployees, setOffDutyEmployees] = useState([]);
+    const [miscEmployees, setMiscEmployees] = useState([]); // 기타 직원
     const [estimatedWages, setEstimatedWages] = useState(0); // 총 급여
     const [employeeWages, setEmployeeWages] = useState([]); // 직원별 급여
     const workplaceIdByStore = localStorage.getItem('workplaceId');
 
+        // 괴도 박성진 다녀감
+        const dispatch = useDispatch();
+        useEffect(() => {
+            dispatch(workplaceActions.setCurrentPage({currentPage: 0}));
+        }, [])
+        // 괴도 박성진 다녀감
+
     // 날짜 포맷 함수
+
     const formatDate = (date) => {
         const options = { year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'long' };
         return date.toLocaleDateString('ko-KR', options);
     };
 
-    // DatePicker의 ref 생성
     const datePickerRef = useRef(null);
 
     useEffect(() => {
@@ -47,35 +57,81 @@ const InnerMainPage = () => {
 
         const fetchEmployees = async () => {
             try {
-                const response = await axios.get(`http://localhost:8877/schedule/employees?workplaceId=${workplaceIdByStore}`);
-                const employees = response.data;
-                const currentTime = new Date(); // 현재 시간
+                const formattedDate = selectedDate.toISOString().split('T')[0]; // yyyy-mm-dd 형식으로 변환
+                // const response = await axios.get(`http://localhost:8877/schedule/employees?workplaceId=${workplaceIdByStore}&date=${formattedDate}`);
+                const res = await fetch(`http://localhost:8877/detail/schedule-log-list?workplaceId=${workplaceIdByStore}&date=${formattedDate}`);
+                // const employees = response.data;
+                const employees = await res.json();
+                // const currentTime = new Date(); // 현재 시간
+                // const currentDate = new Date().setHours(0, 0, 0, 0); // 오늘 날짜 자정 기준
+                // const selectedDateStartOfDay = new Date(selectedDate).setHours(0, 0, 0, 0); // 선택된 날짜 자정 기준
+                // const selectedDateEndOfDay = new Date(selectedDate).setHours(23, 59, 59, 999); // 선택된 날짜의 마지막 시간
 
+                
+                const beforeWorking = [];
                 const working = [];
-                const notStarted = [];
-                const offDuty = [];
+                const endWorking = [];
+                const misc = [];
 
-                employees.forEach(employee => {
-                    const startTime = new Date(`${selectedDate.toDateString()} ${employee.scheduleStart}`);
-                    const endTime = new Date(`${selectedDate.toDateString()} ${employee.scheduleEnd}`);
-
-                    if (currentTime >= startTime && currentTime < endTime) {
+                for (const employee of employees) {
+                    if(employee.dailyAtt === "출근예정") {
+                        beforeWorking.push(employee);
+                    } else if(employee.dailyAtt === "근무중") {
                         working.push(employee);
-                    } else if (currentTime < startTime) {
-                        notStarted.push(employee);
-                    } else if (currentTime >= endTime) {
-                        offDuty.push(employee);
+                    } else if(employee.dailyAtt === "지각" || employee.dailyAtt === "조퇴" || employee.dailyAtt === "정상근무") {
+                        endWorking.push(employee);
+                    } else if(employee.dailyAtt === "결근") {
+                        misc.push(employee);
                     }
-                });
+                    // 현재 선택된 날짜에 해당하는 스케줄 로그를 가져옵니다.
+                    // const logResponse = await axios.get(`http://localhost:8877/schedule/current-log?slaveId=${employee.id}&date=${formattedDate}`);
+                    // const log = logResponse.data;
+
+                    // const startTime = new Date(`${formattedDate}T${employee.scheduleStart}`);
+                    // const endTime = new Date(`${formattedDate}T${employee.scheduleEnd}`);
+
+                    // 스케줄 로그의 시작과 끝이 선택된 날짜에 해당하는지 확인
+                    // const logStartDate = log ? new Date(log.scheduleLogStart) : null;
+                    // const logEndDate = log && log.scheduleLogEnd ? new Date(log.scheduleLogEnd) : null;
+
+                    // if (selectedDateStartOfDay < currentDate) { // 선택된 날짜가 과거일 경우
+                    //     if (logStartDate && logEndDate && logEndDate <= selectedDateEndOfDay) {
+                    //         endWorking.push(employee); // 과거에 퇴근한 경우
+                    //     } else if (logStartDate && !logEndDate && logStartDate <= selectedDateEndOfDay) {
+                    //         misc.push({ ...employee, status: '조퇴' }); // 과거에 조퇴한 경우
+                    //     } else if (!logStartDate || logStartDate > selectedDateEndOfDay) {
+                    //         misc.push({ ...employee, status: '결근' }); // 과거에 결근한 경우
+                    //     }
+                    // } else if (selectedDateStartOfDay > currentDate) { // 선택된 날짜가 미래일 경우
+                    //     beforeWorking.push(employee); // 출근 전 (미래에는 로그가 없으므로)
+                    // } else { // 선택된 날짜가 오늘인 경우
+                    //     if (logStartDate && !logEndDate) {
+                    //         working.push(employee); // 근무 중
+                    //     } else if (!logStartDate && currentTime < startTime) {
+                    //         beforeWorking.push(employee); // 출근 전
+                    //     } else if (logEndDate && logEndDate < endTime) {
+                    //         misc.push({ ...employee, status: '조퇴' }); // 조퇴
+                    //     } else if (logEndDate) {
+                    //         endWorking.push(employee); // 퇴근
+                    //     } else if (!logStartDate) {
+                    //         misc.push({ ...employee, status: '결근' }); // 결근
+                    //     }
+                    // }
+                }
 
                 setWorkingEmployees(working);
-                setNotStartedEmployees(notStarted);
-                setOffDutyEmployees(offDuty);
+                setNotStartedEmployees(beforeWorking);
+                setOffDutyEmployees(endWorking);
+                setMiscEmployees(misc);
             } catch (error) {
                 console.error('직원 정보 페치 오류:', error);
                 alert('직원 정보를 가져오는데 실패했습니다.');
             }
         };
+
+
+
+
 
         const fetchWageData = async () => {
             const payload = {
@@ -142,7 +198,6 @@ const InnerMainPage = () => {
         <div className={styles.innerMainContainer}>
             <div className={styles.leftPanel}>
                 <div className={styles.workplaceInfo}>
-                    <h1 className={styles.workplaceName}>{workplaceInfo.workplaceName}</h1>
                     <div className={styles.monthNavigation}>
                         <img src={`${process.env.PUBLIC_URL}/images/left-arrow.png`}
                              alt={"좌측화살표"}
@@ -155,7 +210,7 @@ const InnerMainPage = () => {
                     </div>
                     <div className={styles.monthDetails}>
                         <p className={styles.estimatedWages}>예상 급여 : {estimatedWages.toLocaleString()} 원</p>
-                        <p className={styles.totalEmployees}>총 직원 수 : {workingEmployees.length + notStartedEmployees.length + offDutyEmployees.length}명</p>
+                        <p className={styles.totalEmployees}>총 직원 수 : {workingEmployees.length + notStartedEmployees.length + offDutyEmployees.length + miscEmployees.length}명</p>
                     </div>
                 </div>
 
@@ -192,25 +247,33 @@ const InnerMainPage = () => {
                     <div className={styles.scheduleTable}>
                         <div className={styles.scheduleColumn}>
                             <p className={styles.columnTitle}>출근전 ({notStartedEmployees.length})</p>
-                            {notStartedEmployees.map(employee => (
-                                <p key={employee.id} className={styles.scheduleEntry}>
-                                    {employee.slaveName} ({employee.slavePosition}) {employee.scheduleStart} 출근 예정
+                            {notStartedEmployees.map((employee, index) => (
+                                <p key={notStartedEmployees.length - index} className={styles.scheduleEntry}>
+                                    {employee.slaveName} ({employee.slavePosition})<br/> {employee.scheduleStart} ~ {employee.scheduleEnd}
                                 </p>
                             ))}
                         </div>
                         <div className={styles.scheduleColumn}>
                             <p className={styles.columnTitle}>근무중 ({workingEmployees.length})</p>
-                            {workingEmployees.map(employee => (
-                                <p key={employee.id} className={styles.scheduleEntry}>
-                                    {employee.slaveName} ({employee.slavePosition}) {employee.scheduleStart} 출근
+                            {workingEmployees.map((employee, index) => (
+                                <p key={workingEmployees.length - index} className={styles.scheduleEntry}>
+                                    {employee.slaveName} ({employee.slavePosition})<br/> {employee.scheduleLogStart} 출근
                                 </p>
                             ))}
                         </div>
                         <div className={styles.scheduleColumn}>
                             <p className={styles.columnTitle}>퇴근 ({offDutyEmployees.length})</p>
-                            {offDutyEmployees.map(employee => (
-                                <p key={employee.id} className={styles.scheduleEntry}>
-                                    {employee.slaveName} ({employee.slavePosition}) {employee.scheduleEnd} 퇴근
+                            {offDutyEmployees.map((employee, index) => (
+                                <p key={offDutyEmployees.length - index} className={styles.scheduleEntry}>
+                                    {employee.slaveName} ({employee.slavePosition}) <span style={{ color: 'red' }}>{employee.dailyAtt}</span>
+                                </p>
+                            ))}
+                        </div>
+                        <div className={styles.scheduleColumn}>
+                            <p className={styles.columnTitle}><span style={{color: 'red'}}>결근({miscEmployees.length})</span></p>
+                            {miscEmployees.map((employee, index) => (
+                                <p key={miscEmployees.length - index} className={styles.scheduleEntry}>
+                                    {employee.slaveName} ({employee.slavePosition}) 
                                 </p>
                             ))}
                         </div>

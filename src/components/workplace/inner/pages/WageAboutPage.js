@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { wageActions } from "../../../../store/wage-slice";
 import WageAboutHeader from "../layout/WageAboutHeader";
 import WageAboutBody from "../layout/WageAboutBody";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./WageManagePage.module.scss";
+import { IoArrowBackCircleSharp } from "react-icons/io5";
 
 const WageAboutPage = () => {
     const month = useSelector((state) => state.wage.month);
@@ -15,12 +16,18 @@ const WageAboutPage = () => {
     const location = useLocation();
     const [slaveId, setSlaveId] = useState(null);
 
+    const navigate = useNavigate();
+    const backHandler = e => {
+        navigate("../wage-manage");
+    }
+
     useEffect(() => {
         const state = location.state;
         if (state && state.slaveId) {
             setSlaveId(state.slaveId);
         }
     }, [location]);
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -60,6 +67,7 @@ const WageAboutPage = () => {
         <>
             <div className={styles.salaryTitle}>
                 <h1>{slaveName}님의 급여</h1>
+                <button className={styles.backButton} onClick={backHandler}>업장 급여</button>
             </div>
             <div className={styles.salaryBodyContainer}>
                 <WageAboutHeader />

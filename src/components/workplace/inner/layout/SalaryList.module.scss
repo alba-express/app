@@ -1,61 +1,74 @@
-
 .container {
     display: flex;
-    // justify-content: space-between;
+    justify-content: space-between;
     align-items: center;
     padding: 10px;
     border-bottom: 1px solid #ccc;
-  }
-  
-  .info {
+}
+
+.info {
     display: flex;
     flex-direction: column;
-    width: 300px;
-  }
-  .insurance {
+    width: 200px;
+}
+.insurance {
     display: flex;
     flex-direction: column;
     width: 150px;
-  }
-  
-  .header {
+}
+
+.header {
     display: flex;
     align-items: center;
     margin-bottom: 5px;
-  }
-  
-  .name {
+}
+
+.name {
     font-weight: bold;
     margin-right: 10px;
-  }
-  
-  .role {
+}
+
+.role {
     background-color: #e0e0e0;
     padding: 2px 5px;
     border-radius: 3px;
     font-size: 0.9em;
-  }
-  
-  .details {
+}
+
+.details {
     font-size: 0.9em;
     color: #666;
-  }
-  
-  .salary {
+}
+
+.salary {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin-left: 300px;
-  }
-  
-  .amount {
+    // margin-left: 300px;
+}
+
+.amount {
     font-weight: bold;
     color: green;
     margin-bottom: 5px;
-  }
-  
-  .insurance {
+}
+
+.insurance {
     font-size: 0.8em;
     color: #999;
-  }
-  
+}
+.benefit {
+    display: flex;
+    flex-direction: column;
+}
+.realAmount {
+    font-weight: bold;
+    color: black;
+}
+.daily {
+    background-color: #e0e0e0;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    cursor: pointer;
+}

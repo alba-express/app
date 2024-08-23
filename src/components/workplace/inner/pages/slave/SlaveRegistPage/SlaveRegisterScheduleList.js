@@ -109,6 +109,11 @@ const SlaveRegisterScheduleList = ({ onSchedules }) => {
         <div className={styles['slaveRegistPageSchedule-box']} >
             <div className={styles['slaveRegistPageInput-title']} > 근무시간선택 </div>
 
+            <div className={styles['slaveRegistPageSchedule-notice']} >
+                <div>* 고정시간 - 일하는 요일만 다르고 시간은 고정일 때 선택</div>
+                <div>* 변동시간 - 일하는 요일, 시간 모두 다를 때 선택 </div>
+            </div>
+
             <div className={styles['slaveRegistPageInputScheduleTitle-box']} >
 
                 <label htmlFor="fixed" className={getScheduleTypeClassName('fixed')} >

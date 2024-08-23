@@ -9,22 +9,21 @@
   font-weight: 700;
   letter-spacing: 1px;
   color: rgba(43, 42, 42, 0.9);
-  margin-bottom: 20px;
 }
 
 .serverTime {
-  width: 500px;
+  width: 620px;
+  height: 170px;
   margin: 0 auto;
-  font-size: 24px;
+  font-size: 50px;
   color: #ffc977;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 70px;
   text-align: center;
   align-items: center;
   background: #f5f5f5;
   border: 2px solid #ffc977;
   border-radius: 8px;
-  padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-family: 'Digital-7', monospace;
   display: flex;
@@ -32,8 +31,8 @@
   gap: 4px;
 }
 .flipDigit {
-  width: 60px; /* 적절한 너비 */
-  height: 100px; /* 적절한 높이 */
+  width: 80px; /* 적절한 너비 */
+  height: 110px; /* 적절한 높이 */
   perspective: 1000px; /* 3D 시각 효과를 위한 원근감 설정 */
   position: relative;
   display: inline-block;
@@ -43,9 +42,10 @@
 .flipDigit .flipTop,
 .flipDigit .flipBottom {
   width: 100%;
-  line-height: 100px; /* 숫자 높이에 맞춤 */
+  height: 120px;
+  line-height: 120px; /* 숫자 높이에 맞춤 */
   text-align: center;
-  font-size: 60px; /* 글씨 크기 */
+  font-size: 80px; /* 글씨 크기 */
   font-weight: bold;
   position: absolute;
   left: 0;
@@ -94,7 +94,7 @@
   display: flex;
   flex-direction: row; /* 버튼을 가로로 나열 */
   justify-content: center; /* 버튼을 중앙 정렬 */
-  gap: 10px;
+  gap: 400px;
   margin-bottom: 20px;
 }
 
@@ -103,7 +103,8 @@
   height: 250px;
   background: #ff8803;
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 6rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -119,20 +120,38 @@
   background: #ff5e00;
 }
 
-.timeInfo {
+.timeInfoTitle {
   display: flex;
   flex-direction: column; /* 시간 정보를 세로로 나열 */
   align-items: center; /* 시간 정보를 중앙 정렬 */
-  gap: 10px;
+  margin-top: 50px;
+  font-size: 4rem;
+  font-weight: 800;
+  gap: 150px;
+  color: #ff5e00;
+}
+
+.timeInfo {
+  width: 500px;
+  border-radius: 5px;
+  font-size: 3rem;
+  font-weight: 600;
+  text-align: center;
+  color: rgba(43, 42, 42, 0.9);
 }
 
 .timeLabelBox {
   position: absolute;
-  margin-top: 260px;
+  margin-top: 300px;
+  width: 500px;
+  border-radius: 5px;
+  font-size: 3rem;
+  font-weight: 600;
+  text-align: center;
 }
 
 .timeLabel {
-  font-size: 20px;
+  font-size: 3rem;
   font-weight: 600;
   color: rgba(43, 42, 42, 0.9);
 }

@@ -12,7 +12,7 @@
 .title {
   text-align: left;
   font-size: 20px;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid #ffc107;
   padding-bottom: 10px;
   margin: 20px 20px;
   display: flex;
@@ -38,7 +38,7 @@
 
 .employee-list {
   width: 500px;
-  height: 600px;
+  height: 550px;
   background: rgba(245, 245, 245, 0.8); // 배경색을 더 밝게
   padding: 15px; // 패딩 증가
   border-radius: 5px;

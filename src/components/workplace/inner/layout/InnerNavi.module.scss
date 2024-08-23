@@ -31,6 +31,8 @@
     display: flex;
     justify-content: center;
     align-items: end;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
 
     img {
       width: 18rem; /* 로고의 크기를 적절히 조정 */
@@ -40,15 +42,34 @@
   .logo-box:hover {
     cursor: pointer;
   }
-  
+
   .profile-box {
     width: 79%;
     height: 17%;
     border: 1px solid #ffc977;
     //-------------------------------------
     margin: 3.5% 0;
+     padding: 15px 15px;
     //-------------------
     list-style-type: none;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .workplaceName {
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+      // margin: 20px;
+      padding-bottom: 20px;
+    }
+
+    .workplaceAddress {
+      font-size: 20px;
+      text-align: center;
+    }
   }
   
   .leftMenu-box {
@@ -60,9 +81,9 @@
     // margin-left: 50px;
     margin-bottom: 3.5%;
     //-----------------------------------
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 5px;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 20px;
     color: #fff;
     //------------------------------
     display: flex;
@@ -71,16 +92,21 @@
     box-shadow: 2px 2px 3px rgba(110, 110, 110, 0.5);
     //-------------------------------------------------
     text-decoration: none;
-  
+    border-radius: 10px;
+
+    &:last-child {
+      letter-spacing: 8px;
+    }
+    
     img {
       width: 3rem;
       height: 3rem;
-      margin: 0 30px 0 40px;
+      margin: 0 30px 0 30px;
       margin-right: 20px;
       filter: opacity(0.6) drop-shadow(0 0 0 rgb(0, 255, 247));
     }
   }
-  .leftMenu-box:hover {
+  .leftMenu-box:hover, .active {
     background: #ff8803;
     color: #fff;
     cursor: pointer;

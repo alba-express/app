@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import styles from './SlaveRegistPage.module.scss'
+import styles from './SlaveRegistPage.module.scss';
 import { Link, useNavigate } from "react-router-dom";
 import SlaveRegisterWageList from "./slave/SlaveRegistPage/SlaveRegisterWageList";
 import SlaveRegisterScheduleList from "./slave/SlaveRegistPage/SlaveRegisterScheduleList";
@@ -27,6 +27,9 @@ const SlaveRegistPage = () => {
     //-------------------------------------------------
 
     const navigate = useNavigate();
+
+    // 생년월일을 오늘 이전날짜만 입력 가능하게 하기 위한 오늘 날짜를 "YYYY-MM-DD" 형식으로 포맷팅
+    const today = new Date().toISOString().split('T')[0];
 
     //-------------------------------------------------
 
@@ -150,6 +153,9 @@ const SlaveRegistPage = () => {
             setFormButtonStyle(styles['slaveRegistPage-nonButton']);
         }
 
+        console.log('slaveRegistInput', slaveRegistInput);
+        
+
         console.log('버튼타입', formButtonType);
         
     }, [slaveRegistInput]);
@@ -199,7 +205,7 @@ const SlaveRegistPage = () => {
             <div className={styles['slaveRegistPage']} >
 
                 <div className={styles['slaveRegistPageHeader-box']} >
-                    직원등록
+                    <h1 className={styles['slaveRegistPageHeader-title']}> 직원등록 </h1>
                 </div>
 
                 <form onSubmit={sendSlaveInputHandler} className={styles['slaveRegistPageForm-box']} >
@@ -219,7 +225,7 @@ const SlaveRegistPage = () => {
 
                             <label htmlFor="slaveBirthday" className={styles['slaveRegistPageInput-box']} >
                                 <div className={styles['slaveRegistPageInput-title']} > 생년월일 </div>
-                                <input id="slaveBirthday" type="date" onChange={birthdayHandler} className={styles['slaveRegistPageInput-input']} />
+                                <input id="slaveBirthday" type="date" max={today} onChange={birthdayHandler} className={styles['slaveRegistPageInput-input']} />
                             </label>
 
                             <label htmlFor="slavePosition" className={styles['slaveRegistPageInput-box']} >
@@ -232,8 +238,6 @@ const SlaveRegistPage = () => {
 
                         </div>
 
-                        <div className={styles['slaveRegistPageForm-middle']}></div>
-
                         <div className={styles['slaveRegistPageForm-right']}>
 
                             {/* 근무정보리스트 */}
@@ -242,11 +246,18 @@ const SlaveRegistPage = () => {
                         </div>
                     </div>
 
+                    <div className={styles['slaveRegistPageForm-notice']}>
+                        * 모든 입력창을 입력하지 않으면 직원 등록이 되지 않습니다.
+                    </div>
+
                     <div className={styles['slaveRegistPageForm-bottom']} >
                         <div className={styles['slaveRegistPageButton-box']} >
                             <Link to="/detail/slave-manage" className={styles['link-text']} > 
                                 <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
+                        </div>
+                        
+                        <div className={styles['slaveRegistPageButton-box']} >
                             <button type={formButtonType} className={formButtonStyle} > 등록 </button>
                         </div>
                     </div>

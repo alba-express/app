@@ -20,32 +20,34 @@
     // 기본 높이 2, 근무시간 배열 사이즈에 따라 2rem씩 추가하기
     // background: orange;
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
     // margin-right: 20px;
   }
 
-  &Name {
+  &Date {
     @extend .slaveManagementList-OneSlave-common;
-    width: 11.1rem;
-    margin: 0 0.5rem;
+    margin-left: 3rem;
+    width: 8rem;
     display: flex;
-    justify-content: right;
+    justify-content: center;
     // border: 1px solid red;
   }
 
-  &Position {
+  &ScheduleStart {
     @extend .slaveManagementList-OneSlave-common;
-    width: 7rem;
+    width: 14rem;
     display: flex;
-    justify-content: left;
+    justify-content: center;
     // border: 1px solid red;
   }
 
-  &Wage {
+  &LogStart {
     @extend .slaveManagementList-OneSlave-common;
-    width: 18rem;
-    // border: 1px solid red;
+    width: 10rem;
+    display: flex;
+    justify-content: center;
+    // margin-left: 1rem;
 
     .slaveManagementList-OneSlaveMoneyType {
       width: 11rem;
@@ -63,15 +65,17 @@
     }
   }
 
-  &ScheduleList {
+  &LogEnd {
     @extend .slaveManagementList-OneSlave-common;
-    width: 25rem;
+    width: 8.8rem;
+    // margin-left: 1rem;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     // border: 1px solid rgb(38, 0, 255);
 
     .slaveManagementList-OneSlaveScheduleOne {
-      width: 25rem;
+      width: 10rem;
       //-----------
       display: flex;
       justify-content: center;
@@ -80,9 +84,12 @@
 
   }
 
-  &Join {
+  &LogStatus {
     @extend .slaveManagementList-OneSlave-common;
-    width: 16rem;
+    width: 10rem;
+    // margin-left: 6rem;
+    display: flex;
+    justify-content: center;
     // border: 1px solid red;
   }
 }

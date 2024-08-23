@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './SlaveModifyFixedDayModal.module.scss';
+import { Button } from 'react-bootstrap';
 
 const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
 
@@ -19,37 +20,58 @@ const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
   // 고정시간 요일 배열 상태값으로 관리
   const [fixedDays , setFixedDays] = useState(initialFixedDays);
 
+  // 초기 시작시간, 종료시간 상태값으로 관리
+  const [inputStartSchedule, setInputStartSchedule] = useState('');
+  const [inputEndSchedule, setInputEndSchedule] = useState('');
+
+  function convertToTimeFormat(timeString) {
+    // 예시로 주어진 timeString: '20시 21분'
+    const timeParts = timeString.match(/(\d{1,2})시\s*(\d{1,2})분/);
+    if (timeParts) {
+        let hours = timeParts[1];
+        let minutes = timeParts[2];
+
+        // 시간을 두 자리로 맞추기 위해 0을 채운다.
+        if (hours.length === 1) hours = '0' + hours;
+        if (minutes.length === 1) minutes = '0' + minutes;
+
+        return `${hours}:${minutes}`;
+    }
+    return '';
+  }
+
   useEffect(() => {
-    // 로컬스토리지에서 받아온 선택한 직원의 정보에서 스케줄 리스트 정보만 추출하기
+
+    // 로컬스토리지에서 받아온 선택한 직원의 정보에서 급여리스트 정보만 추출하기
     const modifyScheduleList = oneSlave().scheduleList;
 
-    if (modifyScheduleList && modifyScheduleList.length > 0) {
-      setFixedDays(prev =>
-        prev.map(day => {
-          // modifyScheduleList 배열에서 해당 요일에 맞는 스케줄 찾기
-          const matchedSchedule = modifyScheduleList.find(schedule => 
-            schedule.scheduleDay.substring(0, 1) === day.value
-          );
+    // scheduleType이 true인 경우에만 아래 코드를 실행
+    if (modifyScheduleList[0].scheduleType === true) {
 
-          if (matchedSchedule) {
+        console.log(modifyScheduleList[0].scheduleType === true);
+
+        const updatedFixedDays = fixedDays.map(day => {
+          const schedule = modifyScheduleList.find(schedule => schedule.scheduleDay[0] === day.value);
+          if (schedule) {
             return {
               ...day,
               select: true,
-              startSchedule: matchedSchedule.scheduleStart,
-              endSchedule: matchedSchedule.scheduleEnd,
+              startSchedule: convertToTimeFormat(schedule.scheduleStart),
+              endSchedule: convertToTimeFormat(schedule.scheduleEnd)
             };
-          } else {
-            return day; // 일치하는 스케줄이 없으면 기존의 day 객체 반환
           }
-        })
-      );
+          return day;
+        });
+        setFixedDays(updatedFixedDays);
+
+        const selectedDay = updatedFixedDays.find(day => day.select);
+        if (selectedDay) {
+          setInputStartSchedule(selectedDay.startSchedule || '');
+          setInputEndSchedule(selectedDay.endSchedule || '');
+        }
     }
 
-    console.log("스케쥴", modifyScheduleList);
   }, []);
-
-
-
 
   // 요일을 선택여부에 따라 select 값 변경하기
   const selectDayHandler = e => {
@@ -86,43 +108,47 @@ const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
 
   //-------------------------------------------------
 
+  //-------------------------------------------------
+
   return (
     <>
       <div className={styles['slaveRegistPageScheduleModal-title']} > 요일을 선택해주세요 </div>
     
       <div className={styles['slaveRegistPageScheduleModal-content']} >
-      {fixedDays.map((day) => (
-        <label key={day.scheduleDay} htmlFor={day.scheduleDay} className={day.select ? styles.selectedDaySchedule : styles.nonDaySchedule } >
-          {day.value}
-          <input 
-            type='checkbox' 
-            checked={day.select} 
+        {fixedDays.map((day) => (
+          <Button 
+            key={day.scheduleDay} 
             id={day.scheduleDay} 
-            value={day.value} 
-            style={{ display: 'none' }} 
-            onChange={selectDayHandler}
-          />
-        </label>
-      ))}
+            className={day.select ? styles.selectedDaySchedule : styles.nonDaySchedule }
+            value={day.value}
+            onClick={selectDayHandler} 
+            aria-pressed={day.select}
+          >
+            {day.value}
+          </Button>
+
+        ))}
       </div>
 
       <div className={styles['slaveRegistPageScheduleModal-title']} > 시간선택 </div>
 
       <div className={styles['slaveRegistPageScheduleModalInput-box']} >
-        <label>
+        <label className={styles['slaveRegistPageInputSchedule-label']} >
           <input 
             type="time" 
-            className={styles['slaveRegistPageScheduleModalInput']} 
+            className={styles['slaveRegistPageInputSchedule-input']} 
             onChange={startTimeHandler}
+            value={inputStartSchedule} 
           />
           부터
         </label>
         
-        <label>
+        <label className={styles['slaveRegistPageInputSchedule-label']}>
           <input 
             type="time" 
-            className={styles['slaveRegistPageScheduleModalInput']} 
+            className={styles['slaveRegistPageInputSchedule-input']} 
             onChange={endTimeHandler}
+            value={inputEndSchedule} 
           />
           까지
         </label>

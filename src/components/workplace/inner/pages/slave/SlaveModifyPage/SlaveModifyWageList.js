@@ -8,7 +8,7 @@ const SlaveModifyWageList = ({ onWages, oneSlave }) => {
   // 급여타입(wageType): 1 --> 시급 / 0 --> 월급
   // 4대보험 적용여부(wageInsurance): true, 1 --> 적용 / false, 0 --> 미적용
                             // 급여타입, 급여금액,       4대보험적용여부
-  const initialWageList = [{slaveWageType: 'null', slaveWageAmount: '', slaveWageInsurance: null}];
+  const initialWageList = [{modifyId: '', slaveWageType: 'null', slaveWageAmount: '', slaveWageInsurance: null}];
 
   // 급여리스트 상태값으로 관리하기
   const [wageList, setWageList] = useState(initialWageList);
@@ -18,18 +18,19 @@ const SlaveModifyWageList = ({ onWages, oneSlave }) => {
     // 로컬스토리지에서 받아온 선택한 직원의 정보에서 급여리스트 정보만 추출하기
     const modifyWageList = oneSlave().wageList;
 
+    console.log("급여정보", modifyWageList);
+    
+
     if (modifyWageList && modifyWageList.length > 0) {
       // modifyWageList가 존재하고 비어 있지 않을 때 wageList를 업데이트
-      setWageList(prev =>
-        prev.map(wage => ({
-          ...wage,
-          slaveWageType: modifyWageList[0].slaveWageType == '시급' ? true : modifyWageList[0].slaveWageType === '월급' ? false : wage.slaveWageType,
-          slaveWageAmount: modifyWageList[0].slaveWageAmount,
-          slaveWageInsurance: modifyWageList[0].slaveWageInsurance == '적용' ? true : modifyWageList[0].slaveWageInsurance === '미적용' ? false : wage.slaveWageInsurance,
-        }))
-      );
-    };
 
+      setWageList(
+        [{
+          modifyId: modifyWageList[0].slaveWageId, 
+          slaveWageType: modifyWageList[0].slaveWageType == '시급' ? true : modifyWageList[0].slaveWageType === '월급' ? false : wageList.slaveWageType,
+          slaveWageAmount: modifyWageList[0].slaveWageAmount,
+        }])
+    };
   }, []);
 
   // 급여방식선택에 따른 버튼 스타일 변경
@@ -82,21 +83,23 @@ const SlaveModifyWageList = ({ onWages, oneSlave }) => {
   // 시급 선택한 경우 시급input태그 입력내용을 급여리스트 상태에 반영하기
   const wageAmountHourlyHandler = e => {
 
-    // 급여타입이 시급(true) 이면서 시급의 금액 입력창이 빈 것이 아닐경우
-    if (wageList[0].slaveWageType === true && e.target.value !== '') {
+    // 급여타입이 시급(true) 인 경우
+    // 주의! 시급이기만 하다면, 시급의 금액입력창이 빈 경우에도 업데이트해야한다.
+    if (wageList[0].slaveWageType === true) {
 
       setWageList([{ ...wageList[0], slaveWageAmount: e.target.value }]);
-    };
+    }
   };
 
   // 월급 선택한 경우 월급input태그 입력내용을 급여리스트 상태에 반영하기
   const wageAmountMonthlyHandler = e => {
 
-    // 급여타입이 월급(false) 이면서 월급의 금액 입력창이 빈 것이 아닐경우
-    if (wageList[0].slaveWageType === false && e.target.value !== '') {
-
+    // 급여타입이 월급(false) 인 경우
+    // 주의! 월급이기만 하다면, 월급의 금액입력창이 빈 경우에도 업데이트해야한다.
+    if (wageList[0].slaveWageType === false) {
+    
       setWageList([{ ...wageList[0], slaveWageAmount: e.target.value }]);
-    };
+    }
   };
 
   //-------------------------------------------------

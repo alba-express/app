@@ -15,6 +15,7 @@ const initialState = {
     showOneSlaveInfo: {}, // 특정 직원 한 명의 정보 표시 (초기값: 특정 직원의 한 명의 정보를 넣을 빈 배열)
     modifySlaveInfo: {}, // 특정 직원 한 명의 정보 표시 (초기값: 특정 직원의 한 명의 정보를 넣을 빈 배열)
     showSearchSlaveInfo: [], // 검색한 직원의 정보 표시 (초기값: 검색한 직원리스트, 직원)
+    showOneSlaveScheduleLogInfo: [],
 }
 
 const slaveSlice = createSlice({
@@ -44,6 +45,9 @@ const slaveSlice = createSlice({
         },
         setShowSearchSlaveInfo (state, action) {
             state.modifySlaveInfo = action.payload;
+        },
+        setShowOneSlaveScheduleLogInfo (state, action) {
+            state.showOneSlaveScheduleLogInfo = action.payload;
         }
     }
 });
