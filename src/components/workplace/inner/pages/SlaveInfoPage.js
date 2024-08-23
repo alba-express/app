@@ -73,27 +73,36 @@ const SlaveInfoPage = () => {
     // 직원퇴사버튼을 클릭했을 때 해당 직원 퇴사시키기
     const thisSlaveFiredHandler = async (slaveId) => {
 
-        try {
-            // 서버로 요청 보내기
-            const response = await fetch(`http://localhost:8877/detail/slave-fired/${slaveId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-      
-            // 응답 처리
-            if (response.ok) {
-              alert("직원의 탈퇴 요청이 성공적으로 처리되었습니다.");
-              // 해당 직원 상세페이지로 이동하기
-              navigate(`/detail/slave-manage`);
+        const isConfirmed = window.confirm("정말 퇴사하시겠습니까?");
 
-            } else {
-                console.error('탈퇴 요청 처리 실패:', response.statusText);
-            }
-          } catch (error) {
-              console.error('서버 요청 오류:', error);
-          }
+        if (isConfirmed) { // 확인을 클릭하면 퇴사처리
+
+            try {
+                // 서버로 요청 보내기
+                const response = await fetch(`http://localhost:8877/detail/slave-fired/${slaveId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+          
+                // 응답 처리
+                if (response.ok) {
+                  alert("퇴사 처리되었습니다.");
+                  // 해당 직원 상세페이지로 이동하기
+                  navigate(`/detail/slave-manage`);
+    
+                } else {
+                    console.error('탈퇴 요청 처리 실패:', response.statusText);
+                }
+              } catch (error) {
+                  console.error('서버 요청 오류:', error);
+              }
+        } else {
+
+            alert("퇴사가 취소되었습니다.")
+            
+        }
         
     };
 
