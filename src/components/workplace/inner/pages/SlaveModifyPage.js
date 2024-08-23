@@ -273,7 +273,7 @@ const SlaveModifyPage = () => {
             <div className={styles['slaveRegistPage']} >
 
                 <div className={styles['slaveRegistPageHeader-box']} >
-                    <div className={styles['slaveRegistPageHeader-title']}> 직원수정 </div>
+                    <h1 className={styles['slaveRegistPageHeader-title']}> 직원수정 </h1>
                 </div>
 
                 <form onSubmit={sendSlaveInputHandler} className={styles['slaveRegistPageForm-box']} >
@@ -315,7 +315,7 @@ const SlaveModifyPage = () => {
                     </div>
 
                     <div className={styles['slaveRegistPageForm-notice']}>
-                        * 모든 입력창을 입력하지 않으면 직원 등록이 되지 않습니다.
+                        * 모든 입력창을 입력하지 않으면 직원 수정이 되지 않습니다.
                     </div>
                     
                     <div className={styles['slaveRegistPageForm-bottom']} >

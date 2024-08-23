@@ -167,7 +167,16 @@ const SlaveManagePageSlaveStatusList = () => {
         :
         (showWhichSlaveList.slaveList.map((oneSlave) => 
           (
-            <div key={oneSlave.slaveId} onClick={() => selectOneSlaveHandler(oneSlave.slaveId)} style={{height: `${oneSlave.slaveScheduleList.length * 2.5}rem`}} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
+            <div
+              key={oneSlave.slaveId}
+              onClick={() => selectOneSlaveHandler(oneSlave.slaveId)}
+              style={{
+                height: oneSlave.slaveScheduleList.some(schedule => schedule.scheduleType === false)
+                  ? `${oneSlave.slaveScheduleList.length * 1.8}rem`
+                  : 'auto' // 조건을 만족하지 않을 때의 기본 높이 설정
+              }}
+              className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}
+            >
 
               <div className={styles['slaveManagementList-OneSlaveNameAndPosition']}>
                 <div className={styles['slaveManagementList-OneSlaveName']} >

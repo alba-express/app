@@ -6,8 +6,9 @@ const SlaveInfoPageCommuteList = ({ commuteList }) => {
   return (
     <>
       <div className={styles['slaveManagementList-title']}>
-        <div className={styles['slaveManagementList-titleName']}>근무일</div>
-        <div className={styles['slaveManagementList-titleWage']}>출근시간</div>
+        <div className={styles['slaveManagementList-titleName']}>날짜</div>
+        <div className={styles['slaveManagementList-titleWage']}>근무시간</div>
+        <div className={styles['slaveManagementList-titleSchedule']}>출근시간</div>
         <div className={styles['slaveManagementList-titleSchedule']}>퇴근시간</div>
         <div className={styles['slaveManagementList-titleJoin']}>출근정보</div>
       </div>
