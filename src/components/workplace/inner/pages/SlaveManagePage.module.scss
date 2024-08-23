@@ -33,13 +33,14 @@
     }
   
     .headerButton {
-      width: 7rem;
-      height: 2.5rem;
+      width: 7.5rem;
+      height: 100%;
       //--------------------------
       display: flex;
       justify-content: center;
       align-items: center;
       //--------------------------
+      margin: 0 0 0 10px;
       margin-bottom: -18px;
       padding: 10px 20px;
       border: none;
