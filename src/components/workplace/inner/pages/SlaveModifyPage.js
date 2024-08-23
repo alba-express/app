@@ -326,7 +326,7 @@ const SlaveModifyPage = () => {
                         </div>
 
                         <div className={styles['slaveRegistPageButton-box']} >
-                            <button type={formButtonType} className={formButtonStyle} > 수정 </button>
+                            <button type={formButtonType} className={styles['formButtonStyle']} > 수정 </button>
                         </div>
                     </div>
                 </form>
