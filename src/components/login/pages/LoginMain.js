@@ -52,7 +52,7 @@ const LoginMain = () => {
                 const data = await response.json();
                 const token = data.token; // 서버가 반환하는 토큰을 가져옴
                 saveUserToken(token, autoLogin); // autoLogin이 true면 로컬스토리지에 저장, false면 세션스토리지에 저장
-
+                sessionStorage.setItem('userId',email);
                 if (rememberMe) {
                     saveUserId(email); // 아이디 저장 체크한 경우에만 이메일 저장
                 }
