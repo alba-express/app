@@ -126,19 +126,19 @@ const SlaveInfoPageCommuteHistoryList = ({ scheduleLogList }) => {
       {showOneSlaveScheduleLogInfo.map((log, index) => (
         <div className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
 
-          <div className={styles['slaveManagementList-OneSlaveName']} >
+          <div className={styles['slaveManagementList-OneSlaveDate']} >
             {log.date}
           </div>
-          <div className={styles['slaveManagementList-OneSlaveName']} >
+          <div className={styles['slaveManagementList-OneSlaveScheduleStart']} >
             {log.expectedStartTime} ~ {log.expectedEndTime}
           </div>
-          <div className={styles['slaveManagementList-OneSlaveName']} >
+          <div className={styles['slaveManagementList-OneSlaveLogStart']} >
             {log.actualStartTime}
           </div>
-          <div className={styles['slaveManagementList-OneSlaveName']} >
+          <div className={styles['slaveManagementList-OneSlaveLogEnd']} >
             {log.actualEndTime}
           </div>
-          <div className={styles['slaveManagementList-OneSlaveName']} >
+          <div className={styles['slaveManagementList-OneSlaveLogStatus']} >
             {log.status}
           </div>
         </div>

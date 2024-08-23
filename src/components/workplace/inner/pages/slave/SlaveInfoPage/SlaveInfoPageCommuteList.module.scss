@@ -3,7 +3,7 @@
   height: 2.5rem;
   //-------------
   display: flex;
-  justify-content: left;
+  // justify-content: left;
   align-items: center;
   //------------------
   margin-top: 5px;
@@ -27,27 +27,27 @@
 
   &Name {
     @extend .slaveManagementList-title-common;
-    width: 20.5rem;
+    width: 13rem;
     padding-left: 6rem;
     // border: 1px solid red;
   }
 
   &Wage {
     @extend .slaveManagementList-title-common;
-    width: 18rem;
-    padding-left: 4rem;
+    width: 17rem;
+    // padding-left: 4rem;
     // border: 1px solid red;
   }
 
   &Schedule {
     @extend .slaveManagementList-title-common;
-    width: 25rem;
+    width: 11rem;
     // border: 1px solid red;
   }
 
   &Join {
     @extend .slaveManagementList-title-common;
-    width: 22.7rem;
+    width: 15rem;
     padding-right: 6rem;
     // border: 1px solid red;
   }
@@ -56,7 +56,7 @@
 
 .slaveManagementList-content {
   width: 100%;
-  height: 19.2rem;
+  height: 34rem;
   background: rgba(136, 136, 136, 0.3);
   max-height: 39rem;
   overflow-y: scroll;

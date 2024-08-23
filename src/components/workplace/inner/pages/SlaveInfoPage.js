@@ -121,8 +121,10 @@ const SlaveInfoPage = () => {
 
             <div className={styles['slaveInfoPage-HeaderBox']} >
                 <h1 className={styles['slaveInfoPage-HeaderTitle']} > 직원상세정보 </h1>
-                <div className={styles['headerButton']} onClick={thisSlaveModifyHandler} > 직원수정 </div>
-                <div className={styles['headerButton']} onClick={() => thisSlaveFiredHandler(oneSlave.slaveId)} > 직원퇴사 </div>
+                <div className={styles['slaveInfoPage-HeaderButtonBox']}>
+                    <div className={styles['headerButton']} onClick={thisSlaveModifyHandler} > 직원수정 </div>
+                    <div className={styles['headerButton']} onClick={() => thisSlaveFiredHandler(oneSlave.slaveId)} > 직원퇴사 </div>
+                </div>
             </div>
             
             <div className={styles['slaveInfoPage-MiddleBox']}>
@@ -134,18 +136,18 @@ const SlaveInfoPage = () => {
                         </div>
                         <div className={styles['slaveInfoPage-leftSlaveInfoBox']}>
                             <div className={styles['slaveInfoPage-slaveInfoSubTitleBox']}>
-                                <div> 이름 : </div>
-                                <div> 직책 : </div>
-                                <div> 전화번호 : </div>
-                                <div> 생년월일 : </div>
-                                <div> 입사일 : </div>
+                                <div> 이름&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </div>
+                                <div> 직책&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </div>
+                                <div> 전화번호&nbsp; : </div>
+                                <div> 생년월일&nbsp; : </div>
+                                <div> 입사일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </div>
                             </div>
                             <div className={styles['slaveInfoPage-slaveInfoContentBox']}>
-                                <div>{oneSlave.slaveName}</div>
-                                <div>{oneSlave.slavePosition}</div>
-                                <div>{oneSlave.slavePhoneNumber}</div>
-                                <div>{oneSlave.slaveBirthday}</div>
-                                <div>{oneSlave.slaveCreatedAt}</div>
+                                <div>&nbsp;&nbsp;{oneSlave.slaveName}</div>
+                                <div>&nbsp;&nbsp;{oneSlave.slavePosition}</div>
+                                <div>&nbsp;&nbsp;{oneSlave.slavePhoneNumber}</div>
+                                <div>&nbsp;&nbsp;{oneSlave.slaveBirthday}</div>
+                                <div>&nbsp;&nbsp;{oneSlave.slaveCreatedAt}</div>
                             </div>
                         </div>
                     </div>
@@ -156,14 +158,14 @@ const SlaveInfoPage = () => {
                         </div>
                         <div className={styles['slaveInfoPage-leftSlaveWageBox']}>
                             <div className={styles['slaveInfoPage-slaveWageTitleBox']}>
-                                <div> 급여타입 : </div>
-                                <div> 금액 : </div>
+                                <div> 급여타입&nbsp; : </div>
+                                <div> 금액&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </div>
                             </div>
                             <div>
                                 {oneSlave.wageList.filter(wage => !wage.wageEndDate) // wageEndDate가 없는 항목만 필터링
                                     .map((wage, index) => (
                                         <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
-                                            {wage.slaveWageType}
+                                            &nbsp;&nbsp;&nbsp;{wage.slaveWageType}
                                         </div>
                                     ))
                                 }
@@ -171,7 +173,7 @@ const SlaveInfoPage = () => {
                                 {oneSlave.wageList.filter(wage => !wage.wageEndDate) // wageEndDate가 없는 항목만 필터링
                                     .map((wage, index) => (
                                         <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
-                                            {wage.slaveWageAmount}원
+                                            &nbsp;&nbsp;&nbsp;{wage.slaveWageAmount}원
                                         </div>
                                     ))
                                 }
@@ -186,18 +188,18 @@ const SlaveInfoPage = () => {
                         </div>
 
                         <div className={styles['slaveInfoPage-leftSlaveScheduleBox']}>
-                            <div className={styles['slaveInfoPage-slaveScheduleTitleBox']}>
+                            {/* <div className={styles['slaveInfoPage-slaveScheduleTitleBox']}>
                                 <div> 근무타입 / </div>
                                 <div> 요일 / </div>
                                 <div> 출근시간 / </div>
                                 <div> 퇴근시간 / </div>
-                            </div>
+                            </div> */}
 
                             <div>
                                 {oneSlave.scheduleList.filter(schedule => schedule.scheduleEndDate === null) // scheduleEndDate가 null인 항목만 필터링
                                     .map((schedule, index) => (
-                                        <div key={index}>
-                                            {schedule.scheduleDay} : {schedule.scheduleStart} ~ {schedule.scheduleEnd}
+                                        <div key={index} className={styles['slaveInfoPage-slaveScheduleContentBox']}>
+                                            {schedule.scheduleDay}&nbsp;&nbsp;&nbsp; {schedule.scheduleStart}&nbsp; ~&nbsp; {schedule.scheduleEnd}
                                         </div>
                                     ))
                                 }
