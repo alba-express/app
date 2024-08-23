@@ -12,7 +12,7 @@ let backendHostName;
 if (clientHostName === 'localhost') {
     backendHostName = 'http://localhost:' + LOCAL_PORT;
 } else {
-    backendHostName = 'http://43.202.122.135' + LOCAL_PORT;
+    backendHostName = 'http://43.202.122.135:' + LOCAL_PORT;
 }
 
 export const BASE_URL = backendHostName;
