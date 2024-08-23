@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import styles from './WorkplacePwdVerify.module.scss'; 
+import styles from '../../../login/pages/commonStyles.module.scss'; 
 
 const WorkplacePwdVerify = () => {
     const [password, setPassword] = useState('');
@@ -34,7 +34,7 @@ const WorkplacePwdVerify = () => {
                 localStorage.removeItem('action');
 
             } else {
-                setError('간편 비밀번호가 일치하지 않습니다.');
+                setError('간편 비밀번호가 틀렸습니다.');
             }
         } catch (error) {
             console.error('Error verifying password:', error);
@@ -47,13 +47,14 @@ const WorkplacePwdVerify = () => {
     };
 
     return (
-        <div className={styles.modalOverlay}>
-            <div className={styles.modalContent}>
-                <h1 className={styles.header1}>간편 비밀번호 검증</h1>
+        <div className={styles.fullPageContainer}>
+            <div className={styles.signUpContainer}>
+                <h1 className={styles.signUpTitle}>간편 비밀번호 검증</h1>
                 <form onSubmit={handleSubmit}>
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="password">간편 비밀번호:</label>
+                    <div className={styles.inputContainer}>
+                        <label className={styles.inputLabel} htmlFor="password">간편 비밀번호</label>
                         <input
+                            className={styles.inputField}
                             type="password"
                             id="password"
                             value={password}
@@ -62,9 +63,9 @@ const WorkplacePwdVerify = () => {
                         />
                     </div>
                     {error && <p className={styles.error}>{error}</p>}
-                    <div className={styles.buttonGroup}>
-                        <button type="submit" className={styles.submitButton}>확인</button>
+                    <div className={styles.buttonContainer}>
                         <button type="button" onClick={cancelHandler} className={styles.cancelButton}>취소</button>
+                        <button type="submit" className={styles.submitButton2}>확인</button>
                     </div>
                 </form>
             </div>
