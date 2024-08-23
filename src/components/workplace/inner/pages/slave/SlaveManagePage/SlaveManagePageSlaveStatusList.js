@@ -143,22 +143,6 @@ const SlaveManagePageSlaveStatusList = () => {
 
   //-------------------------------------------------
 
-  // 근무정보리스트의 내역을 scheduleType (고정시간 -> true, 변동시간 -> false) 에 따라 렌더링 태그 변경하기
-
-  // const isScheduleType = () => {
-  //   const scheduleTypeIsTrue = oneSlave.scheduleList.filter(schedule => schedule.scheduleType === true);
-
-  //   const scheduleTypeIsFalse = oneSlave.scheduleList.filter(schedule => schedule.scheduleType === false);
-
-  //   if (scheduleTypeIsTrue) {
-  //       return true;
-  //   } else if (scheduleTypeIsFalse || null) {
-  //       return false;
-  //   }
-  // }
-
-//-------------------------------------------------
-
   return (
     <>
       <div className={styles['content-box']}>
@@ -191,10 +175,8 @@ const SlaveManagePageSlaveStatusList = () => {
               {oneSlave.slaveWageList.map((wage) => 
                 <div key={wage.slaveWageId} className={styles['slaveManagementList-OneSlaveWage']}>
                   <div className={styles['slaveManagementList-OneSlaveMoneyType']} >
-                      {wage.slaveWageType} {wage.slaveWageAmount}원
-                  </div>
-                  <div className={styles['slaveManagementList-OneSlaveInsurance']} >
-                    4대보험 {wage.slaveWageInsurance}
+                    <div>{wage.slaveWageType} {wage.slaveWageAmount}원</div>
+                    <div>(4대보험&nbsp;&nbsp;{wage.slaveWageInsurance})</div>
                   </div>
                 </div>
               )}
