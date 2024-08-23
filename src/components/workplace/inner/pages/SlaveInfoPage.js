@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styles from './SlaveInfoPage.module.scss';
 import { useNavigate } from "react-router-dom";
-import SlaveInfoPageCommuteList from './slave/SlaveInfoPageCommuteList';
+import SlaveInfoPageCommuteList from './slave/SlaveInfoPage/SlaveInfoPageCommuteList';
+import { useDispatch, useSelector } from 'react-redux';
+import { slaveActions } from '../../../../store/slave-slice';
 
 const SlaveInfoPage = () => {
 
@@ -35,9 +37,6 @@ const SlaveInfoPage = () => {
         }
     };
 
-    // oneSlave 정의하기
-    const oneSlave = getOneSlave();
-
     useEffect(()=> {console.log("한명보여줘", oneSlave);
     }, [])
 
@@ -58,7 +57,7 @@ const SlaveInfoPage = () => {
     }
 
 
-    const isScheduleTypeTrue = oneSlave.scheduleList.some(schedule => schedule.scheduleType === true);
+    // const isScheduleTypeTrue = oneSlave.scheduleList.some(schedule => schedule.scheduleType === true);
 
     //-------------------------------------------------
 
@@ -100,6 +99,22 @@ const SlaveInfoPage = () => {
 
     //-------------------------------------------------
 
+    // oneSlave 정의하기
+  const oneSlave = getOneSlave();
+
+  //-------------------------------------------------
+
+  // redux store 에서 상태값 변경하는 action hook 불러오기
+  const dispatch = useDispatch();
+
+  // 에러 상태값으로 관리
+  const [error, setError] = useState(null);
+
+  // redux store 에서 선택한 직원 한 명의 정보를 표시하는 상태값 불러오기
+  const showOneSlaveScheduleLogInfo = useSelector((state) => state.slave.showOneSlaveScheduleLogInfo);
+
+  //-------------------------------------------------
+
   return (
     <>
         <div className={styles['content-box']}>
@@ -111,18 +126,21 @@ const SlaveInfoPage = () => {
             </div>
             
             <div className={styles['slaveInfoPage-MiddleBox']}>
-                <div>
-                    <div className={styles['slaveInfoPage-SlaveInfoBox']}>
-                        <div className={styles['slaveInfoPage-SlaveInfoTitle']}> 개인정보 </div>
-                        <div className={styles['slaveInfoPage-SlaveInfoContentBox']}>
-                            <div className={styles['slaveInfoPage-SlaveInfoContentTitle']}>
+                <div className={styles['slaveInfoPage-leftBox']}>
+
+                    <div className={styles['slaveInfoPage-leftSlaveInfo']}>
+                        <div className={styles['slaveInfoPage-leftSlaveInfoTitle']}>
+                            개인정보
+                        </div>
+                        <div className={styles['slaveInfoPage-leftSlaveInfoBox']}>
+                            <div className={styles['slaveInfoPage-slaveInfoSubTitleBox']}>
                                 <div> 이름 : </div>
                                 <div> 직책 : </div>
                                 <div> 전화번호 : </div>
                                 <div> 생년월일 : </div>
                                 <div> 입사일 : </div>
                             </div>
-                            <div className={styles['slaveInfoPage-SlaveInfoContentContent']}>
+                            <div className={styles['slaveInfoPage-slaveInfoContentBox']}>
                                 <div>{oneSlave.slaveName}</div>
                                 <div>{oneSlave.slavePosition}</div>
                                 <div>{oneSlave.slavePhoneNumber}</div>
@@ -131,50 +149,81 @@ const SlaveInfoPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className={styles['slaveInfoPage-SlaveWageBox']}>
-                        <div className={styles['slaveInfoPage-SlaveWageTitle']}> 급여타입 / 금액 </div>
-                        {oneSlave.wageList
-                            .filter(wage => !wage.wageEndDate) // wageEndDate가 없는 항목만 필터링
-                            .map((wage, index) => (
-                                <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
-                                    {wage.slaveWageType}, {wage.slaveWageAmount}원
-                                </div>
-                            ))
-                        }
-                        
+
+                    <div className={styles['slaveInfoPage-leftSlaveWage']}>
+                        <div className={styles['slaveInfoPage-leftSlaveWageTitle']}>
+                            급여정보
+                        </div>
+                        <div className={styles['slaveInfoPage-leftSlaveWageBox']}>
+                            <div className={styles['slaveInfoPage-slaveWageTitleBox']}>
+                                <div> 급여타입 : </div>
+                                <div> 금액 : </div>
+                            </div>
+                            <div>
+                                {oneSlave.wageList.filter(wage => !wage.wageEndDate) // wageEndDate가 없는 항목만 필터링
+                                    .map((wage, index) => (
+                                        <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
+                                            {wage.slaveWageType}
+                                        </div>
+                                    ))
+                                }
+
+                                {oneSlave.wageList.filter(wage => !wage.wageEndDate) // wageEndDate가 없는 항목만 필터링
+                                    .map((wage, index) => (
+                                        <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
+                                            {wage.slaveWageAmount}원
+                                        </div>
+                                    ))
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={styles['slaveInfoPage-leftSlaveSchedule']}>
+                        <div className={styles['slaveInfoPage-leftSlaveScheduleTitle']}>
+                            근무정보
+                        </div>
+
+                        <div className={styles['slaveInfoPage-leftSlaveScheduleBox']}>
+                            <div className={styles['slaveInfoPage-slaveScheduleTitleBox']}>
+                                <div> 근무타입 / </div>
+                                <div> 요일 / </div>
+                                <div> 출근시간 / </div>
+                                <div> 퇴근시간 / </div>
+                            </div>
+
+                            <div>
+                                {oneSlave.scheduleList.filter(schedule => schedule.scheduleEndDate === null) // scheduleEndDate가 null인 항목만 필터링
+                                    .map((schedule, index) => (
+                                        <div key={index}>
+                                            {schedule.scheduleDay} : {schedule.scheduleStart} ~ {schedule.scheduleEnd}
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <div className={styles['slaveInfoPage-SlaveScheduleBox']}>
-                        <div className={styles['slaveInfoPage-SlaveScheduleTitle']}> 고정근무시간 </div>
-                        <div className={styles['slaveInfoPage-SlaveScheduleContentBox']} >
-                            <div>요일 /  시간</div>
 
+                <div className={styles['slaveInfoPage-rightBox']}>
+                    <div className={styles['slaveInfoPage-rightSlaveScheduleLog']}>
 
-                            {oneSlave.scheduleList
-                                .filter(schedule => schedule.scheduleEndDate === null) // scheduleEndDate가 null인 항목만 필터링
-                                .map((schedule, index) => (
-                                    <div key={index}>
-                                        {schedule.scheduleDay} : {schedule.scheduleStart} ~ {schedule.scheduleEnd}
-                                    </div>
-                                ))
-                            }
+                        <div className={styles['slaveInfoPage-rightSlaveScheduleLogTitle']}>
+                            근무현황
+                        </div>
+
+                        <div className={styles['slaveInfoPage-rightSlaveScheduleLogBox']}>
+                            
+                            <SlaveInfoPageCommuteList commuteList={oneSlave.scheduleLogList} />
+                            
                         </div>
 
                     </div>
-                </div>
-                <div>
-                    <div className={styles['slaveInfoPage-SlaveNothingBox']}>
-                        <div className={styles['slaveInfoPage-SlaveNothingTitle']}> 임시제목 </div>
-                        <div className={styles['slaveInfoPage-SlaveNothingContentBox']}> 임시내용 </div>
-                    </div>
+
                 </div>
             </div>
-            <div className={styles['slaveInfoPage-BottomBox']} >
-                <div className={styles['slaveInfoPage-BottomTitle']}> 근태정보 </div>
-                <SlaveInfoPageCommuteList commuteList={oneSlave.scheduleLogList} />
-            </div>
-        </div>
+        </div> 
     </>
   )
 }

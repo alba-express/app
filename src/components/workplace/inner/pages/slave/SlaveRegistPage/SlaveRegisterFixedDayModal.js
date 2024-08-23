@@ -41,58 +41,46 @@ const SlaveRegisterFixedDayModal = ({ onFixed }) => {
 
     return (
         <>
-            <div style={{ fontSize: '18px' }}>요일을 선택해주세요</div>
-
-            <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0 20px 0' }}>
+            <div className={styles['slaveRegistPageScheduleModal-title']} > 요일을 선택해주세요 </div>
+      
+            <div className={styles['slaveRegistPageScheduleModal-content']} >
                 {fixedDays.map((day) => (
-                    <Button
-                        key={day.scheduleDay}
-                        value={day.value}
-                        onClick={selectDayHandler}
-                        style={{
-                            width: '2.5rem',
-                            height: '2.5rem',
-                            margin: '0 14.5px 0 0',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            fontWeight: '600',
-                            color: '#fff',
-                            cursor: 'pointer',
-                            backgroundColor: day.select ? '#ff8803' : '#ccc',
-                            border: '0',
-                            // boxShadow: day.select
-                            //     ? 'inset -4px -4px 6px 0 rgba(255,255,255,.2), inset 4px 4px 6px 0 rgba(0, 0, 0, .4)'
-                            //     : 'inset 2px 2px 2px 0px rgba(255,255,255,.5), 7px 7px 20px 0px rgba(0,0,0,.1), 4px 4px 5px 0px rgba(0,0,0,.1)',
-                        }}
-                    >
-                        {day.value}
-                    </Button>
+                  <Button 
+                    key={day.scheduleDay} 
+                    id={day.scheduleDay} 
+                    className={day.select ? styles.selectedDaySchedule : styles.nonDaySchedule }
+                    value={day.value}
+                    onClick={selectDayHandler} 
+                    aria-pressed={day.select}
+                  >
+                    {day.value}
+                  </Button>
+
                 ))}
             </div>
-
-            <div style={{ fontSize: '18px' }}>시간선택</div>
-
-            <div style={{ display: 'flex', width: '40rem', height: '2.2rem', fontSize: '18px', marginLeft: '-10px' }}>
-                <label>
-                    <input
-                        type="time"
-                        style={{ width: '10rem', height: '2.2rem', margin: '10px 10px 0 10px' }}
-                        onChange={startTimeHandler}
+  
+            <div className={styles['slaveRegistPageScheduleModal-title']} > 시간선택 </div>
+                
+            <div className={styles['slaveRegistPageScheduleModalInput-box']} >
+                <label className={styles['slaveRegistPageInputSchedule-label']} >
+                    <input 
+                      type="time" 
+                      className={styles['slaveRegistPageInputSchedule-input']} 
+                      onChange={startTimeHandler}
                     />
                     부터
                 </label>
-
-                <label>
-                    <input
-                        type="time"
-                        style={{ width: '10rem', height: '2.2rem', margin: '10px 10px 0 10px' }}
-                        onChange={endTimeHandler}
+                
+                <label className={styles['slaveRegistPageInputSchedule-label']}>
+                    <input 
+                      type="time" 
+                      className={styles['slaveRegistPageInputSchedule-input']} 
+                      onChange={endTimeHandler}
                     />
                     까지
                 </label>
             </div>
-        </>
+      </>
     );
 };
 

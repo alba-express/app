@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './SlaveModifyVariableDayModal.module.scss';
+import { Button } from 'react-bootstrap';
 
 const SlaveModifyVariableDayModal = ({ onVariable, oneSlave }) => {
 
@@ -106,19 +107,18 @@ const SlaveModifyVariableDayModal = ({ onVariable, oneSlave }) => {
   
         {variableDays.map((day) => (
         <div className={styles['slaveRegistPageScheduleModal-content']} key={day.scheduleDay} >
-          <label htmlFor={day.scheduleDay} className={day.select ? styles.selectedDaySchedule : styles.nonDaySchedule } >
+
+          <Button 
+            id={day.scheduleDay} 
+            className={day.select ? styles.selectedDaySchedule : styles.nonDaySchedule } 
+            value={day.value}
+            onClick={selectDayHandler} 
+            aria-pressed={day.select}
+          >
             {day.value}
-            <input 
-              type="checkbox" 
-              checked={day.select} 
-              id={day.scheduleDay} 
-              value={day.value} 
-              style={{ display: 'none' }} 
-              onChange={selectDayHandler} 
-            />
-          </label>
-  
-          <label htmlFor={`${day.scheduleDay}-startTime`} >
+          </Button>
+
+          <label htmlFor={`${day.scheduleDay}-startTime`} className={styles['slaveRegistPageInputSchedule-label']} >
             <input 
               type="time" 
               id={`${day.scheduleDay}-startTime`} 
@@ -129,7 +129,7 @@ const SlaveModifyVariableDayModal = ({ onVariable, oneSlave }) => {
             부터
           </label>
   
-          <label htmlFor={`${day.scheduleDay}-EndTime`}>
+          <label htmlFor={`${day.scheduleDay}-EndTime`} className={styles['slaveRegistPageInputSchedule-label']}>
             <input 
               type="time" 
               id={`${day.scheduleDay}-EndTime`} 
@@ -139,6 +139,7 @@ const SlaveModifyVariableDayModal = ({ onVariable, oneSlave }) => {
             />
             까지
           </label>
+
         </div>
         ))}
       </>

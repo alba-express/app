@@ -7,6 +7,13 @@
     font-weight: 700;
     padding-left: 4.5rem;
 
+    .slaveRegistPageSchedule-notice {
+      color: red;
+      font-size: 14px;
+      font-weight: 400;
+      margin: 5px 0;
+    }
+
     .slaveRegistPageInputScheduleTitle-box {
       display: flex;
       justify-content: left;
@@ -15,7 +22,7 @@
       //-----------------------
       width: 38.5rem;
       height: 2.5rem;
-      margin: 10px 0;
+      margin: 5px 0;
 
       .nonScheduleType {
         width: 10.8rem;
@@ -54,6 +61,6 @@
     }
 
     .slaveRegistPageInputScheduleContent-box {
-      margin-top: 10px;
+      margin-top: 5px;
     }
   }
