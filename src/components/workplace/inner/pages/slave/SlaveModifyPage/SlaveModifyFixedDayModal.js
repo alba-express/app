@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './SlaveModifyFixedDayModal.module.scss';
+import { Button } from 'react-bootstrap';
 
 const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
 
@@ -114,38 +115,38 @@ const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
       <div className={styles['slaveRegistPageScheduleModal-title']} > 요일을 선택해주세요 </div>
     
       <div className={styles['slaveRegistPageScheduleModal-content']} >
-      {fixedDays.map((day) => (
-        <label key={day.scheduleDay} htmlFor={day.scheduleDay} className={day.select ? styles.selectedDaySchedule : styles.nonDaySchedule } >
-          {day.value}
-          <input 
-            type='checkbox' 
-            checked={day.select} 
+        {fixedDays.map((day) => (
+          <Button 
+            key={day.scheduleDay} 
             id={day.scheduleDay} 
-            value={day.value} 
-            style={{ display: 'none' }} 
-            onChange={selectDayHandler}
-          />
-        </label>
-      ))}
+            className={day.select ? styles.selectedDaySchedule : styles.nonDaySchedule }
+            value={day.value}
+            onClick={selectDayHandler} 
+            aria-pressed={day.select}
+          >
+            {day.value}
+          </Button>
+
+        ))}
       </div>
 
       <div className={styles['slaveRegistPageScheduleModal-title']} > 시간선택 </div>
 
       <div className={styles['slaveRegistPageScheduleModalInput-box']} >
-        <label>
+        <label className={styles['slaveRegistPageInputSchedule-label']} >
           <input 
             type="time" 
-            className={styles['slaveRegistPageScheduleModalInput']} 
+            className={styles['slaveRegistPageInputSchedule-input']} 
             onChange={startTimeHandler}
             value={inputStartSchedule} 
           />
           부터
         </label>
         
-        <label>
+        <label className={styles['slaveRegistPageInputSchedule-label']}>
           <input 
             type="time" 
-            className={styles['slaveRegistPageScheduleModalInput']} 
+            className={styles['slaveRegistPageInputSchedule-input']} 
             onChange={endTimeHandler}
             value={inputEndSchedule} 
           />

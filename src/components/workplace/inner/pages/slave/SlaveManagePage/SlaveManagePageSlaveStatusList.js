@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from './SlaveManagePageSlaveStatusList.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { slaveActions } from '../../../../../store/slave-slice';
+import { slaveActions } from '../../../../../../store/slave-slice';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
@@ -167,7 +167,17 @@ const SlaveManagePageSlaveStatusList = () => {
         :
         (showWhichSlaveList.slaveList.map((oneSlave) => 
           (
-            <div key={oneSlave.slaveId} onClick={() => selectOneSlaveHandler(oneSlave.slaveId)} style={{height: `${oneSlave.slaveScheduleList.length * 2.5}rem`}} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
+            <div
+              key={oneSlave.slaveId}
+              onClick={() => selectOneSlaveHandler(oneSlave.slaveId)}
+              style={{
+                height: oneSlave.slaveScheduleList.some(schedule => schedule.scheduleType === false)
+                  ? `${oneSlave.slaveScheduleList.length * 1.8}rem`
+                  : '2rem',// 조건을 만족하지 않을 때의 기본 높이 설정
+                  minHeight: '2.7rem'
+              }}
+              className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}
+            >
 
               <div className={styles['slaveManagementList-OneSlaveNameAndPosition']}>
                 <div className={styles['slaveManagementList-OneSlaveName']} >

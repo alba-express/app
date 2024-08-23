@@ -74,6 +74,9 @@ const SlaveModifyPage = () => {
 
     const navigate = useNavigate();
 
+    // 생년월일을 오늘 이전날짜만 입력 가능하게 하기 위한 오늘 날짜를 "YYYY-MM-DD" 형식으로 포맷팅
+    const today = new Date().toISOString().split('T')[0];
+
     //-------------------------------------------------
 
     // 이름 입력한 경우 input태그 상태창 변경하기
@@ -270,7 +273,7 @@ const SlaveModifyPage = () => {
             <div className={styles['slaveRegistPage']} >
 
                 <div className={styles['slaveRegistPageHeader-box']} >
-                    직원수정
+                    <h1 className={styles['slaveRegistPageHeader-title']}> 직원수정 </h1>
                 </div>
 
                 <form onSubmit={sendSlaveInputHandler} className={styles['slaveRegistPageForm-box']} >
@@ -290,7 +293,7 @@ const SlaveModifyPage = () => {
 
                             <label htmlFor="slaveBirthday" className={styles['slaveRegistPageInput-box']} >
                                 <div className={styles['slaveRegistPageInput-title']} > 생년월일 </div>
-                                <input id="slaveBirthday" type="date" onChange={birthdayHandler} className={styles['slaveRegistPageInput-input']} value={slaveModifyInput.slaveBirthday}/>
+                                <input id="slaveBirthday" type="date" max={today} onChange={birthdayHandler} className={styles['slaveRegistPageInput-input']} value={slaveModifyInput.slaveBirthday}/>
                             </label>
 
                             <label htmlFor="slavePosition" className={styles['slaveRegistPageInput-box']} >
@@ -303,8 +306,6 @@ const SlaveModifyPage = () => {
 
                         </div>
 
-                        <div className={styles['slaveRegistPageForm-middle']}></div>
-
                         <div className={styles['slaveRegistPageForm-right']}>
 
                             {/* 근무정보리스트 */}
@@ -313,11 +314,18 @@ const SlaveModifyPage = () => {
                         </div>
                     </div>
 
+                    <div className={styles['slaveRegistPageForm-notice']}>
+                        * 모든 입력창을 입력하지 않으면 직원 수정이 되지 않습니다.
+                    </div>
+                    
                     <div className={styles['slaveRegistPageForm-bottom']} >
                         <div className={styles['slaveRegistPageButton-box']} >
-                            <Link to="/detail/slave-manage" className={styles['link-text']} > 
+                            <Link to="/detail/slave-info" className={styles['link-text']} > 
                                 <button className={styles['slaveRegistPage-button']} > 취소 </button>
                             </Link>
+                        </div>
+
+                        <div className={styles['slaveRegistPageButton-box']} >
                             <button type={formButtonType} className={formButtonStyle} > 수정 </button>
                         </div>
                     </div>

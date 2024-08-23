@@ -1,55 +1,58 @@
 .slaveRegistPage {
-  padding: 30px;
+  padding: 20px;
+  font-size: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   .slaveRegistPageHeader-box {
-    width: 86rem;
-    height: 3.5rem;
-    // background: #ff8803;
-    font-size: 25px;
-    font-weight: 600;
-    color: rgb(255, 255, 255);
-    letter-spacing: 5px;
+    width: 100%;
+    height: 1%;
+    //-----------
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
+    //-----------------------------------------
+    margin: 0 auto;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #ffc107;
+
+    // .slaveRegistPageHeader-title {
+    //   // width: 7.6rem;
+    //   height: 3rem;
+    //   //----------------------------
+    //   font-size: 40px;
+    //   font-weight: 900;
+    //   letter-spacing: 2px;
+    //   color: rgba(43, 42, 42, 0.8);
+    //   //-----------------------------
+    //   // border: 3px solid red;
+    // }
   }
 
   .slaveRegistPageForm-box {
-    padding: 30px;
+    // padding: 20px 30px;
     width: 86rem;
-    height: 40rem;
+    height: 43rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    // border: 1px solid blue;
 
     .slaveRegistPageForm-top {
       width: 86rem;
+      height: 33rem;
       display: flex;
 
-      .slaveRegistPageForm-middle {
-        position: relative;
-
-        &::before,
-        &::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          width: 1px;
-          height: 29.9rem;
-          background-color: rgba(0, 0, 0, 0.2);
-        }
-      }
-
       .slaveRegistPageForm-left {
-        padding: 38px 0;
+        padding: 42px 0 0 0;
+        // border: 1px solid blue;
       }
 
       .slaveRegistPageForm-right {
+        // border: 1px solid red;
         padding: 0 0 0 38px;
       }
 
@@ -59,7 +62,7 @@
         width: 43rem;
         font-size: 20px;
         font-weight: 700;
-        margin-bottom: 32px;
+        margin-bottom: 37px;
         padding-left: 4.5rem;
 
         .slaveRegistPageInput-title {
@@ -73,191 +76,35 @@
       }
     }
 
+    .slaveRegistPageForm-notice {
+      font-size: 14px;
+      color: red;
+      height: 40px;
+      margin: 10px;
+      padding: 12px 0;
+    }
+
     .slaveRegistPageForm-bottom {
-      width: 86rem;
-
-      .slaveRegistPageButton-box {
-        height: 2.5rem;
-        display: flex;
-        justify-content: center;
-        font-size: 20px;
-
-        .link-text {
-          text-decoration: none;
-          color: rgb(255, 255, 255);
-        }
-
-        .slaveRegistPage-button {
-          width: 10.8rem;
-          height: 2.5rem;
-          margin: 0 10px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-weight: 600;
-          color: rgb(255, 255, 255);
-          //border: 1px solid rgba(0, 139, 134, 0.8);
-          cursor: pointer;
-          box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
-          7px 7px 20px 0px rgba(0,0,0,.1),
-          4px 4px 5px 0px rgba(0,0,0,.1);
-          background: #ff8803;
-        }
-
-        .slaveRegistPage-button:hover {
-          background: rgba(65, 63, 63, 0.7);
-          color: rgb(255, 255, 255);
-          border: 1px solid rgba(65, 63, 63, 1);
-        }
-      }
-    }
-  }
-}
-.slaveRegistPage {
-  padding: 30px;
-  // border: 1px solid red;
-  //------------
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  .slaveRegistPageHeader-box {
-    width: 86rem;
-    height: 3.5rem;
-    background: #ff8803;
-    // background: rgba(0, 0, 0, 0.5);
-    //-----------------------------------
-    font-size: 25px;
-    font-weight: 600;
-    color: rgb(255, 255, 255);
-    letter-spacing: 5px;
-    //--------------------------
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .slaveRegistPageForm-box {
-    padding: 30px;
-    width: 86rem;
-    height: 40rem;
-    //----------------------
-    display: flex;
-    flex-direction: column;
-    // justify-content: center;
-    align-items: center;
-    //----------------------
-    // border: 3px solid red;
-    
-    input {
-      padding: 1px 10px;
-    }
-
-    .slaveRegistPageForm-top {
       width: 86rem;
       display: flex;
-      // border: 3px solid red;
-
-      .slaveRegistPageForm-middle {
-        position: relative;
-
-
-        &::before,
-        &::after {
-              content: '';
-              position: absolute;
-              top: 0;
-              bottom: 0;
-              width: 1px;
-              height: 29.9rem;
-              background-color: rgba(0, 0, 0, 0.2);
-        }
-      }
-
-      .slaveRegistPageForm-left {
-        padding: 38px 0;
-      }
-
-      .slaveRegistPageForm-right {
-        padding: 0 0 0 38px;
-      }
-      .slaveRegistPageForm-left, 
-      .slaveRegistPageForm-right {
-
-        .slaveRegistPageInput-box {
-          display: flex;
-          justify-content: left;
-          width: 43rem;
-          // height: 2.5rem;
-          font-size: 20px;
-          font-weight: 700;
-          margin-bottom: 32px;
-          padding-left: 4.5rem;
-          // border: 1px solid rgb(120, 1, 255);
-    
-          .slaveRegistPageInput-title {
-            width: 10rem;
-          }
-
-          .slaveRegistPageInput-input {
-            width: 21.5rem;
-            height: 2.5rem;
-          }
-        }
-      }
-    }
-
-    .slaveRegistPageForm-bottom {
-      width: 86rem;
+      justify-content: center;
 
       .slaveRegistPageButton-box {
         height: 2.5rem;
-        //-------------
         display: flex;
         justify-content: center;
-        //---------------------
         font-size: 20px;
-        // border: 1px solid red;
-  
+        margin: 0 30px;
+
         .link-text {
           text-decoration: none;
           color: rgb(255, 255, 255);
         }
 
-        .slaveRegistPage-nonButton {
-          width: 10.8rem;
-          height: 2.5rem;
-          //-------------------
-          margin: 0 10px;
-          //-------------------
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          //------------------
-          font-weight: 600;
-          color: rgb(255, 255, 255);
-          //--------------------------
-          //border: 1px solid rgba(65, 63, 63, 1);
-          //--------------------------------------
-          box-shadow:
-          inset 2px 2px 2px 0px rgba(255,255,255,.5),
-          7px 7px 20px 0px rgba(0,0,0,.1),
-          4px 4px 5px 0px rgba(0,0,0,.1);
-          //----------------------------------
-          background: #ff8803;
-          
-          &:hover {
-            background: #ff5e00;
-          }
-        }
-  
         .slaveRegistPage-button {
-          width: 10.8rem;
+          width: 14.8rem;
           height: 2.5rem;
-          //-------------------
-          margin: 0 10px;
-          //-------------------
+          //-------------
           display: flex;
           justify-content: center;
           align-items: center;
@@ -265,29 +112,36 @@
           font-weight: 600;
           color: rgb(255, 255, 255);
           //--------------------------
-          //border: 1px solid rgba(0, 139, 134, 0.8);
-          //--------------------------------------
+          border: 1px solid rgb(1, 119, 115);
           cursor: pointer;
-          //-------------------------------------------
-          box-shadow:
-          inset 2px 2px 2px 0px rgba(255,255,255,.5),
-          7px 7px 20px 0px rgba(0,0,0,.1),
-          4px 4px 5px 0px rgba(0,0,0,.1);
-          //----------------------------------
           background: #ff8803;
-          
-          &:first-child {
-            background: #cccccc;
-            
-            &:hover {
-              background: #bbbbbb;
-            }
-          }
+          border: none;
+          //---------------------------------------------
+          cursor: pointer;
         }
         .slaveRegistPage-button:hover {
           background: #ff5e00;
           color: rgb(255, 255, 255);
-          //border: 1px solid rgba(65, 63, 63, 1);
+          border: 0;
+        }
+
+        .slaveRegistPage-nonButton{
+          width: 14.8rem;
+          height: 2.5rem;
+          //-------------
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          //------------------
+          font-weight: 600;
+          color: rgb(255, 255, 255);
+          //--------------------------
+          //border: 1px solid rgb(1, 119, 115);
+          cursor: pointer;
+          background: #cccccc;
+          border: none;
+          border: 0.1px solid rgb(255, 255, 255, 0.3);
+          //---------------------------------------------
           cursor: pointer;
         }
       }

@@ -3,7 +3,7 @@ import styles from './SlaveManagePage.module.scss';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import SlaveManagePageSlaveList from "./slave/SlaveManagePageSlaveList";
+import SlaveManagePageSlaveList from "./slave/SlaveManagePage/SlaveManagePageSlaveList";
 import { useDispatch, useSelector } from 'react-redux';
 import { slaveActions } from '../../../../store/slave-slice';
 import axios from 'axios';
@@ -92,7 +92,10 @@ const SlaveManagePage = () => {
       <>
         <div className={styles['content-box']}>
           <div className={styles['slaveManagementHeader-box']}>
-            <div className={styles['slaveManagementHeader-title']}> 직원관리 </div>
+            
+            <h1 className={styles['slaveManagementHeader-title']}> 
+              직원관리
+            </h1>
 
             <Link to="/detail/slave-regist" className={styles['link-text']}> 
               <button className={styles['headerButton']} > 직원등록 </button>

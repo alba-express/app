@@ -83,21 +83,23 @@ const SlaveModifyWageList = ({ onWages, oneSlave }) => {
   // 시급 선택한 경우 시급input태그 입력내용을 급여리스트 상태에 반영하기
   const wageAmountHourlyHandler = e => {
 
-    // 급여타입이 시급(true) 이면서 시급의 금액 입력창이 빈 것이 아닐경우
-    if (wageList[0].slaveWageType === true && e.target.value !== '') {
+    // 급여타입이 시급(true) 인 경우
+    // 주의! 시급이기만 하다면, 시급의 금액입력창이 빈 경우에도 업데이트해야한다.
+    if (wageList[0].slaveWageType === true) {
 
       setWageList([{ ...wageList[0], slaveWageAmount: e.target.value }]);
-    };
+    }
   };
 
   // 월급 선택한 경우 월급input태그 입력내용을 급여리스트 상태에 반영하기
   const wageAmountMonthlyHandler = e => {
 
-    // 급여타입이 월급(false) 이면서 월급의 금액 입력창이 빈 것이 아닐경우
-    if (wageList[0].slaveWageType === false && e.target.value !== '') {
-
+    // 급여타입이 월급(false) 인 경우
+    // 주의! 월급이기만 하다면, 월급의 금액입력창이 빈 경우에도 업데이트해야한다.
+    if (wageList[0].slaveWageType === false) {
+    
       setWageList([{ ...wageList[0], slaveWageAmount: e.target.value }]);
-    };
+    }
   };
 
   //-------------------------------------------------
