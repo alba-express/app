@@ -33,15 +33,6 @@
     }
   
     .headerButton {
-      width: 7.5rem;
-      height: 100%;
-      //--------------------------
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      //--------------------------
-      margin: 0 0 0 10px;
-      margin-bottom: -18px;
       padding: 10px 20px;
       border: none;
       border-radius: 5px;
@@ -50,6 +41,7 @@
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
+      margin-bottom: 30px;
     }
     .headerButton:hover {
       background-color: #ff5e00;
