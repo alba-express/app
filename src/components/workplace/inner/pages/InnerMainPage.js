@@ -224,7 +224,6 @@ const InnerMainPage = () => {
                         ))}
                     </div>
                 </div>
-                <div className={styles.scroll}></div>
             </div>
 
             <div className={styles.rightPanel}>
