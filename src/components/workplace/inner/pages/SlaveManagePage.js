@@ -115,10 +115,10 @@ const SlaveManagePage = () => {
               <div className={styles.slaveListCount}> ( 총 직원수 : {showInactiveSlaveInfo.totalSlaveCount ? showInactiveSlaveInfo.totalSlaveCount : 0} 명 ) </div> 
             </div>
 
-            <div className={styles['slaveManagementTitle-searchbox']}>
+            {/* <div className={styles['slaveManagementTitle-searchbox']}>
               <input className={styles['slaveManagementTitle-search']} value={searchName} placeholder="이름으로 검색" onChange={slaveSearchHandler}/>
               <FontAwesomeIcon icon={faSearch} className={styles['slaveManagementList-question']} onClick={sendSearchHandler}/>
-            </div>
+            </div> */}
 
           </div>
 
