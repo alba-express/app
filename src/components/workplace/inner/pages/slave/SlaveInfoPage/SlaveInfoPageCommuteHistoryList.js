@@ -65,7 +65,39 @@ const SlaveInfoPageCommuteHistoryList = ({ scheduleLogList }) => {
         // axios를 사용하여 GET 요청
         const response = await axios.get(`http://localhost:8877/detail/status/${slaveId}`);
 
-        const data = response.data;
+        // const data = response.data;
+
+        // 받은 데이터를 변환
+        const data = response.data.map(item => {
+          // status 값을 한글로 매핑
+          let translatedStatus = '';
+          switch (item.status) {
+            case 'NORMAL':
+              translatedStatus = '정상';
+              break;
+            case 'ABSENT':
+              translatedStatus = '결근';
+              break;
+            case 'LATE':
+              translatedStatus = '지각';
+              break;
+            case 'EARLYLEAVE':
+              translatedStatus = '조퇴';
+              break;
+            case 'OVERTIME':
+              translatedStatus = '연장';
+              break;
+            default:
+              translatedStatus = item.status; // 매핑이 안 된 경우 원래 값을 사용
+              break;
+          }
+
+          // 새로운 객체를 반환하여 데이터 변환
+          return {
+            ...item,
+            status: translatedStatus,
+          };
+        });
 
         // Redux store에 데이터 저장
         dispatch(slaveActions.setShowOneSlaveScheduleLogInfo(data));
@@ -95,22 +127,19 @@ const SlaveInfoPageCommuteHistoryList = ({ scheduleLogList }) => {
         <div className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
 
           <div className={styles['slaveManagementList-OneSlaveName']} >
-            날짜: {log.date}
+            {log.date}
           </div>
           <div className={styles['slaveManagementList-OneSlaveName']} >
-            시작시간정보: {log.expectedStartTime}
+            {log.expectedStartTime} ~ {log.expectedEndTime}
           </div>
           <div className={styles['slaveManagementList-OneSlaveName']} >
-            종료시간정보: {log.expectedEndTime}
+            {log.actualStartTime}
           </div>
           <div className={styles['slaveManagementList-OneSlaveName']} >
-            출근시간 :{log.actualStartTime}
+            {log.actualEndTime}
           </div>
           <div className={styles['slaveManagementList-OneSlaveName']} >
-            퇴근시간 : {log.actualEndTime}
-          </div>
-          <div className={styles['slaveManagementList-OneSlaveName']} >
-            근무현황 : {log.status}
+            {log.status}
           </div>
         </div>
       ))}
