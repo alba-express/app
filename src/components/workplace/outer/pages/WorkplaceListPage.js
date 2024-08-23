@@ -95,19 +95,15 @@ const WorkplaceListPage = () => {
                                     <p className={styles2.date}><strong>등록일: </strong>{new Date(workplace.workplaceCreatedAt).toLocaleDateString()}</p>
                                 </Link>
                                 <div className={styles2.buttonGroup}>
+                                    <button className={styles.cancelButton}
+                                        onClick={(e) => {
+                                            e.preventDefault(); 
+                                            deleteHandler(workplace.id, workplace.workplaceName)}}>
+                                          사업장 삭제
+                                    </button>
                                     <button className={styles.submitButton2}
                                         onClick={() => handleModifyClick(workplace.id)}>
                                            사업장 수정
-                                    </button>
-
-                                    <button
-                                        className={styles.cancelButton}
-                                        onClick={(e) => {
-                                            e.preventDefault(); 
-                                            deleteHandler(workplace.id, workplace.workplaceName)
-                                        }}
-                                    >
-                                       사업장 삭제
                                     </button>
                                 </div>
                                 {/* </div> */}
