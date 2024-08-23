@@ -81,9 +81,9 @@
     // margin-left: 50px;
     margin-bottom: 3.5%;
     //-----------------------------------
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 5px;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 23px;
     color: #fff;
     //------------------------------
     display: flex;
@@ -93,7 +93,11 @@
     //-------------------------------------------------
     text-decoration: none;
     border-radius: 10px;
-  
+
+    &:last-child {
+      letter-spacing: 10px;
+    }
+    
     img {
       width: 3rem;
       height: 3rem;
