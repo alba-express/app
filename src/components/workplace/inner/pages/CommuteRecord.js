@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './CommuteRecord.module.scss'; // 모듈 스타일을 가져옵니다
-import FlipDigit from './FlipDigit'; // 플립 디지털 시계 컴포넌트를 가져옵니다
+import FlipDigit from './FlipDigit';
+import {BASE_URL} from "../../../../config/host-config"; // 플립 디지털 시계 컴포넌트를 가져옵니다
 
 
 const Modal = ({ show, onClose, onConfirm, message }) => {
@@ -46,7 +47,7 @@ const CommuteRecord = () => {
     useEffect(() => {
         const fetchCurrentLog = async () => {
             try {
-                const response = await fetch(`http://localhost:8877/schedule/current-log?slaveId=${slaveId}`);
+                const response = await fetch(`${BASE_URL}/schedule/current-log?slaveId=${slaveId}`);
                 if (response.ok) {
                     const data = await response.json();
                     if (data.id) {
@@ -67,7 +68,7 @@ const CommuteRecord = () => {
 
         const fetchServerTime = async () => {
             try {
-                const response = await fetch('http://localhost:8877/schedule/server-time');
+                const response = await fetch(`${BASE_URL}/schedule/server-time`);
                 if (response.ok) {
                     const data = await response.json();
                     setServerTime(new Date(data));
@@ -118,7 +119,7 @@ const CommuteRecord = () => {
                     return;
                 }
                 const payload = { slaveId };
-                const response = await fetch('http://localhost:8877/schedule/checkin', {
+                const response = await fetch(`${BASE_URL}/schedule/checkin`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
@@ -144,7 +145,7 @@ const CommuteRecord = () => {
                     setErrorMessage('이미 퇴근 처리되었습니다.');
                     return;
                 }
-                const response = await fetch('http://localhost:8877/schedule/checkout', {
+                const response = await fetch(`${BASE_URL}/schedule/checkout`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

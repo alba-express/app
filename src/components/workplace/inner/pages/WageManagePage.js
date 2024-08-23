@@ -5,6 +5,7 @@ import { wageActions } from "../../../../store/wage-slice";
 import SalaryBody from "../layout/SalaryBody";
 import styles from "./WageManagePage.module.scss";
 import { workplaceActions } from "../../../../store/workplace-slice";
+import {BASE_URL} from "../../../../config/host-config";
 const WageManagePage = () => {
     const month = useSelector((state) => state.wage.month);
     const year = useSelector((state) => state.wage.year);
@@ -26,7 +27,7 @@ const WageManagePage = () => {
             };
             try {
                 const res = await fetch(
-                    `http://localhost:8877/wage/workplace`,
+                    `${BASE_URL}/wage/workplace`,
                     {
                         method: "POST",
                         headers: {

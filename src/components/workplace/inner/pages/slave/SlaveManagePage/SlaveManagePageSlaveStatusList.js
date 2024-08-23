@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { slaveActions } from '../../../../../../store/slave-slice';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import {BASE_URL} from "../../../../../../config/host-config";
 
 const SlaveManagePageSlaveStatusList = () => {
 
@@ -47,7 +48,7 @@ const SlaveManagePageSlaveStatusList = () => {
   // 직원 리스트 표시에 따라 서버에서 직원 정보 받아오기
   useEffect (() => {
     if (showSlaveList === true) {
-      fetch(`http://localhost:8877/detail/slaveList/${workplaceIdByStore}`)
+      fetch(`${BASE_URL}/detail/slaveList/${workplaceIdByStore}`)
         .then(response => {
           const contentType = response.headers.get('content-type');
           if (!response.ok || !contentType || !contentType.includes('application/json')) {
@@ -113,7 +114,7 @@ const SlaveManagePageSlaveStatusList = () => {
   // 특정 직원 한 명을 클릭했을 때 해당 직원의 상세정보페이지로 이동하기
   const selectOneSlaveHandler = async (slaveId) => {
     try {
-      const response = await axios.get(`http://localhost:8877/detail/slave-info/${slaveId}`);
+      const response = await axios.get(`${BASE_URL}/detail/slave-info/${slaveId}`);
 
       const clickOneSlave = response.data;
     

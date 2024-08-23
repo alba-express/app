@@ -3,6 +3,7 @@ import axios from 'axios';
 import styles2 from './WorkplaceRegistPage.module.scss';
 import styles from '../../../login/pages/commonStyles.module.scss';
 import useAuth from '../../../../hooks/useAuth';
+import {BASE_URL} from "../../../../config/host-config";
 
 const WorkplaceRegistPage = () => {
     const [businessNo, setBusinessNo] = useState('');
@@ -48,7 +49,7 @@ const WorkplaceRegistPage = () => {
             setIsBusinessNoValid(true);
     
             try {
-                const response = await axios.get(`http://localhost:8877/workplace/checkBusinessNo/${userId}/${normalizedBusinessNo}`);
+                const response = await axios.get(`${BASE_URL}/workplace/checkBusinessNo/${userId}/${normalizedBusinessNo}`);
                 if (response.data.exists) {
                     setIsDuplicate(true); // 중복 상태 설정
                     setError('이미 등록된 사업장 등록번호입니다.');
@@ -91,7 +92,7 @@ const WorkplaceRegistPage = () => {
                     masterId: userId
                 };
     
-                await axios.post('http://localhost:8877/workplace/register', newWorkplace);
+                await axios.post(`${BASE_URL}/workplace/register`, newWorkplace);
                 window.location.href = '/workplace';
             } catch (error) {
                 console.error('Error registering workplace:', error);

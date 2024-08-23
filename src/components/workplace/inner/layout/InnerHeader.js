@@ -5,6 +5,7 @@ import {removeUserToken} from '../../../../utils/auth';
 import {useDispatch, useSelector} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
 import NoticeModal from "../pages/NoticeModal";
+import {BASE_URL} from "../../../../config/host-config";
 
 const InnerHeader = () => {
 
@@ -21,7 +22,7 @@ const InnerHeader = () => {
     // 최신 공지사항 제목 가져오기
     useEffect(() => {
         const fetchNotice = async () => {
-            const response = await fetch(`http://localhost:8877/detail/notice?workplaceId=${workplaceId}`);
+            const response = await fetch(`${BASE_URL}/detail/notice?workplaceId=${workplaceId}`);
             if (!response.ok) {
                 throw new Error('네트워크 응답이 올바르지 않습니다.');
             }

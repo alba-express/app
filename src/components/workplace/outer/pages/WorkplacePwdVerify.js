@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import styles from '../../../login/pages/commonStyles.module.scss'; 
+import styles from '../../../login/pages/commonStyles.module.scss';
+import {BASE_URL} from "../../../../config/host-config";
 
 
 const WorkplacePwdVerify = () => {
@@ -15,7 +16,7 @@ const WorkplacePwdVerify = () => {
 
         try {
             const response = await axios.post(
-                `http://localhost:8877/workplace/verify/${workplaceId}`,
+                `${BASE_URL}/workplace/verify/${workplaceId}`,
                 { password }
             );
             const { valid } = response.data;

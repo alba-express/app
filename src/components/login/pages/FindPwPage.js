@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./commonStyles.module.scss"; // commonStyles.module.scss 파일을 import합니다.
+import styles from "./commonStyles.module.scss";
+import {BASE_URL} from "../../../config/host-config"; // commonStyles.module.scss 파일을 import합니다.
 
 const FindPwPage = () => {
     const [email, setEmail] = useState("");
@@ -22,7 +23,7 @@ const FindPwPage = () => {
 
     const handleEmailCheck = async () => {
         try {
-            const response = await fetch(`http://localhost:8877/api/auth/check-email-exists?email=${email}`, {
+            const response = await fetch(`${BASE_URL}/api/auth/check-email-exists?email=${email}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -46,7 +47,7 @@ const FindPwPage = () => {
 
     const handleVerifyCode = async () => {
         try {
-            const response = await fetch("http://localhost:8877/api/auth/verify-code", {
+            const response = await fetch(`${BASE_URL}/api/auth/verify-code`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
