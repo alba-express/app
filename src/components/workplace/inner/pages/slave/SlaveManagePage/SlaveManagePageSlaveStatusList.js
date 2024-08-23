@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styles from './SlaveManagePageSlaveStatusList.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { slaveActions } from '../../../../../store/slave-slice';
+import { slaveActions } from '../../../../../../store/slave-slice';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 

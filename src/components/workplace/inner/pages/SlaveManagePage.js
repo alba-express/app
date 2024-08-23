@@ -3,7 +3,7 @@ import styles from './SlaveManagePage.module.scss';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import SlaveManagePageSlaveList from "./slave/SlaveManagePageSlaveList";
+import SlaveManagePageSlaveList from "./slave/SlaveManagePage/SlaveManagePageSlaveList";
 import { useDispatch, useSelector } from 'react-redux';
 import { slaveActions } from '../../../../store/slave-slice';
 import axios from 'axios';
