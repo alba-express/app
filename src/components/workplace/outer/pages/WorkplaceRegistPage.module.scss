@@ -40,9 +40,9 @@
 }
 
 .formGroup2 {
-  display: inline-block;
+  display: grid;
   margin-left: 50px;
-  width: 355px;
+  width: 290px;
   margin-bottom: 15px;
 }
 
@@ -52,13 +52,6 @@
 
 .formGroup {
   margin-bottom: 15px;
-}
-
-.formGroup label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 18px;
-  color: #555;
 }
 
 .formGroup input,
@@ -72,23 +65,27 @@
 }
 
 .addressSection {
-  margin-bottom: 15px;
-  display: inline-block;
-  width: 355px;
+  margin-bottom: 5px;
+  display: grid;
+  width: 360px;
 }
 
 .formGroup3 {
   margin-bottom: 15px;
-  margin-left: 50px;
-  display: inline-block;
-  width: 355px;
+  // margin-left: 50px;
+  display: grid;
+  width: 330px;
 }
 
 .addressSection .addressLabel {
   display: inline;
   margin-bottom: 5px;
-  font-size: 20px;
+  // font-size: 20px;
   color: #555;
+}
+
+.address {
+  margin-bottom: 2px;
 }
 
 .addressSection .addressInput {
@@ -97,7 +94,7 @@
   // width: calc(100% - 120px); // 주소 입력 필드 넓이 조정
 }
 
-.addressSection .searchButton {
+.addressSection {
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
@@ -108,8 +105,30 @@
   margin-left: 203px;
 }
 
-.addressSection .searchButton:hover {
-  background-color: #258579;
+.addressinput {
+  // width: 280px;
+  width: 285px; /* 이메일 입력 필드의 너비를 다른 필드와 동일하게 설정 */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.searchButton {
+  background-color: #ff8803;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5px 10px;
+    border: none;
+    margin-left: 10px;
+}
+
+.sizeLabel {
+  margin-left: 20px;
+  width: 300px;
+}
+
+.searchButton:hover {
+  background-color: #ff584c;
 }
 
 .sizeSection {
@@ -128,8 +147,8 @@
 }
 
 .buttonContainer {
-  display: inline-block;
-  float: right;
+  margin-top: 15px;
+  display: flex;
   // justify-content: space-between;
   // margin-top: 20px;
 }
@@ -181,15 +200,21 @@
 
 /* .formRow 클래스는 동일하게 유지 */
 .formRow {
+width: 600px;
 display: flex;
 justify-content: space-between;
 align-items: flex-start;
 }
 
+.formGroup5 {
+  width: 300px;
+  margin-left: 120px;
+}
+
 .formGroup1 {
 display: flex;
 flex-direction: column;
-width: 355px;
+width: 310px;
 margin-bottom: 15px;
 }
 

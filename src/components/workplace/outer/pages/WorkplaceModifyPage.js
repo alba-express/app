@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import styles from './WorkplaceModifyPage.module.scss';
+import styles2 from './WorkplaceRegistPage.module.scss';
+import styles from '../../../login/pages/commonStyles.module.scss';
 import useAuth from "../../../../hooks/useAuth";
 
 const WorkplaceModifyPage = () => {
@@ -170,12 +171,15 @@ const WorkplaceModifyPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <h1>사업장 수정</h1>
-      <form onSubmit={submitHandler}>
-        <div>
-          <label htmlFor="businessNo">사업자 등록번호: </label>
+    <div className={styles.fullPageContainer}>
+       <form onSubmit={submitHandler} className={styles.signUpContainer2}>
+          <h1 className={styles.signUpTitle2} >사업장 수정</h1>
+        
+        <div className={styles2.formRow}>
+        <div className={styles2.formGroup1}>
+          <label htmlFor="businessNo">사업자 등록번호 </label>
           <input
+          className={styles.inputField}
             type="text"
             id="businessNo"
             value={businessNo}
@@ -187,9 +191,10 @@ const WorkplaceModifyPage = () => {
           />
           {error && <p className={errorStyle(error)}>{error}</p>}
         </div>
-        <div>
-          <label htmlFor="workplaceName">상호명: </label>
+        <div className={styles2.formGroup2}>
+          <label htmlFor="workplaceName">상호명 </label>
           <input
+          className={styles.inputField}
             type="text"
             id="workplaceName"
             value={workplaceName}
@@ -197,10 +202,12 @@ const WorkplaceModifyPage = () => {
             required
           />
         </div>
-        <div className={styles.addressGroup}>
-          <div>
-            <label htmlFor="sample6_address">주소: </label>
-            <button type="button" className={styles.searchButton} onClick={openAddressSearch}>
+        </div>
+
+        <div className={styles2.formRow}>
+          <div className={styles.addressSection}>
+            <label className={styles2.address} htmlFor="sample6_address">주소 </label>
+            <button type="button" className={styles2.searchButton} onClick={openAddressSearch}>
                 주소 찾기
             </button>
             <input
@@ -209,18 +216,13 @@ const WorkplaceModifyPage = () => {
               placeholder="주소"
               value={workplaceAddressStreet}
               readOnly
-              className={styles.addressInput}
+              className={styles2.addressinput}
             />
           </div>
-          {/* <input
-            type="button"
-            onClick={openAddressSearch}
-            value="주소 찾기"
-          /> */}
-        </div>
-        <div>
-          <label htmlFor="sample6_detailAddress">상세주소: </label>
+        <div className={styles2.formGroup3}>
+          <label htmlFor="sample6_detailAddress">상세주소 </label>
           <input
+          className={styles.inputField}
             type="text"
             id="sample6_detailAddress"
             placeholder="상세주소"
@@ -229,20 +231,24 @@ const WorkplaceModifyPage = () => {
             required
           />
         </div>
-        <div className={styles.pwd}>
-          <label htmlFor="workplacePassword">간편비밀번호: </label>
+        </div>
+
+        <div className={styles2.formRow}>
+          <div className={styles2.formGroup4}>
+          <label className={styles2.address} htmlFor="workplacePassword">간편 비밀번호 </label>
           <input
             type="text"
             id="workplacePassword"
             value={workplacePassword}
             onChange={changeHandler(setWorkplacePassword)}
             minLength={4}
+            className={styles2.addressinput}
             placeholder="4자리 숫자를 입력하세요."
             required
           />
         </div>
-        <div>
-          <label htmlFor="workplaceSize">사업장 규모: </label>
+        <div className={styles2.formGroup5}>
+          <label className={styles.sizeLabel} htmlFor="workplaceSize">사업장 규모 </label>
           <select
             id="workplaceSize"
             value={workplaceSize}
@@ -252,9 +258,11 @@ const WorkplaceModifyPage = () => {
             <option value={true}>5인 이상</option>
           </select>
         </div>
-        <div className={styles.buttonGroup}>
-          <button type="submit">수정</button>
-          <button type="submit" onClick={cancelHandler}>취소</button>
+        </div>
+
+        <div className={styles2.buttonContainer}>
+        <button className={styles.cancelButton} type="submit" onClick={cancelHandler}>취소</button>
+          <button className={styles.submitButton2} type="submit">수정</button>
         </div>
       </form>
     </div>

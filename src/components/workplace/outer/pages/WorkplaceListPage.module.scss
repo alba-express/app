@@ -1,6 +1,6 @@
 .container {
   padding: 20px;
-  background-color: rgba(255 255 200 / 29%);
+  background-color: white;
   // min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -50,12 +50,12 @@
 .notworkplace {
   color: gray;
   text-align: center;
-  padding-top: 50px;
+  padding-top: 15px;
 }
 
 .workplaceWrap {
   width: 800px;
-  background: #f7e4cdad;
+  background:#f8f8f8;
   padding: 15px;
   border-radius: 7px;
   margin: 35px;
@@ -78,6 +78,7 @@
 }
 
 .listItem {
+  margin-top: 46px;
   width: 800px;
   background-color: rgb(255 255 255 / 78%);
   border: 1px solid #ddd;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from './WorkplaceRegistPage.module.scss';
+import styles2 from './WorkplaceRegistPage.module.scss';
+import styles from '../../../login/pages/commonStyles.module.scss';
 import useAuth from '../../../../hooks/useAuth';
 
 const WorkplaceRegistPage = () => {
@@ -138,16 +139,17 @@ const WorkplaceRegistPage = () => {
         };
     
         return (
-            <div className={styles.container}>
-                <form onSubmit={submitHandler} className={styles.form}>
+            <div className={styles.fullPageContainer}>
+                <form onSubmit={submitHandler} className={styles.signUpContainer2}>
                     <div className={styles.formHeader}>
-                        <h1 className={styles.registworkplace}>사업장 등록</h1>
+                        <h1 className={styles.signUpTitle2}>사업장 등록</h1>
                     </div>
         
-                    <div className={styles.formRow}>
-                        <div className={styles.formGroup1}>
-                            <label htmlFor="businessNo">사업자 등록번호:</label>
+                    <div className={styles2.formRow}>
+                        <div className={styles2.formGroup1}>
+                            <label htmlFor="businessNo">사업자 등록번호</label>
                             <input
+                            className={styles.inputField}
                                 type="text"
                                 id="businessNo"
                                 value={businessNo}
@@ -163,9 +165,10 @@ const WorkplaceRegistPage = () => {
                             </p>
                         </div>
         
-                        <div className={styles.formGroup2}>
-                            <label htmlFor="workplaceName">상호명:</label>
+                        <div className={styles2.formGroup2}>
+                            <label htmlFor="workplaceName">상호명</label>
                             <input
+                            className={styles.inputField}
                                 type="text"
                                 id="workplaceName"
                                 value={workplaceName}
@@ -176,25 +179,27 @@ const WorkplaceRegistPage = () => {
                         </div>
                     </div>
         
-                    {/* 이하 내용은 그대로 유지 */}
+        <div className={styles2.formRow}>
                     <div className={styles.addressSection}>
-                        <label className={styles.addressLabel} htmlFor="sample6_address">주소: </label>
-                        <button type="button" className={styles.searchButton} onClick={openAddressSearch}>
+                        <label className={styles2.address} htmlFor="sample6_address">주소
+                        <button type="button" className={styles2.searchButton} onClick={openAddressSearch}>
                             주소 찾기
                         </button>
+                        </label>
                         <input 
                             type="text"
                             id="sample6_address"
                             placeholder="주소"
                             value={workplaceAddressStreet}
                             readOnly
-                            className={styles.addressInput}
+                            className={styles2.addressinput}
                         />
                     </div>
         
-                    <div className={styles.formGroup3}>
-                        <label htmlFor="sample6_detailAddress">상세주소:</label>
+                    <div className={styles2.formGroup3}>
+                        <label htmlFor="sample6_detailAddress">상세주소</label>
                         <input
+                        className={styles.inputField}
                             type="text"
                             id="sample6_detailAddress"
                             placeholder="상세주소"
@@ -203,10 +208,11 @@ const WorkplaceRegistPage = () => {
                             required
                         />
                     </div>
+        </div>
         
-                    <div className={styles.sizeSection}>
-                        <div className={styles.formGroup4}>
-                            <label htmlFor="workplacePassword">간편비밀번호:</label>
+                    <div className={styles2.formRow}>
+                        <div className={styles2.formGroup4}>
+                            <label className={styles2.address} htmlFor="workplacePassword">간편 비밀번호</label>
                             <input
                                 type="text"
                                 id="workplacePassword"
@@ -215,11 +221,12 @@ const WorkplaceRegistPage = () => {
                                 minLength={4}
                                 maxLength={4}
                                 placeholder="4자리 숫자를 입력하세요."
+                                className={styles2.addressinput}
                                 required
                             />
                         </div>
-                        <div className={styles.sizeDropdown}>
-                            <label className={styles.sizeLabel} htmlFor="workplaceSize">사업장 규모:</label>
+                        <div className={styles2.formGroup5}>
+                            <label className={styles.sizeLabel} htmlFor="workplaceSize">사업장 규모</label>
                             <select
                                 id="workplaceSize"
                                 value={workplaceSize}
@@ -231,11 +238,11 @@ const WorkplaceRegistPage = () => {
                         </div>
                     </div>
         
-                    <div className={styles.buttonContainer}>
-                        <button type="submit" className={styles.submitButton}>등록</button>
+                    <div className={styles2.buttonContainer}>
                         <button type="button" className={styles.cancelButton} onClick={cancelHandler}>
                             취소
                         </button>
+                        <button type="submit" className={styles.submitButton2}>등록</button>
                     </div>
                 </form>
             </div>

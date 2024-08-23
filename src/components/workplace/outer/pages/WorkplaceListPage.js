@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import styles from './WorkplaceListPage.module.scss';
+import styles from '../../../login/pages/commonStyles.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import MainHeader from "../../../app-layout/MainHeader";
 import { removeUserToken } from "../../../../utils/auth";
 import useAuth from '../../../../hooks/useAuth';
-import { workplaceActions } from '../../../../store/workplace-slice';
-import { useDispatch, useSelector } from 'react-redux';
+import styles2 from './WorkplaceListPage.module.scss'
 
 const WorkplaceListPage = () => {
     const navigate = useNavigate();
@@ -70,36 +69,39 @@ const WorkplaceListPage = () => {
     // };
 
     return (
-        <div className={styles.container}>
+        <div className={styles2.container}>
 
-            <div className={styles.workplaceWrap}>
-            <div className={styles.header}>
+            <div className={styles2.workplaceWrap}>
+
+                <h1 className={styles.signUpTitle}>사업장 목록</h1>
+
+                <div className={styles2.header}>
                 <Link to="regist">
-                    <button className={styles.registerButton}>사업장 등록</button>
+                    <button className={styles2.registerButton}>사업장 등록</button>
                 </Link>
-            </div>
-                <h1 className={styles.listAlign}>사업장 목록</h1>
+                </div>
+
                 {workplaces.length === 0 ? (
-                    <p className={styles.notworkplace}>등록된 사업장이 존재하지 않습니다 😣</p>
+                    <p className={styles2.notworkplace}>등록된 사업장이 존재하지 않습니다 😣</p>
                 ) : (
-                    <ul className={styles.list}>
+                    <ul className={styles2.list}>
                         {workplaces.map(workplace => (
-                            <li key={workplace.id} className={styles.listItem}>
-                                <Link to="#" className={styles.link} onClick={() => handleWorkplaceSelect(workplace.id)}>
-                                    <h2 className={styles.name}>{workplace.workplaceName}</h2>
+                            <li key={workplace.id} className={styles2.listItem}>
+                                <Link to="#" className={styles2.link} onClick={() => handleWorkplaceSelect(workplace.id)}>
+                                    <h2 className={styles2.name}>{workplace.workplaceName}</h2>
                                     <p><strong>주소: </strong>{`${workplace.workplaceAddressStreet} ${workplace.workplaceAddressDetail}`}</p>
                                     <p><strong>사업장 규모: </strong>{workplace.workplaceSize ? '5인 이상' : '5인 미만'}</p>
                                     {/* <div className={styles.wrap}> */}
-                                    <p className={styles.date}><strong>등록일: </strong>{new Date(workplace.workplaceCreatedAt).toLocaleDateString()}</p>
+                                    <p className={styles2.date}><strong>등록일: </strong>{new Date(workplace.workplaceCreatedAt).toLocaleDateString()}</p>
                                 </Link>
-                                <div className={styles.buttonGroup}>
-                                    <button className={styles.modifyButton}
+                                <div className={styles2.buttonGroup}>
+                                    <button className={styles.submitButton2}
                                         onClick={() => handleModifyClick(workplace.id)}>
                                            사업장 수정
                                     </button>
 
                                     <button
-                                        className={styles.deleteButton}
+                                        className={styles.cancelButton}
                                         onClick={(e) => {
                                             e.preventDefault(); 
                                             deleteHandler(workplace.id, workplace.workplaceName)
