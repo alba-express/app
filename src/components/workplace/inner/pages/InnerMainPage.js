@@ -78,9 +78,9 @@ const InnerMainPage = () => {
                         beforeWorking.push(employee);
                     } else if(employee.dailyAtt === "근무중") {
                         working.push(employee);
-                    } else if(employee.dailyAtt === "결근" || employee.dailyAtt === "지각" || employee.dailyAtt === "조퇴" || employee.dailyAtt === "정상근무") {
+                    } else if(employee.dailyAtt === "지각" || employee.dailyAtt === "조퇴" || employee.dailyAtt === "정상근무") {
                         endWorking.push(employee);
-                    } else {
+                    } else if(employee.dailyAtt === "결근") {
                         misc.push(employee);
                     }
                     // 현재 선택된 날짜에 해당하는 스케줄 로그를 가져옵니다.
@@ -270,7 +270,7 @@ const InnerMainPage = () => {
                             ))}
                         </div>
                         <div className={styles.scheduleColumn}>
-                            <p className={styles.columnTitle}>기타 ({miscEmployees.length})</p>
+                            <p className={styles.columnTitle}><span style={{color: 'red'}}>결근({miscEmployees.length})</span></p>
                             {miscEmployees.map((employee, index) => (
                                 <p key={miscEmployees.length - index} className={styles.scheduleEntry}>
                                     {employee.slaveName} ({employee.slavePosition}) 
