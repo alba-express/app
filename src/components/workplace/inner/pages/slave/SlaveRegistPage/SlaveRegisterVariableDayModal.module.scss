@@ -26,6 +26,10 @@
     //--------------
     background: #ccc;
   }
+  .nonDaySchedule:active {
+    outline: none;
+    background-color: inherit;
+  }
 
   .selectedDaySchedule {
     width: 2.4rem;
@@ -43,6 +47,10 @@
     cursor: pointer;
     //--------------
     background: #ff8803;
+  }
+  .selectedDaySchedule:active {
+    outline: none;
+    background-color: inherit;
   }
 
   .slaveRegistPageInputSchedule-label {

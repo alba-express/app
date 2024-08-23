@@ -173,7 +173,7 @@ const SlaveManagePageSlaveStatusList = () => {
               style={{
                 height: oneSlave.slaveScheduleList.some(schedule => schedule.scheduleType === false)
                   ? `${oneSlave.slaveScheduleList.length * 1.8}rem`
-                  : '2rem',// 조건을 만족하지 않을 때의 기본 높이 설정
+                  : '2.7rem',// 조건을 만족하지 않을 때의 기본 높이 설정
                   minHeight: '2.7rem'
               }}
               className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}
