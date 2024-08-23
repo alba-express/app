@@ -3,6 +3,7 @@ import styles from './SlaveInfoPageCommuteHistoryList.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { slaveActions } from '../../../../../../store/slave-slice';
 import axios from 'axios';
+import {BASE_URL} from "../../../../../../config/host-config";
 
 const SlaveInfoPageCommuteHistoryList = ({ scheduleLogList }) => {
 
@@ -63,7 +64,7 @@ const SlaveInfoPageCommuteHistoryList = ({ scheduleLogList }) => {
     const fetchCommuteStatus = async () => {
       try {
         // axios를 사용하여 GET 요청
-        const response = await axios.get(`http://localhost:8877/detail/status/${slaveId}`);
+        const response = await axios.get(`${BASE_URL}/detail/status/${slaveId}`);
 
         // const data = response.data;
 

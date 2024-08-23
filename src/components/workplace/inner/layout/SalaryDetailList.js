@@ -4,6 +4,7 @@ import BonusModal from "./BonusModal";
 import { useDispatch } from "react-redux";
 import { wageActions } from "../../../../store/wage-slice";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import {BASE_URL} from "../../../../config/host-config";
 
 const SalaryDetailList = ({
     workingTime,
@@ -38,7 +39,7 @@ const SalaryDetailList = ({
             amount: modalData.amount,
         };
         try {
-            const res = await fetch(`http://localhost:8877/wage/bonus`, {
+            const res = await fetch(`${BASE_URL}/wage/bonus`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

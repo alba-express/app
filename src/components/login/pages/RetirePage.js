@@ -4,6 +4,7 @@ import {getUserEmail, removeUserToken} from '../../../utils/auth';
 import ConfirmRetireModal from './ConfirmRetireModal';
 import styles from '../pages/commonStyles.module.scss';
 import useAuth from "../../../hooks/useAuth";
+import {BASE_URL} from "../../../config/host-config";
 
 const RetirePage = () => {
     const [password, setPassword] = useState('');
@@ -28,7 +29,7 @@ const RetirePage = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:8877/api/auth/verify-password', { // 비밀번호 검증 엔드포인트 호출
+            const response = await fetch(`${BASE_URL}/api/auth/verify-password`, { // 비밀번호 검증 엔드포인트 호출
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -59,7 +60,7 @@ const RetirePage = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:8877/api/auth/retire', {
+            const response = await fetch(`${BASE_URL}/api/auth/retire`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

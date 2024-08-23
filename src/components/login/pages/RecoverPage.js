@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../pages/commonStyles.module.scss';
+import {BASE_URL} from "../../../config/host-config";
 
 const RecoverPage = () => {
     const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ const RecoverPage = () => {
 
     const handleSendCode = async () => {
         try {
-            const response = await fetch('http://localhost:8877/api/auth/send-recover-code', {
+            const response = await fetch(`${BASE_URL}/api/auth/send-recover-code`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -46,7 +47,7 @@ const RecoverPage = () => {
         event.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8877/api/auth/recover-account', {
+            const response = await fetch(`${BASE_URL}/api/auth/recover-account`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styles2 from './WorkplaceRegistPage.module.scss';
 import styles from '../../../login/pages/commonStyles.module.scss';
 import useAuth from "../../../../hooks/useAuth";
+import {BASE_URL} from "../../../../config/host-config";
 
 const WorkplaceModifyPage = () => {
   const [businessNo, setBusinessNo] = useState('');
@@ -29,7 +30,7 @@ const WorkplaceModifyPage = () => {
     const fetchWorkplace = async (id) => {
 
       try {
-        const response = await axios.get(`http://localhost:8877/workplace/${workplaceIdByStore}`);
+        const response = await axios.get(`${BASE_URL}/workplace/${workplaceIdByStore}`);
         const workplace = response.data;
         if (workplace) {
           setBusinessNo(workplace.businessNo || '');
@@ -95,7 +96,7 @@ const WorkplaceModifyPage = () => {
     setIsBusinessNoValid(true);
 
     try {
-        const response = await axios.get(`http://localhost:8877/workplace/checkBusinessNo/${userId}/${normalizedBusinessNo}`);
+        const response = await axios.get(`${BASE_URL}/workplace/checkBusinessNo/${userId}/${normalizedBusinessNo}`);
         if (response.data.exists) {
             setIsDuplicate(true); // 중복 상태 설정
             setError('이미 등록된 사업장 등록번호입니다.');
@@ -138,7 +139,7 @@ const WorkplaceModifyPage = () => {
         postalCode
       };
 
-      await axios.put(`http://localhost:8877/workplace/modify/${workplaceIdByStore}`, updatedWorkplace);
+      await axios.put(`${BASE_URL}/workplace/modify/${workplaceIdByStore}`, updatedWorkplace);
 
       // 수정 완료 후 WorkplaceListPage로 이동, 히스토리 스택을 대체하여 중간 페이지 제거함
       navigate('/workplace', { replace: true });

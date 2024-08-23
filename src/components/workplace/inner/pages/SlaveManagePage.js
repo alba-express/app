@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { slaveActions } from '../../../../store/slave-slice';
 import axios from 'axios';
 import { workplaceActions } from '../../../../store/workplace-slice';
+import {BASE_URL} from "../../../../config/host-config";
 
 const SlaveManagePage = () => {
 
@@ -60,7 +61,7 @@ const SlaveManagePage = () => {
 
     // 검색할 이름을 서버로 전송하기
     try {
-      const response = await axios.get(`http://localhost:8877/detail/search-slave/`, {
+      const response = await axios.get(`${BASE_URL}/detail/search-slave/`, {
         params: {
             slaveName: searchName,
             workplaceId: localStorage.getItem('workplaceId')

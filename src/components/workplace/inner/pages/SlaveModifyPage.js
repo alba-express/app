@@ -3,6 +3,7 @@ import styles from './SlaveModifyPage.module.scss';
 import { Link, useNavigate } from "react-router-dom";
 import SlaveModifyWageList from "./slave/SlaveModifyPage/SlaveModifyWageList";
 import SlaveModifyScheduleList from "./slave/SlaveModifyPage/SlaveModifyScheduleList";
+import {BASE_URL} from "../../../../config/host-config";
 
 
 const SlaveModifyPage = () => {
@@ -97,7 +98,7 @@ const SlaveModifyPage = () => {
 
         setTimeout(async () => {
             try {
-                const response = await fetch(`http://localhost:8877/detail/validPhoneNumber`, {
+                const response = await fetch(`${BASE_URL}/detail/validPhoneNumber`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({inputPhoneNumber, workPlaceId})
@@ -243,7 +244,7 @@ const SlaveModifyPage = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8877/detail/slave-modify/modifySlave`, {
+            const response = await fetch(`${BASE_URL}/detail/slave-modify/modifySlave`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

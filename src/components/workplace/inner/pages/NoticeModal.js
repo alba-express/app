@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {noticeActions} from "../../../../store/notice-slice";
 import useAuth from "../../../../hooks/useAuth";
+import {BASE_URL} from "../../../../config/host-config";
 
 const NoticeModal = ({id, title, content, date, isOpen, onClose, refreshNotices}) => {
 
@@ -27,7 +28,7 @@ const NoticeModal = ({id, title, content, date, isOpen, onClose, refreshNotices}
         console.log('삭제 공지 id:', id);
         if (confirmed) {
             try {
-                const response = await fetch(`http://localhost:8877/detail/notice/${id}`, {
+                const response = await fetch(`${BASE_URL}/detail/notice/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',

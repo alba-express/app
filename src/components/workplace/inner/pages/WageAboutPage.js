@@ -6,6 +6,7 @@ import WageAboutBody from "../layout/WageAboutBody";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./WageManagePage.module.scss";
 import { IoArrowBackCircleSharp } from "react-icons/io5";
+import {BASE_URL} from "../../../../config/host-config";
 
 const WageAboutPage = () => {
     const month = useSelector((state) => state.wage.month);
@@ -38,7 +39,7 @@ const WageAboutPage = () => {
                 ym: `${year}-${month < 10 ? "0" + month : month}`,
             };
             try {
-                const res = await fetch(`http://localhost:8877/wage/slave`, {
+                const res = await fetch(`${BASE_URL}/wage/slave`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

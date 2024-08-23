@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./InnerNavi.module.scss";
 import { useSelector } from "react-redux";
+import {BASE_URL} from "../../../../config/host-config";
 
 const InnerNavi = () => {
   const workplaceId = localStorage.getItem("workplaceId");
@@ -12,7 +13,7 @@ const InnerNavi = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        `http://localhost:8877/workplace/${workplaceId}`
+        `${BASE_URL}/workplace/${workplaceId}`
       );
       const json = await response.json();
       setWorkplaceData(json);

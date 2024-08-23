@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
 import useAuth from "../../../../hooks/useAuth";
 import { workplaceActions } from "../../../../store/workplace-slice";
+import {BASE_URL} from "../../../../config/host-config";
 
 const NoticePage = () => {
 
@@ -32,7 +33,7 @@ const NoticePage = () => {
     const fetchNotices = useCallback(async () => {
         setIsLoading(true);
         try {
-            const response = await fetch(`http://localhost:8877/detail/notice?workplaceId=${workplaceId}&page=${currentPage}`);
+            const response = await fetch(`${BASE_URL}/detail/notice?workplaceId=${workplaceId}&page=${currentPage}`);
             if (!response.ok) {
                 throw new Error('네트워크 응답이 올바르지 않습니다.');
             }

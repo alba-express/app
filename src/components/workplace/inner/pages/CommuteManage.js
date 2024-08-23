@@ -3,6 +3,7 @@ import styles from './CommuteManage.module.scss';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { workplaceActions } from "../../../../store/workplace-slice";
+import {BASE_URL} from "../../../../config/host-config";
 
 const CommuteManage = () => {
     const [inputValue, setInputValue] = useState("");
@@ -24,7 +25,7 @@ const CommuteManage = () => {
     useEffect(() => {
         const fetchEmployees = async () => {
             try {
-                const response = await fetch(`http://localhost:8877/schedule/employees?workplaceId=${workplaceId}`);
+                const response = await fetch(`${BASE_URL}/schedule/employees?workplaceId=${workplaceId}`);
                 const data = await response.json();
                 setEmployees(data);
             } catch (error) {
@@ -57,7 +58,7 @@ const CommuteManage = () => {
         }
     
         try {
-            const response = await fetch(`http://localhost:8877/schedule/verify-phone-number?phoneNumber=${inputValue}&workplaceId=${workplaceId}`);
+            const response = await fetch(`${BASE_URL}/schedule/verify-phone-number?phoneNumber=${inputValue}&workplaceId=${workplaceId}`);
             const data = await response.json(); // JSON으로 응답을 처리
     
             if (response.ok) {

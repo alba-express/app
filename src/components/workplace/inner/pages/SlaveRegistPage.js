@@ -3,6 +3,7 @@ import styles from './SlaveRegistPage.module.scss';
 import { Link, useNavigate } from "react-router-dom";
 import SlaveRegisterWageList from "./slave/SlaveRegistPage/SlaveRegisterWageList";
 import SlaveRegisterScheduleList from "./slave/SlaveRegistPage/SlaveRegisterScheduleList";
+import {BASE_URL} from "../../../../config/host-config";
 
 const SlaveRegistPage = () => {
 
@@ -175,7 +176,7 @@ const SlaveRegistPage = () => {
 
 
             try {
-                const response = await fetch(`http://localhost:8877/detail/registSlave`, {
+                const response = await fetch(`${BASE_URL}/detail/registSlave`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

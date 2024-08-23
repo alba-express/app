@@ -3,6 +3,7 @@ import styles from "./NoticeRegistPage.module.scss"
 import {Form, Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
+import {BASE_URL} from "../../../../config/host-config";
 
 const NoticeRegisterPage = () => {
 
@@ -45,7 +46,7 @@ const NoticeRegisterPage = () => {
 
         console.log('payload: ', payload);
 
-        const response = await fetch('http://localhost:8877/detail/notice-register', {
+        const response = await fetch(`${BASE_URL}/detail/notice-register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
