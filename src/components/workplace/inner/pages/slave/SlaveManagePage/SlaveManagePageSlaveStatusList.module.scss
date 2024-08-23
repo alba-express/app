@@ -52,10 +52,10 @@
       align-items: center;
       .slaveManagementList-OneSlaveName {
         @extend .slaveManagementList-OneSlave-common;
-        width: 11rem;
+        width: auto;
         margin: 0 0.5rem;
         display: flex;
-        justify-content: right;
+        justify-content: center;
         // border: 1px solid red;
       }
     
