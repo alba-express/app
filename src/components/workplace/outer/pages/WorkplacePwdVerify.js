@@ -68,7 +68,7 @@ const WorkplacePwdVerify = () => {
     return (
         <div className={styles.fullPageContainer}>
             <div className={styles.signUpContainer}>
-                <h1 className={styles.signUpTitle}>간편 비밀번호 검증</h1>
+                <h1 className={styles.signUpTitle}>간편 비밀번호</h1>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.inputContainer}>
                         <label className={styles.inputLabel} htmlFor="password">간편 비밀번호</label>
