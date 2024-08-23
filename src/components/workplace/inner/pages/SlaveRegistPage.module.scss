@@ -113,14 +113,14 @@
           color: rgb(255, 255, 255);
           //--------------------------
           border: 1px solid rgb(1, 119, 115);
-          cursor: pointer;
-          background: #ff8803;
+          background: #ccc;
           border: none;
           //---------------------------------------------
           cursor: pointer;
+          border-radius: 5px;
         }
         .slaveRegistPage-button:hover {
-          background: #ff5e00;
+          background: #bbb;
           color: rgb(255, 255, 255);
           border: 0;
         }
@@ -138,11 +138,14 @@
           //--------------------------
           //border: 1px solid rgb(1, 119, 115);
           cursor: pointer;
-          background: #cccccc;
+          background: #ff8803;
           border: none;
           border: 0.1px solid rgb(255, 255, 255, 0.3);
           //---------------------------------------------
-          cursor: pointer;
+          border-radius: 5px;
+        }
+        .slaveRegistPage-nonButton:hover {
+          background: #ff5e00;
         }
       }
     }
