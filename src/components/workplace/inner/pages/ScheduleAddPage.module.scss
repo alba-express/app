@@ -10,14 +10,14 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding: 10px 30px;
+  padding: 0px 30px;
   justify-content: space-between;
   position: relative;
 }
 
 .modifySchedule {
-  width: 700px;
-  height: 620px;
+  width: 640px;
+  height: 615px;
   padding: 20px;
   margin: 20px;
   background: rgba(245, 245, 245, 0.8);
@@ -28,7 +28,7 @@
     margin-bottom: 30px;
     //text-decoration: underline;
     border-bottom: 2px solid #6c757d;
-    width: 19%;
+    width: 21%;
     margin-left: auto;
     margin-right: auto;
   }
