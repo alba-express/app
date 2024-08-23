@@ -9,7 +9,6 @@
   font-weight: 700;
   letter-spacing: 1px;
   color: rgba(43, 42, 42, 0.9);
-  margin-bottom: 20px;
 }
 
 .serverTime {
@@ -126,27 +125,28 @@
   flex-direction: column; /* 시간 정보를 세로로 나열 */
   align-items: center; /* 시간 정보를 중앙 정렬 */
   margin-top: 50px;
-  font-size: 3rem;
-  gap: 200px;
+  font-size: 4rem;
+  font-weight: 800;
+  gap: 150px;
   color: #ff5e00;
 }
 
 .timeInfo {
   width: 500px;
-  background: rgba(245, 245, 245, 0.8);
   border-radius: 5px;
   font-size: 3rem;
+  font-weight: 600;
   text-align: center;
   color: rgba(43, 42, 42, 0.9);
 }
 
 .timeLabelBox {
   position: absolute;
-  margin-top: 350px;
+  margin-top: 300px;
   width: 500px;
-  background: rgba(245, 245, 245, 0.8);
   border-radius: 5px;
   font-size: 3rem;
+  font-weight: 600;
   text-align: center;
 }
 
