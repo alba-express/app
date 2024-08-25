@@ -77,7 +77,9 @@
       // border: 3px solid red;
 
       .slaveInfoPage-leftSlaveInfo {
-        margin: -6px 0 20px 0;
+        padding-bottom: 30px;
+        margin: -6px 0 22.5px 0;
+        background: rgba(245, 245, 245, 0.8);
 
         .slaveInfoPage-leftSlaveInfoTitle {
           margin-top: 10px;
@@ -103,7 +105,9 @@
       }
 
       .slaveInfoPage-leftSlaveWage {
-        margin-bottom: 10px;
+        padding-bottom: 30px;
+        margin: -6px 0 22.5px 0;
+        background: rgba(245, 245, 245, 0.8);
 
         .slaveInfoPage-leftSlaveWageTitle {
           margin-top: 10px;
@@ -128,7 +132,9 @@
       }
 
       .slaveInfoPage-leftSlaveSchedule {
-        margin-bottom: 10px;
+        padding-bottom: 30px;
+        margin: -6px 0 10px 0;
+        background: rgba(245, 245, 245, 0.8);
 
         .slaveInfoPage-leftSlaveScheduleTitle {
           margin-top: 10px;

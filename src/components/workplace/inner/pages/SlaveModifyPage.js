@@ -239,7 +239,7 @@ const SlaveModifyPage = () => {
         e.preventDefault();
 
         if (!isValidInput()) {
-            alert('모든 필드를 입력하지않으면 직원등록을 할 수 없습니다.');
+            alert('모든 필드를 입력하지않으면 직원수정을 할 수 없습니다.');
             return;
         }
 
@@ -259,6 +259,7 @@ const SlaveModifyPage = () => {
             const result = await response.json();
             console.log('Success:', result);
             alert("직원이 수정되었습니다.")
+            localStorage.removeItem('oneSlave');
             navigate("/detail/slave-manage");
 
             

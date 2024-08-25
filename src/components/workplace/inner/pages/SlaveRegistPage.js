@@ -49,17 +49,17 @@ const SlaveRegistPage = () => {
 
         // setTimeout(() => {}, 1000);
 
-        setSlaveRegistInput(prev => ({...slaveRegistInput, slavePhoneNumber: e.target.value}));
+        setSlaveRegistInput({...slaveRegistInput, slavePhoneNumber: e.target.value});
     };
 
     // 생년월일 입력한 경우 input태그 상태창 변경하기
     const birthdayHandler = e => {
-        setSlaveRegistInput(prev => ({...slaveRegistInput, slaveBirthday: e.target.value}));
+        setSlaveRegistInput({...slaveRegistInput, slaveBirthday: e.target.value});
     };
 
     // 직책 입력한 경우 input태그 상태창 변경하기
     const positionHandler = e => {
-        setSlaveRegistInput(prev => ({...slaveRegistInput, slavePosition: e.target.value}));
+        setSlaveRegistInput({...slaveRegistInput, slavePosition: e.target.value});
     };
 
     //-------------------------------------------------
@@ -85,7 +85,7 @@ const SlaveRegistPage = () => {
 
     useEffect(() => {
         if (workplaceIdByStore) {
-            setSlaveRegistInput(prev => ({ ...prev, workPlaceNumber: workplaceIdByStore }));
+            setSlaveRegistInput({ ...slaveRegistInput, workPlaceNumber: workplaceIdByStore });
         }
     }, [workplaceIdByStore]);
 
@@ -108,6 +108,7 @@ const SlaveRegistPage = () => {
         
         // 급여리스트의 모든 객체가 빈 문자열이 아닌지 확인
         const areWagesValid = Array.isArray(slaveWageList) &&
+            slaveWageList.length > 0 &&  // 급여 리스트가 비어있지 않아야 함
             slaveWageList.every(wage =>
                 isNotEmpty(wage.slaveWageType) &&
                 isNotEmpty(wage.slaveWageAmount) &&
@@ -116,15 +117,17 @@ const SlaveRegistPage = () => {
     
         // 근무리스트의 모든 객체가 빈 문자열이 아닌지 확인
         const areSchedulesValid = Array.isArray(slaveScheduleList) &&
+            slaveScheduleList.length > 0 &&  // 스케줄 리스트가 비어있지 않아야 함
             slaveScheduleList.every(schedule =>
                 isNotEmpty(schedule.slaveScheduleType) &&
                 Array.isArray(schedule.slaveScheduleList) &&
+                schedule.slaveScheduleList.length > 0 &&  // 각 스케줄 리스트가 비어있지 않아야 함
                 schedule.slaveScheduleList.some(daySchedule =>
                     daySchedule.select === true &&
                     isNotEmpty(daySchedule.startSchedule) &&
                     isNotEmpty(daySchedule.endSchedule)
-        )
-    );
+                )
+            );
     
         return (
             isNotEmpty(slaveName) &&
@@ -160,6 +163,7 @@ const SlaveRegistPage = () => {
         console.log('버튼타입', formButtonType);
         
     }, [slaveRegistInput]);
+
 
     //-------------------------------------------------
 

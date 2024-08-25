@@ -8,33 +8,30 @@ const SlaveModifyVariableDayModal = ({ onVariable, oneSlave }) => {
   // 근무요일 (월=1, 화=2, 수=3, 목=4, 금=5, 토=6, 일=7)
   const initialVariableDays = 
                               [
-                                { scheduleDay: 1, value: '월', select: false, startSchedule: '', endSchedule: '' },
-                                { scheduleDay: 2, value: '화', select: false, startSchedule: '', endSchedule: '' },
-                                { scheduleDay: 3, value: '수', select: false, startSchedule: '', endSchedule: '' },
-                                { scheduleDay: 4, value: '목', select: false, startSchedule: '', endSchedule: '' },
-                                { scheduleDay: 5, value: '금', select: false, startSchedule: '', endSchedule: '' },
-                                { scheduleDay: 6, value: '토', select: false, startSchedule: '', endSchedule: '' },
-                                { scheduleDay: 0, value: '일', select: false, startSchedule: '', endSchedule: '' },
+                                { slaveScheduleId: '', scheduleDay: 1, value: '월', select: false, startSchedule: '', endSchedule: '' },
+                                { slaveScheduleId: '', scheduleDay: 2, value: '화', select: false, startSchedule: '', endSchedule: '' },
+                                { slaveScheduleId: '', scheduleDay: 3, value: '수', select: false, startSchedule: '', endSchedule: '' },
+                                { slaveScheduleId: '', scheduleDay: 4, value: '목', select: false, startSchedule: '', endSchedule: '' },
+                                { slaveScheduleId: '', scheduleDay: 5, value: '금', select: false, startSchedule: '', endSchedule: '' },
+                                { slaveScheduleId: '', scheduleDay: 6, value: '토', select: false, startSchedule: '', endSchedule: '' },
+                                { slaveScheduleId: '', scheduleDay: 0, value: '일', select: false, startSchedule: '', endSchedule: '' },
                               ];
 
   // 변동시간 배열 상태값으로 관리
   const [variableDays , setVariableDays] = useState(initialVariableDays);
 
   function convertToTimeFormat(timeString) {
-    // 예시로 주어진 timeString: '20시 21분'
+    if (!timeString) return null; // 빈 문자열일 경우 null 반환
     const timeParts = timeString.match(/(\d{1,2})시\s*(\d{1,2})분/);
     if (timeParts) {
         let hours = timeParts[1];
         let minutes = timeParts[2];
-
-        // 시간을 두 자리로 맞추기 위해 0을 채운다.
         if (hours.length === 1) hours = '0' + hours;
         if (minutes.length === 1) minutes = '0' + minutes;
-
         return `${hours}:${minutes}`;
     }
-    return '';
-  }
+    return null; // 형식에 맞지 않으면 null 반환
+  } 
 
   useEffect(() => {
 
@@ -51,6 +48,7 @@ const SlaveModifyVariableDayModal = ({ onVariable, oneSlave }) => {
         if (schedule) {
           return {
             ...day,
+            slaveScheduleId: schedule.scheduleId,
             select: true,
             startSchedule: convertToTimeFormat(schedule.scheduleStart),
             endSchedule: convertToTimeFormat(schedule.scheduleEnd)

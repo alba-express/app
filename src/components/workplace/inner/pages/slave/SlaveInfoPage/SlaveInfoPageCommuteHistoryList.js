@@ -125,7 +125,7 @@ const SlaveInfoPageCommuteHistoryList = ({ scheduleLogList }) => {
   return (
     <>
       {showOneSlaveScheduleLogInfo.map((log, index) => (
-        <div className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
+        <div key={index} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
 
           <div className={styles['slaveManagementList-OneSlaveDate']} >
             {log.date}

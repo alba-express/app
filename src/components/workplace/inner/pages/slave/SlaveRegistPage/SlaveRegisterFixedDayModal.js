@@ -63,7 +63,8 @@ const SlaveRegisterFixedDayModal = ({ onFixed }) => {
                 
             <div className={styles['slaveRegistPageScheduleModalInput-box']} >
                 <label className={styles['slaveRegistPageInputSchedule-label']} >
-                    <input 
+                    <input
+                      value={fixedDays.startSchedule}
                       type="time" 
                       className={styles['slaveRegistPageInputSchedule-input']} 
                       onChange={startTimeHandler}
@@ -73,6 +74,7 @@ const SlaveRegisterFixedDayModal = ({ onFixed }) => {
                 
                 <label className={styles['slaveRegistPageInputSchedule-label']}>
                     <input 
+                      value={fixedDays. endSchedule}
                       type="time" 
                       className={styles['slaveRegistPageInputSchedule-input']} 
                       onChange={endTimeHandler}

@@ -67,6 +67,7 @@ const SlaveRegisterVariableDayModal = ({ onVariable }) => {
               value={day.startSchedule} 
               className={styles['slaveRegistPageInputSchedule-input']} 
               onChange={ e => {startTimeHandler(day.scheduleDay, e.target.value)}}
+              disabled={!day.select} // 요일 선택되지 않으면 비활성화
             />
             부터
           </label>
@@ -78,6 +79,7 @@ const SlaveRegisterVariableDayModal = ({ onVariable }) => {
               value={day.endSchedule} 
               className={styles['slaveRegistPageInputSchedule-input']} 
               onChange={ e => {endTimeHandler(day.scheduleDay, e.target.value)}}
+              disabled={!day.select} // 요일 선택되지 않으면 비활성화
             />
             까지
           </label>

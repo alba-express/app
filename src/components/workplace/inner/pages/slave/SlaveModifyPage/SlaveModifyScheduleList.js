@@ -9,7 +9,7 @@ const SlaveModifyScheduleList = ({ onSchedules, oneSlave }) => {
   // 근무타입(ScheduleType): true, 1 --> 고정시간 / false, 0 --> 변동시간
   // 근무요일(ScheduleDay): 1--> 월 / 2--> 화 / 3--> 수 / 4--> 목 / 5--> 금 / 6--> 토 / 0--> 일
                                 // 근무타입,               근무리스트     
-  const initialScheduleList = [{ modifyId: '', slaveScheduleType: null, slaveScheduleList: [] }];
+  const initialScheduleList = [{ slaveScheduleType: null, slaveScheduleList: [] }];
 
   // 근무리스트 상태값으로 관리하기
   const [scheduleList, setScheduleList] = useState(initialScheduleList);
@@ -27,7 +27,6 @@ const SlaveModifyScheduleList = ({ onSchedules, oneSlave }) => {
 
       setScheduleList(
         [{
-        modifyId: modifyScheduleList[0].scheduleId, 
         slaveScheduleType: modifyScheduleList[0].scheduleType
         }])
     };
@@ -79,13 +78,13 @@ const SlaveModifyScheduleList = ({ onSchedules, oneSlave }) => {
 
     // 고정시간 모달창으로 함수 내려보내 고정시간 정보 받아오기 & 상태관리하기
     const onFixedDay = useCallback((fixedDay) => {
-        setScheduleList(prev => ([{...prev[0], slaveScheduleList: fixedDay}]));
+        setScheduleList([{...scheduleList[0], slaveScheduleList: fixedDay}]);
     }, [scheduleList]);
 
 
     // 변동시간 모달창으로 함수 내려보내 변동시간 정보 받아오기 & 상태관리하기
     const onVariableDay = useCallback((variableDay) => { 
-        setScheduleList(prev => ([{...prev[0], slaveScheduleList: variableDay}]));
+        setScheduleList([{...scheduleList[0], slaveScheduleList: variableDay}]);
     }, [scheduleList]);
 
     //-------------------------------------------------
