@@ -8,13 +8,13 @@ const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
   // 근무요일 (월=1, 화=2, 수=3, 목=4, 금=5, 토=6, 일=7)
   const initialFixedDays = 
                           [
-                            { scheduleDay: 1, value: '월', select: false, startSchedule: '', endSchedule: '' },
-                            { scheduleDay: 2, value: '화', select: false, startSchedule: '', endSchedule: '' },
-                            { scheduleDay: 3, value: '수', select: false, startSchedule: '', endSchedule: '' },
-                            { scheduleDay: 4, value: '목', select: false, startSchedule: '', endSchedule: '' },
-                            { scheduleDay: 5, value: '금', select: false, startSchedule: '', endSchedule: '' },
-                            { scheduleDay: 6, value: '토', select: false, startSchedule: '', endSchedule: '' },
-                            { scheduleDay: 0, value: '일', select: false, startSchedule: '', endSchedule: '' },
+                            { slaveScheduleId: '', scheduleDay: 1, value: '월', select: false, startSchedule: '', endSchedule: '' },
+                            { slaveScheduleId: '', scheduleDay: 2, value: '화', select: false, startSchedule: '', endSchedule: '' },
+                            { slaveScheduleId: '', scheduleDay: 3, value: '수', select: false, startSchedule: '', endSchedule: '' },
+                            { slaveScheduleId: '', scheduleDay: 4, value: '목', select: false, startSchedule: '', endSchedule: '' },
+                            { slaveScheduleId: '', scheduleDay: 5, value: '금', select: false, startSchedule: '', endSchedule: '' },
+                            { slaveScheduleId: '', scheduleDay: 6, value: '토', select: false, startSchedule: '', endSchedule: '' },
+                            { slaveScheduleId: '', scheduleDay: 0, value: '일', select: false, startSchedule: '', endSchedule: '' },
                           ];
 
   // 고정시간 요일 배열 상태값으로 관리
@@ -55,6 +55,7 @@ const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
           if (schedule) {
             return {
               ...day,
+              slaveScheduleId: schedule.scheduleId,
               select: true,
               startSchedule: convertToTimeFormat(schedule.scheduleStart),
               endSchedule: convertToTimeFormat(schedule.scheduleEnd)
@@ -138,7 +139,7 @@ const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
             type="time" 
             className={styles['slaveRegistPageInputSchedule-input']} 
             onChange={startTimeHandler}
-            value={fixedDays.startSchedule} 
+            value={fixedDays[0].startSchedule} 
           />
           부터
         </label>
@@ -148,7 +149,7 @@ const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
             type="time" 
             className={styles['slaveRegistPageInputSchedule-input']} 
             onChange={endTimeHandler}
-            value={fixedDays.endSchedule} 
+            value={fixedDays[0].endSchedule}
           />
           까지
         </label>

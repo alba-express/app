@@ -8,7 +8,7 @@ const SlaveModifyWageList = ({ onWages, oneSlave }) => {
   // 급여타입(wageType): 1 --> 시급 / 0 --> 월급
   // 4대보험 적용여부(wageInsurance): true, 1 --> 적용 / false, 0 --> 미적용
                             // 급여타입, 급여금액,       4대보험적용여부
-  const initialWageList = [{modifyId: '', slaveWageType: 'null', slaveWageAmount: '', slaveWageInsurance: null}];
+  const initialWageList = [{slaveWageId: '', slaveWageType: 'null', slaveWageAmount: '', slaveWageInsurance: null}];
 
   // 급여리스트 상태값으로 관리하기
   const [wageList, setWageList] = useState(initialWageList);
@@ -26,7 +26,7 @@ const SlaveModifyWageList = ({ onWages, oneSlave }) => {
 
       setWageList(
         [{
-          modifyId: modifyWageList[0].slaveWageId, 
+          slaveWageId: modifyWageList[0].slaveWageId, 
           slaveWageType: modifyWageList[0].slaveWageType == '시급' ? true : modifyWageList[0].slaveWageType === '월급' ? false : wageList.slaveWageType,
           slaveWageAmount: modifyWageList[0].slaveWageAmount,
         }])

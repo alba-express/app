@@ -54,14 +54,14 @@
     height: 4rem;
     //-------------
     display: flex;
-    align-items: center;
+    align-items: end;
     //------------------
     font-size: 20px;
     margin-bottom: 10px;
 
     .slaveListType {
-      width: 20rem;
-      height: 4.2rem;
+      padding: 10px 20px;
+      // height: 4.2rem;
       //---------------
       font-weight: 600;
       color: rgb(255, 255, 255);
@@ -85,8 +85,8 @@
     }
   
     .slaveListSelectType {
-      width: 20rem;
-      height: 4.2rem;
+      padding: 10px 20px;
+      // height: 4.2rem;
       //---------------
       background-color: #ff8803;
       font-weight: 600;
@@ -121,7 +121,7 @@
       //------------------
       border: 0.1rem solid black;
       border-radius: 5px;
-      margin: 24px 0 5px 26.6rem;
+      margin: 24px 0 0px 44.2rem;
   
       .slaveManagementTitle-search {
         width: 16rem;
@@ -144,4 +144,3 @@
     }
   }
 }
-      
