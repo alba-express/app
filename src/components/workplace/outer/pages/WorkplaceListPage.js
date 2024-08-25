@@ -14,21 +14,63 @@ const WorkplaceListPage = () => {
     // 사장 아이디
     const userId = useAuth();
     const [workplaces, setWorkplaces] = useState([]);
+    const [allWorkplaces, setAllWorkplaces] = useState([]); // 검색 기능을 위해 모든 사업장을 저장할 상태 추가
+
+    // 페이징 처리
+    const [totalPages, setTotalPage] = useState(0); // 총 페이지 수
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
+    const workplacesPerPage = 3; // 한 페이지에 보여줄 사업장 수
+
+    // 검색창 상태 +
+    const [searchWorkplace, setSearchWorkplace] = useState('');
+
+    // 모든 사업장을 불러오는 함수
+    const fetchAllWorkplaces = async () => {
+        if (userId) {
+            try {
+                const response = await axios.get(`${BASE_URL}/workplace/list/${userId}`, {
+                    params: {
+                        page: 0, // 사업장 전체를 불러오기 위해 페이지 번호는 0부터
+                        size: 1000 
+                    }
+                });
+                setAllWorkplaces(response.data.workplaces);
+            } catch (error) {
+                console.error('Error fetching all workplaces:', error);
+            }
+        }
+    };
+
+    // 현재 페이지의 사업장을 불러오는 함수 
+    const fetchWorkplaces = async (page) => {
+        if (userId) { // userId가 존재할 때만 요청
+            try {
+                const response = await axios.get(`${BASE_URL}/workplace/list/${userId}`, {
+                    params: {
+                        page: page - 1, // 페이지 번호는 0부터 시작하므로 -1
+                        size: workplacesPerPage
+                    }
+                });
+                    setWorkplaces(response.data.workplaces);
+                    setTotalPage(response.data.totalPages); // 서버에서 totalCount를 받아야 함
+            } catch (error) {
+                    console.error('Error fetching workplace data:', error);
+            }
+        }
+    };
 
     useEffect(() => {
-        const fetchWorkplaces = async () => {
-            if (userId) { // userId가 존재할 때만 요청
-                try {
-                    const response = await axios.get(`${BASE_URL}/workplace/list/${userId}`);
-                    setWorkplaces(response.data.workplaces);
-                } catch (error) {
-                    console.error('Error fetching workplace data:', error);
-                }
-            }
-        };
+        if (searchWorkplace) {
+            fetchAllWorkplaces(); // 검색어가 있을 때 모든 사업장을 불러옴
+        } else {
+            fetchWorkplaces(currentPage); // 검색어가 없을 때는 페이징을 적용한 기존 사업장 리스트 
+        }
+    }, [userId, currentPage, searchWorkplace]);
 
-        fetchWorkplaces();
-    }, [userId]); // userId가 변경될 때마다 실행
+    // 페이지 번호를 변경된 현재 페이지 번호로 상태 변경하는 함수 +
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     // 특정 업장에 메인페이지로 or 수정 페이지에 따라 액션 부여
     const handleWorkplaceSelect = (id) => {
@@ -49,12 +91,20 @@ const WorkplaceListPage = () => {
         if (confirmed) {
             try {
                 await axios.delete(`${BASE_URL}/workplace/delete/${id}`);
-                setWorkplaces((prevWorkplaces) => prevWorkplaces.filter(workplace => workplace.id !== id));
+                if (searchWorkplace) {
+                    fetchAllWorkplaces(); // 삭제 후 검색어가 있을 때 전체 불러오기
+                } else {
+                    fetchWorkplaces(currentPage); // 삭제 후 페이징 적용된 데이터 불러오기
+                }
             } catch (error) {
                 console.error('Error deleting workplace:', error);
             }
         }
     };
+
+    // 검색창에서 필터링된 사업장 목록 조회 ! - 검색된 사업장이 참이면 전체사업장에서 필터링되어 검색값에 포함된 사업장 조회
+    const filteredWorkplaces = searchWorkplace ?
+               allWorkplaces.filter(workplace => workplace.workplaceName.toLowerCase().includes(searchWorkplace.toLowerCase())) : workplaces;
 
     // const setIdHandler = (workplaceId, e) => {
     //     console.log("bind함수 확인용: ", workplaceId);
@@ -77,16 +127,26 @@ const WorkplaceListPage = () => {
                 <h1 className={styles.signUpTitle}>사업장 목록</h1>
 
                 <div className={styles2.header}>
+                    {/* 사업장 검색창 추가 */}
+                <div className={styles2.searchContainer}>
+                    <input
+                        type="text"
+                        placeholder="사업장 검색"
+                        className={styles2.searchInput}
+                        value={searchWorkplace}
+                        onChange={(e) => setSearchWorkplace(e.target.value)}
+                    />
+                </div>
                 <Link to="regist">
                     <button className={styles2.registerButton}>사업장 등록</button>
                 </Link>
                 </div>
 
-                {workplaces.length === 0 ? (
+                {filteredWorkplaces.length === 0 ? (
                     <p className={styles2.notworkplace}>등록된 사업장이 존재하지 않습니다 😣</p>
                 ) : (
                     <ul className={styles2.list}>
-                        {workplaces.map(workplace => (
+                        {filteredWorkplaces.map(workplace => (
                             <li key={workplace.id} className={styles2.listItem}>
                                 <Link to="#" className={styles2.link} onClick={() => handleWorkplaceSelect(workplace.id)}>
                                     <h2 className={styles2.name}>{workplace.workplaceName}</h2>
@@ -107,13 +167,23 @@ const WorkplaceListPage = () => {
                                            사업장 수정
                                     </button>
                                 </div>
-                                {/* </div> */}
-                                {/* </Link> */}
-                                
                             </li>
                         ))}
                     </ul>
                 )}
+
+            {/* 사업장 목록 페이징 버튼 */}
+                <div className={styles2.pagination}>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <button
+                            key={index + 1}
+                            className={`${styles2.pageButton} ${currentPage === index + 1 ? styles2.activePage : ''}`}
+                            onClick={() => handlePageChange(index + 1)}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                </div>
             </div>
         </div>
     );
