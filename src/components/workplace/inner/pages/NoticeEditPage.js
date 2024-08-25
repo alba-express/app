@@ -3,6 +3,7 @@ import styles from "./NoticeRegistPage.module.scss";
 import {Form, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {noticeActions} from "../../../../store/notice-slice";
+import {BASE_URL} from "../../../../config/host-config";
 
 const NoticeEditPage = () => {
 
@@ -48,7 +49,7 @@ const NoticeEditPage = () => {
 
         console.log('payload: ', payload);
 
-        const response = await fetch(`http://localhost:8877/detail/notice/${currentNotice.id}`, {
+        const response = await fetch(`${BASE_URL}/detail/notice/${currentNotice.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

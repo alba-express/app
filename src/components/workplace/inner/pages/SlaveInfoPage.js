@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import SlaveInfoPageCommuteList from './slave/SlaveInfoPage/SlaveInfoPageCommuteList';
 import { useDispatch, useSelector } from 'react-redux';
 import { slaveActions } from '../../../../store/slave-slice';
+import {BASE_URL} from "../../../../config/host-config";
 
 const SlaveInfoPage = () => {
 
@@ -79,7 +80,7 @@ const SlaveInfoPage = () => {
 
             try {
                 // 서버로 요청 보내기
-                const response = await fetch(`http://localhost:8877/detail/slave-fired/${slaveId}`, {
+                const response = await fetch(`${BASE_URL}/detail/slave-fired/${slaveId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

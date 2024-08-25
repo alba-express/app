@@ -6,6 +6,7 @@ import MainHeader from "../../../app-layout/MainHeader";
 import { removeUserToken } from "../../../../utils/auth";
 import useAuth from '../../../../hooks/useAuth';
 import styles2 from './WorkplaceListPage.module.scss'
+import {BASE_URL} from "../../../../config/host-config";
 
 const WorkplaceListPage = () => {
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const WorkplaceListPage = () => {
         const fetchWorkplaces = async () => {
             if (userId) { // userId가 존재할 때만 요청
                 try {
-                    const response = await axios.get(`http://localhost:8877/workplace/list/${userId}`);
+                    const response = await axios.get(`${BASE_URL}/workplace/list/${userId}`);
                     setWorkplaces(response.data.workplaces);
                 } catch (error) {
                     console.error('Error fetching workplace data:', error);
@@ -47,7 +48,7 @@ const WorkplaceListPage = () => {
         const confirmed = window.confirm(`[${name}] 업장을 삭제하시겠습니까 ❓`);
         if (confirmed) {
             try {
-                await axios.delete(`http://localhost:8877/workplace/delete/${id}`);
+                await axios.delete(`${BASE_URL}/workplace/delete/${id}`);
                 setWorkplaces((prevWorkplaces) => prevWorkplaces.filter(workplace => workplace.id !== id));
             } catch (error) {
                 console.error('Error deleting workplace:', error);

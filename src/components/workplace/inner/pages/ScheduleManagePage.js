@@ -5,6 +5,7 @@ import ScheduleCalendarPage from "./ScheduleCalendarPage";
 import {useDispatch, useSelector} from "react-redux";
 import {AiOutlineMinusCircle} from "react-icons/ai";
 import { workplaceActions } from "../../../../store/workplace-slice";
+import {BASE_URL} from "../../../../config/host-config";
 
 
 const ScheduleManagePage = () => {
@@ -44,7 +45,7 @@ const ScheduleManagePage = () => {
 
             try {
                 const response = await fetch(
-                    `http://localhost:8877/detail/schedule-manage?workplaceId=${workplaceId}&date=${date}&dayOfWeek=${dayOfWeek}`);
+                    `${BASE_URL}/detail/schedule-manage?workplaceId=${workplaceId}&date=${date}&dayOfWeek=${dayOfWeek}`);
                 if (!response.ok) {
                     throw new Error('네트워크 응답이 올바르지 않습니다.');
                 }
@@ -66,7 +67,7 @@ const ScheduleManagePage = () => {
             try {
                 console.log("extraSchedule getmapping 보내기 확인");
                 const response = await fetch(
-                    `http://localhost:8877/detail/extraschedule-manage?workplaceId=${workplaceId}&date=${selectedDate}`);
+                    `${BASE_URL}/detail/extraschedule-manage?workplaceId=${workplaceId}&date=${selectedDate}`);
                 if (!response.ok) {
                     throw new Error('네트워크 응답이 올바르지 않습니다.');
                 }
@@ -93,7 +94,7 @@ const ScheduleManagePage = () => {
         console.log('삭제버튼 클릭, id: ', id);
         if (confirmed) {
             try {
-                const response = await fetch(`http://localhost:8877/detail/extraSchedule-manage?id=${id}`, {
+                const response = await fetch(`${BASE_URL}/detail/extraSchedule-manage?id=${id}`, {
                     method: 'DELETE',
                 });
 

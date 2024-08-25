@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch } from "react-redux";
 import { workplaceActions } from "../../../../store/workplace-slice";
+import {BASE_URL} from "../../../../config/host-config";
 
 const InnerMainPage = () => {
     const [workplaceInfo, setWorkplaceInfo] = useState(null);
@@ -39,7 +40,7 @@ const InnerMainPage = () => {
     useEffect(() => {
         const fetchWorkplaceInfo = async () => {
             try {
-                const response = await axios.get(`http://localhost:8877/workplace/${workplaceIdByStore}`);
+                const response = await axios.get(`${BASE_URL}/workplace/${workplaceIdByStore}`);
                 const workplace = response.data;
                 if (workplace) {
                     setWorkplaceInfo(workplace);
@@ -59,7 +60,7 @@ const InnerMainPage = () => {
             try {
                 const formattedDate = selectedDate.toISOString().split('T')[0]; // yyyy-mm-dd 형식으로 변환
                 // const response = await axios.get(`http://localhost:8877/schedule/employees?workplaceId=${workplaceIdByStore}&date=${formattedDate}`);
-                const res = await fetch(`http://localhost:8877/detail/schedule-log-list?workplaceId=${workplaceIdByStore}&date=${formattedDate}`);
+                const res = await fetch(`${BASE_URL}/detail/schedule-log-list?workplaceId=${workplaceIdByStore}&date=${formattedDate}`);
                 // const employees = response.data;
                 const employees = await res.json();
                 // const currentTime = new Date(); // 현재 시간
@@ -139,7 +140,7 @@ const InnerMainPage = () => {
                 ym: `${currentYear}-${currentMonth < 10 ? "0" + currentMonth : currentMonth}`,
             };
             try {
-                const res = await fetch(`http://localhost:8877/wage/workplace`, {
+                const res = await fetch(`${BASE_URL}/wage/workplace`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

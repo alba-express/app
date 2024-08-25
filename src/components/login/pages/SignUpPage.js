@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./commonStyles.module.scss";
+import {BASE_URL} from "../../../config/host-config";
 
 const SignUpPage = () => {
     const [email, setEmail] = useState("");
@@ -23,7 +24,7 @@ const SignUpPage = () => {
 
     const handleEmailCheck = async () => {
         try {
-            const response = await fetch(`http://localhost:8877/api/auth/check-email?email=${email}`, {
+            const response = await fetch(`${BASE_URL}/api/auth/check-email?email=${email}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,7 +48,7 @@ const SignUpPage = () => {
 
     const handleVerifyCode = async () => {
         try {
-            const response = await fetch("http://localhost:8877/api/auth/verify-code", {
+            const response = await fetch(`${BASE_URL}/api/auth/verify-code`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -85,7 +86,7 @@ const SignUpPage = () => {
         };
 
         try {
-            const response = await fetch("http://localhost:8877/api/auth/register", {
+            const response = await fetch(`${BASE_URL}/api/auth/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

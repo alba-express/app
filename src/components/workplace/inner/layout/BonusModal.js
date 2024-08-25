@@ -31,8 +31,8 @@ const BonusModal = ({ workDate, name, amount, onClose, onSave, setModalData }) =
                     />
                 </div>
                 <div className={styles.buttons}>
-                    <button className={styles.confirmButton} onClick={onSave}>확인</button>
                     <button className={styles.cancelButton} onClick={onClose}>취소</button>
+                    <button className={styles.confirmButton} onClick={onSave}>확인</button>
                 </div>
             </div>
         </div>

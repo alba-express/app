@@ -4,6 +4,7 @@ import ScheduleCalendarPage from "./ScheduleCalendarPage";
 import {Form, Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {scheduleActions} from "../../../../store/schedule-slice";
+import {BASE_URL} from "../../../../config/host-config";
 
 const ScheduleAddPage = () => {
 
@@ -27,7 +28,7 @@ const ScheduleAddPage = () => {
 
             console.log('payload: ', payload);
 
-            const response = await fetch(`http://localhost:8877/detail/schedule-add?workplaceId=${workplaceId}`)
+            const response = await fetch(`${BASE_URL}/detail/schedule-add?workplaceId=${workplaceId}`)
             const data = await response.json();
             console.log("data: ", data);
             setSlaves(data);
@@ -72,7 +73,7 @@ const ScheduleAddPage = () => {
         }
         console.log('payload: ', payload);
 
-        const response = await fetch('http://localhost:8877/detail/schedule-add', {
+        const response = await fetch(`${BASE_URL}/detail/schedule-add`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { saveUserToken, saveUserId, getUserIdFromStorage, getUserId } from '../../../utils/auth';
 import 'bootstrap/dist/css/bootstrap.min.css'; // 부트스트랩 CSS 임포트
 import styles from './LoginMain.module.scss';
+import {BASE_URL} from "../../../config/host-config";
 
 const LoginMain = () => {
     const [email, setEmail] = useState('');
@@ -39,7 +40,7 @@ const LoginMain = () => {
         event.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8877/api/auth/login', {
+            const response = await fetch(`${BASE_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
