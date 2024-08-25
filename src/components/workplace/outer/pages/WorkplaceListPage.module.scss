@@ -17,9 +17,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  float: inline-end;
-  text-align: center;
+  // margin-bottom: 20px;
+  // float: inline-end;
+  // text-align: center;
 }
 
 .registerButton, .logoutButton {
@@ -58,7 +58,7 @@
   background:#f8f8f8;
   padding: 15px;
   border-radius: 7px;
-  margin: 35px;
+  // margin: 35px;
 }
 
 .list {
@@ -78,7 +78,7 @@
 }
 
 .listItem {
-  margin-top: 46px;
+  // margin-top: 46px;
   width: 800px;
   background-color: rgb(255 255 255 / 78%);
   border: 1px solid #ddd;
@@ -144,4 +144,43 @@
 
 .deleteButton:hover {
   background-color: #ff584c;
+}
+
+// Pagination 스타일
+.pagination {
+  display: flex;
+  justify-content: center; // 가운데 정렬
+  margin-top: 20px; // 위쪽 여백
+  padding: 10px; // 전체 패딩
+}
+
+.pageButton {
+  background-color: #ff8803; // 기본 배경색
+  color: #fff; // 기본 글자색
+  border: none; // 기본 테두리 없음
+  border-radius: 8px; // 둥근 테두리
+  padding: 10px 15px; // 패딩
+  margin: 0 5px; // 버튼 간격
+  font-size: 16px; // 글자 크기
+  cursor: pointer; // 클릭 커서
+
+  // hover 상태 스타일
+  &:hover {
+      background-color: #ff5e00; // hover 배경색
+  }
+
+  // active 상태 스타일
+  &.activePage {
+      background-color: #ff5e00; // 클릭시 배경색
+      border: 1px solid #fff; // 클릭시 테두리 색상
+  }
+}
+
+.searchContainer {
+}
+
+.searchInput {
+  padding: 10px;
+  border: 1px solid #ff8803;
+  border-radius: 5px;
 }
