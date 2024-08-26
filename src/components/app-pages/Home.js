@@ -16,6 +16,17 @@ const Home = () => {
 
         // 새로고침 시 항상 #section1으로 이동
         window.location.hash = '#section1';
+
+        // 네비게이션 앵커 스타일 수정
+        const styleAnchors = () => {
+            const anchors = document.querySelectorAll('.Navigation-Anchor');
+            anchors.forEach(anchor => {
+                anchor.style.backgroundColor = '#ff8803'; // 원하는 색상으로 변경
+            });
+        };
+
+        // 네비게이션 앵커가 렌더링된 후 스타일을 적용
+        setTimeout(styleAnchors, 100);
     }, [navigate]);
 
     const options = {
