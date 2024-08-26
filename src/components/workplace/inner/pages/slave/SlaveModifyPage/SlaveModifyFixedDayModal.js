@@ -109,6 +109,8 @@ const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
 
   //-------------------------------------------------
 
+  // 선택된 요일 중 첫 번째 요일의 startSchedule을 value로 설정
+  const selectedDay = fixedDays.find(day => day.select);
   //-------------------------------------------------
 
   return (
@@ -139,7 +141,7 @@ const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
             type="time" 
             className={styles['slaveRegistPageInputSchedule-input']} 
             onChange={startTimeHandler}
-            value={fixedDays[0].startSchedule} 
+            value={selectedDay ? selectedDay.startSchedule : ''}  
           />
           부터
         </label>
@@ -149,7 +151,7 @@ const SlaveModifyFixedDayModal = ({ onFixed, oneSlave }) => {
             type="time" 
             className={styles['slaveRegistPageInputSchedule-input']} 
             onChange={endTimeHandler}
-            value={fixedDays[0].endSchedule}
+            value={selectedDay ? selectedDay.endSchedule : ''}
           />
           까지
         </label>
