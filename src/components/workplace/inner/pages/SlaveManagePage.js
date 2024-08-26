@@ -135,9 +135,9 @@ const SlaveManagePage = () => {
 
   //-------------------------------------------------
 
-  useEffect(() => {
-    dispatch(slaveActions.setShowWhichSlave('all'));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(slaveActions.setShowWhichSlave('all'));
+  // }, [dispatch]);
 
   useEffect(() => {
     switch (showWhichSlave) {

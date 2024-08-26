@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     showError: '',
     
-    showWhichSlave: 'all', // 보여줄 직원의 종류를 선택하는 표시 (초기값: 전체 직원리스트 표시)
+    showWhichSlave: 'active', // 보여줄 직원의 종류를 선택하는 표시 (초기값: 전체 직원리스트 표시)
 
     showSlaveListInfo: [], // 보여줄 서버에서 받아온 직원 목록 정보 표시
 
