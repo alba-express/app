@@ -161,7 +161,7 @@ const WorkplaceRegistPage = () => {
                                 required
                             />
                             {/* 하나의 p 태그 내에서 오류 메시지 표시 */}
-                            <p className={`${error === '이미 등록된 사업장 등록번호입니다.' ? styles.errorRed : styles.errorBlack}`}>
+                            <p className={`${error === '이미 등록된 사업장 등록번호입니다.' ? styles2.errorRed : styles2.errorBlack}`}>
                                   {error ? error : "\u00A0"}
                             </p>
                         </div>
