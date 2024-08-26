@@ -54,13 +54,13 @@ const Home = () => {
                             <h2 className={styles.header2}>직원 등록을 통해 <br></br> 근무 일정 및 급여 정보 산출</h2>
                             <p className={styles.ptext}>한 페이지에 전체적인 직원의 정보, 일정, 급여를 모두 제공합니다.</p>
                         </div>
-                        <img className={styles.img3} src={`${process.env.PUBLIC_URL}/images/직원관리 페이지.png`} alt="완성된 직원관리 페이지 이미지" />
+                        <img className={styles.img3} src={`${process.env.PUBLIC_URL}/images/slavepage.png`} alt="완성된 직원관리 페이지 이미지" />
                     </div>
                 </Section>
 
                 <Section>
                     <div className={styles.wrap2}>
-                        <img className={styles.img} src={`${process.env.PUBLIC_URL}/images/급여관리 페이지.png`} alt="완성된 급여관리 페이지 이미지" />
+                        <img className={styles.img} src={`${process.env.PUBLIC_URL}/images/wagepage.png`} alt="완성된 급여관리 페이지 이미지" />
                         <div className={styles.infotext}>
                             <h1 className={styles.header}>급여관리</h1>
                             <h2 className={styles.header2}>월별 총 누적 지출액 파악이 빠르며,<br></br> 직원별 누적 근무시간과 총 급여 확인 가능</h2>
@@ -77,13 +77,13 @@ const Home = () => {
                             <h2 className={styles.header2}>직원 등록에서 저장된 근무 일정을 <br></br>반영한 일별 근무자와 근무시간을 제공 </h2>
                             <p className={styles.ptext}>일정 추가 기능을 통해 추가 근무 처리를 할 수 있습니다.</p>
                         </div>
-                        <img className={styles.img} src={`${process.env.PUBLIC_URL}/images/일정관리 페이지.png`} alt="완성된 일정관리 페이지 이미지" />
+                        <img className={styles.img} src={`${process.env.PUBLIC_URL}/images/schedulepage.png`} alt="완성된 일정관리 페이지 이미지" />
                     </div>
                 </Section>
 
                 <Section className={styles.fullPageSection}>
                  <div className={styles.lastwrap}>
-                  <img className={styles.img2} src={`${process.env.PUBLIC_URL}/images/출퇴근관리 페이지.png`} alt="완성된 출퇴근 페이지 이미지" />
+                  <img className={styles.img2} src={`${process.env.PUBLIC_URL}/images/commutemanagepage.png`} alt="완성된 출퇴근 페이지 이미지" />
                   <div className={styles.infotext}>
                   <h1 className={styles.header}>출퇴근 관리</h1>
                   <h2 className={styles.header2}>대리 출퇴근을 방지하기 위해<br></br> 휴대폰 번호를 통해 접근하며 <br></br> 근무시간이 아닐 시 접근 불가</h2>
