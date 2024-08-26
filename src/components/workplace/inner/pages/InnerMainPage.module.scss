@@ -2,12 +2,11 @@
   display: flex;
   width: 100%;
   height: 100%;
-  position: relative; /* 추가 */
+  position: relative;
 }
 
 .leftPanel {
   width: 25%;
-  //background-color: #f8f8f8;
   padding: 20px;
   border-radius: 20px;
   margin-top: 50px;
@@ -25,14 +24,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px; /* 추가된 부분 */
+  margin-bottom: 20px;
 }
-
 
 .monthDetails {
   text-align: center;
   font-size: 1rem;
-  margin-top: 10px; /* 위치 변경에 따른 수정 */
+  margin-top: 10px;
 }
 
 .arrowButton {
@@ -75,21 +73,24 @@
 .rightPanel {
   width: 75%;
   padding: 20px;
-  position: relative; /* 추가 */
+  position: relative;
 }
 
 .scheduleSection {
-  //background-color: #f8f8f8;
   padding: 20px;
   border-radius: 10px;
   margin-top: 30px;
   border: 1px solid #fdc46f;
+  height: 673px; /* scheduleSection의 고정된 높이 설정 */
+  overflow: hidden; /* 스크롤이 필요한 경우에만 활성화 */
 }
 
 .scheduleTable {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  height: 100%;
+  overflow-y: auto; /* 스크롤이 필요할 때만 스크롤 표시 */
 }
 
 .scheduleColumn {
@@ -110,16 +111,15 @@
 
 .backgroundImage {
   position: absolute;
-  bottom: -260px; /* 더 아래로 이동 */
-  right: -260px; /* 더 오른쪽으로 이동 */
-  width: 800px; /* 이미지 크기를 200px 더 키움 */
+  bottom: -260px;
+  right: -260px;
+  width: 800px;
   height: 800px;
   transform: rotate(-45deg);
   opacity: 0.3;
   background-size: contain;
   background-repeat: no-repeat;
 }
-
 
 .datePickerContainer {
   display: flex;
@@ -140,4 +140,3 @@
   font-size: 1.5rem;
   color: #333;
 }
-
