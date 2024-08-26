@@ -20,7 +20,7 @@ const Home = () => {
 
     const options = {
         sectionClassName: 'section',
-        anchors: ["section1", "section2", "section3", "section4", "section5"],
+        anchors: ["section1", "section2", "section3", "section4", "section5", "section6"],
         scrollBar: false,
         navigation: true,
         verticalAlign: false,
@@ -81,14 +81,27 @@ const Home = () => {
                     </div>
                 </Section>
 
+                <Section>
+                    <div className={styles.wrap2}>
+                        <img className={styles.img} src={`${process.env.PUBLIC_URL}/images/noticepage.png`} alt="완성된 공지사항 페이지 이미지" />
+                        <div className={styles.infotext}>
+                            <h1 className={styles.header}>공지사항</h1>
+                            <h2 className={styles.header2}>공지사항을 등록하여 전달사항을 <br></br>한 번에 공통적으로 전달할 수 있다.</h2>
+                            <p className={styles.ptext}>최신 등록된 하나의 공지사항을 최상단에서 공통적으로 열람할 수 있다.</p>
+                            <img className={styles.logo} src={`${process.env.PUBLIC_URL}/images/background.png`} alt="알바니 로고" />
+                        </div>
+                    </div>
+                </Section>
+
                 <Section className={styles.fullPageSection}>
-                 <div className={styles.lastwrap}>
-                  <img className={styles.img2} src={`${process.env.PUBLIC_URL}/images/commutemanagepage.png`} alt="완성된 출퇴근 페이지 이미지" />
+                <div className={styles.lastwrap}>
+                  
                   <div className={styles.infotext}>
                   <h1 className={styles.header}>출퇴근 관리</h1>
                   <h2 className={styles.header2}>대리 출퇴근을 방지하기 위해<br></br> 휴대폰 번호를 통해 접근하며 <br></br> 근무시간이 아닐 시 접근 불가</h2>
                   <p className={styles.ptext}>각 출퇴근 클릭 시 현재 시간이 뜨며 시간 준수를 못하여 <br></br>지각/조퇴처리 시 차감된 급여가 자동 산정됩니다.</p>
-                 </div>
+                  </div>
+                  <img className={styles.img2} src={`${process.env.PUBLIC_URL}/images/commutemanagepage.png`} alt="완성된 출퇴근 페이지 이미지" />
                 </div>
 
     <div className={styles.footer}>
