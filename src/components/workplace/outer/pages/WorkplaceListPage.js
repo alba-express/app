@@ -51,10 +51,23 @@ const WorkplaceListPage = () => {
                         size: workplacesPerPage
                     }
                 });
-                    setWorkplaces(response.data.workplaces);
-                    setTotalPage(response.data.totalPages); // 서버에서 totalCount를 받아야 함
+                    // JSON 응답이 제대로 되었는지 확인
+            if (response.data && response.data.workplaces) {
+                setWorkplaces(response.data.workplaces);
+                setTotalPage(response.data.totalPages);
+            } else {
+                console.error('Invalid JSON response:', response.data);
+                // 필요 시 사용자에게 오류 메시지를 표시하거나 기본 값을 설정
+            }
             } catch (error) {
                     console.error('Error fetching workplace data:', error);
+                    if (error.response && error.response.data) {
+                        // 서버 응답이 있는 경우 처리
+                        console.error('Server responded with:', error.response.data);
+                    } else {
+                        // 네트워크 또는 다른 문제로 인한 예외 처리
+                        console.error('Network or parsing error:', error.message);
+                    }
             }
         }
     };

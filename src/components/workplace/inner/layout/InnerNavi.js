@@ -10,16 +10,36 @@ const InnerNavi = () => {
   const currentPage = useSelector((state) => state.workplace.currentPage);
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await fetch(
+  //       `${BASE_URL}/workplace/${workplaceId}`
+  //     );
+  //     const json = await response.json();
+  //     setWorkplaceData(json);
+  //   };
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(
-        `${BASE_URL}/workplace/${workplaceId}`
-      );
-      const json = await response.json();
-      setWorkplaceData(json);
+      if (workplaceId) {  // workplaceId가 존재할 때만 요청 !
+        try {
+          const response = await fetch(`${BASE_URL}/workplace/${workplaceId}`);
+          if (!response.ok) { 
+            return;
+          }
+          const json = await response.json();
+          setWorkplaceData(json);
+      } catch (error) {
+        }
+      } else {
+      }
     };
     fetchData();
-  }, []);
+  }, [workplaceId]); // 사업장 아이디 담아와야 /detail 페이지로 접근시 막을 수 있음
+  
+
   const detailHandler = (e) => {
     e.preventDefault();
     if (currentPage !== 5) {
