@@ -31,7 +31,7 @@ const MainHeader = ({ isHome }) => {
                     <div className={styles.homeHeaderContent}>
                         <button className={styles.homeButton} onClick={navigateToMainHandler}>
                             <img
-                                src={process.env.PUBLIC_URL + '/images/albunny.png'}
+                                src={process.env.PUBLIC_URL + '/images/albunny_logo.png'}
                                 alt="홈"
                                 className={styles.homeImage}
                             />
