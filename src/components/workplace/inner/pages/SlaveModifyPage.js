@@ -93,28 +93,28 @@ const SlaveModifyPage = () => {
         // 입력한 전화번호
         const inputPhoneNumber = e.target.value;
 
-        // 해당 사업장
-        const workPlaceId = slaveModifyInput.workPlaceNumber;
+        // // 해당 사업장
+        // const workPlaceId = slaveModifyInput.workPlaceNumber;
 
-        setTimeout(async () => {
-            try {
-                const response = await fetch(`${BASE_URL}/detail/validPhoneNumber`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({inputPhoneNumber, workPlaceId})
-                });
-                const result = await response.json();
-                if (result.isValid) {
-                    // alert("사용가능한 전화번호입니다");
-                    setSlaveModifyInput(prev => ({...prev, slavePhoneNumber: inputPhoneNumber}));
-                } else {
-                    // alert("이미 존재하는 전화번호입니다");
-                    setSlaveModifyInput(prev => ({...prev, slavePhoneNumber: ''}));
-                }
-            } catch (error) {
-                console.error("전화번호 검증 에러", error);
-            }
-        }, 2000);
+        // setTimeout(async () => {
+        //     try {
+        //         const response = await fetch(`${BASE_URL}/detail/validPhoneNumber`, {
+        //             method: 'POST',
+        //             headers: { 'Content-Type': 'application/json' },
+        //             body: JSON.stringify({inputPhoneNumber, workPlaceId})
+        //         });
+        //         const result = await response.json();
+        //         if (result.isValid) {
+        //             // alert("사용가능한 전화번호입니다");
+        //             setSlaveModifyInput(prev => ({...prev, slavePhoneNumber: inputPhoneNumber}));
+        //         } else {
+        //             // alert("이미 존재하는 전화번호입니다");
+        //             setSlaveModifyInput(prev => ({...prev, slavePhoneNumber: ''}));
+        //         }
+        //     } catch (error) {
+        //         console.error("전화번호 검증 에러", error);
+        //     }
+        // }, 2000);
 
         setSlaveModifyInput(prev => ({...prev, slavePhoneNumber: e.target.value}));
     };
