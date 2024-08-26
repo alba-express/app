@@ -190,7 +190,9 @@ const WorkplaceModifyPage = () => {
             placeholder="10자리 숫자만 입력하세요."
             required
           />
-          {error && <p className={errorStyle(error)}>{error}</p>}
+          <p className={`${error === '이미 등록된 사업장 등록번호입니다.' ? styles2.errorRed : styles2.errorBlack}`}>
+                                  {error ? error : "\u00A0"}
+          </p>
         </div>
         <div className={styles2.formGroup2}>
           <label htmlFor="workplaceName">상호명 </label>
@@ -242,6 +244,7 @@ const WorkplaceModifyPage = () => {
             id="workplacePassword"
             value={workplacePassword}
             onChange={changeHandler(setWorkplacePassword)}
+            maxLength={4}
             minLength={4}
             className={styles2.addressinput}
             placeholder="4자리 숫자를 입력하세요."
