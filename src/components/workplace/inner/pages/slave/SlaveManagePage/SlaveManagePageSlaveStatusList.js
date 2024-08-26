@@ -118,51 +118,41 @@ const SlaveManagePageSlaveStatusList = () => {
                   </div>
                 )}
                 {/* 근무리스트 */}
-                {oneSlave.slaveScheduleList.some(schedule => schedule.scheduleType === true) 
-                  ? (
-                      <div key={oneSlave.slaveScheduleId} className={styles['slaveManagementList-OneSlaveScheduleList']}>
-                        {oneSlave.slaveScheduleList
-                          .filter(schedule => schedule.scheduleType === true) // scheduleType이 true인 것만 필터링
-                          .map((schedule) => (
-                            <div key={schedule.slaveScheduleId-1}>
-                              {Array.isArray(schedule.scheduleDay)
-                                ? schedule.scheduleDay.map((day, dayIndex) => (
-                                    <span key={dayIndex}>
-                                      {day.charAt(0)}
-                                    </span>
-                                  )).join(', ') // join을 사용해 문자열로 결합
-                                : schedule.scheduleDay.charAt(0)
-                              }
-                              {` ${schedule.scheduleStart} - ${schedule.scheduleEnd}`}
-                            </div>
-                          ))}
+                {oneSlave.slaveScheduleList.some(schedule => schedule.scheduleType === true) ? (
+                  <div className={styles['slaveManagementList-OneSlaveScheduleList']}>
+                    <div>
+                      {oneSlave.slaveScheduleList
+                        .filter(schedule => schedule.scheduleType === true)
+                        .map(schedule => Array.isArray(schedule.scheduleDay) 
+                          ? schedule.scheduleDay.map(day => day.charAt(0)).join(', ') // 요일의 첫 글자만 추출
+                          : schedule.scheduleDay.charAt(0))
+                        .join(', ') 
+                        // .join(', ')로 만들어진 문자열에서 마지막 ', '를 제거
+                        .replace(/, $/, '')} 
+                      {` ${oneSlave.slaveScheduleList[0].scheduleStart} - ${oneSlave.slaveScheduleList[0].scheduleEnd}`}
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles['slaveManagementList-OneSlaveScheduleList']}>
+                    {oneSlave.slaveScheduleList.map((schedule) => 
+                      <div key={`${schedule.scheduleId}-div`} className={styles['slaveManagementList-OneSlaveScheduleOne']}>
+                        {Array.isArray(schedule.scheduleDay)
+                          ? schedule.scheduleDay.map((day, index) => (
+                              <span key={`${schedule.scheduleId}-span`}>
+                                {day.charAt(0)}
+                              </span>
+                            )).join(', ')
+                          : schedule.scheduleDay.charAt(0)
+                        }
+                        {` ${schedule.scheduleStart} - ${schedule.scheduleEnd}`}
                       </div>
-                    ) 
-                  :
-                    (
-                      <div className={styles['slaveManagementList-OneSlaveScheduleList']}>
-                        {oneSlave.slaveScheduleList.map((schedule) => 
-                          <div key={schedule.slaveScheduleId-0} className={styles['slaveManagementList-OneSlaveScheduleOne']}>
-                            {Array.isArray(schedule.scheduleDay)
-                              ? schedule.scheduleDay.map((day, dayIndex) => (
-                                  <span key={dayIndex}>
-                                    {day.charAt(0)}
-                                  </span>
-                                )).join(', ')
-                              : schedule.scheduleDay.charAt(0)
-                            }
-                            {` ${schedule.scheduleStart} - ${schedule.scheduleEnd}`}
-                          </div>
-                        )}
-                      </div>
-                    )
-                }
+                    )}
+                  </div>
+                )}
                 
-                
-
                 <div className={styles['slaveManagementList-OneSlaveJoin']} >
                   <span>{oneSlave.slaveCreatedAt}</span>
-                  <span style={{ fontSize: '13px' }}> {showWhichSlave === 'inactive' ? `(퇴사일자: ${oneSlave.slaveFiredDate})` : null} </span>
+                  <span style={{ fontSize: '13px' }}> {oneSlave.slaveFiredDate !== null ? `(퇴사일자: ${oneSlave.slaveFiredDate})` : null} </span>
                 </div>
               </div>
             )
