@@ -92,12 +92,20 @@ const SlaveModifyPage = () => {
     // 전화번호 입력한 경우 input태그 상태창 변경하기
     const phoneNumberHandler = e => {
 
+        console.log();
+        
+
         // 입력한 전화번호
         const inputPhoneNumber = e.target.value;
         setSlaveModifyInput(prev => ({ ...prev, slavePhoneNumber: inputPhoneNumber }));
 
         // 해당 사업장 번호
         const workPlaceId = localStorage.getItem('workplaceId');
+
+        // 해당 직원 id
+        const slaveId = slaveModifyInput.slaveId;
+
+        console.log("직원id", slaveId);
 
         console.log("사업장", workPlaceId);
         
@@ -110,10 +118,10 @@ const SlaveModifyPage = () => {
         // 새로운 타이머 설정
         phoneNumberTimeout.current = setTimeout(async () => {
             try {
-                const response = await fetch(`${BASE_URL}/detail/validPhoneNumber`, {
+                const response = await fetch(`${BASE_URL}/detail/modifyValidPhoneNumber`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ inputPhoneNumber, workPlaceId })
+                    body: JSON.stringify({ inputPhoneNumber, workPlaceId, slaveId })
                 });
 
                 if (!response.ok) {
