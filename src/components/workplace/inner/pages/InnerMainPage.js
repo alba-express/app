@@ -211,7 +211,7 @@ const InnerMainPage = () => {
                     </div>
                     <div className={styles.monthDetails}>
                         <p className={styles.estimatedWages}>예상 급여 : {estimatedWages.toLocaleString()} 원</p>
-                        <p className={styles.totalEmployees}>총 직원 수 : {workingEmployees.length + notStartedEmployees.length + offDutyEmployees.length + miscEmployees.length}명</p>
+                        <p className={styles.totalEmployees}>총 직원 수 : {workplaceInfo.workplaceTotalSlaveSize}명</p>
                     </div>
                 </div>
 
