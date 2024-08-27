@@ -50,6 +50,7 @@
 
 .employeeSection {
   margin-top: 20px;
+  overflow: hidden;
 }
 
 .employeeTitle {
@@ -59,6 +60,8 @@
 
 .employeeWages {
   margin-top: 10px;
+  max-height: 450px;
+  overflow-y: auto;
 }
 
 .employeeWage {
