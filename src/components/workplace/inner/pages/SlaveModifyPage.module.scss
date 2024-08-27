@@ -101,7 +101,7 @@
           color: rgb(255, 255, 255);
         }
 
-        .slaveRegistPage-button {
+        .slaveRegistPage-nonButton {
           width: 14.8rem;
           height: 2.5rem;
           //-------------
@@ -113,12 +113,11 @@
           color: rgb(255, 255, 255);
           //--------------------------
           border: 1px solid rgb(1, 119, 115);
-          border-radius: 5px;
-          cursor: pointer;
           background: #ccc;
           border: none;
           //---------------------------------------------
           cursor: pointer;
+          border-radius: 5px;
         }
         .slaveRegistPage-button:hover {
           background: #bbb;
@@ -126,7 +125,7 @@
           border: 0;
         }
 
-        .formButtonStyle{
+        .slaveRegistPage-button{
           width: 14.8rem;
           height: 2.5rem;
           //-------------
@@ -142,12 +141,30 @@
           background: #ff8803;
           border: none;
           border: 0.1px solid rgb(255, 255, 255, 0.3);
+          //---------------------------------------------
           border-radius: 5px;
+        }
+        .slaveRegistPage-nonButton:hover {
+          background: #ff5e00;
+        }
+
+        .slaveRegistPage-cancelButton {
+          width: 14.8rem;
+          height: 2.5rem;
+          //-------------
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          //------------------
+          font-weight: 600;
+          color: rgb(255, 255, 255);
+          //--------------------------
+          border: 1px solid rgb(1, 119, 115);
+          background: #ccc;
+          border: none;
           //---------------------------------------------
           cursor: pointer;
-        }
-        .formButtonStyle:hover{
-          background: #ff5e00;
+          border-radius: 5px;
         }
       }
     }

@@ -147,6 +147,25 @@
         .slaveRegistPage-nonButton:hover {
           background: #ff5e00;
         }
+
+        .slaveRegistPage-cancelButton {
+          width: 14.8rem;
+          height: 2.5rem;
+          //-------------
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          //------------------
+          font-weight: 600;
+          color: rgb(255, 255, 255);
+          //--------------------------
+          border: 1px solid rgb(1, 119, 115);
+          background: #ccc;
+          border: none;
+          //---------------------------------------------
+          cursor: pointer;
+          border-radius: 5px;
+        }
       }
     }
   }
