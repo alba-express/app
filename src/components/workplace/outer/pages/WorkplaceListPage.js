@@ -20,6 +20,8 @@ const WorkplaceListPage = () => {
     const [totalPages, setTotalPage] = useState(0); // 총 페이지 수
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
     const workplacesPerPage = 3; // 한 페이지에 보여줄 사업장 수
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     // 검색창 상태 +
     const [searchWorkplace, setSearchWorkplace] = useState('');
@@ -99,19 +101,27 @@ const WorkplaceListPage = () => {
         navigate('/workplace/pwdverify');
       };
 
-    const deleteHandler = async (id, name) => {
-        const confirmed = window.confirm(`[${name}] 업장을 삭제하시겠습니까 ❓`);
-        if (confirmed) {
-            try {
-                await axios.delete(`${BASE_URL}/workplace/delete/${id}`);
-                if (searchWorkplace) {
-                    fetchAllWorkplaces(); // 삭제 후 검색어가 있을 때 전체 불러오기
-                } else {
-                    fetchWorkplaces(currentPage); // 삭제 후 페이징 적용된 데이터 불러오기
+      const deleteHandler = async (id, name) => {
+        // 사업장 이름 입력받기
+        const inputName = window.prompt(`[${name}] 사업장을 삭제하시려면, 사업장 이름을 정확히 입력하세요:`);
+    
+        // 입력한 이름이 실제 사업장 이름과 일치하는지 확인
+        if (inputName === name) {
+            const confirmed = window.confirm(`[${name}] 사업장을 정말로 삭제합니다.`);
+            if (confirmed) {
+                try {
+                    await axios.delete(`${BASE_URL}/workplace/delete/${id}`);
+                    if (searchWorkplace) {
+                        fetchAllWorkplaces(); // 삭제 후 검색어가 있을 때 전체 불러오기
+                    } else {
+                        fetchWorkplaces(currentPage); // 삭제 후 페이징 적용된 데이터 불러오기
+                    }
+                } catch (error) {
+                    console.error('Error deleting workplace:', error);
                 }
-            } catch (error) {
-                console.error('Error deleting workplace:', error);
             }
+        } else {
+            alert('사업장 이름이 일치하지 않습니다. 삭제를 취소합니다.');
         }
     };
 
