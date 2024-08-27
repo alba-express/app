@@ -172,7 +172,7 @@ const SlaveInfoPage = () => {
                                 <div> 금액&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </div>
                             </div>
                             <div>
-                                {oneSlave.wageList.filter(wage => !wage.wageEndDate) // wageEndDate가 없는 항목만 필터링
+                                {oneSlave.wageList
                                     .map((wage, index) => (
                                         <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
                                             &nbsp;&nbsp;&nbsp;{wage.slaveWageType}
@@ -180,7 +180,7 @@ const SlaveInfoPage = () => {
                                     ))
                                 }
 
-                                {oneSlave.wageList.filter(wage => !wage.wageEndDate) // wageEndDate가 없는 항목만 필터링
+                                {oneSlave.wageList
                                     .map((wage, index) => (
                                         <div key={index} className={styles['slaveInfoPage-SlaveInfoContentBox']}>
                                             &nbsp;&nbsp;&nbsp;{wage.slaveWageAmount}원
