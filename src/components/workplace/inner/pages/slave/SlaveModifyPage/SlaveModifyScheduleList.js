@@ -25,10 +25,7 @@ const SlaveModifyScheduleList = ({ onSchedules, oneSlave }) => {
     if (modifyScheduleList && modifyScheduleList.length > 0) {
       // modifyWageList가 존재하고 비어 있지 않을 때 wageList를 업데이트
 
-      setScheduleList(
-        [{
-        slaveScheduleType: modifyScheduleList[0].scheduleType
-        }])
+      setScheduleList([{slaveScheduleType: modifyScheduleList[0].scheduleType}]);
     };
 
   }, []);

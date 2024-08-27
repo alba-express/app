@@ -31,11 +31,27 @@ const SlaveManagePageSlaveStatusList = () => {
 
   //-------------------------------------------------
 
+  // 현재 연도와 월을 가져옴
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth(); // 0 = January, 1 = February, ..., 11 = December
+
+  // 기존 서버에서 가져온 출퇴근기록을 로컬 배열로 복사
+  const copySlaveList = [...showUpdatedSlaveListInfo.slaveList];
+
+  // 날짜를 비교하여 오래된 순서대로 정렬
+  const sortedEmployeeList = copySlaveList.sort((a, b) => {
+    const dateA = new Date(a.slaveCreatedAt.replace('년 ', '-').replace('월 ', '-').replace('일', ''));
+    const dateB = new Date(b.slaveCreatedAt.replace('년 ', '-').replace('월 ', '-').replace('일', ''));
+    return dateA - dateB;
+  });
+
+
   useEffect(()=> {
 
-    console.log("직원종류에 따라 가공된 직원리스트", showUpdatedSlaveListInfo);
+    console.log("순서정렬한 직원종류에 따라 가공된 직원리스트", sortedEmployeeList);
     
-  }, [showUpdatedSlaveListInfo])
+  }, [sortedEmployeeList])
 
 
 
@@ -83,7 +99,7 @@ const SlaveManagePageSlaveStatusList = () => {
       {showUpdatedSlaveListInfo.totalSlaveCount === 0 ? 
           (<div className={`${styles['link-text']} ${styles['slaveManagementList-nonSlave']}`}> 선택한 직원 정보가 없습니다. </div>)
           : 
-          (showUpdatedSlaveListInfo.slaveList.map((oneSlave, index) => 
+          (sortedEmployeeList.map((oneSlave, index) => 
             (
               <div
                 key={oneSlave.slaveId}
