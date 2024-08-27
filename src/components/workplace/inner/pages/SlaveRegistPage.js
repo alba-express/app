@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from './SlaveRegistPage.module.scss';
 import { Link, useNavigate } from "react-router-dom";
 import SlaveRegisterWageList from "./slave/SlaveRegistPage/SlaveRegisterWageList";
@@ -39,17 +39,54 @@ const SlaveRegistPage = () => {
         setSlaveRegistInput(prev => ({...slaveRegistInput, slaveName: e.target.value}));
     };
 
+    const phoneNumberTimeout = useRef(null);  // useRef로 타이머 ID를 관리
+
+    const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
+
     // 전화번호 입력한 경우 input태그 상태창 변경하기
     const phoneNumberHandler = e => {
-
-        // 전화번호 입력 1초 후 입력한 전화번호를 서버로 전송해서 DB 에 등록된 전화번호인지 검증하기
 
         // 입력한 전화번호
         const inputPhoneNumber = e.target.value;
 
-        // setTimeout(() => {}, 1000);
+        // 해당 사업장 번호
+        const workPlaceId = localStorage.getItem('workplaceId');
 
-        setSlaveRegistInput({...slaveRegistInput, slavePhoneNumber: e.target.value});
+        console.log("사업장", workPlaceId);
+        
+
+        // 이전 타이머 취소
+        if (phoneNumberTimeout.current) {
+            clearTimeout(phoneNumberTimeout.current);
+        }
+
+        // 새로운 타이머 설정
+        phoneNumberTimeout.current = setTimeout(async () => {
+            try {
+                const response = await fetch(`${BASE_URL}/detail/validPhoneNumber`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ inputPhoneNumber, workPlaceId })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const isValid = await response.json(); // 서버에서 반환한 boolean 값 받기
+
+                if (isValid === true) {
+                    console.log("중복되는전화번호"); // 유효한 전화번호일 경우
+                    setIsPhoneNumberValid(true);
+                } else {
+                    console.log("등록가능한전화번호"); // 유효한 전화번호일 경우
+                    setIsPhoneNumberValid(false);
+                    setSlaveRegistInput({...slaveRegistInput, slavePhoneNumber: e.target.value});
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }, 1000);
     };
 
     // 생년월일 입력한 경우 input태그 상태창 변경하기
@@ -227,6 +264,7 @@ const SlaveRegistPage = () => {
                                 <div className={styles['slaveRegistPageInput-title']} > 전화번호 </div>
                                 <input id="slavePhoneNumber" onChange={phoneNumberHandler} className={styles['slaveRegistPageInput-input']} />
                             </label>
+                            <p style={{display: isPhoneNumberValid ? 'block' : 'none', paddingLeft: '250px', marginTop: '-30px', fontSize:'15px', color:'red'}}>중복되는 전화번호입니다.</p>
 
                             <label htmlFor="slaveBirthday" className={styles['slaveRegistPageInput-box']} >
                                 <div className={styles['slaveRegistPageInput-title']} > 생년월일 </div>
