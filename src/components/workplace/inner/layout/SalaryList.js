@@ -67,9 +67,9 @@ const SalaryList = ({
                     )}
                 </div>
             </div>
-            <div className={styles.insurance}>
+            {wageType ? <div className={styles.insurance}>
                 주휴수당: {Math.floor(benefit).toLocaleString("ko-KR")}원
-            </div>
+            </div> : <div className={styles.insurance}></div>}
             <div className={styles.insurance}>
                 <span className={styles.details}>
                     4대보험{insurance ? "O " : "X"}
