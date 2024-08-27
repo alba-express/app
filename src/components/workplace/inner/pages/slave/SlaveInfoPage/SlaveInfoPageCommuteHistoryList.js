@@ -112,8 +112,31 @@ const SlaveInfoPageCommuteHistoryList = ({ scheduleLogList }) => {
     fetchCommuteStatus();
   }, [oneSlave.slaveId]);
 
+  //-------------------------------------------------
+
+  // 현재 연도와 월을 가져옴
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth(); // 0 = January, 1 = February, ..., 11 = December
+
+  // 기존 서버에서 가져온 출퇴근기록을 로컬 배열로 복사
+  const copyShowOneSlaveScheduleLogInfo = [...showOneSlaveScheduleLogInfo];
+
+  // 이번 달의 기록만 필터링하고 최신순으로 정렬
+  const currentMonthDataArray = copyShowOneSlaveScheduleLogInfo
+    .filter(item => {
+      const itemDate = new Date(item.date);
+      return itemDate.getFullYear() === currentYear && itemDate.getMonth() === currentMonth;
+    })
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  console.log("최신", currentMonthDataArray);
+
+  //-------------------------------------------------
+
   useEffect(()=> {
-    console.log(showOneSlaveScheduleLogInfo);
+
+    console.log("최신", currentMonthDataArray);
     
   }, [])
 
@@ -124,7 +147,7 @@ const SlaveInfoPageCommuteHistoryList = ({ scheduleLogList }) => {
 
   return (
     <>
-      {showOneSlaveScheduleLogInfo.map((log, index) => (
+      {currentMonthDataArray.map((log, index) => (
         <div key={index} className={`${styles['link-text']} ${styles['slaveManagementList-OneSlave']}`}>
 
           <div className={styles['slaveManagementList-OneSlaveDate']} >

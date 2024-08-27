@@ -222,7 +222,7 @@ const SlaveInfoPage = () => {
                     <div className={styles['slaveInfoPage-rightSlaveScheduleLog']}>
 
                         <div className={styles['slaveInfoPage-rightSlaveScheduleLogTitle']}>
-                            근무현황
+                            이번 달 근무현황
                         </div>
 
                         <div className={styles['slaveInfoPage-rightSlaveScheduleLogBox']}>
