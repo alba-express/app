@@ -25,7 +25,7 @@ const RootLayout = () => {
 
         if (location.pathname === '/workplace/modify' && localStorage.getItem('redirectedFromDetail')) {
           if (!hasShownAlert) {
-            alert('사업장 수정 페이지에 직접 접근하실 수 없습니다. 사업장 변경을 통해 이동해주세요 😃');
+            alert('사업장 목록 페이지에 직접 접근하실 수 없습니다. 사업장 변경을 통해 이동해주세요 😃');
             localStorage.setItem('hasShownAlert', 'true');
           }
           navigate('/detail', { replace: true });
