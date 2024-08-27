@@ -296,7 +296,7 @@ const SlaveRegistPage = () => {
                     <div className={styles['slaveRegistPageForm-bottom']} >
                         <div className={styles['slaveRegistPageButton-box']} >
                             <Link to="/detail/slave-manage" className={styles['link-text']} > 
-                                <button className={styles['slaveRegistPage-button']} > 취소 </button>
+                                <button className={styles['slaveRegistPage-cancelButton']} > 취소 </button>
                             </Link>
                         </div>
                         
